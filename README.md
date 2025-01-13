@@ -1,5 +1,5 @@
 # Bot Laslylusky 🐺
-[![Discord](https://img.shields.io/discord/TU_ID_SERVIDOR?color=7289da&logo=discord&logoColor=white)](https://discord.gg/8uuPxpjC4N)
+[![Discord](https://img.shields.io/discord/766964835946463232?color=7289da&logo=discord&logoColor=white)](https://discord.gg/8uuPxpjC4N)
 [![Estado](https://img.shields.io/badge/estado-en%20desarrollo-yellow)](https://github.com/VegetinES/Laslylusky-Bot)
 [![Python](https://img.shields.io/badge/python-3.8+-blue.svg)](https://www.python.org/downloads/)
 
