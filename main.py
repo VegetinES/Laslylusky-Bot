@@ -1,10 +1,13 @@
 import discord
 from discord.ext import commands
-from dotenv import load_dotenv
+# from dotenv import load_dotenv
 import os
 import glob
+import webserver
 
-load_dotenv()
+DISCORD_TOKEN = os.getenv("DISCORD_TOKEN")
+
+#load_dotenv()
 
 intents = discord.Intents.default()
 intents.message_content = True
@@ -31,4 +34,7 @@ async def on_ready():
             except Exception as e:
                 print(f"Error cargando {extension}: {e}")
 
-bot.run(os.getenv('DISCORD_TOKEN'))
+# bot.run(os.getenv('DISCORD_TOKEN'))
+
+webserver.keep_alive()
+bot.run(DISCORD_TOKEN)

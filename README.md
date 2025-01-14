@@ -2,7 +2,7 @@
 [![Discord](https://img.shields.io/discord/766964835946463232?color=7289da&logo=discord&logoColor=white)](https://discord.gg/8uuPxpjC4N)
 [![Estado](https://img.shields.io/badge/estado-en%20desarrollo-yellow)](https://github.com/VegetinES/Laslylusky-Bot)
 [![Python](https://img.shields.io/badge/python-3.12+-blue.svg)](https://www.python.org/downloads/)
-[![Version](https://img.shields.io/badge/version-vB0.0.3-orange)](https://github.com/VegetinES/Laslylusky-Bot)
+[![Version](https://img.shields.io/badge/version-vB1.0.0-orange)](https://github.com/VegetinES/Laslylusky-Bot)
 [![Release](https://img.shields.io/badge/release-1%20mes-brightgreen)](https://github.com/VegetinES/Laslylusky-Bot)
 
 <div align="center">

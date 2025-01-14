@@ -131,6 +131,7 @@ venv/
 ENV/
 env.bak/
 venv.bak/
+laslylusky/
 
 # Spyder project settings
 .spyderproject
@@ -174,5 +175,3 @@ poetry.toml
 pyrightconfig.json
 
 # End of https://www.toptal.com/developers/gitignore/api/python
-
-laslylusky/
