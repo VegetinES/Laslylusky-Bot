@@ -1,7 +1,9 @@
-# Bot Laslylusky 🐺
+# Bot Laslylusky
 [![Discord](https://img.shields.io/discord/766964835946463232?color=7289da&logo=discord&logoColor=white)](https://discord.gg/8uuPxpjC4N)
 [![Estado](https://img.shields.io/badge/estado-en%20desarrollo-yellow)](https://github.com/VegetinES/Laslylusky-Bot)
-[![Python](https://img.shields.io/badge/python-3.8+-blue.svg)](https://www.python.org/downloads/)
+[![Python](https://img.shields.io/badge/python-3.12+-blue.svg)](https://www.python.org/downloads/)
+[![Version](https://img.shields.io/badge/version-vB0.0.3-orange)](https://github.com/VegetinES/Laslylusky-Bot)
+[![Release](https://img.shields.io/badge/release-1%20mes-brightgreen)](https://github.com/VegetinES/Laslylusky-Bot)
 
 <div align="center">
   <img src="https://cdn.discordapp.com/avatars/784774864766500864/2cef87cccba0f00826a16740ac049231?size=1024" width="200" height="200" alt="Logo de Laslylusky Bot">
@@ -53,15 +55,18 @@ Laslylusky es un bot versátil para Discord diseñado para mejorar la experienci
 Este bot se encuentra actualmente en desarrollo activo. Muchas características están siendo implementadas y probadas. La versión actual es BETA v3.0.0.0.
 
 ### Lista de Tareas Pendientes
-- [ ] Completar la implementación de comandos
-- [ ] Configurar solución de hosting
-- [ ] Implementar sistemas de base de datos
-- [ ] Agregar características adicionales
-- [ ] Pruebas exhaustivas
+- [ ] - EL BOT CONTARÁ CON TODOS LOS COMANDOS ANTERIORES MÁS MUCHOS NUEVOS
+- [ ] LOS COMANDOS ESTARÁN ORGANIZADOS EN UNA CARPETA A PARTE
+- [ ] SERÁ MÁS EFICIENTE Y SEGURO
+- [ ] HOST 24/7
+- [ ] CONTARÁ CON BASES DE DATOS
+- [ ] SE HARÁ EN PYTHON (INICIALMENTE HECHO EN JAVASCRIPT)
+- [ ] TRATARÁ DE TENER IA (NO ES SEGURO 100% QUE VAYA A TENER)
 
-## 📥 Instalación
+
+## 📥 Ayuda
 ```bash
-# Próximamente - Bot en desarrollo
+%help # Para mostrar los comandos disponibles
 ```
 
 ## 🔧 Configuración
