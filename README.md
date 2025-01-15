@@ -2,7 +2,7 @@
 [![Discord](https://img.shields.io/discord/766964835946463232?color=7289da&logo=discord&logoColor=white)](https://discord.gg/8uuPxpjC4N)
 [![Estado](https://img.shields.io/badge/estado-en%20desarrollo-yellow)](https://github.com/VegetinES/Laslylusky-Bot)
 [![Python](https://img.shields.io/badge/python-3.12+-blue.svg)](https://www.python.org/downloads/)
-[![Version](https://img.shields.io/badge/version-vB1.0.0-orange)](https://github.com/VegetinES/Laslylusky-Bot)
+[![Version](https://img.shields.io/badge/version-vB1.1.0-orange)](https://github.com/VegetinES/Laslylusky-Bot)
 [![Release](https://img.shields.io/badge/release-1%20mes-brightgreen)](https://github.com/VegetinES/Laslylusky-Bot)
 
 <div align="center">
@@ -19,6 +19,7 @@ Laslylusky es un bot versátil para Discord diseñado para mejorar la experienci
 - Sistema de silenciamiento
 - Limpieza de chat
 - Registros avanzados de moderación
+- Personalización en servidores
 
 ### 🎮 Diversión [9]
 - 8ball para la fortuna
@@ -55,14 +56,10 @@ Laslylusky es un bot versátil para Discord diseñado para mejorar la experienci
 Este bot se encuentra actualmente en desarrollo activo. Muchas características están siendo implementadas y probadas. La versión actual es BETA v3.0.0.0.
 
 ### Lista de Tareas Pendientes
-- [ ] - EL BOT CONTARÁ CON TODOS LOS COMANDOS ANTERIORES MÁS MUCHOS NUEVOS
-- [ ] LOS COMANDOS ESTARÁN ORGANIZADOS EN UNA CARPETA A PARTE
+- [ ] EL BOT CONTARÁ CON TODOS LOS COMANDOS ANTERIORES MÁS MUCHOS NUEVOS
 - [ ] SERÁ MÁS EFICIENTE Y SEGURO
-- [ ] HOST 24/7
 - [ ] CONTARÁ CON BASES DE DATOS
-- [ ] SE HARÁ EN PYTHON (INICIALMENTE HECHO EN JAVASCRIPT)
 - [ ] TRATARÁ DE TENER IA (NO ES SEGURO 100% QUE VAYA A TENER)
-
 
 ## 📥 Ayuda
 ```bash
@@ -78,20 +75,36 @@ Este bot se encuentra actualmente en desarrollo activo. Muchas características 
 - Framework base: ✅
 - Estructura de comandos: ✅
 - Implementación: 🚧
-- Hosting: ⏳
+- Base de datos: ⏳
+- Personalización: ⏳
+- Hosting: ✅
 
 ## 🤝 Contribuciones
-Mientras el bot está en desarrollo, ¡agradecemos sugerencias y comentarios! Usa los siguientes comandos (aún no disponibles):
-- `/sugerir` - Enviar sugerencias de funciones
-- `/bugreport` - Reportar cualquier error que encuentres
+Mientras el bot está en desarrollo, ¡agradecemos sugerencias y comentarios! Usa los siguientes comandos:
+- `%suggest` - Enviar sugerencias de funciones
+- `%bugreport` - Reportar cualquier error que encuentres con el bot
 
 ## 📜 Privacidad
-Usa el comando `/privacidad` para ver nuestra política de privacidad completa. (aún no disponible)
+Usa el comando `%privacidad` para ver nuestra política de privacidad completa. (aún no disponible)
 
 ## 🔗 Enlaces
 - [Invitar Bot](https://discord.com/oauth2/authorize?client_id=784774864766500864&scope=bot%20applications.commands&permissions=8589803519)
 - [Servidor de Soporte](https://discord.gg/8uuPxpjC4N)
 - [Página en Top.gg](https://top.gg/bot/784774864766500864)
+
+## Actualizaciones (también disponibles en %updates)
+### Versión BETA vB1.0.0: 
+- Bot alojado en servidor web 24/7
+- Modificación del código del comando help
+- Modificación del main del bot
+
+## Versión BETA vB1.1.0:
+- Comandos añadidos: `invite`, `ping`, `bugreport`, `suggest`, `updates`
+- Añadido un nuevo comando a help: config (proximamente)
+- Modificado el mensaje de `help`, además de añadido los mensajes de ayuda con otros comandos
+- Añadido el comando slash `/help`
+- Modificada la organización de los comandos
+- Modificación del main del bot
 
 ## ⚖️ Licencia
 Este proyecto está licenciado bajo la Licencia MIT - consulta el archivo [LICENSE](LICENSE) para más detalles.
