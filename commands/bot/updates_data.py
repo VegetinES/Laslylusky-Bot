@@ -1,6 +1,6 @@
 UPDATES_INFO = {
     "versions": [
-        "vB1.0.0", "vB1.1.0", "vB1.2.0"
+        "vB1.0.0", "vB1.1.0", "vB1.2.0", "vB1.2.1"
     ],
     "details": {
         "vB1.0.0": {
@@ -14,6 +14,10 @@ UPDATES_INFO = {
         "vB1.2.0": {
             "title": "Información Actualización BETA 'vB1.2.0'",
             "content": "__Añadido:__ \n> <a:linea_6764:823570039667163136> Se han añadido los comandos: `donate`, `privacidad`, `userinfo`, `avatar`, `about`, `servericon`, `stats`, `embed`, `clear`, `slowmode` \n> <a:linea_6764:823570039667163136> Añadido los comandos slash `/invite` y `/privacidad` \n> <a:linea_6764:823570039667163136> Añadidas 2 nuevas categorías **Configuración** y **Laslylusky** \n\n__Modificación:__ \n> <a:linea_6764:823570039667163136> Modificación del comando `config` añadido en la versión anterior para dividirlos en los siguientes comandos: `config-logs`, `config-suggest`, `config-commands`, `slowmode` (Establecidos en la categoría **Configuración**) \n> <a:linea_6764:823570039667163136> La categoría **Laslylusky** se encuentran los comandos del bot que proporcionan información del bot \n> <a:linea_6764:823570039667163136> Modificado el contenido de `invite` \n\nComandos actuales: 16"
+        },
+        "vB1.2.1": {
+            "title": "Información Actualización BETA 'vB1.2.1'",
+            "content": "__Modificación:__ \n> <a:linea_6764:823570039667163136> Modificación README del repositorio público \n> <a:linea_6764:823570039667163136> Modificación del contenido de `updates` (a partir de ahora siempre se modificará cuando haya una actualización y no se informará en el repositorio) \n\nComandos actuales: 16"
         }
     }
 }

@@ -2,7 +2,7 @@
 [![Discord](https://img.shields.io/discord/766964835946463232?color=7289da&logo=discord&logoColor=white)](https://discord.gg/8uuPxpjC4N)
 [![Estado](https://img.shields.io/badge/estado-en%20desarrollo-yellow)](https://github.com/VegetinES/Laslylusky-Bot)
 [![Python](https://img.shields.io/badge/python-3.12+-blue.svg)](https://www.python.org/downloads/)
-[![Version](https://img.shields.io/badge/version-vB1.1.0-orange)](https://github.com/VegetinES/Laslylusky-Bot)
+[![Version](https://img.shields.io/badge/version-vB1.2.1-orange)](https://github.com/VegetinES/Laslylusky-Bot)
 [![Release](https://img.shields.io/badge/release-1%20mes-brightgreen)](https://github.com/VegetinES/Laslylusky-Bot)
 
 <div align="center">
@@ -121,6 +121,10 @@ Usa el comando `%privacidad` para ver nuestra política de privacidad completa. 
 - Modificación del comando `config` añadido en la versión anterior para dividirlos en los siguientes comandos: `config-logs`, `config-suggest`, `config-commands`, `slowmode` (Establecidos en la categoría **Configuración**)
 - La categoría **Laslylusky** se encuentran los comandos del bot que proporcionan información del bot.
 - Modificado el contenido de `invite`
+
+### Versión BETA vB1.2.1
+- Modificación README del repositorio público
+- Modificación del contenido de `updates` (a partir de ahora siempre se modificará cuando haya una actualización y no se informará en el repositorio)
 
 ## ⚖️ Licencia
 Este proyecto está licenciado bajo la Licencia MIT - consulta el archivo [LICENSE](LICENSE) para más detalles.
