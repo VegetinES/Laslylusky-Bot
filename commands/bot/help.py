@@ -44,7 +44,7 @@ class Help(commands.Cog):
             title="Todos los comandos de Laslylusky",
             description=(
                 f"Hola {user.mention}, mi prefix es `%` y tengo **56 comandos** y "
-                f"**11 categorías**.\n\n**Disponibles actualmente: `%help (/help)` | `%invite` | `%bugreport` | `%suggest` | `%ping` | `updates`** \n\n"
+                f"**11 categorías**.\n\n**Disponibles actualmente: `%help (/help)` | `%invite` | `%bugreport` | `%suggest` | `%ping` | `updates` | `embed` | `clear` | `slowmode` | `donate` | `stats` | `about` | `servericon` | `userinfo` | `privacidad` | `avatar`** \n\n"
                 f"Escribe `%help <comando>` o `/help comando:<comando>` para obtener más información sobre un comando.\n\n"
                 "__Escribe__ `%privacidad` **para conocer la política de privacidad del bot**."
             ),
@@ -79,6 +79,7 @@ class Help(commands.Cog):
                 "[Top.gg](https://top.gg/bot/784774864766500864) | "
                 "[PortalMyBot](https://portalmybot.com/mybotlist/bot/784774864766500864) | "
                 "[Valorar](https://forms.gle/pqeiSo1n1d49jD7M9)"
+                "[Donar](https://paypal.me/VegetinES)"
             ),
             inline=True
         )

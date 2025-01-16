@@ -9,6 +9,11 @@
   <img src="https://cdn.discordapp.com/avatars/784774864766500864/2cef87cccba0f00826a16740ac049231?size=1024" width="200" height="200" alt="Logo de Laslylusky Bot">
 </div>
 
+## 💝 Donaciones
+[![PayPal](https://img.shields.io/badge/PayPal-00457C?style=for-the-badge&logo=paypal&logoColor=white)](https://paypal.me/VegetinES)
+
+¿Disfrutas de Laslylusky? ¡Considera hacer una pequeña donación para ayudar con el desarrollo y mantenimiento del bot! Cada aportación ayuda a mantener el bot activo 24/7 y permite implementar nuevas características.
+
 ## 🌟 Acerca de
 Laslylusky es un bot versátil para Discord diseñado para mejorar la experiencia de tu servidor con una amplia gama de características, desde moderación hasta entretenimiento. Actualmente en desarrollo activo, el bot aspira a proporcionar un conjunto completo de herramientas para la gestión y participación de la comunidad en Discord.
 
@@ -91,6 +96,7 @@ Usa el comando `%privacidad` para ver nuestra política de privacidad completa. 
 - [Invitar Bot](https://discord.com/oauth2/authorize?client_id=784774864766500864&scope=bot%20applications.commands&permissions=8589803519)
 - [Servidor de Soporte](https://discord.gg/8uuPxpjC4N)
 - [Página en Top.gg](https://top.gg/bot/784774864766500864)
+- [PayPal](https://paypal.me/VegetinES)
 
 ## Actualizaciones (también disponibles en %updates)
 ### Versión BETA vB1.0.0: 
@@ -98,13 +104,23 @@ Usa el comando `%privacidad` para ver nuestra política de privacidad completa. 
 - Modificación del código del comando help
 - Modificación del main del bot
 
-## Versión BETA vB1.1.0:
+### Versión BETA vB1.1.0:
 - Comandos añadidos: `invite`, `ping`, `bugreport`, `suggest`, `updates`
 - Añadido un nuevo comando a help: config (proximamente)
 - Modificado el mensaje de `help`, además de añadido los mensajes de ayuda con otros comandos
 - Añadido el comando slash `/help`
 - Modificada la organización de los comandos
 - Modificación del main del bot
+
+### Versión BETA vB1.2.0:
+- Modificación del comando `updates` para que sea más bonito de forma estética
+- Se han añadido los comandos: `donate`, `privacidad`, `userinfo`, `avatar`, `about`, `servericon`, `stats`, `embed`, `clear`, `slowmode`
+- Modificación del comando `help` y `updates`
+- Añadido los comandos slash `/invite` y `/privacidad`
+- Añadidas 2 nuevas categorías **Configuración** y **Laslylusky**
+- Modificación del comando `config` añadido en la versión anterior para dividirlos en los siguientes comandos: `config-logs`, `config-suggest`, `config-commands`, `slowmode` (Establecidos en la categoría **Configuración**)
+- La categoría **Laslylusky** se encuentran los comandos del bot que proporcionan información del bot.
+- Modificado el contenido de `invite`
 
 ## ⚖️ Licencia
 Este proyecto está licenciado bajo la Licencia MIT - consulta el archivo [LICENSE](LICENSE) para más detalles.

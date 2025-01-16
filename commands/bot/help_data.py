@@ -1,30 +1,20 @@
 COMMAND_CATEGORIES = {
-    "General": {
-        "emoji": "<:General:838015864455299082>",
+    "Laslylusky": {
+        "emoji": "<:Discord:838064413411508264>",
         "commands": {
             "help": {
                 "description": "Muestra todos los comandos disponibles",
                 "usage": "%help [comando]",
-                "permissions": "Todos pueden usar este comando"
+                "permissions": "Todos pueden utilizar este comando"
             },
             "invite": {
                 "description": "Muestra el enlace de invitación del bot",
                 "usage": "%invite",
-                "permissions": "Todos pueden usar este comando"
-            },
-            "discord": {
-                "description": "Comando que envía el enlace del servidor oficial del bot",
-                "usage": "%discord",
                 "permissions": "Todos pueden utilizar este comando"
             },
-            "soon": {
-                "description": "Comando que muestra que es lo que puede ser que añadan proximamente al bot",
-                "usage": "%soon",
-                "permissions": "Todos pueden utilizar este comando"
-            },
-            "vote": {
-                "description": "Comando que envía el enlace para votar al bot en top.gg",
-                "usage": "%vote",
+            "donate": {
+                "description": "Manda al MD (mensaje privado) el enlace para hacer donaciones para contribuir en el desarrollo constante de Laslylusky",
+                "usage": "%donate",
                 "permissions": "Todos pueden utilizar este comando"
             },
             "updates": {
@@ -32,11 +22,21 @@ COMMAND_CATEGORIES = {
                 "usage": "%updates",
                 "permissions": "Todos pueden utilizar este comando"
             },
-            "uptime": {
-                "description": "Comando que envía la cantidad de tiempo que lleva online el bot",
-                "usage": "%uptime",
-                "permissions": "Todos pueden utilizar este comando"
+            "about": {
+                "description": "Comando que envía una breve descripción del bot",
+                "usage": "`%about",
+                "permissions": "Todos pueden usar este comando"
             },
+            "ping": {
+                "description": "Comando que envía el ping que tiene el bot",
+                "usage": "%ping",
+                "permissions": "Todos pueden usar este comando"
+            }
+        }
+    },
+    "General": {
+        "emoji": "<:General:838015864455299082>",
+        "commands": {
             "steam": {
                 "description": "Comando que envía sobre un juego de Steam",
                 "usage": "%steam {juego.steam}",
@@ -150,44 +150,52 @@ COMMAND_CATEGORIES = {
                 "usage": "%unmute {usuario.mencion}",
                 "permissions": "`MANEJAR ROLES`/`ADMINISTRADOR`",
                 "extra": "No escribas en el comando `{}`. Sustituye `{usuario.mencion}` por la mención del usuario a quien quieres quitar el mute"
-            },
-            "config": {
-                "description": "Comando para configurar opciones de moderación, logs y comandos del bot en el servidor donde se utiliza",
-                "usage": "%config` (para mostrar los comandos a configurar) / `%config {comando}",
+            }
+        }
+    },
+    "Configuración": {
+        "emoji": "<:Configurar:842423920850370580>",
+        "commands": {
+            "config-logs": {
+                "description": "Comando para configurar mensajes de logs, el canal donde van a llegar, si hay logs o no, entre otros en el servidor donde se utiliza",
+                "usage": "%config-logs` (para mostrar las opciones a configurar y parametros necesarios) / `%config {parametro}",
                 "permissions": "`ADMINISTRADOR`",
-                "extra": "No escribas en el comando `{}`. Sustituye `{comando}` por el comando que quieras configurar en tu servidor"
+                "extra": "No escribas en el comando `{}`. Sustituye `{parametro}` por el parametro para configurar los logs según la documentación"
+            },
+            "config-suggest": {
+                "description": "Comando para configurar el canal y otras opciones para sugerencias en el servidor donde se utiliza",
+                "usage": "%config-suggest` (para mostrar las opciones a configurar y parametros necesarios) / `%config-suggest {parametro}",
+                "permissions": "`ADMINISTRADOR`",
+                "extra": "No escribas en el comando `{}`. Sustituye `{parametro}` por el parametro para configurar las sugerencias según la documentación"
+            },
+            "config-commands": {
+                "description": "Comando para configurar los comandos y permisos en el servidor donde se utiliza",
+                "usage": "%config-commands` (para mostrar las opciones a configurar y parametros necesarios) / `%config-commands {parametro}",
+                "permissions": "`ADMINISTRADOR`",
+                "extra": "No escribas en el comando `{}`. Sustituye `{parametro}` por el parametro para configurar los comandos según la documentación"
+            },
+            "slowmode": {
+                "description": "Comando de para cambiar el cooldown del canal donde se ejecuta el comando",
+                "usage": "%slowmode {tiempo} [razón]",
+                "permissions": "`GESTIONAR CANALES`",
+                "extra": ""
             }
         }
     },
     "Información": {
         "emoji": "<:Info:837631728368746548>",
         "commands": {
-            "user": {
+            "userinfo": {
                 "description": "Comando que envía la información del usuario mencionado, o del usuario que ejecutó el comando",
-                "usage": "%user` / `%user {usuario}",
+                "usage": "%userinfo` / `%userinfo {usuario}",
                 "permissions": "Todos pueden usar este comando",
                 "extra": "No escribas en el comando `{}`. `{usuario}` tiene que ser sustituido por la mención del usuario"
-            },
-            "ping": {
-                "description": "Comando que envía el ping que tiene el bot",
-                "usage": "%ping",
-                "permissions": "Todos pueden usar este comando"
             },
             "avatar": {
                 "description": "Comando que envía la imagen de perfil tuya o del usuario mencionado",
                 "usage": "%avatar` / `%avatar {usuario}",
                 "permissions": "Todos pueden usar este comando",
                 "extra": "No escribas en el comando `{}`. `{usuario}` tiene que ser sustituido por la mención del usuario"
-            },
-            "about": {
-                "description": "Comando que envía una breve descripción del bot",
-                "usage": "`%about",
-                "permissions": "Todos pueden usar este comando"
-            },
-            "guild": {
-                "description": "Comando que dice en cuantos servidores está",
-                "usage": "%guild",
-                "permissions": "Todos pueden usar este comando"
             },
             "servericon": {
                 "description": "Comando que envía la imagen del servidor donde se ejecutó",
@@ -221,12 +229,6 @@ COMMAND_CATEGORIES = {
                 "usage": "%say {mensaje}",
                 "permissions": "Todos pueden usar este comando",
                 "extra": "No escribas en el comando `{}`. `{mensaje}` tiene que ser sustituido por el mensaje que quieres que envíe el bot. Si el mensaje contiene `@everyone` o `@here`, el bot no enviará el mensaje"
-            },
-            "slowmode": {
-                "description": "Comando de para cambiar el cooldown del canal donde se ejecuta el comando",
-                "usage": "%slowmode {tiempo} [razón]",
-                "permissions": "`GESTIONAR CANALES`",
-                "extra": ""
             },
             "jumbo": {
                 "description": "",
