@@ -33,7 +33,7 @@ class BugReport(commands.Cog):
 
         embed_confirmacion = discord.Embed(
             title=":incoming_envelope: Reporte enviado",
-            description=(f"Ey <@{ctx.author.id}>, tu reporte ha sido enviado correctamente al fundador de Laslylusky. "
+            description=(f"Ey {ctx.author.mention}, tu reporte ha sido enviado correctamente al fundador de Laslylusky. "
                          f"¡Muchas gracias por tu colaboración!"),
             color=discord.Color.blue(),
             timestamp=ctx.message.created_at
@@ -51,7 +51,11 @@ class BugReport(commands.Cog):
         else:
             await ctx.send("No se encontró el canal de reportes. Avisa a mi administrador y fundador.")
 
-        await ctx.send(embed=embed_confirmacion)
+        try:
+            await ctx.author.send(embed=embed_confirmacion)
+        except discord.Forbidden:
+            await ctx.send(f"{ctx.author.mention}, no pude enviarte un mensaje directo. Aquí está tu confirmación:", 
+                           embed=embed_confirmacion)
 
 
 async def setup(bot):

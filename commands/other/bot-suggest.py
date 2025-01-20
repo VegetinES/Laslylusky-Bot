@@ -5,7 +5,7 @@ class Suggest(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
 
-    @commands.command(name="suggest")
+    @commands.command(name="bot-suggest")
     async def suggest(self, ctx, *, sugerencia: str = None):
         if isinstance(ctx.channel, discord.DMChannel):
             return
@@ -32,9 +32,8 @@ class Suggest(commands.Cog):
 
         embed_confirmacion = discord.Embed(
             title="Sugerencia enviada",
-            description=(f"Ey <@{ctx.author.id}>, tu sugerencia ha sido enviada correctamente. Para verla entra al servidor oficial "
-                         f"de soporte del bot (Haz [CLICK AQUÍ](https://discord.gg/8uuPxpjC4N) para entrar) y tu sugerencia se "
-                         f"encontrará en el canal <#784768516258660352>."),
+            description=(f"Ey {ctx.author.mention}, tu sugerencia ha sido enviada correctamente. "
+                         f"Puedes verla en el canal de sugerencias correspondiente."),
             color=discord.Color.blue(),
             timestamp=ctx.message.created_at
         )
@@ -50,11 +49,14 @@ class Suggest(commands.Cog):
             mensaje = await canal_sugerencias.send(embed=embed_sugerencia)
             await mensaje.add_reaction("✅")
             await mensaje.add_reaction("❌")
+
+            try:
+                await ctx.author.send(embed=embed_confirmacion)
+            except discord.Forbidden:
+                await ctx.send(f"{ctx.author.mention}, no pude enviarte un mensaje directo. Aquí tienes la confirmación:",
+                               embed=embed_confirmacion)
         else:
             await ctx.send("No se encontró el canal de sugerencias. Avisa a mi administrador y fundador.")
-
-        await ctx.send(embed=embed_confirmacion)
-
 
 async def setup(bot):
     await bot.add_cog(Suggest(bot))

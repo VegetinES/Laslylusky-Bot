@@ -39,14 +39,17 @@ class Help(commands.Cog):
             user = interaction_or_ctx.user
         else:
             user = interaction_or_ctx.author
-            
+        
+        total_commands = sum(len(category["commands"]) for category in COMMAND_CATEGORIES.values())
+        total_categories = len(COMMAND_CATEGORIES)
+        
         embed = discord.Embed(
             title="Todos los comandos de Laslylusky",
             description=(
-                f"Hola {user.mention}, mi prefix es `%` y tengo **56 comandos** y "
-                f"**11 categorías**.\n\n**Disponibles actualmente: `%help (/help)` | `%invite` | `%bugreport` | `%suggest` | `%ping` | `updates` | `embed` | `clear` | `slowmode` | `donate` | `stats` | `about` | `servericon` | `userinfo` | `privacidad` | `avatar`** \n\n"
+                f"Hola {user.mention}, mi prefix es `%` y tengo **{total_commands} comandos** y "
+                f"**{total_categories} categorías**.\n\n**Disponibles actualmente: `help (/help)` | `invite (/invite)` | `bugreport` | `bot-suggest` | `updates` | `embed` | `clear` | `slowmode` | `donate` | `serverinfo` | `info` | `servericon` | `userinfo` | `privacidad (/privacidad)` | `avatar`** \n\n"
                 f"Escribe `%help <comando>` o `/help comando:<comando>` para obtener más información sobre un comando.\n\n"
-                "__Escribe__ `%privacidad` **para conocer la política de privacidad del bot**."
+                "__Escribe__ `%privacidad` o `/privacidad` **para conocer la política de privacidad del bot**."
             ),
             color=discord.Color.random()
         )
@@ -78,7 +81,7 @@ class Help(commands.Cog):
                 "[Servidor Discord](https://discord.gg/8uuPxpjC4N) | "
                 "[Top.gg](https://top.gg/bot/784774864766500864) | "
                 "[PortalMyBot](https://portalmybot.com/mybotlist/bot/784774864766500864) | "
-                "[Valorar](https://forms.gle/pqeiSo1n1d49jD7M9)"
+                "[Valorar](https://forms.gle/pqeiSo1n1d49jD7M9) | "
                 "[Donar](https://paypal.me/VegetinES)"
             ),
             inline=True

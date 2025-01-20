@@ -5,7 +5,7 @@ class Stats(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
 
-    @commands.command(name="stats", help="serverinfo command")
+    @commands.command(name="serverinfo")
     async def stats(self, ctx):
         if isinstance(ctx.channel, discord.DMChannel):
             return

@@ -1,6 +1,6 @@
 COMMAND_CATEGORIES = {
     "Laslylusky": {
-        "emoji": "<:Discord:838064413411508264>",
+        "emoji": "<:Laslylusky:833614887547699221>",
         "commands": {
             "help": {
                 "description": "Muestra todos los comandos disponibles",
@@ -22,15 +22,15 @@ COMMAND_CATEGORIES = {
                 "usage": "%updates",
                 "permissions": "Todos pueden utilizar este comando"
             },
-            "about": {
-                "description": "Comando que envía una breve descripción del bot",
-                "usage": "`%about",
+            "info": {
+                "description": "Comando que muestra información del bot",
+                "usage": "`%info",
                 "permissions": "Todos pueden usar este comando"
             },
-            "ping": {
-                "description": "Comando que envía el ping que tiene el bot",
-                "usage": "%ping",
-                "permissions": "Todos pueden usar este comando"
+            "privacidad": {
+                "description": "Comando que envía la política de privacidad al utilizar el bot",
+                "usage": "%privacidad",
+                "permissions": "Todos pueden utilizar este comando"
             }
         }
     },
@@ -45,11 +45,6 @@ COMMAND_CATEGORIES = {
             "instagram": {
                 "description": "Comando que envía información del usuario de instagram que se puso",
                 "usage": "%instagram {ig.usuario}",
-                "permissions": "Todos pueden utilizar este comando"
-            },
-            "privacidad": {
-                "description": "Comando que envía la política de privacidad al utilizar el bot",
-                "usage": "%privacidad",
                 "permissions": "Todos pueden utilizar este comando"
             }
         }
@@ -109,6 +104,22 @@ COMMAND_CATEGORIES = {
                 "usage": "%dm {usuario.id} [mensaje]`/`%dm {usuario.mencion} [mensaje]",
                 "permissions": "Todos pueden utilizar este comando",
                 "extra": "No escribas en el comando `{}` ni `[]`. Sustituye `{usuario.id}` por la id del usuario que quieres que le llegue el mensaje | Sustituye `{usuario.mencion}` por la mención del usuario que quieras enviar el mensaje | Sustituye `[mensaje]` por el mensaje que quieras enviar al usuario"
+            },
+            "pop": {
+                "description": "Comando que envía un mensaje que contiene pop (prueba a ejecutar el comando)",
+                "usage": "%pop",
+                "permissions": "Todos pueden utilizar este comando"
+            },
+            "hi": {
+                "description": "No hay información",
+                "usage": "No hay información",
+                "permissions": "Todos pueden utilizar este comando",
+                "extra": "No hay información"
+            },
+            "waifu": {
+                "description": "Comando que envía la imagen de una waifu",
+                "usage": "%waifu",
+                "permissions": "Todos pueden utilizar este comando"
             }
         }
     },
@@ -162,9 +173,9 @@ COMMAND_CATEGORIES = {
                 "permissions": "`ADMINISTRADOR`",
                 "extra": "No escribas en el comando `{}`. Sustituye `{parametro}` por el parametro para configurar los logs según la documentación"
             },
-            "config-suggest": {
-                "description": "Comando para configurar el canal y otras opciones para sugerencias en el servidor donde se utiliza",
-                "usage": "%config-suggest` (para mostrar las opciones a configurar y parametros necesarios) / `%config-suggest {parametro}",
+            "config-perms": {
+                "description": "Comando para configurar los permisos de ciertos comandos del bot en el servidor donde se utiliza",
+                "usage": "%config-perms` (para mostrar las opciones a configurar y parametros necesarios) / `%config-perms {parametro}",
                 "permissions": "`ADMINISTRADOR`",
                 "extra": "No escribas en el comando `{}`. Sustituye `{parametro}` por el parametro para configurar las sugerencias según la documentación"
             },
@@ -202,9 +213,9 @@ COMMAND_CATEGORIES = {
                 "usage": "%servericon",
                 "permissions": "Todos pueden usar este comando"
             },
-            "stats": {
-                "description": "Comando que envía la información del servidor donde se ha utilizado (puede tener algunos bugs)",
-                "usage": "%stats",
+            "serverinfo": {
+                "description": "Comando que envía la información del servidor donde se ha utilizado",
+                "usage": "%serverinfo",
                 "permissions": "Todos pueden usar este comando"
             }
         }
@@ -241,38 +252,12 @@ COMMAND_CATEGORIES = {
                 "usage": "%calculadora {fórmula}",
                 "permissions": "Todos pueden usar este comando",
                 "extra": "No escribas en el comando `{}`. Sustituye `{fórmula}` por la fórmula que quieres que te calcule el bot"
-            }
-        }
-    },
-    "Interacción": {
-        "emoji": "<:Interaccion:839105758566154340>",
-        "commands": {
-            "pop": {
-                "description": "Comando que envía un mensaje que contiene pop (prueba a ejecutar el comando)",
-                "usage": "%pop",
-                "permissions": "Todos pueden utilizar este comando"
             },
-            "hi": {
-                "description": "No hay información",
-                "usage": "No hay información",
-                "permissions": "Todos pueden utilizar este comando",
-                "extra": "No hay información"
-            }
-        }
-    },
-    "Anime": {
-        "emoji": "<:Laslylusky:833614887547699221>",
-        "commands": {
             "animesearch": {
                 "description": "Comando que envía información del anime que se ha escrito al ejecutar el comando",
                 "usage": "%animesearch {nombre.anime}",
                 "permissions": "Todos pueden utilizar este comando",
                 "extra": "No escribas en el comando `{}`. Sustituye `{nombre.anime}` por el nombre del anime del que quieres saber la información"
-            },
-            "waifu": {
-                "description": "Comando que envía la imagen de una waifu",
-                "usage": "%waifu",
-                "permissions": "Todos pueden utilizar este comando"
             }
         }
     },
@@ -363,9 +348,9 @@ COMMAND_CATEGORIES = {
                 "permissions": "Todos pueden usar este comando",
                 "extra": "No escribas en el comando `{}`. `{mensaje}` tiene que ser sustituido por el mensaje del reporte del bug/error de un comando"
             },
-            "suggest": {
+            "bot-suggest": {
                 "description": "Comando para enviar una sugerencia de lo que quieres que se añada al bot",
-                "usage": "%suggest {sugerencia}",
+                "usage": "%bot-suggest {sugerencia}",
                 "permissions": "Todos pueden utilizar este comando",
                 "extra": "No escribas en el comando `{}`. `{sugerencia}` tiene que ser sustituido por la sugerencia que quieres que añadan al bot"
             }

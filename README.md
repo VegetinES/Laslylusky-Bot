@@ -2,7 +2,7 @@
 [![Discord](https://img.shields.io/discord/766964835946463232?color=7289da&logo=discord&logoColor=white)](https://discord.gg/8uuPxpjC4N)
 [![Estado](https://img.shields.io/badge/estado-en%20desarrollo-yellow)](https://github.com/VegetinES/Laslylusky-Bot)
 [![Python](https://img.shields.io/badge/python-3.12+-blue.svg)](https://www.python.org/downloads/)
-[![Version](https://img.shields.io/badge/version-vB1.2.1-orange)](https://github.com/VegetinES/Laslylusky-Bot)
+[![Version](https://img.shields.io/badge/version-vB1.2.2-orange)](https://github.com/VegetinES/Laslylusky-Bot)
 [![Release](https://img.shields.io/badge/release-1%20mes-brightgreen)](https://github.com/VegetinES/Laslylusky-Bot)
 
 <div align="center">
@@ -79,7 +79,7 @@ Este bot se encuentra actualmente en desarrollo activo. Muchas características 
 ## 📊 Progreso Actual
 - Framework base: ✅
 - Estructura de comandos: ✅
-- Implementación: 🚧
+- Implementación: ⏳
 - Base de datos: ⏳
 - Personalización: ⏳
 - Hosting: ✅
@@ -125,6 +125,18 @@ Usa el comando `%privacidad` para ver nuestra política de privacidad completa. 
 ### Versión BETA vB1.2.1
 - Modificación README del repositorio público
 - Modificación del contenido de `updates` (a partir de ahora siempre se modificará cuando haya una actualización y no se informará en el repositorio)
+
+### Versión BETA vB1.2.2
+- Modificación del contenido de `help`: `privacidad` estaba en la categoría **General**, ahora mostrará el número correcto de comandos y categorías que hay en el help en total, las categorías tal y tal se han eliminado y se han repartido los comandos en otras categorías
+- Modificación del contenido del comando `embed` al ejecutarlo: en el embed aparecerá quien ejecutó el comando
+- Modificación del comando `about`: ahora el comando es `info` y muestra más información.
+- Se ha eliminado el comando `ping` y ahora la información de ese comando se muestra en `info`
+- Integración con base de datos para el futuro
+- El comando `stats` ahora se llama `serverinfo`
+- El futuro comando `config-suggest` se elimina y pasa a estar dentro del comando `config-commands`
+- Añadido el comando `config-perms` para el futuro
+- El comando `suggest` ahora será `bot-suggest`
+- Modificación del comando `bugreports` para que el mensaje de que se ha enviado el reporte se envíe por MD, y en caso de error se envíe al canal donde se utilizó. Lo mismo con `bot-suggest` y `donate`
 
 ## ⚖️ Licencia
 Este proyecto está licenciado bajo la Licencia MIT - consulta el archivo [LICENSE](LICENSE) para más detalles.

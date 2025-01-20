@@ -21,6 +21,11 @@ class EmbedCommand(commands.Cog):
             color=discord.Color.random()
         )
 
+        embed.set_footer(
+            text=f"Enviado por: {ctx.author.display_name}",
+            icon_url=ctx.author.display_avatar.url
+        )
+
         await ctx.send(embed=embed)
 
 async def setup(bot):
