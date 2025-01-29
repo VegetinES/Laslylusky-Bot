@@ -44,7 +44,7 @@ class Invite(commands.Cog):
         
         try:
             await ctx.author.send(embed=embed_invite)
-            await ctx.send("¡Te he enviado la información por MD! 📨")
+            await ctx.send("¡Te he enviado la invitación por MD! 📨")
         except discord.Forbidden:
             await ctx.send(
                 f"No te lo he podido enviar por MD, pero aquí tienes la invitación al servidor:",
@@ -64,7 +64,7 @@ class Invite(commands.Cog):
         
         try:
             await interaction.user.send(embed=embed_invite)
-            await interaction.response.send_message("¡Te he enviado la información por MD! 📨")
+            await interaction.response.send_message("¡Te he enviado la invitación por MD! 📨")
         except discord.Forbidden:
             await interaction.response.send_message(
                 f"No te lo he podido enviar por MD, pero aquí tienes la invitación al servidor:",

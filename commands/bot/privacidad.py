@@ -24,7 +24,7 @@ class Privacidad(commands.Cog):
         
         embed.add_field(
             name="¿Qué datos almacenamos?",
-            value="Actualmente ninguno"
+            value="Actualmente se almacenan los chats de IA de los usuarios"
         )
         
         embed.add_field(
@@ -34,7 +34,7 @@ class Privacidad(commands.Cog):
         
         embed.add_field(
             name="¿Para qué se utilizan esos datos?",
-            value="Esos datos se guardan solo para hacer estadísticas de la actividad del bot y también para hacer que el bot sea más fácil de utilizar por todos los usuarios"
+            value="Estos datos se guardan solo para que los usuarios puedan mantener un historial de conversación con la IA. Si quieren borrar su historial ejecuten el comando `%reset-chat` (si presenta fallos reporten bug) y si quieren descargar la conversación ejecuten el comando `%savedatachat`"
         )
         
         embed.add_field(

@@ -47,7 +47,7 @@ class Help(commands.Cog):
             title="Todos los comandos de Laslylusky",
             description=(
                 f"Hola {user.mention}, mi prefix es `%` y tengo **{total_commands} comandos** y "
-                f"**{total_categories} categorías**.\n\n**Disponibles actualmente: `help (/help)` | `invite (/invite)` | `bugreport` | `bot-suggest` | `updates` | `embed` | `clear` | `slowmode` | `donate` | `serverinfo` | `info` | `servericon` | `userinfo` | `privacidad (/privacidad)` | `avatar`** \n\n"
+                f"**{total_categories} categorías**.\n\n"
                 f"Escribe `%help <comando>` o `/help comando:<comando>` para obtener más información sobre un comando.\n\n"
                 "__Escribe__ `%privacidad` o `/privacidad` **para conocer la política de privacidad del bot**."
             ),
@@ -80,9 +80,9 @@ class Help(commands.Cog):
                 "[Invitación](https://discord.com/oauth2/authorize?client_id=784774864766500864&scope=bot%20applications.commands&permissions=8589803519) | "
                 "[Servidor Discord](https://discord.gg/8uuPxpjC4N) | "
                 "[Top.gg](https://top.gg/bot/784774864766500864) | "
-                "[PortalMyBot](https://portalmybot.com/mybotlist/bot/784774864766500864) | "
                 "[Valorar](https://forms.gle/pqeiSo1n1d49jD7M9) | "
-                "[Donar](https://paypal.me/VegetinES)"
+                "[Donar](https://paypal.me/VegetinES) | "
+                "[GitHub](https://github.com/VegetinES/Laslylusky-Bot)"
             ),
             inline=True
         )

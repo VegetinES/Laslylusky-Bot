@@ -132,9 +132,20 @@ ENV/
 env.bak/
 venv.bak/
 
-# Otros archivos importantes
+# Otros archivos o carpetas importantes
 laslylusky/
 vegetines/
+laslylinux/
+*.key
+uploaddatachat.py
+data/conversations.json
+pruebas.py
+pruebaswindows/
+help_data_future.py
+ffmpeg
+ffmpeg.exe
+ffplay.exe
+ffprobe.exe
 
 # Spyder project settings
 .spyderproject

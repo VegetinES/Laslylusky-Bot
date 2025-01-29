@@ -1,6 +1,6 @@
 UPDATES_INFO = {
     "versions": [
-        "vB1.0.0", "vB1.1.0", "vB1.2.0", "vB1.2.1", "vB1.2.2"
+        "vB1.0.0", "vB1.1.0", "vB1.2.0", "vB1.2.1", "vB1.2.2", "vB1.3.0"
     ],
     "details": {
         "vB1.0.0": {
@@ -58,6 +58,23 @@ UPDATES_INFO = {
                 "\n> <a:linea_6764:823570039667163136> Modificados los comandos `invite`, `invite`, `donate` y `bugreport` para que puedan ser utilizados en MD"
                 "\n> <a:linea_6764:823570039667163136> El comando `suggest` ahora será `bot-suggest`"
                 "\n> <a:linea_6764:823570039667163136> Modificación del comando `bugreports` para que el mensaje de que se ha enviado el reporte se envíe por MD, y en caso de error se envíe al canal donde se utilizó. Lo mismo con `bot-suggest` y `donate`"
+                "\n\nComandos actuales: 15"
+        },
+        "vB1.3.0": {
+            "title": "Información Actualización BETA 'vB1.3.0'",
+            "content": "__Añadido:__ "
+                "\n> <a:linea_6764:823570039667163136> Comandos añadidos: `kill`, `play`, `pause`, `resume`, `stop`, `leave`, `skip`, `queue`, `savedatachat`, mencionar al bot para hablar con la IA"
+                "\n> <a:linea_6764:823570039667163136> Todos los comandos NSFW añadidos"
+                "\n> <a:linea_6764:823570039667163136> Añadido un chat con Laslylusky con IA gracias a Gemini. Mencionar a Laslylusky y escribir un mensaje siempre para hablar con él. Escribid `%help laslylusky` para entender el funcionamiento"
+                "\n> <a:linea_6764:823570039667163136> Integración con IA en los siguientes comandos: `kill`"
+                "\n> <a:linea_6764:823570039667163136> Implementación de música con Youtube"
+                "\n> <a:linea_6764:823570039667163136> Añadida la categoría **Música** en `help`"
+                "\n\n__Modificado:__ "
+                "\n> <a:linea_6764:823570039667163136> Modificación del comando `info`, mostrando ahora más información del bot"
+                "\n> <a:linea_6764:823570039667163136> Modificación de la privacidad, actualmente ya se recogen datos. Por favor, ejecute `%privacidad` para ver que datos se recogen, finalidad y destino"
+                "\n> <a:linea_6764:823570039667163136> Eliminado la categoría **Juegos** en `help` y esos comandos ahora están en la categoría **Diversión**"
+                "\n> <a:linea_6764:823570039667163136> Modificado el contenido de `help` mostrando ahora solo los comandos que solo están disponibles y sus categorías"
+                "\n> <a:linea_6764:823570039667163136> Modificado el contenido de la privacidad"
                 "\n\nComandos actuales: 15"
         }
     }

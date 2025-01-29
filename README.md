@@ -2,8 +2,8 @@
 [![Discord](https://img.shields.io/discord/766964835946463232?color=7289da&logo=discord&logoColor=white)](https://discord.gg/8uuPxpjC4N)
 [![Estado](https://img.shields.io/badge/estado-en%20desarrollo-yellow)](https://github.com/VegetinES/Laslylusky-Bot)
 [![Python](https://img.shields.io/badge/python-3.12+-blue.svg)](https://www.python.org/downloads/)
-[![Version](https://img.shields.io/badge/version-vB1.2.2-orange)](https://github.com/VegetinES/Laslylusky-Bot)
-[![Release](https://img.shields.io/badge/release-1%20mes-brightgreen)](https://github.com/VegetinES/Laslylusky-Bot)
+[![Version](https://img.shields.io/badge/version-vB1.3.0-orange)](https://github.com/VegetinES/Laslylusky-Bot)
+[![Release](https://img.shields.io/badge/release-2%20meses-brightgreen)](https://github.com/VegetinES/Laslylusky-Bot)
 
 <div align="center">
   <img src="https://cdn.discordapp.com/avatars/784774864766500864/2cef87cccba0f00826a16740ac049231?size=1024" width="200" height="200" alt="Logo de Laslylusky Bot">
@@ -19,52 +19,36 @@ Laslylusky es un bot versátil para Discord diseñado para mejorar la experienci
 
 ## ⚙️ Características
 
-### 🛡️ Moderación [6]
-- Gestión de baneos y expulsiones
-- Sistema de silenciamiento
+### 🛡️ Configuración [1]
 - Limpieza de chat
-- Registros avanzados de moderación
-- Personalización en servidores
 
-### 🎮 Diversión [9]
-- 8ball para la fortuna
-- Sistema de confesiones
-- Juego del impostor
-- Calculadora del amor
-- Generador de memes
-- ¡Y más comandos divertidos!
+### 🎮 Diversión [1]
+- Intentar "matar" a usuarios
 
-### ℹ️ Información [8]
+### ℹ️ Información [4]
 - Información de usuario
 - Estadísticas del servidor
 - Visualización de avatares
 - Información de construcción
-- Verificación de ping
 
-### 🛠️ Utilidad [6]
-- Calculadora
+### 🛠️ Utilidad [3]
 - Creador de embeds
-- Modo lento personalizado
 - Comandos rápidos
+- Chat con IA
 
-### 🎌 Anime [2]
-- Búsqueda de anime
-- Comandos de waifu
+### 🎵 Música [6]
+- Posibilidad de poner música o vídeos de YouTube
 
-### 🎮 Juegos [4]
-- Búsqueda de usuarios de Minecraft
-- Estado del servidor
-- Juego Waterdrop
-- Juego AKI
+### Y más cosas...
 
 ## 🚧 Estado de Desarrollo
-Este bot se encuentra actualmente en desarrollo activo. Muchas características están siendo implementadas y probadas. La versión actual es BETA v3.0.0.0.
+Este bot se encuentra actualmente en desarrollo activo. Muchas características están siendo implementadas y probadas. La versión actual es BETA vB1.3.0. Todo lo que se saque en 
 
 ### Lista de Tareas Pendientes
-- [ ] EL BOT CONTARÁ CON TODOS LOS COMANDOS ANTERIORES MÁS MUCHOS NUEVOS
+- [ ] EL BOT CONTARÁ CON GRAN PARTE DE LOS COMANDOS ANTERIORES, MÁS MUCHOS NUEVOS
 - [ ] SERÁ MÁS EFICIENTE Y SEGURO
 - [ ] CONTARÁ CON BASES DE DATOS
-- [ ] TRATARÁ DE TENER IA (NO ES SEGURO 100% QUE VAYA A TENER)
+- [ ] TENDRÁ IA
 
 ## 📥 Ayuda
 ```bash
@@ -82,15 +66,15 @@ Este bot se encuentra actualmente en desarrollo activo. Muchas características 
 - Implementación: ⏳
 - Base de datos: ⏳
 - Personalización: ⏳
-- Hosting: ✅
+- Hosting: ✅⏳
 
 ## 🤝 Contribuciones
 Mientras el bot está en desarrollo, ¡agradecemos sugerencias y comentarios! Usa los siguientes comandos:
-- `%suggest` - Enviar sugerencias de funciones
+- `%bot-suggest` - Enviar sugerencias de funciones
 - `%bugreport` - Reportar cualquier error que encuentres con el bot
 
 ## 📜 Privacidad
-Usa el comando `%privacidad` para ver nuestra política de privacidad completa. (aún no disponible)
+Usa el comando `%privacidad` para ver nuestra política de privacidad completa.
 
 ## 🔗 Enlaces
 - [Invitar Bot](https://discord.com/oauth2/authorize?client_id=784774864766500864&scope=bot%20applications.commands&permissions=8589803519)
@@ -137,6 +121,19 @@ Usa el comando `%privacidad` para ver nuestra política de privacidad completa. 
 - Añadido el comando `config-perms` para el futuro
 - El comando `suggest` ahora será `bot-suggest`
 - Modificación del comando `bugreports` para que el mensaje de que se ha enviado el reporte se envíe por MD, y en caso de error se envíe al canal donde se utilizó. Lo mismo con `bot-suggest` y `donate`
+
+### Versión BETA vB1.3.0
+- Comandos añadidos: `kill`, `play`, `pause`, `resume`, `stop`, `leave`, `skip`, `queue`, `savedatachat`, mencionar al bot para hablar con la IA
+- Todos los comandos NSFW añadidos
+- Añadido un chat con Laslylusky con IA gracias a Gemini. Mencionar a Laslylusky y escribir un mensaje siempre para hablar con él. Escribid `%help laslylusky` para entender el funcionamiento
+- Integración con IA en los siguientes comandos: `kill`
+- Implementación de música con Youtube
+- Modificación del comando `info`, mostrando ahora más información del bot
+- Modificación de la privacidad, actualmente ya se recogen datos. Por favor, ejecute `%privacidad` para ver que datos se recogen, finalidad y destino
+- Añadida la categoría **Música** en `help` 
+- Eliminado la categoría **Juegos** en `help` y esos comandos ahora están en la categoría **Diversión**
+- Modificado el contenido de `help` mostrando ahora solo los comandos que solo están disponibles y sus categorías
+- Modificado el contenido de la privacidad
 
 ## ⚖️ Licencia
 Este proyecto está licenciado bajo la Licencia MIT - consulta el archivo [LICENSE](LICENSE) para más detalles.

@@ -4,27 +4,21 @@ import os
 import glob
 import asyncio
 import webserver
-from database import Database
+from singleton import database
+from ffmpeg_bin.ffmpeg import download_ffmpeg
 
 DISCORD_TOKEN = os.getenv("DISCORD_TOKEN")
 
 intents = discord.Intents.default()
+intents.messages = True
 intents.message_content = True
 intents.members = True
 intents.guilds = True
+intents.voice_states = True
 
 bot = commands.Bot(command_prefix='%', intents=intents)
 
 bot.remove_command('help')
-
-def DB():
-    database = Database()
-    database.connection()
-    db = database.get_collection()
-
-    return db
-
-db = DB()
 
 @bot.event
 async def on_ready():
@@ -100,7 +94,7 @@ async def on_guild_join(guild):
         }
     }
     
-    db.insert_one(data)
+    database.insert_one(data)
     
     print(f"Se ha unido al servidor: {guild.name} (ID: {guild.id})")
 """
@@ -111,7 +105,7 @@ async def on_guild_remove(guild):
     guild_id = guild.id
     
     # Eliminar el documento de la colección donde el guild_id coincide
-    result = db.delete_one({"guild_id": guild_id})
+    result = database.delete_one({"guild_id": guild_id})
     
     if result.deleted_count > 0:
         print(f"Se han eliminado los datos del servidor: {guild.name} (ID: {guild_id})")
@@ -120,6 +114,15 @@ async def on_guild_remove(guild):
 """
 
 async def main():
+    print("Comprobando FFmpeg...")
+    ffmpeg_path = download_ffmpeg()
+    if not ffmpeg_path:
+        print("Error: No se pudo descargar/instalar FFmpeg. El bot no puede iniciar sin FFmpeg.")
+        return
+    
+    print(f"FFmpeg encontrado en: {ffmpeg_path}")
+    print("Iniciando bot...")
+    
     webserver.keep_alive()
     try:
         async with bot:

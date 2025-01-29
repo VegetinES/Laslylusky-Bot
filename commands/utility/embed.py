@@ -1,5 +1,6 @@
 import discord
 from discord.ext import commands
+from singleton import database
 
 class EmbedCommand(commands.Cog):
     def __init__(self, bot):

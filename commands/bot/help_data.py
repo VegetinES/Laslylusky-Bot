@@ -34,157 +34,20 @@ COMMAND_CATEGORIES = {
             }
         }
     },
-    "General": {
-        "emoji": "<:General:838015864455299082>",
-        "commands": {
-            "steam": {
-                "description": "Comando que envía sobre un juego de Steam",
-                "usage": "%steam {juego.steam}",
-                "permissions": "Todos pueden utilizar este comando"
-            },
-            "instagram": {
-                "description": "Comando que envía información del usuario de instagram que se puso",
-                "usage": "%instagram {ig.usuario}",
-                "permissions": "Todos pueden utilizar este comando"
-            }
-        }
-    },
     "Diversión": {
         "emoji": "<:Diversion:838016251787345930>",
         "commands": {
-            "8ball": {
-                "description": "Comando que responde con Sí o No a la pregunta",
-                "usage": "%8ball {pregunta}",
+            "kill": {
+                "description": "Comando para intentar 'matar' a un jugador mencionado",
+                "usage": "%kill {usuario.mencion}",
                 "permissions": "Todos pueden usar este comando",
-                "extra": "No escribas en el comando `{}`. La `{pregunta}` debe ser una que se pueda responder con Sí o No"
-            },
-            "confession": {
-                "description": "Comando parecido al del bot Chocolat, solo que este se puede utilizar en cualquier canal",
-                "usage": "%confession {mensaje}",
-                "permissions": "Todos pueden usar este comando",
-                "extra": "No escribas en el comando `{}`. `{mensaje}` tiene que ser sustituido por el mensaje que quieres que aparezca"
-            },
-            "impostor": {
-                "description": "Comando de diversión que al mencionar a un usuario (o el que ejecuta el comando), dirá si es o no un impostor",
-                "usage": "%impostor` | `%impostor {usuario}",
-                "permissions": "Todos pueden usar este comando",
-                "extra": "No escribas en el comando `{}`. `{usuario}` tiene que ser sustituido por la mención de un usuario"
-            },
-            "love": {
-                "description": "Comando de diversión que al mencionar a un usuario, el bot mandará un porcentaje aleatorio de como sería el amor entre el usuario mencionado y el que ejecutó el comando",
-                "usage": "%love {usuario}",
-                "permissions": "Todos pueden utilizar el comando",
-                "extra": "No escribas en el comando `{}`. `{usuario}` tiene que ser sustituido por el usuario mencionado"
-            },
-            "hack": {
-                "description": "Comando para hackear de broma al usuario mencionado",
-                "usage": "%hack {usuario.mencion}",
-                "permissions": "Todos pueden utilizar este comando",
-                "extra": "No escribas en el comando `{}`. Sustituye `{usuario.mencion}` por la mención de un usuario"
-            },
-            "presentacion": {
-                "description": "Comando de diversión que envía una imagen con las palabras que hayas puesto en el comando",
-                "usage": "%presentacion {texto}",
-                "permissions": "Todos pueden utilizar este comando",
-                "extra": "No escribas `{}`. `{texto}` se sustituye por el texto que quieres que aparezca en el comando"
-            },
-            "meme": {
-                "description": "Comando que envía un meme aleatorio",
-                "usage": "%meme",
-                "permissions": "Todos pueden utilizar este comando"
-            },
-            "captcha": {
-                "description": "No hay información",
-                "usage": "No hay información",
-                "permissions": "No hay información",
-                "extra": "No hay información"
-            },
-            "dm": {
-                "description": "Comando que envía un mensaje por privado a la id del usuario o al usuario que se mencionó",
-                "usage": "%dm {usuario.id} [mensaje]`/`%dm {usuario.mencion} [mensaje]",
-                "permissions": "Todos pueden utilizar este comando",
-                "extra": "No escribas en el comando `{}` ni `[]`. Sustituye `{usuario.id}` por la id del usuario que quieres que le llegue el mensaje | Sustituye `{usuario.mencion}` por la mención del usuario que quieras enviar el mensaje | Sustituye `[mensaje]` por el mensaje que quieras enviar al usuario"
-            },
-            "pop": {
-                "description": "Comando que envía un mensaje que contiene pop (prueba a ejecutar el comando)",
-                "usage": "%pop",
-                "permissions": "Todos pueden utilizar este comando"
-            },
-            "hi": {
-                "description": "No hay información",
-                "usage": "No hay información",
-                "permissions": "Todos pueden utilizar este comando",
-                "extra": "No hay información"
-            },
-            "waifu": {
-                "description": "Comando que envía la imagen de una waifu",
-                "usage": "%waifu",
-                "permissions": "Todos pueden utilizar este comando"
-            }
-        }
-    },
-    "Moderación": {
-        "emoji": "<:Moderacion:838015484032057384>",
-        "commands": {
-            "ban": {
-                "description": "Comando para banear a los usuarios mencionados",
-                "usage": "%ban {usuario.mención} [razón]",
-                "permissions": "`ADMINISTRADOR`/`BANEAR USUARIOS`",
-                "extra": "No escribas en el comando `[]` ni `{}`. `{usuario.mención}` tiene que ser sustituido por la mención del usuario a quien quieres banear"
-            },
-            "kick": {
-                "description": "Comando para expulsar al usuario mencionado",
-                "usage": "%kick {usuario.mención} [razón]",
-                "permissions": "`ADMINISTRADOR`/`ESPULSAR USUARIOS`",
-                "extra": "No escribas en el comando `[]` ni `{}`. `{usuario.mención}` tiene que ser sustituido por la mención del usuario a quien quieres expulsar"
-            },
-            "clear": {
-                "description": "Comando de de moderación para borrar la cantidad de mensajes que se escriba en el comando",
-                "usage": "%clear {número}",
-                "permissions": "Necesitas tener el permiso de gestionar mensajes",
-                "extra": "No escribas en el comando `{}`. `{número}` tiene que ser sustituido por un número entre 1 a 100 que significa la cantidad de mensajes que quieres borrar"
-            },
-            "mute": {
-                "description": "Comando para mutear al usuario mencionado",
-                "usage": "%mute {usuario} [razón]",
-                "permissions": "`MANEJAR ROLES`/`ADMINISTRADOR`",
-                "extra": "No escribas en el comando `{}` ni `[]`. `{usuario}` tiene que ser sustituido por el usuario mencionado que quieras mutear | `[razón]` tiene que ser sustituido por la razón del mute"
-            },
-            "idban": {
-                "description": "Comando para banear al usuario de la ID del usuario que has puesto en el comando",
-                "usage": "%idban {id} [razón]",
-                "permissions": "`ADMINISTRADOR`/`BANEAR USUARIOS`",
-                "extra": "No escribas en el comando `[]` ni `{}`. `{id}` tiene que ser sustituido por la id del usuario que quieres banear | `[razón]` tiene que ser sustituido por la razón del ban"
-            },
-            "unmute": {
-                "description": "Comando para quitar el mute al usuario mencionado que ya esté silenciado",
-                "usage": "%unmute {usuario.mencion}",
-                "permissions": "`MANEJAR ROLES`/`ADMINISTRADOR`",
-                "extra": "No escribas en el comando `{}`. Sustituye `{usuario.mencion}` por la mención del usuario a quien quieres quitar el mute"
+                "extra": "No escribas en el comando `{}`. `{usuario.mencion}` debe ser sustituido por la mención a un usuario al que quieres intentar 'matar'"
             }
         }
     },
     "Configuración": {
         "emoji": "<:Configurar:842423920850370580>",
         "commands": {
-            "config-logs": {
-                "description": "Comando para configurar mensajes de logs, el canal donde van a llegar, si hay logs o no, entre otros en el servidor donde se utiliza",
-                "usage": "%config-logs` (para mostrar las opciones a configurar y parametros necesarios) / `%config {parametro}",
-                "permissions": "`ADMINISTRADOR`",
-                "extra": "No escribas en el comando `{}`. Sustituye `{parametro}` por el parametro para configurar los logs según la documentación"
-            },
-            "config-perms": {
-                "description": "Comando para configurar los permisos de ciertos comandos del bot en el servidor donde se utiliza",
-                "usage": "%config-perms` (para mostrar las opciones a configurar y parametros necesarios) / `%config-perms {parametro}",
-                "permissions": "`ADMINISTRADOR`",
-                "extra": "No escribas en el comando `{}`. Sustituye `{parametro}` por el parametro para configurar las sugerencias según la documentación"
-            },
-            "config-commands": {
-                "description": "Comando para configurar los comandos y permisos en el servidor donde se utiliza",
-                "usage": "%config-commands` (para mostrar las opciones a configurar y parametros necesarios) / `%config-commands {parametro}",
-                "permissions": "`ADMINISTRADOR`",
-                "extra": "No escribas en el comando `{}`. Sustituye `{parametro}` por el parametro para configurar los comandos según la documentación"
-            },
             "slowmode": {
                 "description": "Comando de para cambiar el cooldown del canal donde se ejecuta el comando",
                 "usage": "%slowmode {tiempo} [razón]",
@@ -229,68 +92,57 @@ COMMAND_CATEGORIES = {
                 "permissions": "Todos pueden usar este comando",
                 "extra": "No escribas en el comando `{}`. `{mensaje}` tiene que ser sustituido por el mensaje que quieres que aparezca en el embed"
             },
-            "iembed": {
-                "description": "Comando que envía un embed con la imagen del enlace que le has escrito",
-                "usage": "%iembed {enlace.imagen}",
+            "laslylusky": {
+                "description": "Comando para tener una conversación con Laslylusky gracias a la IA",
+                "usage": "@Laslylusky {texto}",
                 "permissions": "Todos pueden usar este comando",
-                "extra": "No escribas en el comando `{}`. `{enlace.imagen}` tiene que ser sustituido por el enlace de la imagen que quieres que aparezca en el embed"
+                "extra": "No escribas en el comando `{}`. `{texto}` debe ser sustituido por el mensaje que quieras decirle a la IA. La IA mantendrá un chat con el usuario siempre, recordando la conversación a no ser que el usuario la elimine. Para eliminar el chat con la IA de ese canal y empezar otro escribe `%reset-chat`. La AI solo podrá mantener conversación con solo 1 usuario"
             },
-            "say": {
-                "description": "Comando que hace que el bot envíe el mensaje que tu le escribes",
-                "usage": "%say {mensaje}",
-                "permissions": "Todos pueden usar este comando",
-                "extra": "No escribas en el comando `{}`. `{mensaje}` tiene que ser sustituido por el mensaje que quieres que envíe el bot. Si el mensaje contiene `@everyone` o `@here`, el bot no enviará el mensaje"
-            },
-            "jumbo": {
-                "description": "",
-                "usage": "",
-                "permissions": "Todos pueden usar este comando",
-                "extra": "No escribas en el comando `{}` ni `[]`. `{tiempo}` tiene que ser sustituido por el número del tiempo que quieres que sea el cooldown en el canal (el tiempo viene en segundos) | `[razón]` tiene que ser sustituido por el mensaje de la razón por la que se va a cambiar el cooldown (esto es obligatorio)"
-            },
-            "calculadora": {
-                "description": "Comando que calcula una fórmula matemática",
-                "usage": "%calculadora {fórmula}",
-                "permissions": "Todos pueden usar este comando",
-                "extra": "No escribas en el comando `{}`. Sustituye `{fórmula}` por la fórmula que quieres que te calcule el bot"
-            },
-            "animesearch": {
-                "description": "Comando que envía información del anime que se ha escrito al ejecutar el comando",
-                "usage": "%animesearch {nombre.anime}",
-                "permissions": "Todos pueden utilizar este comando",
-                "extra": "No escribas en el comando `{}`. Sustituye `{nombre.anime}` por el nombre del anime del que quieres saber la información"
+            "savedatachat": {
+                "description": "Comando para descargar tu conversación que has tenido con la IA",
+                "usage": "savedatachat",
+                "permissions": "Todos pueden usar este comando"
             }
         }
     },
-    "Minecraft": {
-        "emoji": "<:Minecraft:837706204079194123>",
+    "Música": {
+        "emoji": "<:X3_speaker_blue:850048224828194826>",
         "commands": {
-            "mcuser": {
-                "description": "Comando que envía información del jugador de Minecraft Premium",
-                "usage": "%mcuser {jugador.premium}",
+            "play": {
+                "description": "Comando para poner música de youtube pasándole como parámetro el nombre o enlace",
+                "usage": "%play {parametro}",
                 "permissions": "Todos pueden utilizar este comando",
-                "extra": "No escribas en el comando `{}`. Sustituye `{jugador.premium}` por el nombre del jugador de Minecraft Premium para saber su información"
+                "extra": "No escribas en el comando `{}`. Sustituye `{parametro}` por el nombre o enlace de la canción/vídeo. Es necesario estar dentro de un canal de voz para que funcione"
             },
-            "mcserver": {
-                "description": "Comando que envía información del servidor de Minecraft",
-                "usage": "%mcserver {ip.servidor}",
+            "pause": {
+                "description": "Comando para pausar música que se esté reproduciendo",
+                "usage": "%pause",
                 "permissions": "Todos pueden utilizar este comando",
-                "extra": "No escribas en el comando `{}`. Sustituye `{ip.servidor}` por la ip del servidor de Minecraft que quieras saber información"
-            }
-        }
-    },
-    "Juegos": {
-        "emoji": "<:Juegos:838012718631616512>",
-        "commands": {
-            "waterdrop": {
-                "description": "Comando para jugar. El comando es BETA <:Beta:838012413193486356>",
-                "usage": "%waterdrop",
-                "permissions": "Todos pueden utilizar este comando",
-                "extra": "Consejo: Jugar en un canal donde solo pueda enviar mensajes el que vaya a jugar"
+                "extra": "Es necesario estar dentro de un canal de voz para que funcione"
             },
-            "aki": {
-                "description": "No hay información",
-                "usage": "No hay información",
-                "permissions": "Todos pueden utilizar este comando"
+            "resume": {
+                "description": "Comando para seguir poniendo música de youtube que se había pausado",
+                "usage": "%resume",
+                "permissions": "Todos pueden utilizar este comando",
+                "extra": "Es necesario estar dentro de un canal de voz para que funcione"
+            },
+            "stop": {
+                "description": "Comando para parar toda la música de youtube que estaba reproduciendo o estaba en cola",
+                "usage": "%stop",
+                "permissions": "Todos pueden utilizar este comando",
+                "extra": "Es necesario estar dentro de un canal de voz para que funcione"
+            },
+            "leave": {
+                "description": "Comando para sacar al bot del canal de voz",
+                "usage": "%leave",
+                "permissions": "Todos pueden utilizar este comando",
+                "extra": "Es necesario estar dentro de un canal de voz para que funcione"
+            },
+            "queue": {
+                "description": "Comando para mostrar la cola de música que va a reproducir el bot",
+                "usage": "%queue",
+                "permissions": "Todos pueden utilizar este comando",
+                "extra": "Es necesario estar dentro de un canal de voz para que funcione"
             }
         }
     },
@@ -327,14 +179,24 @@ COMMAND_CATEGORIES = {
                 "usage": "%pussy",
                 "permissions": "Todos pueden utilizar este comando. **Solo se puede utilizar en un canal NSFW**"
             },
-            "hentai": {
-                "description": "Comando que envía imágenes hentai",
-                "usage": "%hentai",
+            "hboobs": {
+                "description": "Comando que envía tetas de hentai",
+                "usage": "%hboobs",
                 "permissions": "Todos pueden utilizar este comando. **Solo se puede utilizar en un canal NSFW**"
             },
-            "slut": {
-                "description": "Comando que envía *putas*",
-                "usage": "%slut",
+            "hass": {
+                "description": "Comando que envía culos de hentai",
+                "usage": "%hass",
+                "permissions": "Todos pueden utilizar este comando. **Solo se puede utilizar en un canal NSFW**"
+            },
+            "hanal": {
+                "description": "Comando que envía anal de hentai",
+                "usage": "%hanal",
+                "permissions": "Todos pueden utilizar este comando. **Solo se puede utilizar en un canal NSFW**"
+            },
+            "blowjob": {
+                "description": "Comando que envía mamadas",
+                "usage": "%blowjob",
                 "permissions": "Todos pueden utilizar este comando. **Solo se puede utilizar en un canal NSFW**"
             }
         }
