@@ -1,6 +1,6 @@
 UPDATES_INFO = {
     "versions": [
-        "vB1.0.0", "vB1.1.0", "vB1.2.0", "vB1.2.1", "vB1.2.2", "vB1.3.0", "vB1.3.1", "vB1.3.2", "vB1.3.3"
+        "vB1.0.0", "vB1.1.0", "vB1.2.0", "vB1.2.1", "vB1.2.2", "vB1.3.0", "vB1.3.1", "vB1.3.2", "vB1.3.3", "vB1.3.4"
     ],
     "details": {
         "vB1.0.0": {
@@ -92,7 +92,13 @@ UPDATES_INFO = {
         "vB1.3.3": {
             "title": "Información Actualización BETA 'vB1.3.3'",
             "content": "__Modificado:__ "
-                "\n> <a:linea_6764:823570039667163136>Modificación de la generación de archivos para reproducción de música, que generaba un error"
+                "\n> <a:linea_6764:823570039667163136> Modificación de la generación de archivos para reproducción de música, que generaba un error"
+                "\n\nComandos actuales: 33"
+        },
+        "vB1.3.4": {
+            "title": "Información Actualización BETA 'vB1.3.4'",
+            "content": "__Modificado:__ "
+                "\n> <a:linea_6764:823570039667163136> Modificación de `play` para hacer depuración para intentar arreglar el comando"
                 "\n\nComandos actuales: 33"
         }
     }
