@@ -8,6 +8,7 @@ import os
 import sys
 import platform
 import subprocess
+import random
 
 class Play(commands.Cog):
     def __init__(self, bot):
@@ -22,7 +23,6 @@ class Play(commands.Cog):
             'format': 'bestaudio/best',
             'nooverwrites': True,
             'no_color': True,
-            'no_warnings': True,
             'ignoreerrors': False,
             'no_playlist': True,
             'default_search': 'ytsearch',
@@ -31,11 +31,21 @@ class Play(commands.Cog):
                 'preferredcodec': 'mp3',
                 'preferredquality': '192',
             }],
-            'nocheckcertificate': True,
             'quiet': True,
             'no_warnings': True,
             'extract_flat': False,
-            'age_limit': 0
+            'age_limit': 0,
+            'nocheckcertificate': True,
+            'http_headers': {
+                'User-Agent': self.get_random_user_agent(),
+                'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
+                'Accept-Language': 'en-us,en;q=0.5',
+                'Sec-Fetch-Mode': 'navigate',
+            },
+            'socket_timeout': 10,
+            'extractor_retries': 3,
+            'max_sleep_interval': 5,
+            'sleep_interval': 1,
         }
         
         self.FFMPEG_OPTIONS = {
@@ -43,7 +53,7 @@ class Play(commands.Cog):
             'before_options': '-reconnect 1 -reconnect_streamed 1 -reconnect_delay_max 5',
             'options': '-vn -filter:a loudnorm'
         }
-        
+
         self.system_info = self.get_system_info()
         print("=== Información del Sistema ===")
         for key, value in self.system_info.items():
@@ -52,71 +62,15 @@ class Play(commands.Cog):
 
         self.bot.loop.create_task(self.check_inactivity())
 
-    def get_system_info(self):
-        info = {
-            "Sistema Operativo": platform.system(),
-            "Versión OS": platform.version(),
-            "Arquitectura": platform.machine(),
-            "Python Version": sys.version,
-            "Directorio Actual": os.getcwd(),
-            "Variables de Entorno PATH": os.environ.get('PATH', 'No disponible'),
-            "Navegadores Instalados": self.check_browsers(),
-            "FFmpeg Versión": self.get_ffmpeg_version()
-        }
-        return info
+    def get_random_user_agent(self):
+        user_agents = [
+            'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
+            'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/17.2.1 Safari/605.1.15',
+            'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:121.0) Gecko/20100101 Firefox/121.0',
+            'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36'
+        ]
+        return random.choice(user_agents)
 
-    def check_browsers(self):
-        browsers = []
-        if self.check_command_exists("firefox"):
-            try:
-                version = subprocess.check_output(["firefox", "--version"], stderr=subprocess.STDOUT).decode().strip()
-                browsers.append(version)
-            except:
-                browsers.append("Firefox (versión desconocida)")
-
-        if self.check_command_exists("google-chrome"):
-            try:
-                version = subprocess.check_output(["google-chrome", "--version"], stderr=subprocess.STDOUT).decode().strip()
-                browsers.append(version)
-            except:
-                browsers.append("Chrome (versión desconocida)")
-
-        if self.check_command_exists("chromium-browser"):
-            try:
-                version = subprocess.check_output(["chromium-browser", "--version"], stderr=subprocess.STDOUT).decode().strip()
-                browsers.append(version)
-            except:
-                browsers.append("Chromium (versión desconocida)")
-
-        return browsers if browsers else ["No se encontraron navegadores instalados"]
-
-    def check_command_exists(self, command):
-        try:
-            subprocess.check_output(["which", command], stderr=subprocess.STDOUT)
-            return True
-        except:
-            return False
-
-    def get_ffmpeg_version(self):
-        try:
-            version = subprocess.check_output(["ffmpeg", "-version"], stderr=subprocess.STDOUT).decode().split('\n')[0]
-            return version
-        except:
-            return "FFmpeg no encontrado o error al obtener versión"
-
-    @commands.command(name="debug")
-    async def debug(self, ctx):
-        """Muestra información de diagnóstico del sistema"""
-        debug_info = "**Información del Sistema:**\n```"
-        for key, value in self.system_info.items():
-            if isinstance(value, list):
-                debug_info += f"\n{key}:\n  - " + "\n  - ".join(value)
-            else:
-                debug_info += f"\n{key}: {value}"
-        debug_info += "```"
-        await ctx.send(debug_info)
-
-    @commands.command(name="play")
     async def play(self, ctx, *, query):
         if not ctx.author.voice:
             await ctx.send("Debes estar en un canal de voz para usar este comando.")
@@ -130,17 +84,23 @@ class Play(commands.Cog):
 
             with YoutubeDL(self.YDL_OPTIONS) as ydl:
                 try:
-                    info = ydl.extract_info(query, download=False)
+                    try:
+                        info = ydl.extract_info(f"ytsearch:{query}", download=False)
+                    except:
+                        info = ydl.extract_info(query, download=False)
                     
                     if 'entries' in info:
                         videos = info['entries']
+                        if not videos:
+                            await ctx.send("No se encontraron resultados.")
+                            return
                     else:
                         videos = [info]
 
                     for video in videos:
                         song_info = {
-                            'name': video['title'],
-                            'url': video['webpage_url'],
+                            'name': video.get('title', 'Unknown'),
+                            'url': video.get('webpage_url', video.get('url')),
                             'duration': video.get('duration', 0)
                         }
                         self.music_queue.setdefault(ctx.guild.id, []).append(song_info)
@@ -156,7 +116,8 @@ class Play(commands.Cog):
                         await ctx.send(f"Añadidos {len(videos)} vídeos a la cola.")
                     
                 except Exception as e:
-                    await ctx.send(f"Error al buscar el vídeo: {str(e)}")
+                    print(f"Error detallado: {str(e)}")
+                    await ctx.send(f"Error al buscar el vídeo. Intenta con otro o con el enlace directo.")
             
         except Exception as e:
             await ctx.send(f"Error al unirse al canal de voz: {str(e)}")
