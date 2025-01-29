@@ -14,7 +14,7 @@ def download_ffmpeg():
     
     ffmpeg_dir.mkdir(parents=True, exist_ok=True)
     
-    download_url = "https://download1324.mediafire.com/e3iloe4m4vrg3j1n5yx9h8GtKCnsErZEpOxubIqdyBYuC8zhUjzAGw5xTRCC9GvqiRWkBw8ZyTvut3qa0B-8L_csGf-DjOTJGNRZVfwcnpEmFsVuXvk5KB81Jd-woXKb9hLmsCxccMLkwgnQWtD0NdPvBzyir1UTGOzlfs69Rw/xpfz107em7s6jrc/ffmpeg.zip"
+    download_url = "https://download1324.mediafire.com/c62d4a7mnl8gBirASilp2j0vRTe3S2AgvUTTa4QhWbxfpvaCuhNIT2GO4I90GwWY3E9DvpFand7RRKiHRmY-aiy0NpcEm4_ULkAsFcpxlPG_StILjlC22NP8IQmHFh-1iRzYxVHCzsVY9Fh-tAZe0gRJ026bFDfi3s0qgCtSig/xpfz107em7s6jrc/ffmpeg.zip"
     zip_path = ffmpeg_dir / "ffmpeg.zip"
     
     print("Descargando FFmpeg...")
