@@ -135,6 +135,9 @@ Usa el comando `%privacidad` para ver nuestra política de privacidad completa.
 - Modificado el contenido de `help` mostrando ahora solo los comandos que solo están disponibles y sus categorías
 - Modificado el contenido de la privacidad
 
+### Versión BETA vB1.3.1
+- Modificación del comando `play` para tratar que funcione en el host
+
 ## ⚖️ Licencia
 Este proyecto está licenciado bajo la Licencia MIT - consulta el archivo [LICENSE](LICENSE) para más detalles.
 

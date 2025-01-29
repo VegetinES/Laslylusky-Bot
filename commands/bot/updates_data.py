@@ -75,7 +75,13 @@ UPDATES_INFO = {
                 "\n> <a:linea_6764:823570039667163136> Eliminado la categoría **Juegos** en `help` y esos comandos ahora están en la categoría **Diversión**"
                 "\n> <a:linea_6764:823570039667163136> Modificado el contenido de `help` mostrando ahora solo los comandos que solo están disponibles y sus categorías"
                 "\n> <a:linea_6764:823570039667163136> Modificado el contenido de la privacidad"
-                "\n\nComandos actuales: 15"
+                "\n\nComandos actuales: 33"
+        },
+        "vB1.3.1": {
+            "title": "Información Actualización BETA 'vB1.3.1'",
+            "content": "__Modificado:__ "
+                "\n> <a:linea_6764:823570039667163136> Modificación del comando `play` para tratar que funcione en el host"
+                "\n\nComandos actuales: 33"
         }
     }
 }

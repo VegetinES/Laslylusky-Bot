@@ -24,6 +24,7 @@ class Play(commands.Cog):
             'ignoreerrors': False,
             'no_playlist': True,
             'default_search': 'ytsearch',
+            'cookiesfrombrowser': ('firefox',),
             'postprocessors': [{
                 'key': 'FFmpegExtractAudio',
                 'preferredcodec': 'mp3',

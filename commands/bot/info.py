@@ -42,7 +42,7 @@ class About(commands.Cog):
             url="https://media.discordapp.net/attachments/818410022907412522/824373373185818704/1616616249024.png?width=593&height=593"
         )
         about_embed.add_field(name="Servidores en los que estoy", value=f"{len(self.bot.guilds)}", inline=True)
-        about_embed.add_field(name="Versión", value="vB1.3.0", inline=True)
+        about_embed.add_field(name="Versión", value="vB1.3.1", inline=True)
         about_embed.add_field(name="Comandos", value=f"{total_commands}", inline=True)
         about_embed.add_field(name="Usuarios que me ven", value=f"{total_users}", inline=True)
         about_embed.add_field(name="Mi latencia es:", value=f"{latency * 1000:.2f}ms", inline=True)
