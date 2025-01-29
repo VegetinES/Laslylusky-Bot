@@ -2,7 +2,7 @@
 [![Discord](https://img.shields.io/discord/766964835946463232?color=7289da&logo=discord&logoColor=white)](https://discord.gg/8uuPxpjC4N)
 [![Estado](https://img.shields.io/badge/estado-en%20desarrollo-yellow)](https://github.com/VegetinES/Laslylusky-Bot)
 [![Python](https://img.shields.io/badge/python-3.12+-blue.svg)](https://www.python.org/downloads/)
-[![Version](https://img.shields.io/badge/version-vB1.3.0-orange)](https://github.com/VegetinES/Laslylusky-Bot)
+[![Version](https://img.shields.io/badge/version-vB1.3.2-orange)](https://github.com/VegetinES/Laslylusky-Bot)
 [![Release](https://img.shields.io/badge/release-2%20meses-brightgreen)](https://github.com/VegetinES/Laslylusky-Bot)
 
 <div align="center">
@@ -136,6 +136,9 @@ Usa el comando `%privacidad` para ver nuestra política de privacidad completa.
 - Modificado el contenido de la privacidad
 
 ### Versión BETA vB1.3.1
+- Modificación del comando `play` para tratar que funcione en el host
+
+### Versión BETA vB1.3.2
 - Modificación del comando `play` para tratar que funcione en el host
 
 ## ⚖️ Licencia

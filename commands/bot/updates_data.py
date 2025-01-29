@@ -1,6 +1,6 @@
 UPDATES_INFO = {
     "versions": [
-        "vB1.0.0", "vB1.1.0", "vB1.2.0", "vB1.2.1", "vB1.2.2", "vB1.3.0"
+        "vB1.0.0", "vB1.1.0", "vB1.2.0", "vB1.2.1", "vB1.2.2", "vB1.3.0", "vB1.3.1", "vB1.3.2"
     ],
     "details": {
         "vB1.0.0": {
@@ -79,6 +79,12 @@ UPDATES_INFO = {
         },
         "vB1.3.1": {
             "title": "Información Actualización BETA 'vB1.3.1'",
+            "content": "__Modificado:__ "
+                "\n> <a:linea_6764:823570039667163136> Modificación del comando `play` para tratar que funcione en el host"
+                "\n\nComandos actuales: 33"
+        },
+        "vB1.3.2": {
+            "title": "Información Actualización BETA 'vB1.3.2'",
             "content": "__Modificado:__ "
                 "\n> <a:linea_6764:823570039667163136> Modificación del comando `play` para tratar que funcione en el host"
                 "\n\nComandos actuales: 33"
