@@ -1,6 +1,6 @@
 UPDATES_INFO = {
     "versions": [
-        "vB1.0.0", "vB1.1.0", "vB1.2.0", "vB1.2.1", "vB1.2.2", "vB1.3.0", "vB1.3.1", "vB1.3.2", "vB1.3.3", "vB1.3.4"
+        "vB1.0.0", "vB1.1.0", "vB1.2.0", "vB1.2.1", "vB1.2.2", "vB1.3.0", "vB1.3.1", "vB1.3.2", "vB1.3.3", "vB1.3.4", "vB1.3.5", "vB1.3.6"
     ],
     "details": {
         "vB1.0.0": {
@@ -103,6 +103,12 @@ UPDATES_INFO = {
         },
         "vB1.3.5": {
             "title": "Información Actualización BETA 'vB1.3.5'",
+            "content": "__Modificado:__ "
+                "\n> <a:linea_6764:823570039667163136> Modificación de `play` para hacer depuración para intentar arreglar el comando"
+                "\n\nComandos actuales: 33"
+        },
+        "vB1.3.6": {
+            "title": "Información Actualización BETA 'vB1.3.6'",
             "content": "__Modificado:__ "
                 "\n> <a:linea_6764:823570039667163136> Modificación de `play` para hacer depuración para intentar arreglar el comando"
                 "\n\nComandos actuales: 33"

@@ -5,7 +5,7 @@ import glob
 import asyncio
 import webserver
 from singleton import database
-from ffmpeg_bin.ffmpeg import download_ffmpeg
+# from ffmpeg_bin.ffmpeg import download_ffmpeg
 
 DISCORD_TOKEN = os.getenv("DISCORD_TOKEN")
 
@@ -114,6 +114,7 @@ async def on_guild_remove(guild):
 """
 
 async def main():
+    """
     print("Comprobando FFmpeg...")
     ffmpeg_path = download_ffmpeg()
     if not ffmpeg_path:
@@ -122,7 +123,7 @@ async def main():
     
     print(f"FFmpeg encontrado en: {ffmpeg_path}")
     print("Iniciando bot...")
-    
+    """
     webserver.keep_alive()
     try:
         async with bot:

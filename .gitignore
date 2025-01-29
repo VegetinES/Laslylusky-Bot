@@ -147,6 +147,8 @@ ffmpeg.exe
 ffplay.exe
 ffprobe.exe
 play-future.py
+ffmpeg_bin/
+ffmpeg.py
 
 # Spyder project settings
 .spyderproject
