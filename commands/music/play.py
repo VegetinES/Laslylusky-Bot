@@ -18,11 +18,39 @@ class Play(commands.Cog):
         self.voice_clients = {}
         self.pause_time = {}
         
+        self.YDL_OPTIONS = {
+            'format': 'bestaudio/best',
+            'nooverwrites': True,
+            'no_color': True,
+            'no_warnings': True,
+            'ignoreerrors': False,
+            'no_playlist': True,
+            'default_search': 'ytsearch',
+            'postprocessors': [{
+                'key': 'FFmpegExtractAudio',
+                'preferredcodec': 'mp3',
+                'preferredquality': '192',
+            }],
+            'nocheckcertificate': True,
+            'quiet': True,
+            'no_warnings': True,
+            'extract_flat': False,
+            'age_limit': 0
+        }
+        
+        self.FFMPEG_OPTIONS = {
+            'executable': 'ffmpeg',
+            'before_options': '-reconnect 1 -reconnect_streamed 1 -reconnect_delay_max 5',
+            'options': '-vn -filter:a loudnorm'
+        }
+        
         self.system_info = self.get_system_info()
         print("=== Información del Sistema ===")
         for key, value in self.system_info.items():
             print(f"{key}: {value}")
         print("============================")
+
+        self.bot.loop.create_task(self.check_inactivity())
 
     def get_system_info(self):
         info = {
@@ -75,34 +103,6 @@ class Play(commands.Cog):
             return version
         except:
             return "FFmpeg no encontrado o error al obtener versión"
-
-        self.YDL_OPTIONS = {
-            'format': 'bestaudio/best',
-            'nooverwrites': True,
-            'no_color': True,
-            'no_warnings': True,
-            'ignoreerrors': False,
-            'no_playlist': True,
-            'default_search': 'ytsearch',
-            'postprocessors': [{
-                'key': 'FFmpegExtractAudio',
-                'preferredcodec': 'mp3',
-                'preferredquality': '192',
-            }],
-            'nocheckcertificate': True,
-            'quiet': True,
-            'no_warnings': True,
-            'extract_flat': False,
-            'age_limit': 0
-        }
-        
-        self.FFMPEG_OPTIONS = {
-            'executable': 'ffmpeg',
-            'before_options': '-reconnect 1 -reconnect_streamed 1 -reconnect_delay_max 5',
-            'options': '-vn -filter:a loudnorm'
-        }
-
-        self.bot.loop.create_task(self.check_inactivity())
 
     @commands.command(name="debug")
     async def debug(self, ctx):

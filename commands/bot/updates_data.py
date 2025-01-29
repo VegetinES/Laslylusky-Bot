@@ -100,6 +100,12 @@ UPDATES_INFO = {
             "content": "__Modificado:__ "
                 "\n> <a:linea_6764:823570039667163136> Modificación de `play` para hacer depuración para intentar arreglar el comando"
                 "\n\nComandos actuales: 33"
+        },
+        "vB1.3.5": {
+            "title": "Información Actualización BETA 'vB1.3.5'",
+            "content": "__Modificado:__ "
+                "\n> <a:linea_6764:823570039667163136> Modificación de `play` para hacer depuración para intentar arreglar el comando"
+                "\n\nComandos actuales: 33"
         }
     }
 }
