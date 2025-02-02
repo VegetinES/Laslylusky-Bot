@@ -2,7 +2,7 @@
 [![Discord](https://img.shields.io/discord/766964835946463232?color=7289da&logo=discord&logoColor=white)](https://discord.gg/8uuPxpjC4N)
 [![Estado](https://img.shields.io/badge/estado-en%20desarrollo-yellow)](https://github.com/VegetinES/Laslylusky-Bot)
 [![Python](https://img.shields.io/badge/python-3.11+-blue.svg)](https://www.python.org/downloads/)
-[![Version](https://img.shields.io/badge/version-vB1.3.7-orange)](https://github.com/VegetinES/Laslylusky-Bot)
+[![Version](https://img.shields.io/badge/version-vB1.3.8-orange)](https://github.com/VegetinES/Laslylusky-Bot)
 [![Release](https://img.shields.io/badge/release-2%20meses-brightgreen)](https://github.com/VegetinES/Laslylusky-Bot)
 
 <div align="center">
@@ -36,13 +36,10 @@ Laslylusky es un bot versátil para Discord diseñado para mejorar la experienci
 - Comandos rápidos
 - Chat con IA
 
-### 🎵 Música [6]
-- Posibilidad de poner música o vídeos de YouTube
-
 ### Y más cosas...
 
 ## 🚧 Estado de Desarrollo
-Este bot se encuentra actualmente en desarrollo activo. Muchas características están siendo implementadas y probadas. La versión actual es BETA vB1.3.7. Todo lo que se saque en 
+Este bot se encuentra actualmente en desarrollo activo. Muchas características están siendo implementadas y probadas. La versión actual es BETA vB1.3.8. Todo lo que se saque en 
 
 ### Lista de Tareas Pendientes
 - [ ] EL BOT CONTARÁ CON GRAN PARTE DE LOS COMANDOS ANTERIORES, MÁS MUCHOS NUEVOS
@@ -155,6 +152,9 @@ Usa el comando `%privacidad` para ver nuestra política de privacidad completa.
 
 ### Versión BETA vB1.3.7
 - Modificación de `play` para hacer depuración para intentar arreglar el comando
+
+### Versión BETA vB1.3.8
+- Eliminación de los comandos de música de forma temporal hasta que se pueda solucionar
 
 ## ⚖️ Licencia
 Este proyecto está licenciado bajo la Licencia MIT - consulta el archivo [LICENSE](LICENSE) para más detalles.

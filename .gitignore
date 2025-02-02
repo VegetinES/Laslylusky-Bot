@@ -138,7 +138,7 @@ vegetines/
 laslylinux/
 *.key
 uploaddatachat.py
-data/conversations.json
+data/
 pruebas.py
 pruebaswindows/
 help_data_future.py
@@ -148,7 +148,9 @@ ffplay.exe
 ffprobe.exe
 play-future.py
 ffmpeg_bin/
-ffmpeg.py
+ffmpeg_bin/ffmpeg.py
+*.ppk
+cosas.txt
 
 # Spyder project settings
 .spyderproject

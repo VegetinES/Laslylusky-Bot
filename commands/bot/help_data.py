@@ -105,47 +105,6 @@ COMMAND_CATEGORIES = {
             }
         }
     },
-    "Música": {
-        "emoji": "<:X3_speaker_blue:850048224828194826>",
-        "commands": {
-            "play": {
-                "description": "Comando para poner música de youtube pasándole como parámetro el nombre o enlace",
-                "usage": "%play {parametro}",
-                "permissions": "Todos pueden utilizar este comando",
-                "extra": "No escribas en el comando `{}`. Sustituye `{parametro}` por el nombre o enlace de la canción/vídeo. Es necesario estar dentro de un canal de voz para que funcione"
-            },
-            "pause": {
-                "description": "Comando para pausar música que se esté reproduciendo",
-                "usage": "%pause",
-                "permissions": "Todos pueden utilizar este comando",
-                "extra": "Es necesario estar dentro de un canal de voz para que funcione"
-            },
-            "resume": {
-                "description": "Comando para seguir poniendo música de youtube que se había pausado",
-                "usage": "%resume",
-                "permissions": "Todos pueden utilizar este comando",
-                "extra": "Es necesario estar dentro de un canal de voz para que funcione"
-            },
-            "stop": {
-                "description": "Comando para parar toda la música de youtube que estaba reproduciendo o estaba en cola",
-                "usage": "%stop",
-                "permissions": "Todos pueden utilizar este comando",
-                "extra": "Es necesario estar dentro de un canal de voz para que funcione"
-            },
-            "leave": {
-                "description": "Comando para sacar al bot del canal de voz",
-                "usage": "%leave",
-                "permissions": "Todos pueden utilizar este comando",
-                "extra": "Es necesario estar dentro de un canal de voz para que funcione"
-            },
-            "queue": {
-                "description": "Comando para mostrar la cola de música que va a reproducir el bot",
-                "usage": "%queue",
-                "permissions": "Todos pueden utilizar este comando",
-                "extra": "Es necesario estar dentro de un canal de voz para que funcione"
-            }
-        }
-    },
     "NSFW": {
         "emoji": "<:NSFW:838014363893366785>",
         "commands": {
