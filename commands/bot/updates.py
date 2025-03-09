@@ -12,9 +12,9 @@ class Updates(commands.Cog):
         embed = discord.Embed(
             title="Actualizaciones del bot",
             description="Escribe `%update {versión}` para saber la actualización de esa versión. **Recuerda no escribir `{}`** \n\nSustituye `{versión}` por una de las siguientes versiones.",
-            color=discord.Color.random()
+            color=discord.Color.blue()
         )
-        embed.set_thumbnail(url="https://media.discordapp.net/attachments/818410022907412522/824373373185818704/1616616249024.png?width=593&height=593")
+        embed.set_thumbnail(url="https://media.discordapp.net/attachments/772803956379222016/1338219290398036042/laslylusky.png")
         
         versions_str = "` | `".join(UPDATES_INFO["versions"])
         embed.add_field(name="Actualizaciones Disponibles", value=f"`{versions_str}`")

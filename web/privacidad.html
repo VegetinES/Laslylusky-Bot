@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Política de Privacidad</title>
+        <link rel="stylesheet" href="{{ url_for('static', filename='styles/privacidad.css') }}">
+    </head>
+    <body>
+        <div class="header">
+            <a href="/">
+                <img src="{{ url_for('static', filename='resources/laslylusky.png') }}" alt="Logo">
+            </a>
+            <h1>Política de Privacidad de Laslylusky</h1>
+        </div>
+        
+        <div class="section">
+            <h2>¿Qué datos se recogen?</h2>
+            <p>En cuanto a los datos que se recogen son los siguientes:</p>
+            <ul>
+                <li>Para la IA: se recogen la ID de usuario y el historial de conversación del usuario con la IA</li>
+                <li>Para la configuración: se recoge la ID del servidor, el ID del rol de Mute, ID de roles y usuarios que tengan ciertos permisos exclusivos de comandos del bot en el servidor</li>
+            </ul>
+        </div>
+
+        <div class="section">
+            <h2>¿Para qué son estos datos?</h2>
+            <p>Estos datos son necesarios para el funcionamiento correcto del bot:</p>
+            <ul>
+                <li>Para la IA: para que el usuario pueda mantener una conversación seguida con la IA independientemente del canal y del servidor</li>
+                <li>Para la configuración: para una mayor seguridad, configuración y personalización de comandos, permisos y audit logs para el servidor</li>
+            </ul>
+        </div>
+
+        <div class="section">
+            <h2>¿Quién tiene acceso a estos datos?</h2>
+            <p>La única persona que tiene acceso a estos datos es el creador vegelines</p>
+        </div>
+
+        <div class="section">
+            <h2>Más información</h2>
+            <ul>
+                <li>Para descargar el historial de IA utiliza el comando %savedatachat. En caso de error contacta con vegelines para solicitar esos datos</li>
+                <li>Para eliminar o restablecer el historial y conversación con la IA utiliza el comando %reset-chat. En caso de error contacta con vegelines</li>
+                <li>Para consultar los datos de configuración del servidor utiliza el comando %config seguido del parámetro data</li>
+            </ul>
+        </div>
+    </body>
+</html>

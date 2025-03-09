@@ -151,6 +151,17 @@ ffmpeg_bin/
 ffmpeg_bin/ffmpeg.py
 *.ppk
 cosas.txt
+music/
+*.json
+*.pem
+para_aws/
+wallet/
+instantclient/
+mutelogs.py
+unmutelogs.py
+mute.py
+unmute.py
+Wallet_LASLYLUSKY.zip
 
 # Spyder project settings
 .spyderproject
@@ -194,3 +205,4 @@ poetry.toml
 pyrightconfig.json
 
 # End of https://www.toptal.com/developers/gitignore/api/python
+commands/moderation/mute.py

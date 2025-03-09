@@ -1,17 +1,23 @@
 import discord
 from discord.ext import commands
+from discord import app_commands
 
 class Suggest(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
+        self.max_suggestion_length = 4000
 
-    @commands.command(name="bot-suggest")
-    async def suggest(self, ctx, *, sugerencia: str = None):
+    @commands.command(name="botsuggest")
+    async def botsuggest(self, ctx, *, sugerencia: str = None):
         if isinstance(ctx.channel, discord.DMChannel):
             return
 
         if not sugerencia:
             await ctx.send("Escribe una sugerencia, por favor.")
+            return
+            
+        if len(sugerencia) > self.max_suggestion_length:
+            await ctx.send(f"Tu sugerencia excede el límite de {self.max_suggestion_length} caracteres. Por favor, acórtala.")
             return
 
         try:
@@ -28,7 +34,7 @@ class Suggest(commands.Cog):
         embed_sugerencia.set_thumbnail(
             url="https://media.discordapp.net/attachments/772803956379222016/1329014967239839744/2cef87cccba0f00826a16740ac049231.png?ex=6788cd24&is=67877ba4&hm=72e8520e7b4654280d6cadf0ac23cec37de06f70eaaa647cc6a87883401569c0&=&format=webp&quality=lossless"
         )
-        embed_sugerencia.set_footer(text=f"ID: {ctx.author.id}", icon_url=ctx.author.avatar.url)
+        embed_sugerencia.set_footer(text=f"ID: {ctx.author.id}", icon_url=ctx.author.avatar.url if ctx.author.avatar else ctx.author.default_avatar.url)
 
         embed_confirmacion = discord.Embed(
             title="Sugerencia enviada",
@@ -40,9 +46,9 @@ class Suggest(commands.Cog):
         embed_confirmacion.set_thumbnail(
             url="https://media.discordapp.net/attachments/772803956379222016/1329014967239839744/2cef87cccba0f00826a16740ac049231.png?ex=6788cd24&is=67877ba4&hm=72e8520e7b4654280d6cadf0ac23cec37de06f70eaaa647cc6a87883401569c0&=&format=webp&quality=lossless"
         )
-        embed_confirmacion.set_footer(text=ctx.author.display_name, icon_url=ctx.author.avatar.url)
+        embed_confirmacion.set_footer(text=ctx.author.display_name, icon_url=ctx.author.avatar.url if ctx.author.avatar else ctx.author.default_avatar.url)
 
-        canal_sugerencias_id = 784768516258660352
+        canal_sugerencias_id = 1343923969811812465
         canal_sugerencias = self.bot.get_channel(canal_sugerencias_id)
 
         if canal_sugerencias:
@@ -57,6 +63,55 @@ class Suggest(commands.Cog):
                                embed=embed_confirmacion)
         else:
             await ctx.send("No se encontró el canal de sugerencias. Avisa a mi administrador y fundador.")
+
+    @app_commands.command(name="botsuggest", description="Envía una sugerencia para el servidor")
+    @app_commands.describe(sugerencia="Escribe tu sugerencia aquí")
+    async def slash_botsuggest(self, interaction: discord.Interaction, sugerencia: str):
+        if isinstance(interaction.channel, discord.DMChannel):
+            await interaction.response.send_message("No puedes usar este comando en mensajes directos.", ephemeral=True)
+            return
+            
+        if len(sugerencia) > self.max_suggestion_length:
+            await interaction.response.send_message(
+                f"Tu sugerencia excede el límite de {self.max_suggestion_length} caracteres. Por favor, acórtala.",
+                ephemeral=True
+            )
+            return
+
+        embed_sugerencia = discord.Embed(
+            title="Nueva Sugerencia",
+            description=f"Sugerencia de {interaction.user.display_name}:\n\n{sugerencia}",
+            color=discord.Color.blue(),
+            timestamp=interaction.created_at
+        )
+        embed_sugerencia.set_thumbnail(
+            url="https://media.discordapp.net/attachments/772803956379222016/1329014967239839744/2cef87cccba0f00826a16740ac049231.png?ex=6788cd24&is=67877ba4&hm=72e8520e7b4654280d6cadf0ac23cec37de06f70eaaa647cc6a87883401569c0&=&format=webp&quality=lossless"
+        )
+        embed_sugerencia.set_footer(text=f"ID: {interaction.user.id}", icon_url=interaction.user.avatar.url if interaction.user.avatar else interaction.user.default_avatar.url)
+
+        embed_confirmacion = discord.Embed(
+            title="Sugerencia enviada",
+            description=(f"Ey {interaction.user.mention}, tu sugerencia ha sido enviada correctamente. "
+                         f"Puedes verla en el canal de sugerencias correspondiente."),
+            color=discord.Color.blue(),
+            timestamp=interaction.created_at
+        )
+        embed_confirmacion.set_thumbnail(
+            url="https://media.discordapp.net/attachments/772803956379222016/1329014967239839744/2cef87cccba0f00826a16740ac049231.png?ex=6788cd24&is=67877ba4&hm=72e8520e7b4654280d6cadf0ac23cec37de06f70eaaa647cc6a87883401569c0&=&format=webp&quality=lossless"
+        )
+        embed_confirmacion.set_footer(text=interaction.user.display_name, icon_url=interaction.user.avatar.url if interaction.user.avatar else interaction.user.default_avatar.url)
+
+        canal_sugerencias_id = 1343923969811812465
+        canal_sugerencias = self.bot.get_channel(canal_sugerencias_id)
+
+        if canal_sugerencias:
+            mensaje = await canal_sugerencias.send(embed=embed_sugerencia)
+            await mensaje.add_reaction("✅")
+            await mensaje.add_reaction("❌")
+
+            await interaction.response.send_message(embed=embed_confirmacion, ephemeral=True)
+        else:
+            await interaction.response.send_message("No se encontró el canal de sugerencias. Avisa a mi administrador y fundador.", ephemeral=True)
 
 async def setup(bot):
     await bot.add_cog(Suggest(bot))

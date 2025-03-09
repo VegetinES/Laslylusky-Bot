@@ -1,5 +1,7 @@
+from database.get import get_specific_field
 import discord
 from discord.ext import commands
+from commands.configuration.configdata import check_command
 
 class Stats(commands.Cog):
     def __init__(self, bot):
@@ -10,6 +12,20 @@ class Stats(commands.Cog):
         if isinstance(ctx.channel, discord.DMChannel):
             return
 
+        act_commands = get_specific_field(ctx.guild.id, "act_cmd")
+        if act_commands is None:
+            embed = discord.Embed(
+                title="<:No:825734196256440340> Error de Configuración",
+                description="No hay datos configurados para este servidor. Usa el comando </config update:1348248454610161751> si eres administrador para configurar el bot funcione en el servidor",
+                color=discord.Color.red()
+            )
+            await ctx.send(embed=embed)
+            return
+        
+        if "serverinfo" not in act_commands:
+            await ctx.reply("El comando no está activado en este servidor.")
+            return
+        
         server = ctx.guild
 
         embed = discord.Embed(

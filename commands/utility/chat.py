@@ -1,53 +1,81 @@
 import discord
 from discord.ext import commands
+from discord import app_commands
 import google.generativeai as genai
 import os
-import json
-from pathlib import Path
-from singleton import database
+from database.iadatabase import database
 
 class Conversations(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
-        self.conversations = {}
         self.last_bot_message = {}
         
         self.api_key = os.getenv("GEMINI")
         genai.configure(api_key=self.api_key)
         self.model = genai.GenerativeModel("gemini-1.5-flash")
         
-        self.storage_path = Path('data/conversations.json')
-        self.storage_path.parent.mkdir(exist_ok=True)
-        
         self.initial_prompt = {
             "role": "user",
-            "parts": ["Eres Laslylusky, un asistente de bot de Discord. Siempre debes identificarte como Laslylusky y mantener esta identidad en todas las conversaciones. Nunca te salgas del personaje ni sugieras que eres otra cosa que Laslylusky. Responde a este mensaje reconociendo tu identidad."]
+            "parts": ["""Eres Laslylusky, un asistente de bot de Discord.
+            Si hay un historial de conversación previo, debes recordarlo y hacer referencia a él.
+            Si el historial ha sido reseteado o es una nueva conversación, debes empezar fresco sin referencias a conversaciones pasadas.
+            Siempre debes identificarte como Laslylusky y mantener esta identidad."""]
         }
         
         self.identity_confirmation = {
             "role": "model",
-            "parts": ["Entendido. Soy Laslylusky, tu asistente virtual en Discord. Mantendré esta identidad en todas nuestras interacciones. ¿En qué puedo ayudarte?"]
+            "parts": ["Entendido. Soy Laslylusky, tu asistente virtual en Discord. ¿En qué puedo ayudarte?"]
         }
-        
-        self.load_conversations()
 
-    def load_conversations(self):
-        """Cargar conversaciones desde el archivo JSON"""
+    def get_conversation_history(self, user_id):
         try:
-            if self.storage_path.exists():
-                with open(self.storage_path, 'r', encoding='utf-8') as f:
-                    data = json.load(f)
-                    self.conversations = {int(k): v for k, v in data.items()}
+            collection = database.get_servers_collection()
+            conversation = collection.find_one({
+                "type": "conversation", 
+                "user_id": user_id
+            })
+            
+            if not conversation:
+                initial_history = [self.initial_prompt, self.identity_confirmation]
+                collection.insert_one({
+                    "type": "conversation",
+                    "user_id": user_id,
+                    "history": initial_history,
+                    "is_new_conversation": True
+                })
+                return initial_history, True
+            
+            history = conversation.get("history", [])
+            is_new = conversation.get("is_new_conversation", True)
+            
+            if not history or len(history) < 2:
+                history = [self.initial_prompt, self.identity_confirmation]
+            
+            return history, is_new
+            
         except Exception as e:
-            print(f"Error cargando conversaciones: {e}")
-            self.conversations = {}
+            print(f"Error al obtener historial: {e}")
+            return [self.initial_prompt, self.identity_confirmation], True
 
-    def save_conversations(self):
+    def save_conversation(self, user_id, history, is_new=False):
         try:
-            with open(self.storage_path, 'w', encoding='utf-8') as f:
-                json.dump(self.conversations, f, ensure_ascii=False, indent=2)
+            collection = database.get_servers_collection()
+            collection.update_one(
+                {
+                    "type": "conversation",
+                    "user_id": user_id
+                },
+                {
+                    "$set": {
+                        "history": history,
+                        "last_updated": discord.utils.utcnow().isoformat(),
+                        "is_new_conversation": is_new
+                    }
+                },
+                upsert=True
+            )
         except Exception as e:
-            print(f"Error guardando conversaciones: {e}")
+            print(f"Error al guardar conversación: {e}")
 
     @commands.Cog.listener()
     async def on_message(self, message):
@@ -62,64 +90,105 @@ class Conversations(commands.Cog):
                 await message.reply("Por favor, escribe algo además de mencionarme.")
                 return
 
-            if user_id not in self.conversations:
-                self.conversations[user_id] = [
-                    self.initial_prompt,
-                    self.identity_confirmation
-                ]
-                self.save_conversations()
+            conversation_history, is_new_conversation = self.get_conversation_history(user_id)
 
-            identity_context = (
-                f"{content}\n\nRecuerda: Eres Laslylusky, un asistente virtual en Discord. "
-                "Mantén esta identidad en tu respuesta."
-            )
+            context_message = """
+                Mensaje actual: {content}
+                
+                Instrucciones:
+                1. Eres Laslylusky, un asistente de Discord
+                2. {memory_instruction}
+                3. Mantén tu identidad como Laslylusky
+                """.format(
+                    content=content,
+                    memory_instruction=(
+                        "Esta es una nueva conversación, no hagas referencia a conversaciones pasadas" 
+                        if is_new_conversation 
+                        else "Puedes hacer referencia al historial de la conversación cuando sea relevante"
+                    )
+                )
             
-            self.conversations[user_id].append({"role": "user", "parts": [identity_context]})
+            context = {
+                "role": "user",
+                "parts": [context_message]
+            }
+            
+            conversation_history.append(context)
 
             try:
-                chat = self.model.start_chat(history=self.conversations[user_id])
-                response = chat.send_message(identity_context)
+                chat = self.model.start_chat(history=conversation_history)
+                response = chat.send_message(content)
                 bot_reply = response.text
 
                 if len(bot_reply) <= 2000:
                     sent_message = await message.reply(bot_reply)
                     self.last_bot_message[user_id] = sent_message
                 else:
-                    remaining_text = bot_reply
-                    first_message = True
+                    chunks = [bot_reply[i:i+2000] for i in range(0, len(bot_reply), 2000)]
+                    first_chunk = True
                     
-                    while remaining_text:
-                        chunk = remaining_text[:2000]
-                        remaining_text = remaining_text[2000:]
-                        
-                        if first_message:
+                    for chunk in chunks:
+                        if first_chunk:
                             sent_message = await message.reply(chunk)
                             self.last_bot_message[user_id] = sent_message
-                            first_message = False
+                            first_chunk = False
                         else:
-                            sent_message = await self.last_bot_message[user_id].reply(chunk)
-                            self.last_bot_message[user_id] = sent_message
+                            sent_message = await message.channel.send(chunk)
 
-                self.conversations[user_id].append({"role": "model", "parts": [bot_reply]})
-                self.save_conversations()
+                conversation_history.append({"role": "model", "parts": [bot_reply]})
+                
+                if is_new_conversation:
+                    is_new_conversation = False
+                
+                if len(conversation_history) > 30:
+                    conversation_history = conversation_history[:2] + conversation_history[-28:]
+                
+                self.save_conversation(user_id, conversation_history, is_new_conversation)
 
             except Exception as e:
+                print(f"Error en la conversación: {e}")
                 await message.reply("¡Ups! Algo salió mal. Inténtalo de nuevo.")
-                print(f"Error: {e}")
 
     @commands.command(name="reset-chat")
-    async def reset(self, ctx):
+    async def reset_command(self, ctx):
+        await self.reset_chat_function(ctx)
+
+    @app_commands.command(name="reset-chat", description="Elimina tu historial de conversación con Laslylusky")
+    async def reset_slash(self, interaction: discord.Interaction):
+        ctx = await self.bot.get_context(interaction)
+        ctx.author = interaction.user
+        await interaction.response.send_message("Procesando tu solicitud...")
+        await self.reset_chat_function(ctx, interaction=interaction)
+
+    async def reset_chat_function(self, ctx, interaction=None):
         user_id = ctx.author.id
-        if user_id in self.conversations:
-            self.conversations[user_id] = [
-                self.initial_prompt,
-                self.identity_confirmation
-            ]
+        try:
+            collection = database.get_servers_collection()
+            
+            collection.delete_one({
+                "type": "conversation",
+                "user_id": user_id
+            })
+            
             self.last_bot_message.pop(user_id, None)
-            self.save_conversations()
-            await ctx.reply("Tu conversación ha sido restablecida.")
-        else:
-            await ctx.reply("No tienes un historial de conversación activo.")
+
+            if interaction:
+                await interaction.edit_original_response(content="¡Tu conversación ha sido eliminada completamente! La próxima vez que me menciones, comenzaremos una nueva conversación desde cero.")
+            else:
+                await ctx.reply("¡Tu conversación ha sido eliminada completamente! La próxima vez que me menciones, comenzaremos una nueva conversación desde cero.")
+        except Exception as e:
+            print(f"Error al restablecer chat: {e}")
+            if interaction:
+                await interaction.edit_original_response(content="Hubo un error al restablecer tu conversación. Por favor, intenta de nuevo.")
+            else:
+                await ctx.reply("Hubo un error al restablecer tu conversación. Por favor, intenta de nuevo.")
 
 async def setup(bot):
-    await bot.add_cog(Conversations(bot))
+    cog = Conversations(bot)
+    await bot.add_cog(cog)
+
+    try:
+        synced = await bot.tree.sync()
+        print(f"Sincronizados {len(synced)} comando(s) slash")
+    except Exception as e:
+        print(f"Error al sincronizar comandos slash: {e}")

@@ -1,6 +1,6 @@
 UPDATES_INFO = {
     "versions": [
-        "vB1.0.0", "vB1.1.0", "vB1.2.0", "vB1.2.1", "vB1.2.2", "vB1.3.0", "vB1.3.1", "vB1.3.2", "vB1.3.3", "vB1.3.4", "vB1.3.5", "vB1.3.6", "vB1.3.7", "vB1.3.8"
+        "vB1.0.0", "vB1.1.0", "vB1.2.0", "vB1.2.1", "vB1.2.2", "vB1.3.0", "vB1.3.1", "vB1.3.2", "vB1.3.3", "vB1.3.4", "vB1.3.5", "vB1.3.6", "vB1.3.7", "vB1.3.8", "vB2.0.0"
     ],
     "details": {
         "vB1.0.0": {
@@ -124,6 +124,23 @@ UPDATES_INFO = {
             "content": "__Modificado:__ "
                 "\n> <a:linea_6764:823570039667163136> Eliminación de los comandos de música de forma temporal hasta que se pueda arreglar"
                 "\n\nComandos actuales: 27"
+        },
+        "vB2.0.0": {
+            "title": "Información Actualización BETA 'vB2.0.0'",
+            "content": "__Añadido:__ "
+                "\n> <a:linea_6764:823570039667163136> Nueva foto del bot ([Laslylusky](https://i.imgur.com/8PfFjgQ.png) por [VegetinES](https://laslylusky.es/) está licenciado bajo [CC BY-ND 4.0](https://creativecommons.org/licenses/by-nd/4.0/?ref=chooser-v1))"
+                "\n> <a:linea_6764:823570039667163136> Nuevo host, esta vez de pago, un poco más potente que el anterior"
+                "\n> <a:linea_6764:823570039667163136> [Página web](https://laslylusky.es) del bot, donde se irá subiendo y actualizando la documentación, además de que ahora la privacidad se encontrará en la web (se irá actualizando con el paso del tiempo)"
+                "\n> <a:linea_6764:823570039667163136> Información actualizada en [Top.gg](https://top.gg/bot/784774864766500864)"
+                "\n> <a:linea_6764:823570039667163136> El enlace de invitación al bot ahora será con permisos de Administrador"
+                "\n> <a:linea_6764:823570039667163136> Añadidos nuevos comandos: `ban`, `unban`, `kick`, `warn`, `unwarn`, `hypixel`, `config`, `infracciones`, `moderador`, `mcuser`, `mcstatus`"
+                "\n> <a:linea_6764:823570039667163136> Nuevos comandos slash: </bugreport:1348248452080996406>, </config cmd:1348248454610161751>, </config data:1348248454610161751>, </config help:1348248454610161751>, </config logs:1348248454610161751>, </config perms:1348248454610161751>, </config update:1348248454610161751>, </info:1348248452080996404>, </help:1346858629889790063>, </infracciones:1348248454610161746>, </moderador:1348248454610161748>, </invite:1348016312235982941>, </savedatachat:1348248452080996408>, </warn:1348248454610161749>, </unwarn:1348248454610161750>, </reset-chat:1348248452080996409>, </privacidad:1348016059499810860>"
+                "\n> <a:linea_6764:823570039667163136> Implementación definitiva de bases de datos con el bot, se irán añadiendo más campos y funciones en el futuro"
+                "\n\n__Modificado:__ "
+                "\n> <a:linea_6764:823570039667163136> Solucionado el error del historial del chat con la IA, ahora si almacenará el historial correctamente"
+                "\n> <a:linea_6764:823570039667163136> Solucionado el comando `%reset-chat` para eliminar el chat con la IA"
+                "\n> <a:linea_6764:823570039667163136> Modificado el comando `%savedatachat` para que mande el historial por MD, y si falla que lo mande al canal donde se ejecutó el comando. Si se ejecuta </savedatachat:1348248452080996408> se pueden evitar problemas"
+                "\n\nComandos actuales: 41"
         }
     }
 }

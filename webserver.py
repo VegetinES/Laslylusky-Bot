@@ -1,15 +1,29 @@
-from flask import Flask
+from flask import Flask, render_template, redirect
 from threading import Thread
+import logging
 
-app = Flask('')
+log = logging.getLogger('werkzeug')
+log.setLevel(logging.ERROR)
+
+app = Flask('', template_folder='web', static_folder='web')
 
 @app.route('/')
 def index():
-    return "Hello from Flask!"
+    return render_template('home.html')
+
+@app.route('/privacidad')
+def privacy():
+    return render_template('privacidad.html')
+
+@app.route('/invite')
+def invite():
+    discord_invite_link = "https://discord.com/oauth2/authorize?client_id=784774864766500864&scope=bot&permissions=8"
+    return redirect(discord_invite_link)
 
 def run():
-    app.run(host='0.0.0.0', port=8000)
+    app.run(host='0.0.0.0', port=8080, debug=False)
 
 def keep_alive():
-    server = Thread(target=run)
+    server = Thread(target=run, daemon=True)
     server.start()
+    return server

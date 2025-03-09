@@ -14,37 +14,12 @@ class Privacidad(commands.Cog):
 
         embed = discord.Embed(
             title="Privacidad al utilizar el bot",
-            description=f"Hola <@{user.id}>, aquí hay información sobre nuestra Política de privacidad que debe leer si está interesado en nuestro bot.",
+            description=f"Hola <@{user.id}>, aquí hay información sobre nuestra Política de privacidad que debe leer si está interesado en nuestro bot. \n\nA partir de ahora la información sobre la privacidad se encuentra en la [página web](https://laslylusky.es/privacidad)",
             color=discord.Color.random()
         )
         
         embed.set_thumbnail(
-            url="https://media.discordapp.net/attachments/772803956379222016/1329014967239839744/2cef87cccba0f00826a16740ac049231.png?ex=6788cd24&is=67877ba4&hm=72e8520e7b4654280d6cadf0ac23cec37de06f70eaaa647cc6a87883401569c0&=&format=webp&quality=lossless3"
-        )
-        
-        embed.add_field(
-            name="¿Qué datos almacenamos?",
-            value="Actualmente se almacenan los chats de IA de los usuarios"
-        )
-        
-        embed.add_field(
-            name="¿Quién tiene acceso a esos datos?",
-            value="El único usuario que tiene acceso a esos datos es el fundador `VegetinES (vegetines)`"
-        )
-        
-        embed.add_field(
-            name="¿Para qué se utilizan esos datos?",
-            value="Estos datos se guardan solo para que los usuarios puedan mantener un historial de conversación con la IA. Si quieren borrar su historial ejecuten el comando `%reset-chat` (si presenta fallos reporten bug) y si quieren descargar la conversación ejecuten el comando `%savedatachat`"
-        )
-        
-        embed.add_field(
-            name="Dudas",
-            value="Si tienes alguna duda, entra en el servidor de Discord oficial del bot (escribe `%discord`)"
-        )
-        
-        embed.set_footer(
-            text=f"Pedido por: {user.display_name}",
-            icon_url=user.avatar.url
+            url="https://media.discordapp.net/attachments/772803956379222016/1338219290398036042/laslylusky.png"
         )
         
         return embed
@@ -74,8 +49,3 @@ class Privacidad(commands.Cog):
 
 async def setup(bot):
     await bot.add_cog(Privacidad(bot))
-    try:
-        synced = await bot.tree.sync()
-        print(f"Sincronizados {len(synced)} comandos de barra")
-    except Exception as e:
-        print(f"Error sincronizando comandos de barra: {e}")
