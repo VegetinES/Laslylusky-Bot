@@ -6,7 +6,7 @@
 [![Release](https://img.shields.io/badge/release-2%20meses-brightgreen)](https://github.com/VegetinES/Laslylusky-Bot)
 
 <div align="center">
-  <img src="https://media.discordapp.net/attachments/772803956379222016/1338219290398036042/laslylusky.png" width="200" height="200" alt="Laslylusky">
+  <img src="https://i.imgur.com/8PfFjgQ.png" width="200" height="200" alt="Laslylusky">
 </div>
 
 ## 💝 Donaciones
