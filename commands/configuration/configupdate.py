@@ -6,6 +6,7 @@ import asyncio
 from database.get import get_server_data, get_specific_field
 from database.save import save_server_data
 from datetime import datetime, timedelta
+import time
 
 class ConfirmView(discord.ui.View):
     def __init__(self, timeout=60.0):
@@ -71,7 +72,7 @@ async def show_config_update(ctx, bot):
             data = {
                 "guild_id": guild.id,
                 "default_cdm": ["help", "donate", "info", "invite", "privacidad", "updates", "savedatachat", "bot-suggest", "bugreport", "laslylusky", "reset-chat", "config", "infracciones", "moderador"],
-                "act_cmd": ["serverinfo", "slowmode", "kill", "meme", "avatar", "servericon", "userinfo", "ban", "unban", "clear", "kick", "warn", "unwarn", "4k", "anal", "ass", "blowjob", "boobs", "hanal", "hass", "hboobs", "pgif", "pussy", "mcstatus", "mcuser", "hypixel", "hug"],
+                "act_cmd": ["serverinfo", "slowmode", "kill", "meme", "avatar", "servericon", "userinfo", "ban", "unban", "clear", "kick", "warn", "unwarn", "4k", "anal", "ass", "blowjob", "boobs", "hanal", "hass", "hboobs", "pgif", "pussy", "mcstatus", "mcuser", "hypixel", "hug", "massban", "purgeban"],
                 "deact_cmd": ["embed"],
                 "mute_role": 0,
                 "perms": {
@@ -146,6 +147,9 @@ async def show_config_update(ctx, bot):
                         "unwarn_messages": "None",
                         "activated": False
                     }
+                },
+                "tickets": {
+
                 }
             }
             
@@ -159,9 +163,12 @@ async def show_config_update(ctx, bot):
                 await ctx.reply("¡Éxito! Se han creado los datos predeterminados para este servidor. Ya puedes utilizar y configurar el bot con normalidad." if success else "Ha ocurrido un error al crear los datos del servidor.")
             return
 
+        future_timestamp = int(time.time()) + 15
+        discord_timestamp = f"<t:{future_timestamp}:R>"
+
         embed = discord.Embed(
             title="Restablecer configuración",
-            description="**¿Estás seguro que quieres restablecer la configuración?**\n\nEspera (timestamp de 15 segundos) para confirmar. En caso contrario, pulsa el botón cancelar.\n\n:warning: **Esto no se podrá revertir** :warning:",
+            description=f"**¿Estás seguro que quieres restablecer la configuración?**\n\nEspera {discord_timestamp} para confirmar. En caso contrario, pulsa el botón cancelar.\n\n:warning: **Esto no se podrá revertir** :warning:",
             colour=0xf53100,
             timestamp=datetime.now()
         )
@@ -192,7 +199,7 @@ async def show_config_update(ctx, bot):
             data = {
                 "guild_id": guild.id,
                 "default_cdm": ["help", "donate", "info", "invite", "privacidad", "updates", "savedatachat", "bot-suggest", "bugreport", "laslylusky", "reset-chat", "config", "infracciones", "moderador"],
-                "act_cmd": ["serverinfo", "slowmode", "kill", "meme", "avatar", "servericon", "userinfo", "ban", "unban", "clear", "kick", "warn", "unwarn", "4k", "anal", "ass", "blowjob", "boobs", "hanal", "hass", "hboobs", "pgif", "pussy", "mcstatus", "mcuser", "hypixel", "hug"],
+                "act_cmd": ["serverinfo", "slowmode", "kill", "meme", "avatar", "servericon", "userinfo", "ban", "unban", "clear", "kick", "warn", "unwarn", "4k", "anal", "ass", "blowjob", "boobs", "hanal", "hass", "hboobs", "pgif", "pussy", "mcstatus", "mcuser", "hypixel", "hug", "massban", "purgeban"],
                 "deact_cmd": ["embed"],
                 "mute_role": 0,
                 "perms": {
@@ -267,6 +274,9 @@ async def show_config_update(ctx, bot):
                         "unwarn_messages": "None",
                         "activated": False
                     }
+                },
+                "tickets": {
+
                 }
             }
             
@@ -280,7 +290,7 @@ async def show_config_update(ctx, bot):
             else:
                 await message.edit(embed=embed, view=None)
         else:
-            embed.description = "❌ **Operación cancelada**\n\nNo se ha realizado ningún cambio en la configuración del servidor."
+            embed.description = "<:No:825734196256440340> **Operación cancelada**\n\nNo se ha realizado ningún cambio en la configuración del servidor."
             embed.colour = discord.Colour.red()
             
             if is_interaction:
@@ -302,4 +312,4 @@ async def enable_confirm_button_and_update(message, view, bot):
             view.confirm_button.disabled = False
             await message.edit(view=view)
     except Exception as e:
-        print(f"Error enabling confirm button: {str(e)}")
+        print(f"Error habilitando el botón de confirmar: {str(e)}")

@@ -4,7 +4,6 @@ from discord.ext import commands
 import datetime
 from typing import Union
 import asyncio
-
 from database.oracle import Oracle
 from database.get import get_specific_field
 
@@ -292,20 +291,6 @@ class Moderador(commands.Cog):
     async def moderador_prefix(self, ctx, moderador: Union[discord.Member, discord.User, str] = None):
         if isinstance(ctx.channel, discord.DMChannel):
             return
-            
-        act_commands = get_specific_field(ctx.guild.id, "act_cmd")
-        if act_commands is None:
-            embed = discord.Embed(
-                title="<:No:825734196256440340> Error de Configuración",
-                description="No hay datos configurados para este servidor. Usa el comando </config update:1348059363834859584> si eres administrador para configurar el bot funcione en el servidor",
-                color=discord.Color.red()
-            )
-            await ctx.send(embed=embed)
-            return
-        
-        if "moderador" not in act_commands:
-            await ctx.reply("El comando no está activado en este servidor.")
-            return
 
         has_permission = (
             ctx.author.guild_permissions.administrator or
@@ -394,20 +379,6 @@ class Moderador(commands.Cog):
     @app_commands.command(name="moderador", description="Muestra las estadísticas de moderación de un usuario")
     @app_commands.describe(moderator="El moderador del que quieres ver las estadísticas")
     async def moderador_slash(self, interaction: discord.Interaction, moderator: discord.User = None):
-        act_commands = get_specific_field(interaction.guild.id, "act_cmd")
-        if act_commands is None:
-            embed = discord.Embed(
-                title="<:No:825734196256440340> Error de Configuración",
-                description="No hay datos configurados para este servidor. Usa el comando </config update:1348059363834859584> si eres administrador para configurar el bot funcione en el servidor",
-                color=discord.Color.red()
-            )
-            await interaction.response.send_message(embed=embed, ephemeral=True)
-            return
-
-        if "moderador" not in act_commands:
-            await interaction.response.send_message("El comando no está activado en este servidor.", ephemeral=True)
-            return
-
         has_permission = (
             interaction.user.guild_permissions.administrator or
             interaction.user.guild_permissions.ban_members or

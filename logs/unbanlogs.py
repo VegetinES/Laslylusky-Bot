@@ -70,6 +70,25 @@ class UnbanLogs(commands.Cog):
         except Exception as e:
             print(f"Error in log_unban_event: {e}")
 
+    def replace_variables(self, text: str, target: discord.User, moderator: discord.Member = None) -> str:
+        replacements = {
+            "{usertag}": str(target),
+            "{userid}": str(target.id)
+        }
+        
+        if moderator:
+            mod_replacements = {
+                "{mod}": str(moderator),
+                "{modtag}": str(moderator),
+                "{modid}": str(moderator.id)
+            }
+            replacements.update(mod_replacements)
+        
+        result = text
+        for key, value in replacements.items():
+            result = result.replace(key, str(value))
+        return result
+
     async def parse_log_message(self, message: str, target: discord.User, moderator: discord.Member = None):
         try:
             if message.startswith("embed:"):
@@ -103,33 +122,17 @@ class UnbanLogs(commands.Cog):
                 embed = discord.Embed(color=discord.Color.green())
                 
                 if "title" in embed_data:
-                    embed.title = embed_data["title"]
+                    embed.title = self.replace_variables(embed_data["title"], target, moderator)
                 if "description" in embed_data:
-                    description = embed_data["description"]
-                    description = description.replace("{user}", str(target))
-                    description = description.replace("{user_id}", str(target.id))
-                    if moderator:
-                        description = description.replace("{mod}", str(moderator))
-                        description = description.replace("{mod_id}", str(moderator.id))
-                    embed.description = description
+                    embed.description = self.replace_variables(embed_data["description"], target, moderator)
                 if "footer" in embed_data:
-                    footer = embed_data["footer"]
-                    footer = footer.replace("{user}", str(target))
-                    footer = footer.replace("{user_id}", str(target.id))
-                    if moderator:
-                        footer = footer.replace("{mod}", str(moderator))
-                        footer = footer.replace("{mod_id}", str(moderator.id))
+                    footer = self.replace_variables(embed_data["footer"], target, moderator)
                     embed.set_footer(text=footer)
                 
                 embed.timestamp = discord.utils.utcnow()
                 return {"embed": embed}
             else:
-                content = message
-                content = content.replace("{user}", str(target))
-                content = content.replace("{user_id}", str(target.id))
-                if moderator:
-                    content = content.replace("{mod}", str(moderator))
-                    content = content.replace("{mod_id}", str(moderator.id))
+                content = self.replace_variables(message, target, moderator)
                 return {"content": content}
 
         except Exception as e:

@@ -53,7 +53,7 @@ async def show_config_help(interaction, tipo=None):
     elif tipo and tipo.lower() == "perms":
         embed = discord.Embed(
             title="Config perms",
-            description="Ejecución de </config perms:1348248454610161751>\n\n`/config perms {permiso} {accion} ({roles}/{usuarios})`\n\n- `{permiso}`: el permiso que se quiere configurar\n- `{accion}`: añadir o eliminar el permiso\n\nAl menos uno de estos campos es obligatorio:\n\n- `{roles}`: menciona o pon los roles que quieres añadir o eliminar, separados por espacios\n- `{usuarios}`: menciona o pon los usuarios que quieres añadir o eliminar, separados por espacios",
+            description="Ejecución de `/config perms`\n\n`/config perms {permiso} {accion} ({roles}/{usuarios})`\n\n- `{permiso}`: el permiso que se quiere configurar\n- `{accion}`: añadir o eliminar el permiso\n\nAl menos uno de estos campos es obligatorio:\n\n- `{roles}`: menciona o pon los roles que quieres añadir o eliminar, separados por espacios\n- `{usuarios}`: menciona o pon los usuarios que quieres añadir o eliminar, separados por espacios",
             colour=0x00b0f4
         )
         await interaction.response.send_message(embed=embed)
@@ -61,7 +61,7 @@ async def show_config_help(interaction, tipo=None):
     elif tipo and tipo.lower() == "cmd":
         embed = discord.Embed(
             title="Config cmd",
-            description="Ejecución de </config cmd:1348248454610161751>\n\n`/config cmd {comando} {estado}`\n\n- `{comando}`: el comando que se quiere activar o desactivar\n- `{estado}`: activar o desactivar el comando",
+            description="Ejecución de `/config cmd`\n\n`/config cmd {comando} {estado}`\n\n- `{comando}`: el comando que se quiere activar o desactivar\n- `{estado}`: activar o desactivar el comando",
             colour=0x00b0f4
         )
         await interaction.response.send_message(embed=embed)
@@ -69,7 +69,7 @@ async def show_config_help(interaction, tipo=None):
     elif tipo and tipo.lower() == "update":
         embed = discord.Embed(
             title="Config update",
-            description="Ejecución de </config update:1348248454610161751>\n\n`/config update`\n\nEste comando restablece la configuración del servidor a los valores predeterminados.",
+            description="Ejecución de `/config update`\n\n`/config update`\n\nEste comando restablece la configuración del servidor a los valores predeterminados.",
             colour=0x00b0f4
         )
         await interaction.response.send_message(embed=embed)
@@ -77,7 +77,7 @@ async def show_config_help(interaction, tipo=None):
     elif tipo and tipo.lower() == "data":
         embed = discord.Embed(
             title="Config data",
-            description="Ejecución de </config data:1348248454610161751>\n\n`/config data`\n\nEste comando muestra la configuración actual del servidor.",
+            description="Ejecución de `/config data`\n\n`/config data`\n\nEste comando muestra la configuración actual del servidor.",
             colour=0x00b0f4
         )
         await interaction.response.send_message(embed=embed)
@@ -102,7 +102,8 @@ async def show_config_help(interaction, tipo=None):
                 "`/config update` - Restablece la configuración a los valores predeterminados\n"
                 "`/config cmd comando estado` - Activa o desactiva comandos específicos\n"
                 "`/config logs` - Configuración de registros de auditoría\n"
-                "`/config perms` - Configuración de permisos"
+                "`/config perms` - Configuración de permisos\n"
+                "`/config tickets help` - Muestra la ayuda de configuración de los tickets"
             ),
             inline=False
         )
@@ -118,7 +119,7 @@ async def show_config_help(interaction, tipo=None):
 def create_logs_help_pages():
     page1 = discord.Embed(
         title="Config logs",
-        description="Ejecución de </config logs:1348248454610161751>:\n\n`/config logs {log} {estado} {canal} {tipoMensaje} ({mensaje}/<footer> {descripcion} <titulo>) ({limite})`\n\n- `{log}`: el log que se quiere configurar.\n- `{estado}`: para activar o desactivar los logs\n- `{canal}`: establecer el canal donde se mandarán los logs.\n- `{tipoMensaje}`: poner el tipo de mensaje del log (embed o normal)\n\nEn caso de ser mensaje embed, solo se tendrán que poner los siguientes parámetros:\n- `<titulo>`: establecer el título del embed.\n- `{descripción}`: establecer la descripción del embed (obligatorio)\n- `<footer>`: establecer el footer del embed.\n\nEn caso de ser mensaje normal, solo se tendrá que poner el siguiente parámetro:\n- `{mensaje}`: establecer el mensaje del log.\n\nEn caso de que el log sea de mensajes editados o eliminados, este parámetros es obligatorio:\n- `{límite}`: establecer el tiempo en el que saldrán logs de mensajes editados, mínimo 7 días, máximo 30 días, poner el número de días solo\n\n**Parámetros a poner en los mensajes de logs:**",
+        description="Ejecución de `/config logs`:\n\n`/config logs {log} {estado} {canal} {tipoMensaje} ({mensaje}/<footer> {descripcion} <titulo>) ({limite})`\n\n- `{log}`: el log que se quiere configurar.\n- `{estado}`: para activar o desactivar los logs\n- `{canal}`: establecer el canal donde se mandarán los logs.\n- `{tipoMensaje}`: poner el tipo de mensaje del log (embed o normal)\n\nEn caso de ser mensaje embed, solo se tendrán que poner los siguientes parámetros:\n- `<titulo>`: establecer el título del embed.\n- `{descripción}`: establecer la descripción del embed (obligatorio)\n- `<footer>`: establecer el footer del embed.\n\nEn caso de ser mensaje normal, solo se tendrá que poner el siguiente parámetro:\n- `{mensaje}`: establecer el mensaje del log.\n\nEn caso de que el log sea de mensajes editados o eliminados, este parámetros es obligatorio:\n- `{límite}`: establecer el tiempo en el que saldrán logs de mensajes editados, mínimo 7 días, máximo 30 días, poner el número de días solo\n\n**Parámetros a poner en los mensajes de logs:**",
         color=0x00b0f4
     )
     
@@ -148,7 +149,7 @@ def create_logs_help_pages():
     
     page2.add_field(
         name="Entradas",
-        value="**Mensaje y descripción:**\n`{userid}` | `{usertag}` | `{user}`\n**Footer:**\n`{userid}` | `{usertag}` | `{user}`",
+        value="**Mensaje y descripción:**\n`{userid}` | `{usertag}` | `{user}` | `{accage}`\n**Footer:**\n`{userid}` | `{usertag}` | `{user}`",
         inline=True
     )
     
@@ -184,7 +185,7 @@ def create_logs_help_pages():
     
     page2.add_field(
         name="Parámetros",
-        value="`{reason}`: razón de la sanción\n`{user}`: mención del usuario sancionado, que borra o edita el mensaje o que entra al servidor\n`{userid}`: id del usuario sancionado, que borra o edita el mensaje o que entra al servidor\n`{usertag}`: nombre de usuario normal del usuario sancionado, que borra o edita el mensaje o que entra al servidor\n`{mod}`: mención del mod que sanciona\n`{modid}`: id del mod que sanciona\n`{modtag}`: nombre de usuario normal del mod que sanciona\n`{channel}`: mención del canal\n`{channelid}`: id del canal\n`{channel}`: mención del usuario sancionado, que borra o edita el mensaje o que entra al servidor\n`{del_msg}`: contenido del mensaje eliminado\n`{old_msg}`: contenido anterior del mensaje editado\n`{new_msg}`: contenido del nuevo mensaje editado",
+        value="`{reason}`: razón de la sanción\n`{user}`: mención del usuario sancionado, que borra o edita el mensaje o que entra al servidor\n`{userid}`: id del usuario sancionado, que borra o edita el mensaje o que entra al servidor\n`{usertag}`: nombre de usuario normal del usuario sancionado, que borra o edita el mensaje o que entra al servidor\n`{mod}`: mención del mod que sanciona\n`{modid}`: id del mod que sanciona\n`{modtag}`: nombre de usuario normal del mod que sanciona\n`{channel}`: mención del canal\n`{channelid}`: id del canal\n`{channel}`: mención del usuario sancionado, que borra o edita el mensaje o que entra al servidor\n`{del_msg}`: contenido del mensaje eliminado\n`{old_msg}`: contenido anterior del mensaje editado\n`{new_msg}`: contenido del nuevo mensaje editado\n`{accage}`: edad de la cuenta de Discord\n`{\\n}`: para representar el salto de línea en los logs",
         inline=False
     )
     

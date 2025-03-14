@@ -27,7 +27,7 @@ async def check_admin_perms(interaction, guild_data):
 
 async def create_commands_embed(interaction, guild_data):
     embed = discord.Embed(
-        title=f"Datos {interaction.guild.name} (1/3)",
+        title=f"Datos {interaction.guild.name} (1/4)",
         color=discord.Color.blue(),
         timestamp=datetime.now()
     )
@@ -65,7 +65,7 @@ async def create_commands_embed(interaction, guild_data):
 
 async def create_permissions_embed(interaction, guild_data):
     embed = discord.Embed(
-        title=f"Datos {interaction.guild.name} (2/3)",
+        title=f"Datos {interaction.guild.name} (2/4)",
         color=discord.Color.blue(),
         timestamp=datetime.now()
     )
@@ -119,7 +119,7 @@ async def create_permissions_embed(interaction, guild_data):
 
 async def create_logs_embed(interaction, guild_data):
     embed = discord.Embed(
-        title=f"Datos {interaction.guild.name} (3/3)",
+        title=f"Datos {interaction.guild.name} (3/4)",
         color=discord.Color.blue(),
         timestamp=datetime.now()
     )
@@ -148,7 +148,7 @@ async def create_logs_embed(interaction, guild_data):
                 logs_text += f"**{log_names.get(log_type, log_type)}:**\n"
                 logs_text += f"• Estado: {'Activado' if log_data['activated'] else 'Desactivado'}\n"
                 
-                channel = interaction.guild.get_channel(log_data['log_channel'])
+                channel = interaction.guild.get_channel(int(log_data['log_channel']))
                 channel_text = f"{channel.mention} `[ID: {channel.id}]`" if channel else "no establecido"
                 logs_text += f"• Canal: {channel_text}\n"
                 
@@ -167,11 +167,141 @@ async def create_logs_embed(interaction, guild_data):
     embed.set_footer(text=f"Solicitado por {interaction.user.name}", icon_url=interaction.user.avatar.url if interaction.user.avatar else None)
     return embed
 
+async def create_tickets_embed(interaction, guild_data):
+    embed = discord.Embed(
+        title=f"Datos Tickets {interaction.guild.name} (4/4)",
+        color=discord.Color.blue(),
+        timestamp=datetime.now()
+    )
+    
+    if "tickets" not in guild_data or not guild_data["tickets"]:
+        embed.description = "No hay configuración de tickets para este servidor."
+        embed.set_footer(text=f"Solicitado por {interaction.user.name}", icon_url=interaction.user.avatar.url if interaction.user.avatar else None)
+        return embed
+    
+    ticket_channels = []
+    
+    for channel_id, ticket_data in guild_data["tickets"].items():
+        if not channel_id.isdigit() or ticket_data.get("_removed", False):
+            continue
+            
+        channel = interaction.guild.get_channel(int(channel_id))
+        if not channel:
+            continue
+
+        ticket_name = ticket_data.get("tickets-name", "Ticket-{id}")
+        current_id = ticket_data.get("id", 1)
+        log_channel_id = ticket_data.get("log-channel")
+        log_channel = interaction.guild.get_channel(log_channel_id) if log_channel_id else None
+        setup_stage = ticket_data.get("setup_stage", 0)
+
+        setup_status = {
+            0: "⚠️ No configurado",
+            1: "⚠️ Canal configurado (faltan permisos)",
+            2: "⚠️ Permisos configurados (faltan mensajes)",
+            3: "✅ Completamente configurado"
+        }.get(setup_stage, "⚠️ Estado desconocido")
+
+        channel_info = (
+            f"🎫 **Canal:** {channel.mention} (`{channel_id}`)\n"
+            f"📝 **Nombre tickets:** `{ticket_name}`\n"
+            f"🔢 **ID actual:** `{current_id}`\n"
+            f"📋 **Logs:** {log_channel.mention if log_channel else 'No configurado'}\n"
+            f"⚙️ **Estado:** {setup_status}\n"
+            f"🖼️ **Botón abrir ticket:** {'✅ Configurado' if ticket_data.get('ticket-abrir', False) else '❌ No configurado'}\n"
+            f"📨 **Mensaje ticket abierto:** {'✅ Configurado' if ticket_data.get('ticket-abierto', {}).get('activado', False) else '❌ No configurado'}\n"
+        )
+        
+        ticket_channels.append((channel.name, channel_info))
+
+    ticket_channels.sort(key=lambda x: x[0])
+    
+    if not ticket_channels:
+        embed.description = "No hay canales de tickets configurados correctamente."
+    else:
+        for _, channel_info in ticket_channels:
+            embed.add_field(name="Canal de Tickets", value=channel_info, inline=False)
+    
+    embed.set_footer(text=f"Solicitado por {interaction.user.name}", icon_url=interaction.user.avatar.url if interaction.user.avatar else None)
+    return embed
+
+async def create_tickets_perms_embed(interaction, guild_data, ticket_channels):
+    embed = discord.Embed(
+        title=f"Permisos de Tickets {interaction.guild.name}",
+        color=discord.Color.blue(),
+        timestamp=datetime.now()
+    )
+    
+    if not ticket_channels:
+        embed.description = "No hay canales de tickets configurados con permisos."
+        embed.set_footer(text=f"Solicitado por {interaction.user.name}", icon_url=interaction.user.avatar.url if interaction.user.avatar else None)
+        return embed
+
+    def format_list(id_list, get_entity, default="ninguno"):
+        if not id_list or id_list == [0]:
+            return default
+            
+        entity_mentions = []
+        for eid in id_list:
+            if eid != 0:
+                entity = get_entity(eid)
+                if entity:
+                    entity_mentions.append(f"{entity.mention} `[ID: {entity.id}]`")
+        
+        return " | ".join(entity_mentions) if entity_mentions else default
+
+    for channel_id, channel_name in ticket_channels:
+        if not channel_id.isdigit() or channel_id not in guild_data["tickets"]:
+            continue
+
+        ticket_data = guild_data["tickets"][channel_id]
+        if ticket_data.get("_removed", False):
+            continue
+            
+        perms_config = ticket_data.get("perms", {})
+
+        if not perms_config:
+            continue
+
+        perm_types = {
+            "manage": ("Gestionar tickets", "manage-roles", "manage-users"),
+            "see": ("Ver tickets", "see-roles", "see-users"),
+            "close": ("Cerrar tickets", "close-roles", "close-users"),
+            "add-del-usr": ("Añadir/eliminar usuarios", "add-del-usr-roles", "add-del-usr-users")
+        }
+        
+        channel = interaction.guild.get_channel(int(channel_id))
+        if not channel:
+            continue
+            
+        perms_text = f"🎫 **Canal:** {channel.mention} (`{channel_id}`)\n\n"
+        
+        for perm_key, (perm_name, roles_key, users_key) in perm_types.items():
+            roles_list = perms_config.get(roles_key, [0])
+            users_list = perms_config.get(users_key, [0])
+
+            roles_text = format_list(
+                roles_list, 
+                lambda rid: interaction.guild.get_role(rid)
+            )
+
+            users_text = format_list(
+                users_list,
+                lambda uid: interaction.guild.get_member(uid)
+            )
+            
+            perms_text += f"**{perm_name}:**\n• Roles: {roles_text}\n• Usuarios: {users_text}\n\n"
+        
+        embed.add_field(name=f"Permisos - {channel_name}", value=perms_text, inline=False)
+    
+    embed.set_footer(text=f"Solicitado por {interaction.user.name}", icon_url=interaction.user.avatar.url if interaction.user.avatar else None)
+    return embed
+
 async def show_config_data(interaction):
     guild_data = get_guild_data(interaction.guild.id)
     if not guild_data:
         await interaction.response.send_message(
-            "No se encontraron datos de configuración para este servidor. Ejecuta </config update:1348248454610161751> si eres administrador",
+            "No se encontraron datos de configuración para este servidor. Ejecuta </config update:1348545246988079118> si eres administrador",
             ephemeral=True
         )
         return
@@ -184,12 +314,36 @@ async def show_config_data(interaction):
         return
 
     try:
-        current_page = 1
-        embed = await create_commands_embed(interaction, guild_data)
+        ticket_channels = []
+        if "tickets" in guild_data:
+            for channel_id, ticket_data in guild_data["tickets"].items():
+                if not channel_id.isdigit() or ticket_data.get("_removed", False):
+                    continue
+                    
+                channel = interaction.guild.get_channel(int(channel_id))
+                if channel:
+                    ticket_channels.append((channel_id, channel.name))
         
-        view = ConfigDataPagination(interaction.user.id, guild_data, interaction)
+        max_pages = 4
+        if ticket_channels:
+            max_pages += 1
+
+        embeds = [
+            await create_commands_embed(interaction, guild_data),
+            await create_permissions_embed(interaction, guild_data),
+            await create_logs_embed(interaction, guild_data),
+            await create_tickets_embed(interaction, guild_data)
+        ]
+
+        if ticket_channels:
+            embeds.append(await create_tickets_perms_embed(interaction, guild_data, ticket_channels))
+
+        for i, embed in enumerate(embeds):
+            embed.title = embed.title.replace(f"({i+1}/4)", f"({i+1}/{max_pages})")
+
+        view = ConfigDataPagination(interaction.user.id, embeds, interaction)
         
-        await interaction.response.send_message(embed=embed, view=view)
+        await interaction.response.send_message(embed=embeds[0], view=view)
                 
     except Exception as e:
         print(f"Error en show_config_data: {str(e)}")
@@ -205,15 +359,16 @@ async def show_config_data(interaction):
             )
 
 class ConfigDataPagination(discord.ui.View):
-    def __init__(self, author_id, guild_data, interaction):
+    def __init__(self, author_id, embeds, interaction):
         super().__init__(timeout=120)
         self.author_id = author_id
-        self.guild_data = guild_data
+        self.embeds = embeds
         self.interaction = interaction
-        self.current_page = 1
-        self.max_pages = 3
+        self.current_page = 0
+        self.max_pages = len(embeds)
 
         self.children[0].disabled = True
+        self.children[1].disabled = self.max_pages <= 1
     
     async def interaction_check(self, interaction):
         if interaction.user.id != self.author_id:
@@ -233,33 +388,23 @@ class ConfigDataPagination(discord.ui.View):
     
     @discord.ui.button(label="◀ Anterior", style=discord.ButtonStyle.secondary)
     async def previous_button(self, interaction, button):
-        if self.current_page > 1:
+        if self.current_page > 0:
             self.current_page -= 1
             
-            self.children[0].disabled = self.current_page == 1
+            self.children[0].disabled = self.current_page == 0
             self.children[1].disabled = False
             
-            if self.current_page == 1:
-                embed = await create_commands_embed(interaction, self.guild_data)
-            elif self.current_page == 2:
-                embed = await create_permissions_embed(interaction, self.guild_data)
-            
-            await interaction.response.edit_message(embed=embed, view=self)
+            await interaction.response.edit_message(embed=self.embeds[self.current_page], view=self)
     
     @discord.ui.button(label="Siguiente ▶", style=discord.ButtonStyle.secondary)
     async def next_button(self, interaction, button):
-        if self.current_page < self.max_pages:
+        if self.current_page < self.max_pages - 1:
             self.current_page += 1
             
             self.children[0].disabled = False
-            self.children[1].disabled = self.current_page == self.max_pages
+            self.children[1].disabled = self.current_page == self.max_pages - 1
             
-            if self.current_page == 2:
-                embed = await create_permissions_embed(interaction, self.guild_data)
-            elif self.current_page == 3:
-                embed = await create_logs_embed(interaction, self.guild_data)
-            
-            await interaction.response.edit_message(embed=embed, view=self)
+            await interaction.response.edit_message(embed=self.embeds[self.current_page], view=self)
 
 async def check_command(ctx, comando):
     act_commands = get_specific_field(ctx.guild.id, "act_cmd")

@@ -112,7 +112,7 @@ En caso de que el log sea de mensajes editados o eliminados, este parámetro es 
 
 ### Entradas
 **Mensaje y descripción:**
-`{userid}` | `{usertag}` | `{user}`
+`{userid}` | `{usertag}` | `{user}` | `{accage}`
 
 **Footer:**
 `{userid}` | `{usertag}` | `{user}`
@@ -166,3 +166,5 @@ En caso de que el log sea de mensajes editados o eliminados, este parámetro es 
 - `{del_msg}`: contenido del mensaje eliminado
 - `{old_msg}`: contenido anterior del mensaje editado
 - `{new_msg}`: contenido del nuevo mensaje editado
+- `{accage}`: muetra la edad de la cuenta en Discord
+- `{\n}`: para representar el salto de línea en los logs

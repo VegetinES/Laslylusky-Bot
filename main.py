@@ -57,7 +57,6 @@ async def update_oracle_db():
             oracle.close()
     except Exception as e:
         print(f"Error al actualizar la base de datos Oracle: {e}")
-
 @update_oracle_db.before_loop
 async def before_update_oracle_db():
     await bot.wait_until_ready()
@@ -102,7 +101,7 @@ async def on_guild_join(guild):
     data = {
         "guild_id": guild.id,
         "default_cdm": ["help", "donate", "info", "invite", "privacidad", "updates", "savedatachat", "bot-suggest", "bugreport", "laslylusky", "reset-chat", "config", "infracciones", "moderador"],
-        "act_cmd": ["serverinfo", "slowmode", "kill", "meme", "avatar", "servericon", "userinfo", "ban", "unban", "clear", "kick", "warn", "unwarn", "4k", "anal", "ass", "blowjob", "boobs", "hanal", "hass", "hboobs", "pgif", "pussy", "mcstatus", "mcuser", "hypixel", "hug"],
+        "act_cmd": ["serverinfo", "slowmode", "kill", "meme", "avatar", "servericon", "userinfo", "ban", "unban", "clear", "kick", "warn", "unwarn", "4k", "anal", "ass", "blowjob", "boobs", "hanal", "hass", "hboobs", "pgif", "pussy", "mcstatus", "mcuser", "hypixel", "hug", "massban", "purgeban"],
         "deact_cmd": ["embed"],
         "mute_role": 0,
         "perms": {
@@ -177,8 +176,9 @@ async def on_guild_join(guild):
                 "unwarn_messages": "None",
                 "activated": False
             }
-        }
-    }
+        },
+        "tickets": {}
+    } 
     
     success = save_server_data(guild, data)
     

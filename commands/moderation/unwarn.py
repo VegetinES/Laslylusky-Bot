@@ -18,7 +18,7 @@ class Unwarn(commands.Cog):
             if act_commands is None:
                 embed = discord.Embed(
                     title="<:No:825734196256440340> Error de Configuración",
-                    description="No hay datos configurados para este servidor. Usa el comando </config update:1348248454610161751>` si eres administrador para configurar el bot funcione en el servidor",
+                    description="No hay datos configurados para este servidor. Usa el comando `/config update` si eres administrador para configurar el bot funcione en el servidor",
                     color=discord.Color.red()
                 )
                 await ctx.send(embed=embed)
@@ -108,7 +108,7 @@ class Unwarn(commands.Cog):
             if act_commands is None:
                 embed = discord.Embed(
                     title="<:No:825734196256440340> Error de Configuración",
-                    description="No hay datos configurados para este servidor. Usa el comando </config update:1348248454610161751>` si eres administrador para configurar el bot funcione en el servidor",
+                    description="No hay datos configurados para este servidor. Usa el comando `/config update` si eres administrador para configurar el bot funcione en el servidor",
                     color=discord.Color.red()
                 )
                 await interaction.response.send_message(embed=embed, ephemeral=True)

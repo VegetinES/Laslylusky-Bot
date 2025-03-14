@@ -21,7 +21,7 @@ class Help(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
         self.default_cmd = ["help", "donate", "info", "invite", "privacidad", "updates", "savedatachat", "bot-suggest", "bugreport", "laslylusky", "reset-chat", "config", "infracciones", "moderador"]
-        self.imagen_path = "/home/ubuntu/Laslylusky/web/resources/laslylusky 1.png"
+        self.imagen_path = "/home/ubuntu/Laslylusky/web/static/resources/laslylusky 1.png"
 
     def get_server_commands(self, guild_id):
         server_data = get_server_data(guild_id)
@@ -40,7 +40,7 @@ class Help(commands.Cog):
         
         description = []
         description.append(f"__Información:__ {command_info['description']}")
-        description.append(f"__Uso:__ `{command_info['usage']}`")
+        description.append(f"__Uso:__ {command_info['usage']}")
         description.append(f"__Permisos:__ {command_info['permissions']}")
         if 'extra' in command_info:
             description.append(f"__Más:__ {command_info['extra']}")

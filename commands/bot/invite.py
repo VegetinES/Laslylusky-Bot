@@ -5,7 +5,7 @@ from discord import app_commands
 class Invite(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
-        self.imagen_path = "/home/ubuntu/Laslylusky/web/resources/laslylusky.png"
+        self.imagen_path = "/home/ubuntu/Laslylusky/web/static/resources/laslylusky.png"
     
     def create_invite_embed(self, interaction_or_ctx):
         if isinstance(interaction_or_ctx, discord.Interaction):

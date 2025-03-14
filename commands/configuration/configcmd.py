@@ -67,11 +67,11 @@ async def show_config_cmd(interaction, command: str = None, state: str = None):
             
             if update_multiple_fields(interaction.guild.id, updates):
                 await interaction.response.send_message(
-                    f"✅ El comando `{command}` ha sido activado exitosamente."
+                    f"<:Si:825734135116070962> El comando `{command}` ha sido activado exitosamente."
                 )
             else:
                 await interaction.response.send_message(
-                    "❌ Ocurrió un error al actualizar la base de datos.",
+                    "<:No:825734196256440340> Ocurrió un error al actualizar la base de datos.",
                     ephemeral=True
                 )
 
@@ -94,11 +94,11 @@ async def show_config_cmd(interaction, command: str = None, state: str = None):
             
             if update_multiple_fields(interaction.guild.id, updates):
                 await interaction.response.send_message(
-                    f"✅ El comando `{command}` ha sido desactivado exitosamente."
+                    f"<:Si:825734135116070962> El comando `{command}` ha sido desactivado exitosamente."
                 )
             else:
                 await interaction.response.send_message(
-                    "❌ Ocurrió un error al actualizar la base de datos.",
+                    "<:No:825734196256440340> Ocurrió un error al actualizar la base de datos.",
                     ephemeral=True
                 )
 
@@ -106,12 +106,12 @@ async def show_config_cmd(interaction, command: str = None, state: str = None):
         print(f"Error en show_config_cmd: {str(e)}")
         if not interaction.response.is_done():
             await interaction.response.send_message(
-                f"❌ Ocurrió un error al procesar el comando: {str(e)}",
+                f"<:No:825734196256440340> Ocurrió un error al procesar el comando: {str(e)}",
                 ephemeral=True
             )
         else:
             await interaction.followup.send(
-                f"❌ Ocurrió un error al procesar el comando: {str(e)}",
+                f"<:No:825734196256440340> Ocurrió un error al procesar el comando: {str(e)}",
                 ephemeral=True
             )
 
@@ -121,7 +121,7 @@ async def check_command(interaction, comando):
     if act_commands is None:
         embed = discord.Embed(
             title="<:No:825734196256440340> Error de Configuración",
-            description="No hay datos configurados para este servidor. Usa el comando `</config update:1348248454610161751>` si eres administrador para configurar el bot funcione en el servidor",
+            description="No hay datos configurados para este servidor. Usa el comando `/config update` si eres administrador para configurar el bot funcione en el servidor",
             color=discord.Color.red()
         )
         await interaction.response.send_message(embed=embed, ephemeral=True)

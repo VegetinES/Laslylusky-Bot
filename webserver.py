@@ -5,7 +5,7 @@ import logging
 log = logging.getLogger('werkzeug')
 log.setLevel(logging.ERROR)
 
-app = Flask('', template_folder='web', static_folder='web')
+app = Flask('', template_folder='web/templates', static_folder='web/static')
 
 @app.route('/')
 def index():
@@ -14,6 +14,18 @@ def index():
 @app.route('/privacidad')
 def privacy():
     return render_template('privacidad.html')
+
+@app.route('/documentacion/help')
+def doc_help():
+    return render_template('documentacion/help.html')
+
+@app.route('/documentacion/configuracion')
+def doc_config():
+    return render_template('documentacion/configuracion.html')
+
+@app.route('/documentacion/tickets')
+def tickets_documentation():
+    return render_template('documentacion/tickets.html')
 
 @app.route('/invite')
 def invite():

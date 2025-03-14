@@ -21,7 +21,7 @@ LOG_TYPES = {
         "needs_limit": False
     },
     "enter": {
-        "params": ["{userid}", "{usertag}", "{user}"],
+        "params": ["{userid}", "{usertag}", "{user}", "{accage}"],
         "footer_params": ["{userid}", "{usertag}", "{user}"],
         "needs_limit": False
     },
@@ -58,13 +58,11 @@ MAX_EMBED_DESCRIPTION = 200
 MAX_EMBED_FOOTER = 30
 
 def process_newlines(text):
-    """Reemplaza los marcadores {\\n} por saltos de línea reales"""
     if text is None:
         return None
     return text.replace("{\\n}", "\n")
 
 def validate_message_params(log_type, message, is_footer=False):
-    """Valida que los parámetros en el mensaje sean válidos para el tipo de log"""
     if log_type not in LOG_TYPES:
         return False, f"Tipo de log no válido: {log_type}"
 
@@ -97,16 +95,18 @@ async def show_config_logs(
     is_prefix_command=False
 ):
     is_interaction = isinstance(ctx_or_interaction, discord.Interaction)
-
-    act_commands = get_specific_field(is_interaction.guild.id, "act_cmd")
+    
+    guild_id = ctx_or_interaction.guild.id
+    
+    act_commands = get_specific_field(guild_id, "act_cmd")
     
     if act_commands is None:
         embed = discord.Embed(
             title="<:No:825734196256440340> Error de Configuración",
-            description="No hay datos configurados para este servidor. Usa el comando `</config update:1348248454610161751>` si eres administrador para configurar el bot funcione en el servidor",
+            description="No hay datos configurados para este servidor. Usa el comando `/config update` si eres administrador para configurar el bot funcione en el servidor",
             color=discord.Color.red()
         )
-        await is_interaction.response.send_message(embed=embed, ephemeral=True)
+        await ctx_or_interaction.response.send_message(embed=embed, ephemeral=True)
         return False
     
     if log_type not in LOG_TYPES:
@@ -124,8 +124,6 @@ async def show_config_logs(
         else:
             await ctx_or_interaction.send(response)
         return
-    
-    guild_id = ctx_or_interaction.guild.id if not is_interaction else ctx_or_interaction.guild_id
     
     if LOG_TYPES[log_type]["needs_limit"]:
         if límite is None:
@@ -257,7 +255,7 @@ async def show_config_logs(
         display_footer = footer.replace("{\\n}", "↵") if footer else None
         
         confirmation = (
-            f"✅ Configuración de logs actualizada:\n"
+            f"<:Si:825734135116070962> Configuración de logs actualizada:\n"
             f"- Tipo: **{log_type}**\n"
             f"- Estado: **{estado}**\n"
             f"- Canal: {canal.mention}\n"
@@ -281,7 +279,7 @@ async def show_config_logs(
         else:
             await ctx_or_interaction.send(confirmation)
     else:
-        error_msg = "❌ Error al actualizar la configuración de logs. Inténtalo de nuevo."
+        error_msg = "<:No:825734196256440340> Error al actualizar la configuración de logs. Inténtalo de nuevo."
         if is_interaction:
             await ctx_or_interaction.response.send_message(error_msg, ephemeral=True)
         else:

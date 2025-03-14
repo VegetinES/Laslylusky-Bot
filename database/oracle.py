@@ -15,10 +15,10 @@ class Oracle:
         oracledb.init_oracle_client(lib_dir=self.instant_client_path)
         self.connection = oracledb.connect(
             user="ADMIN",
-            password=f"{os.getenv("ADMIN")}",
+            password=f"{os.getenv('ADMIN')}",
             dsn="laslylusky_high",
             wallet_location=self.wallet_path,
-            wallet_password=f"{os.getenv("ADMIN")}"
+            wallet_password=f"{os.getenv('ADMIN')}"
         )
         self.cursor = self.connection.cursor()
         print("Conexión establecida")

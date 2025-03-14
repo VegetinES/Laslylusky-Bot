@@ -2,6 +2,8 @@ body {
     margin: 0;
     padding: 20px;
     font-family: Arial, sans-serif;
+    background-color: #121212;
+    color: #e0e0e0;
 }
 
 .header {
@@ -20,7 +22,7 @@ body {
 .header h1 {
     margin: 0;
     font-size: 24px;
-    color: #333;
+    color: #4da6ff;
 }
 
 .section {
@@ -29,13 +31,13 @@ body {
 
 .section h2 {
     font-size: 18px;
-    color: #333;
+    color: #4da6ff;
     margin-bottom: 10px;
 }
 
 .section p, .section ul {
     margin: 0;
-    color: #666;
+    color: #b0b0b0;
     line-height: 1.5;
 }
 

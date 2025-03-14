@@ -2,7 +2,7 @@
 [![Discord](https://img.shields.io/discord/766964835946463232?color=7289da&logo=discord&logoColor=white)](https://discord.gg/8uuPxpjC4N)
 [![Estado](https://img.shields.io/badge/estado-en%20desarrollo-yellow)](https://github.com/VegetinES/Laslylusky-Bot)
 [![Python](https://img.shields.io/badge/python-3.12+-blue.svg)](https://www.python.org/downloads/)
-[![Version](https://img.shields.io/badge/version-vB2.0.0-orange)](https://github.com/VegetinES/Laslylusky-Bot)
+[![Version](https://img.shields.io/badge/version-vB2.1.0-orange)](https://github.com/VegetinES/Laslylusky-Bot)
 [![Release](https://img.shields.io/badge/release-2%20meses-brightgreen)](https://github.com/VegetinES/Laslylusky-Bot)
 
 <div align="center">
@@ -19,15 +19,16 @@ Laslylusky es un bot versátil para Discord diseñado para mejorar la experienci
 
 ## ⚙️ Características
 
-### 🛡️ Moderación [8]
-- `ban`: Banea usuarios con razón personalizable y envío de notificaciones
-- `unban`: Desbanea usuarios previamente baneados
+### 🛡️ Moderación [9]
+- `ban`/`unban`: Banea y desbanea usuarios con sistema temporal opcional
 - `kick`: Expulsa usuarios del servidor con notificación
 - `clear`: Elimina mensajes masivamente (hasta 100)
 - `warn`/`unwarn`: Sistema completo de advertencias con ID y registro
 - `slowmode`: Configura el modo lento en canales de texto
 - `infracciones`: Consulta el historial detallado de infracciones
 - `moderador`: Estadísticas de moderación por usuario
+- `massban`: Baneo masivo de múltiples usuarios a la vez
+- `purgeban`: Banea a un usuario y elimina sus mensajes de los últimos 7 días
 
 ### 📊 Configuración [5]
 - `config help`: Ayuda detallada sobre todos los comandos de configuración
@@ -35,6 +36,12 @@ Laslylusky es un bot versátil para Discord diseñado para mejorar la experienci
 - `config logs`: Sistema completo de logs personalizables
 - `config perms`: Configuración avanzada de permisos por roles y usuarios
 - `config update`: Reinicia la configuración a valores predeterminados
+
+### 🎫 Tickets [4]
+- `config tickets canal`: Configura canales para sistema de tickets
+- `config tickets permisos`: Define permisos para gestión de tickets
+- `config tickets mensajes`: Personaliza mensajes de tickets
+- `config tickets modificar`: Gestiona configuraciones existentes
 
 ### ℹ️ Información [4]
 - `userinfo`: Información detallada de usuarios
@@ -72,17 +79,18 @@ Laslylusky es un bot versátil para Discord diseñado para mejorar la experienci
 - `bot-suggest`: Envía sugerencias para mejoras
 
 ## 🚧 Estado de Desarrollo
-Este bot se encuentra en desarrollo activo, con constantes mejoras y adiciones. La versión actual es BETA vB2.0.0.
+Este bot se encuentra en desarrollo activo, con constantes mejoras y adiciones. La versión actual es BETA vB2.1.0.
 
 ### Lista de Características Implementadas
 - [x] SISTEMA COMPLETO DE MODERACIÓN CON REGISTROS DE INFRACCIONES
 - [x] INTEGRACIÓN CON GEMINI PARA RESPUESTAS DE IA AVANZADAS
-- [x] BASES DE DATOS MONGODB PARA CONFIGURACIÓN Y ALMACENAMIENTO
+- [x] BASES DE DATOS MONGODB Y ORACLE PARA CONFIGURACIÓN Y ALMACENAMIENTO
 - [x] COMANDOS TANTO TRADICIONALES (%) COMO SLASH (/)
 - [x] CONFIGURACIÓN AVANZADA PERSONALIZABLE POR SERVIDOR
 - [x] SISTEMA DE PERMISOS PERSONALIZABLE POR ROLES Y USUARIOS
 - [x] LOGS DE AUDITORÍA CONFIGURABLES
 - [x] INTEGRACIÓN CON APIS EXTERNAS (MINECRAFT, HYPIXEL)
+- [x] SISTEMA DE TICKETS PERSONALIZABLE
 
 ## 📥 Comandos de Ayuda
 ```
@@ -102,6 +110,15 @@ Este bot se encuentra en desarrollo activo, con constantes mejoras y adiciones. 
 /config perms [opciones]        # Configura permisos personalizados
 ```
 
+## 🎫 Configuración de los Tickets
+```
+/config tickets help                       # Ayuda sobre sistema de tickets
+/config tickets canal                      # Configura canales para tickets
+/config tickets permisos                   # Define permisos para tickets
+/config tickets mensajes                   # Personaliza mensajes de tickets
+/config tickets modificar                  # Gestiona configuraciones existentes
+```
+
 ## 📊 Progreso Actual
 - Núcleo del bot: ✅
 - Sistema de comandos: ✅
@@ -109,6 +126,7 @@ Este bot se encuentra en desarrollo activo, con constantes mejoras y adiciones. 
 - Base de datos: ✅
 - Sistema de permisos: ✅
 - Sistema de logs: ✅
+- Sistema de tickets: ✅
 - Hosting: ✅
 - Página web: ✅
 
@@ -127,18 +145,39 @@ Para ver la política de privacidad completa del bot, utiliza `%privacidad` o `/
 - [Página Web](https://laslylusky.es)
 - [PayPal](https://paypal.me/VegetinES)
 
+
 ## Actualizaciones Recientes (más detalles con %updates)
+### Versión BETA vB2.1.0
+- Sistema de tickets. Utiliza `/config tickets help` para saber como utilizarlo.
+- Nuevos comandos: `purgeban`, `massban`
+- Nuevos comandos slash: `/ban`, `/clear`, `/kick`, `/unban`, `/massban`, `/purgeban`
+- Arreglado el parseo de los parámetros en los logs
+- Modificado los logs de mensajes editados y eliminados. En caso de ser un mensaje largo se guarda en pastebin por 1 semana
+- Modificado el log de mensajes editados, habilitando un botón para ir a donde está el mensaje editado.
+- Modificado `/config help tipo:logs`, pues faltaban parámetros.
+- Modificado `/config data` para que salgan parámetros.
+- Modificado el embed de sugerencias, que seguía teniendo la imagen antigua del bot.
+- Modificado el comando `ban`, con la posibilidad de añadir tiempo para que sea un tempban (máximo 15 días), siendo la razón obligatoria para que funcione
+- Arreglado problema con `/config logs` que no dejaba interactuar correctamente con el slash command
+- Arreglado error con los comandos `/infracciones` y `/moderador`, evitando que se pudiera utilizar debido a que no estaban activados y no se podían activar de ninguna manera
+- Arreglados varios errores de sintaxis en comandos por culpa de los slash commands.
+- Añadida la documentación en la [página web](https://laslylusky.es/)
+
 ### Versión BETA vB2.0.0
 - Nueva identidad visual del bot ([Laslylusky](https://i.imgur.com/8PfFjgQ.png) por [VegetinES](https://laslylusky.es/) bajo [CC BY-ND 4.0](https://creativecommons.org/licenses/by-nd/4.0/?ref=chooser-v1))
 - Hosting mejorado con mayor rendimiento
 - [Página web oficial](https://laslylusky.es) con documentación completa
 - Nuevos comandos de moderación: `ban`, `unban`, `kick`, `warn`, `unwarn`, `infracciones`, `moderador`
 - Nuevos comandos de Minecraft: `mcuser`, `mcstatus`, `hypixel`
-- Sistema completo de comandos slash
+- Nuevos comandos slash incluyendo: `/bugreport`, `/config cmd`, `/help`, `/infracciones` y muchos más
 - Implementación de bases de datos MongoDB para almacenamiento de configuración
 - Sistema mejorado de chat con IA mediante Gemini
 - Sistema avanzado de configuración con `/config`
 - Sistema completo de permisos personalizables
+- Nuevo sistema de registros (logs) para acciones de moderación
+- Corrección del almacenamiento de historial de chat con IA
+- Optimización del comando `%reset-chat` para eliminar el chat con la IA
+- Mejora del comando `%savedatachat` para exportar historial de conversación
 
 ### Versión BETA vB1.3.1 a la vB1.3.8
 - Eliminación de los comandos de música de forma temporal hasta que se pueda solucionar

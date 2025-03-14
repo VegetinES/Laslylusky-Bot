@@ -16,7 +16,7 @@ async def show_config_perms(
     
     if not server_data:
         await interaction.response.send_message(
-            "No se encontraron datos para este servidor. Ejecuta `</config update:1348248454610161751>` para inicializar la configuración.",
+            "No se encontraron datos para este servidor. Ejecuta `/config update` para inicializar la configuración.",
             ephemeral=True
         )
         return

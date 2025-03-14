@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Documentación - Configuración de Tickets</title>
+        <link rel="stylesheet" href="{{ url_for('static', filename='styles/documentation.css') }}">
+    </head>
+    <body>
+        <div class="header">
+            <a href="/" id="home">Home</a>
+            <div class="dropdown">
+                <a href="#" class="dropbtn">Documentación</a>
+                <div class="dropdown-content">
+                    <a href="/documentacion/help">Help</a>
+                    <a href="/documentacion/configuracion">Configuración</a>
+                    <a href="/documentacion/tickets">Configuración Tickets</a>
+                </div>
+            </div>
+            <a href="/privacidad">Privacidad</a>
+        </div>
+        <div class="doc-container">
+            <h1>Configuración del Sistema de Tickets</h1>
+            
+            <h2>Descripción General</h2>
+            
+            <p>El sistema de tickets permite a los usuarios crear tickets para solicitar ayuda o reportar problemas. Los administradores del servidor pueden configurar diferentes aspectos del sistema a través de los comandos <code>/config tickets</code>.</p>
+            
+            <h2>Comandos disponibles</h2>
+            
+            <ul>
+                <li><code>/config tickets help</code> - Muestra la ayuda para el sistema de tickets</li>
+                <li><code>/config tickets canal</code> - Configura los canales principales para el sistema de tickets</li>
+                <li><code>/config tickets mensajes</code> - Configura los mensajes que se mostrarán en los tickets</li>
+                <li><code>/config tickets permisos</code> - Configura los permisos para los tickets</li>
+                <li><code>/config tickets modificar</code> - Modifica o elimina la configuración de tickets existente</li>
+            </ul>
+            
+            <h2>Documentación de comandos</h2>
+            
+            <h3>Configurar Canal</h3>
+            
+            <p>Ejecución de <code>/config tickets canal</code></p>
+            
+            <pre><code>/config tickets canal canal_abrir_ticket:&lt;canal&gt; canal_logs:&lt;canal&gt; nombre_ticket:&lt;nombre&gt;</code></pre>
+            
+            <ul>
+                <li><code>canal_abrir_ticket</code>: El canal donde aparecerá el botón para abrir tickets</li>
+                <li><code>canal_logs</code>: Canal donde se registrarán las acciones de tickets</li>
+                <li><code>nombre_ticket</code>: Formato para nombrar los tickets (debe incluir {id})</li>
+            </ul>
+            
+            <h3>Configurar Permisos</h3>
+            
+            <p>Ejecución de <code>/config tickets permisos</code></p>
+            
+            <pre><code>/config tickets permisos canal:&lt;id&gt; permiso:&lt;tipo&gt; accion:&lt;acción&gt; [roles:&lt;roles&gt;] [usuarios:&lt;usuarios&gt;]</code></pre>
+            
+            <ul>
+                <li><code>canal</code>: ID del canal configurado</li>
+                <li><code>permiso</code>: Tipo de permiso (Gestionar, Ver, Cerrar, Añadir/eliminar)</li>
+                <li><code>accion</code>: añadir o eliminar</li>
+                <li><code>roles</code>: Roles con permiso (requerido roles o usuarios)</li>
+                <li><code>usuarios</code>: Usuarios con permiso (requerido roles o usuarios)</li>
+            </ul>
+            
+            <h3>Configurar Mensajes</h3>
+            
+            <p>Ejecución de <code>/config tickets mensajes</code></p>
+            
+            <pre><code>/config tickets mensajes canal:&lt;id&gt; tipo:&lt;tipo&gt; título:&lt;texto&gt; descripción:&lt;texto&gt; [imagen:&lt;url&gt;] [footer:&lt;texto&gt;] [color:&lt;color&gt;] [mensaje:&lt;texto&gt;]</code></pre>
+            
+            <ul>
+                <li><code>canal</code>: ID del canal configurado</li>
+                <li><code>tipo</code>: Tipo de mensaje (ticket abierto o abrir ticket)</li>
+                <li><code>título</code>: Título del mensaje</li>
+                <li><code>descripción</code>: Descripción del mensaje</li>
+                <li><code>imagen</code>: URL de imagen (opcional)</li>
+                <li><code>footer</code>: Texto del footer (opcional)</li>
+                <li><code>color</code>: Color del embed (opcional)</li>
+                <li><code>mensaje</code>: Mensaje adicional para tickets abiertos (opcional)</li>
+            </ul>
+            
+            <h3>Modificar o Eliminar</h3>
+            
+            <p>Ejecución de <code>/config tickets modificar</code></p>
+            
+            <pre><code>/config tickets modificar canal:&lt;id&gt; accion:&lt;accion&gt;</code></pre>
+            
+            <ul>
+                <li><code>canal</code>: ID del canal configurado</li>
+                <li><code>accion</code>: restablecer (reestablece los permisos y mensajes) o eliminar (elimina la configuración)</li>
+            </ul>
+            
+            <h2>Tipos de Permisos</h2>
+            
+            <ul>
+                <li><strong>Gestionar tickets</strong>: Acceso completo al sistema (requerido)</li>
+                <li><strong>Ver tickets</strong>: Puede ver todos los tickets</li>
+                <li><strong>Cerrar tickets</strong>: Puede cerrar tickets</li>
+                <li><strong>Añadir/eliminar usuarios</strong>: Puede añadir o quitar personas de los tickets</li>
+            </ul>
+            
+            <h2>Variables Disponibles</h2>
+            
+            <p>Para personalizar mensajes puedes usar:</p>
+            <ul>
+                <li><code>{user}</code>: Mención del usuario</li>
+                <li><code>{usertag}</code>: Nombre del usuario con discriminador</li>
+                <li><code>{userid}</code>: ID del usuario</li>
+                <li><code>{\n}</code>: Salto de línea</li>
+            </ul>
+            
+            <h2>Orden de Configuración</h2>
+            
+            <ol>
+                <li>Configura el canal</li>
+                <li>Configura los permisos (al menos 'Gestionar tickets')</li>
+                <li>Configura los mensajes (ambos tipos)</li>
+                <li>¡Listo! Tu sistema de tickets está operativo</li>
+            </ol>
+        </div>
+    </body>
+</html>

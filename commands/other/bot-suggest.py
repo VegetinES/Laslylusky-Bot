@@ -32,7 +32,7 @@ class Suggest(commands.Cog):
             timestamp=ctx.message.created_at
         )
         embed_sugerencia.set_thumbnail(
-            url="https://media.discordapp.net/attachments/772803956379222016/1329014967239839744/2cef87cccba0f00826a16740ac049231.png?ex=6788cd24&is=67877ba4&hm=72e8520e7b4654280d6cadf0ac23cec37de06f70eaaa647cc6a87883401569c0&=&format=webp&quality=lossless"
+            url="https://i.imgur.com/if0NO2o.png"
         )
         embed_sugerencia.set_footer(text=f"ID: {ctx.author.id}", icon_url=ctx.author.avatar.url if ctx.author.avatar else ctx.author.default_avatar.url)
 
@@ -44,7 +44,7 @@ class Suggest(commands.Cog):
             timestamp=ctx.message.created_at
         )
         embed_confirmacion.set_thumbnail(
-            url="https://media.discordapp.net/attachments/772803956379222016/1329014967239839744/2cef87cccba0f00826a16740ac049231.png?ex=6788cd24&is=67877ba4&hm=72e8520e7b4654280d6cadf0ac23cec37de06f70eaaa647cc6a87883401569c0&=&format=webp&quality=lossless"
+            url="https://i.imgur.com/if0NO2o.png"
         )
         embed_confirmacion.set_footer(text=ctx.author.display_name, icon_url=ctx.author.avatar.url if ctx.author.avatar else ctx.author.default_avatar.url)
 
@@ -85,7 +85,7 @@ class Suggest(commands.Cog):
             timestamp=interaction.created_at
         )
         embed_sugerencia.set_thumbnail(
-            url="https://media.discordapp.net/attachments/772803956379222016/1329014967239839744/2cef87cccba0f00826a16740ac049231.png?ex=6788cd24&is=67877ba4&hm=72e8520e7b4654280d6cadf0ac23cec37de06f70eaaa647cc6a87883401569c0&=&format=webp&quality=lossless"
+            url="https://i.imgur.com/if0NO2o.png"
         )
         embed_sugerencia.set_footer(text=f"ID: {interaction.user.id}", icon_url=interaction.user.avatar.url if interaction.user.avatar else interaction.user.default_avatar.url)
 
@@ -97,7 +97,7 @@ class Suggest(commands.Cog):
             timestamp=interaction.created_at
         )
         embed_confirmacion.set_thumbnail(
-            url="https://media.discordapp.net/attachments/772803956379222016/1329014967239839744/2cef87cccba0f00826a16740ac049231.png?ex=6788cd24&is=67877ba4&hm=72e8520e7b4654280d6cadf0ac23cec37de06f70eaaa647cc6a87883401569c0&=&format=webp&quality=lossless"
+            url="https://i.imgur.com/if0NO2o.png"
         )
         embed_confirmacion.set_footer(text=interaction.user.display_name, icon_url=interaction.user.avatar.url if interaction.user.avatar else interaction.user.default_avatar.url)
 

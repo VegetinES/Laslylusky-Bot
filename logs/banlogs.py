@@ -36,13 +36,13 @@ class BanLogs(commands.Cog):
     def replace_variables(self, text: str, target: discord.User, moderator: discord.User = None, reason: str = None) -> str:
         replacements = {
             "{usertag}": str(target),
-            "{user}": target.mention,
+            "{user}": target.mention if hasattr(target, "mention") else f"<@{target.id}>",
             "{userid}": str(target.id),
         }
         
         if moderator:
             replacements.update({
-                "{mod}": str(moderator.mention),
+                "{mod}": moderator.mention if hasattr(moderator, "mention") else f"<@{moderator.id}>",
                 "{modtag}": str(moderator),
                 "{modid}": str(moderator.id),
             })
