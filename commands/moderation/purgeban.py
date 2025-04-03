@@ -1,12 +1,15 @@
 import discord
 from discord.ext import commands
 from discord import app_commands
+import time
 from database.get import get_specific_field
 from logs.banlogs import send_ban_log
+from database.oracle import Oracle
 
 class PurgeBan(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
+        self.db = Oracle()
     
     async def check_custom_permissions(self, ctx):
         perms_data = get_specific_field(ctx.guild.id, "perms")
@@ -114,6 +117,21 @@ class PurgeBan(commands.Cog):
                 await ctx.reply("No puedo enviarle un mensaje directo, baneándolo de todas formas")
             
             await ctx.guild.ban(target, reason=ban_reason, delete_message_days=7)
+
+            try:
+                self.db.connect()
+                current_timestamp = int(time.time())
+                ban_result = self.db.insert(
+                    str(ctx.guild.id),
+                    str(target.id),
+                    str(ctx.author.id),
+                    ban_reason,
+                    "ban",
+                    current_timestamp
+                )
+                self.db.close()
+            except Exception as e:
+                print(f"Error al registrar el purgeban en la base de datos: {e}")
             
             confirmation = discord.Embed(
                 title="<:Si:825734135116070962> Usuario Baneado con Purga",
@@ -234,6 +252,21 @@ class PurgeBan(commands.Cog):
             await interaction.response.defer()
 
             await interaction.guild.ban(discord.Object(id=user_id), reason=ban_reason, delete_message_days=7)
+            
+            try:
+                self.db.connect()
+                current_timestamp = int(time.time())
+                ban_result = self.db.insert(
+                    str(interaction.guild.id),
+                    str(user_id),
+                    str(interaction.user.id),
+                    ban_reason,
+                    "ban",
+                    current_timestamp
+                )
+                self.db.close()
+            except Exception as e:
+                print(f"Error al registrar el purgeban en la base de datos: {e}")
             
             confirmation = discord.Embed(
                 title="<:Si:825734135116070962> Usuario Baneado con Purga",

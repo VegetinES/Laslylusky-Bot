@@ -3,15 +3,18 @@ from discord.ext import commands
 from discord import app_commands
 import asyncio
 import re
+import time
 from datetime import timedelta
 from database.get import get_specific_field
 from logs.banlogs import send_ban_log
+from database.oracle import Oracle
 
 class Ban(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
         self.time_pattern = re.compile(r'^(\d+)([smd])$')
         self.max_ban_days = 15
+        self.db = Oracle()
     
     async def check_custom_permissions(self, ctx):
         perms_data = get_specific_field(ctx.guild.id, "perms")
@@ -77,6 +80,13 @@ class Ban(commands.Cog):
                 try:
                     await guild.unban(discord.Object(id=user_id), reason="Ban temporal finalizado")
                     print(f"Usuario {user_id} desbaneado automáticamente de {guild.name}")
+
+                    try:
+                        self.db.connect()
+                        self.db.update(str(guild.id), str(user_id), "unban")
+                        self.db.close()
+                    except Exception as e:
+                        print(f"Error al registrar el desbaneo en la base de datos: {e}")
                 except Exception as e:
                     print(f"Error al desbanear a {user_id} de {guild.name}: {e}")
         except Exception as e:
@@ -186,6 +196,21 @@ class Ban(commands.Cog):
                 await ctx.reply("No puedo enviarle un mensaje directo, baneándolo de todas formas")
 
             await ctx.guild.ban(target, reason=ban_reason_display, delete_message_days=0)
+
+            try:
+                self.db.connect()
+                current_timestamp = int(time.time())
+                ban_result = self.db.insert(
+                    str(ctx.guild.id),
+                    str(target.id),
+                    str(ctx.author.id),
+                    ban_reason_display,
+                    "ban",
+                    current_timestamp
+                )
+                self.db.close()
+            except Exception as e:
+                print(f"Error al registrar el ban en la base de datos: {e}")
             
             confirmation = discord.Embed(
                 title="✅ Usuario Baneado",
@@ -322,6 +347,21 @@ class Ban(commands.Cog):
             await interaction.response.defer()
             
             await interaction.guild.ban(discord.Object(id=user_id), reason=ban_reason_display, delete_message_days=0)
+            
+            try:
+                self.db.connect()
+                current_timestamp = int(time.time())
+                ban_result = self.db.insert(
+                    str(interaction.guild.id),
+                    str(user_id),
+                    str(interaction.user.id),
+                    ban_reason_display,
+                    "ban",
+                    current_timestamp
+                )
+                self.db.close()
+            except Exception as e:
+                print(f"Error al registrar el ban en la base de datos: {e}")
             
             confirmation = discord.Embed(
                 title="✅ Usuario Baneado",

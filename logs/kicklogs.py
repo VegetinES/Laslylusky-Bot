@@ -2,6 +2,7 @@ import discord
 from discord.ext import commands
 from database.get import get_specific_field
 import asyncio
+from logs.log_utils import LogParser
 
 async def send_kick_log(bot, guild: discord.Guild, target: discord.User, moderator: discord.User = None, reason: str = None, source: str = "manual"):
     cog = bot.get_cog('KickLogs')
@@ -12,6 +13,7 @@ class KickLogs(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
         self.recent_kicks = {}
+        self.log_parser = LogParser(bot)
 
     async def _clear_recent_kick(self, guild_id: int, user_id: int):
         await asyncio.sleep(5)
@@ -32,33 +34,6 @@ class KickLogs(commands.Cog):
             return
 
         await self.log_kick_event(guild, target, moderator, reason, source)
-
-    def get_replacements(self, target: discord.User, moderator: discord.User = None, reason: str = None):
-        replacements = {
-            "{usertag}": str(target),
-            "{user}": target.mention,
-            "{userid}": str(target.id),
-        }
-        
-        if moderator:
-            replacements.update({
-                "{modtag}": str(moderator),
-                "{mod}": moderator.mention,
-                "{modid}": str(moderator.id),
-            })
-        
-        if reason:
-            replacements.update({
-                "{reason}": str(reason),
-            })
-            
-        return replacements
-    
-    def replace_variables(self, text: str, replacements: dict) -> str:
-        result = text
-        for key, value in replacements.items():
-            result = result.replace(key, value)
-        return result
 
     async def log_kick_event(self, guild: discord.Guild, target: discord.User, moderator: discord.User = None, reason: str = None, source: str = "manual"):
         try:
@@ -83,77 +58,43 @@ class KickLogs(commands.Cog):
             if not log_channel:
                 return
             
+            message_data = kick_config.get("message", {})
             message_format = kick_config.get("kick_messages", "")
-            if not message_format:
-                return
-                
-            message_data = await self.parse_log_message(message_format, target, moderator, reason)
             
-            if not message_data:
-                return
-            
-            if "embed" in message_data:
-                await log_channel.send(embed=message_data["embed"])
+            if message_data and isinstance(message_data, dict):
+                await self.log_parser.parse_and_send_log(
+                    log_type="kick",
+                    log_channel=log_channel,
+                    message_format=message_data,
+                    target=target,
+                    moderator=moderator,
+                    reason=reason,
+                    guild=guild
+                )
+            elif message_format:
+                await self.log_parser.parse_and_send_log(
+                    log_type="kick",
+                    log_channel=log_channel,
+                    message_format=message_format,
+                    target=target,
+                    moderator=moderator,
+                    reason=reason,
+                    guild=guild
+                )
             else:
-                await log_channel.send(message_data["content"])
+                embed = discord.Embed(
+                    title="Usuario Expulsado",
+                    description=f"**Usuario:** {target.mention} ({target.id})\n**Razón:** {reason or 'No especificada'}",
+                    color=discord.Color.orange(),
+                    timestamp=discord.utils.utcnow()
+                )
+                if moderator:
+                    embed.add_field(name="Moderador", value=f"{moderator.mention} ({moderator.id})")
+                
+                await log_channel.send(embed=embed)
 
         except Exception as e:
             print(f"Error en log_kick_event: {e}")
-
-    async def parse_log_message(self, message: str, target: discord.User, moderator: discord.User = None, reason: str = None):
-        try:
-            replacements = self.get_replacements(target, moderator, reason)
-            
-            if message.startswith("embed:"):
-                parts = message[6:].split(" ")
-                embed_data = {}
-                
-                current_key = None
-                current_value = []
-                
-                for part in parts:
-                    if part.startswith("tl:"):
-                        if current_key:
-                            embed_data[current_key] = " ".join(current_value)
-                        current_key = "title"
-                        current_value = [part[3:]]
-                    elif part.startswith("dp:"):
-                        if current_key:
-                            embed_data[current_key] = " ".join(current_value)
-                        current_key = "description"
-                        current_value = [part[3:]]
-                    elif part.startswith("ft:"):
-                        if current_key:
-                            embed_data[current_key] = " ".join(current_value)
-                        current_key = "footer"
-                        current_value = [part[3:]]
-                    else:
-                        current_value.append(part)
-                
-                if current_key:
-                    embed_data[current_key] = " ".join(current_value)
-                
-                embed = discord.Embed(color=discord.Color.orange())
-                
-                if "title" in embed_data:
-                    embed.title = self.replace_variables(embed_data["title"], replacements)
-                    
-                if "description" in embed_data:
-                    embed.description = self.replace_variables(embed_data["description"], replacements)
-                    
-                if "footer" in embed_data:
-                    footer_text = self.replace_variables(embed_data["footer"], replacements)
-                    embed.set_footer(text=footer_text)
-                    embed.timestamp = discord.utils.utcnow()
-                
-                return {"embed": embed}
-            else:
-                content = self.replace_variables(message, replacements)
-                return {"content": content}
-                
-        except Exception as e:
-            print(f"Error parseando el mensaje de log: {e}")
-            return None
 
     @commands.Cog.listener()
     async def on_member_remove(self, member: discord.Member):

@@ -2,6 +2,7 @@ import discord
 from discord.ext import commands
 from database.get import get_specific_field
 import asyncio
+from logs.log_utils import LogParser
 
 async def send_unban_log(bot, guild: discord.Guild, target: discord.User, moderator: discord.Member = None, source: str = "manual"):
     cog = bot.get_cog('UnbanLogs')
@@ -12,6 +13,7 @@ class UnbanLogs(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
         self.recent_unbans = {}
+        self.log_parser = LogParser(bot)
 
     async def _clear_recent_unban(self, guild_id: int, user_id: int):
         await asyncio.sleep(5)
@@ -56,88 +58,41 @@ class UnbanLogs(commands.Cog):
             if not log_channel:
                 return
             
+            message_data = unban_config.get("message", {})
             message_format = unban_config.get("unban_messages", "")
-            if not message_format:
-                return
-
-            message_data = await self.parse_log_message(message_format, target, moderator)
-            if message_data:
-                if "embed" in message_data:
-                    await log_channel.send(embed=message_data["embed"])
-                else:
-                    await log_channel.send(message_data["content"])
+            
+            if message_data and isinstance(message_data, dict):
+                await self.log_parser.parse_and_send_log(
+                    log_type="unban",
+                    log_channel=log_channel,
+                    message_format=message_data,
+                    target=target,
+                    moderator=moderator,
+                    guild=guild
+                )
+            elif message_format:
+                await self.log_parser.parse_and_send_log(
+                    log_type="unban",
+                    log_channel=log_channel,
+                    message_format=message_format,
+                    target=target,
+                    moderator=moderator,
+                    guild=guild
+                )
+            else:
+                embed = discord.Embed(
+                    title="Usuario Desbaneado",
+                    description=f"**Usuario:** {target.mention} ({target.id})",
+                    color=discord.Color.green(),
+                    timestamp=discord.utils.utcnow()
+                )
+                if moderator:
+                    embed.add_field(name="Moderador", value=f"{moderator.mention} ({moderator.id})")
+                
+                await log_channel.send(embed=embed)
 
         except Exception as e:
             print(f"Error in log_unban_event: {e}")
-
-    def replace_variables(self, text: str, target: discord.User, moderator: discord.Member = None) -> str:
-        replacements = {
-            "{usertag}": str(target),
-            "{userid}": str(target.id)
-        }
-        
-        if moderator:
-            mod_replacements = {
-                "{mod}": str(moderator),
-                "{modtag}": str(moderator),
-                "{modid}": str(moderator.id)
-            }
-            replacements.update(mod_replacements)
-        
-        result = text
-        for key, value in replacements.items():
-            result = result.replace(key, str(value))
-        return result
-
-    async def parse_log_message(self, message: str, target: discord.User, moderator: discord.Member = None):
-        try:
-            if message.startswith("embed:"):
-                parts = message[6:].split(" ")
-                embed_data = {}
-                current_key = None
-                current_value = []
-                
-                for part in parts:
-                    if part.startswith("tl:"):
-                        if current_key:
-                            embed_data[current_key] = " ".join(current_value)
-                        current_key = "title"
-                        current_value = [part[3:]]
-                    elif part.startswith("dp:"):
-                        if current_key:
-                            embed_data[current_key] = " ".join(current_value)
-                        current_key = "description"
-                        current_value = [part[3:]]
-                    elif part.startswith("ft:"):
-                        if current_key:
-                            embed_data[current_key] = " ".join(current_value)
-                        current_key = "footer"
-                        current_value = [part[3:]]
-                    else:
-                        current_value.append(part)
-                
-                if current_key:
-                    embed_data[current_key] = " ".join(current_value)
-                
-                embed = discord.Embed(color=discord.Color.green())
-                
-                if "title" in embed_data:
-                    embed.title = self.replace_variables(embed_data["title"], target, moderator)
-                if "description" in embed_data:
-                    embed.description = self.replace_variables(embed_data["description"], target, moderator)
-                if "footer" in embed_data:
-                    footer = self.replace_variables(embed_data["footer"], target, moderator)
-                    embed.set_footer(text=footer)
-                
-                embed.timestamp = discord.utils.utcnow()
-                return {"embed": embed}
-            else:
-                content = self.replace_variables(message, target, moderator)
-                return {"content": content}
-
-        except Exception as e:
-            print(f"Error parsing log message: {e}")
-            return None
 
     @commands.Cog.listener()
     async def on_member_unban(self, guild: discord.Guild, user: discord.User):

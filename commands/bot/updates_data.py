@@ -1,6 +1,6 @@
 UPDATES_INFO = {
     "versions": [
-        "vB1.0.0", "vB1.1.0", "vB1.2.0", "vB1.2.1", "vB1.2.2", "vB1.3.0", "vB1.3.1", "vB1.3.2", "vB1.3.3", "vB1.3.4", "vB1.3.5", "vB1.3.6", "vB1.3.7", "vB1.3.8", "vB2.0.0", "vB2.1.0"
+        "vB1.0.0", "vB1.1.0", "vB1.2.0", "vB1.2.1", "vB1.2.2", "vB1.3.0", "vB1.3.1", "vB1.3.2", "vB1.3.3", "vB1.3.4", "vB1.3.5", "vB1.3.6", "vB1.3.7", "vB1.3.8", "vB2.0.0", "vB2.1.0", "vB2.2.0"
     ],
     "details": {
         "vB1.0.0": {
@@ -162,6 +162,29 @@ UPDATES_INFO = {
                 "\n> <a:linea_6764:823570039667163136> Arreglados varios errores de sintaxis en comandos por culpa de los slash commands."
                 "\n\nComandos actuales: 43"
                 "\nSlash commands: 18 "
+        },
+        "vB2.2.0": {
+            "title": "Información Actualización BETA 'vB2.2.0'",
+            "content": "__Añadido:__ "
+                "\n> <a:linea_6764:823570039667163136> Nuevos parámetros en los logs de mensajes editados y eliminados: `{attached}` que si en caso de haber archivos adjuntos en el mensaje saldría el enlace"
+                "\n> <a:linea_6764:823570039667163136> Nuevo modelo implementado de IA Gemini 2.0 para la IA de Laslylusky"
+                "\n> <a:linea_6764:823570039667163136> Añadida más personalización a los logs: ahora se puede establecer el color del embed en caso de ser un embed, añadir campos, imagen,..."
+                "\n> <a:linea_6764:823570039667163136> Añadidos nuevos parámetros en los logs de entrada y salida de usuarios: `{acc_age}` muestra el timestamp de cuando fue creada la cuenta de Discord"
+                "\n> <a:linea_6764:823570039667163136> Añadido nuevo parámetro en el log de salida de usuario: `{sever_age}` muestra el timestamp de cuanto tiempo llevaba la cuenta en el servidor de Discord"
+                "\n> <a:linea_6764:823570039667163136> Añadido el comando slash `/mcstatus`"
+                "\n> <a:linea_6764:823570039667163136> Laslylusky ahora es una [aplicación verificada](https://discord.com/discovery/applications/784774864766500864)"
+                "\n\n__Modificado:__ "
+                "\n> <a:linea_6764:823570039667163136> Arreglado problema a la hora de configurar los tickets, diciendo que faltan permisos cuando estaban configurados."
+                "\n> <a:linea_6764:823570039667163136> Modificado algunos parámetros en los logs de mensajes editados y eliminados: `{del_msg}` `{old_msg}` `{new_msg}` y `{attached}` en caso de que estén vacíos saldrá que no hay información."
+                "\n> <a:linea_6764:823570039667163136> Modificado la visualización de datos de `/config data` para que sea más fácil e intuitivo."
+                "\n> <a:linea_6764:823570039667163136> Modificado `/config help tipo:logs` mostrando ahora los 2 embeds en un mismo mensaje."
+                "\n> <a:linea_6764:823570039667163136> Modificación de la configuración de los logs para que sea más fácil e intuitiva su configuración."
+                "\n> <a:linea_6764:823570039667163136> Eliminación del límite de días en los logs de mensajes editados/eliminados."
+                "\n> <a:linea_6764:823570039667163136> Arreglado problema con la base de datos de infracciones, no se registraban los baneos en las bases de datos."
+                "\n> <a:linea_6764:823570039667163136> Modificado el límite de caracteres que se pueden poner los logs, siendo ahora hasta 600 caracteres en la descripción del embed"
+                "\n> <a:linea_6764:823570039667163136> Modificado el comando info, y solo se actualizará dandóle al botón de \"Actualizar\""
+                "\n\nComandos actuales: 43"
+                "\nSlash commands: 19 "
         }
     }
 }

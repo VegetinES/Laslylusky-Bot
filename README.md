@@ -147,6 +147,24 @@ Para ver la política de privacidad completa del bot, utiliza `%privacidad` o `/
 
 
 ## Actualizaciones Recientes (más detalles con %updates)
+### Versión BETA vB2.2.0
+- Nuevos logs: entrada y salida de usuarios en canales de voz, creación/eliminación de canales de texto/voz
+- Nuevos parámetros en los logs de mensajes editados y eliminados: `{attached}` que si en caso de haber archivos adjuntos en el mensaje saldría el enlace
+- Modificado algunos parámetros en los logs de mensajes editados y eliminados: `{del_msg}` `{old_msg}` `{new_msg}` y `{attached}` en caso de que estén vacíos saldrá que no hay información.
+- Nuevo modelo implementado de IA Gemini 2.0 para la IA de Laslylusky
+- Modificado la visualización de datos de `/config data` para que sea más fácil e intuitivo.
+- Modificado `/config help tipo:logs` mostrando ahora los 2 embeds en un mismo mensaje.
+- Modificación de la configuración de los logs para que sea más fácil e intuitiva su configuración.
+- Eliminación del límite de días en los logs de mensajes editados/eliminados.
+- Arreglado problema con la base de datos de infracciones, no se registraban los baneos en las bases de datos.
+- Modificado el límite de caracteres que se pueden poner los logs, siendo ahora hasta 600 caracteres en la descripción del embed
+- Añadido el comando slash `/mcstatus`
+- Añadida más personalización a los logs: ahora se puede establecer el color del embed en caso de ser un embed, añadir campos, imagen,...
+- Laslylusky ahora es una [aplicación verificada](https://discord.com/discovery/applications/784774864766500864)
+- Añadidos nuevos parámetros en los logs de entrada y salida de usuarios: `{acc_age}` muestra el timestamp de cuando fue creada la cuenta de Discord
+- Añadido nuevo parámetro en el log de salida de usuario: `{sever_age}` muestra el timestamp de cuanto tiempo llevaba la cuenta en el servidor de Discord
+- Modificado el comando info, y solo se actualizará dandóle al botón de "Actualizar"
+
 ### Versión BETA vB2.1.0
 - Sistema de tickets. Utiliza `/config tickets help` para saber como utilizarlo.
 - Nuevos comandos: `purgeban`, `massban`

@@ -1,12 +1,15 @@
 import discord
 from discord.ext import commands
 from discord import app_commands
+import time
 from database.get import get_specific_field
 from logs.banlogs import send_ban_log
+from database.oracle import Oracle
 
 class MassBan(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
+        self.db = Oracle()
     
     async def check_custom_permissions(self, ctx):
         perms_data = get_specific_field(ctx.guild.id, "perms")
@@ -105,7 +108,8 @@ class MassBan(commands.Cog):
         
         banned_users = []
         failed_users = []
-        
+        current_timestamp = int(time.time())
+
         for user_id in user_ids:
             try:
                 if user_id == ctx.author.id:
@@ -133,6 +137,21 @@ class MassBan(commands.Cog):
                 
                 ban_reason = f"{razon} | Baneo masivo por {ctx.author.name}"
                 await ctx.guild.ban(discord.Object(id=user_id), reason=ban_reason)
+                
+                try:
+                    self.db.connect()
+                    ban_result = self.db.insert(
+                        str(ctx.guild.id),
+                        str(user_id),
+                        str(ctx.author.id),
+                        ban_reason,
+                        "ban",
+                        current_timestamp
+                    )
+                    self.db.close()
+                except Exception as e:
+                    print(f"Error al registrar el ban para {user_id} en la base de datos: {e}")
+                
                 banned_users.append((user_id, username))
                 
                 await send_ban_log(
@@ -234,7 +253,8 @@ class MassBan(commands.Cog):
         
         banned_users = []
         failed_users = []
-        
+        current_timestamp = int(time.time())
+
         for user_id in user_ids:
             try:
                 if user_id == interaction.user.id:
@@ -262,6 +282,21 @@ class MassBan(commands.Cog):
                 
                 ban_reason = f"{razon} | Baneo masivo por {interaction.user.name}"
                 await interaction.guild.ban(discord.Object(id=user_id), reason=ban_reason)
+
+                try:
+                    self.db.connect()
+                    ban_result = self.db.insert(
+                        str(interaction.guild.id),
+                        str(user_id),
+                        str(interaction.user.id),
+                        ban_reason,
+                        "ban",
+                        current_timestamp
+                    )
+                    self.db.close()
+                except Exception as e:
+                    print(f"Error al registrar el ban para {user_id} en la base de datos: {e}")
+                
                 banned_users.append((user_id, username))
                 
                 await send_ban_log(

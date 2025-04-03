@@ -24,23 +24,19 @@
             
             <ul>
                 <li><code>/config help</code> - Muestra esta ayuda</li>
-                <li><code>/config help tipo:logs</code> - Muestra ayuda específica sobre logs</li>
-                <li><code>/config help tipo:perms</code> - Muestra ayuda específica sobre permisos</li>
-                <li><code>/config help tipo:cmd</code> - Muestra ayuda específica sobre comandos</li>
-                <li><code>/config help tipo:update</code> - Muestra ayuda específica sobre actualización</li>
-                <li><code>/config help tipo:data</code> - Muestra ayuda específica sobre datos</li>
                 <li><code>/config data</code> - Muestra la configuración actual del servidor</li>
                 <li><code>/config update</code> - Restablece la configuración a los valores predeterminados</li>
-                <li><code>/config cmd comando estado</code> - Activa o desactiva comandos específicos</li>
+                <li><code>/config cmd</code> - Activa o desactiva comandos específicos</li>
                 <li><code>/config logs</code> - Configuración de registros de auditoría</li>
                 <li><code>/config perms</code> - Configuración de permisos</li>
+                <li><code>/config tickets help</code> - Muestra la ayuda de configuración de los tickets</li>
             </ul>
             
             <h2>Documentación de comandos</h2>
             
             <h3>Config perms</h3>
             
-            <p>Ejecución de &lt;/config perms:1348216356918657089&gt;</p>
+            <p>Ejecución de <code>/config perms</code></p>
             
             <pre><code>/config perms {permiso} {accion} ({roles}/{usuarios})</code></pre>
             
@@ -58,7 +54,7 @@
             
             <h3>Config cmd</h3>
             
-            <p>Ejecución de &lt;/config cmd:1348216356918657089&gt;</p>
+            <p>Ejecución de <code>/config cmd</code></p>
             
             <pre><code>/config cmd {comando} {estado}</code></pre>
             
@@ -69,7 +65,7 @@
             
             <h3>Config update</h3>
             
-            <p>Ejecución de &lt;/config update:1348216356918657089&gt;</p>
+            <p>Ejecución de <code>/config update</code></p>
             
             <pre><code>/config update</code></pre>
             
@@ -77,7 +73,7 @@
             
             <h3>Config data</h3>
             
-            <p>Ejecución de &lt;/config data:1348216356918657089&gt;</p>
+            <p>Ejecución de <code>/config data</code>;</p>
             
             <pre><code>/config data</code></pre>
             
@@ -85,33 +81,21 @@
             
             <h3>Config logs</h3>
             
-            <p>Ejecución de &lt;/config logs:1348216356918657089&gt;:</p>
+            <p>Ejecución de <code>/config logs</code>:</p>
             
-            <pre><code>/config logs {log} {estado} {canal} {tipoMensaje} ({mensaje}/&lt;footer&gt; {descripcion} &lt;titulo&gt;) ({limite})</code></pre>
+            <pre><code>/config logs {log}</code></pre>
             
             <ul>
                 <li><code>{log}</code>: el log que se quiere configurar.</li>
-                <li><code>{estado}</code>: para activar o desactivar los logs</li>
-                <li><code>{canal}</code>: establecer el canal donde se mandarán los logs.</li>
-                <li><code>{tipoMensaje}</code>: poner el tipo de mensaje del log (embed o normal)</li>
             </ul>
             
-            <p>En caso de ser mensaje embed, solo se tendrán que poner los siguientes parámetros:</p>
-            <ul>
-                <li><code>&lt;titulo&gt;</code>: establecer el título del embed.</li>
-                <li><code>{descripción}</code>: establecer la descripción del embed (obligatorio)</li>
-                <li><code>&lt;footer&gt;</code>: establecer el footer del embed.</li>
-            </ul>
+            <h3>Config tickets help</h3>
             
-            <p>En caso de ser mensaje normal, solo se tendrá que poner el siguiente parámetro:</p>
-            <ul>
-                <li><code>{mensaje}</code>: establecer el mensaje del log.</li>
-            </ul>
+            <p>Ejecución de <code>/config tickets help</code></p>
             
-            <p>En caso de que el log sea de mensajes editados o eliminados, este parámetro es obligatorio:</p>
-            <ul>
-                <li><code>{límite}</code>: establecer el tiempo en el que saldrán logs de mensajes editados, mínimo 7 días, máximo 30 días, poner el número de días solo</li>
-            </ul>
+            <pre><code>/config tickets help</code></pre>
+            
+            <p>Este comando muestra la ayuda específica para configurar el sistema de tickets.</p>
             
             <h2>Parámetros para mensajes de logs</h2>
             
@@ -138,28 +122,28 @@
             
             <h3>Entradas</h3>
             <p><strong>Mensaje y descripción:</strong><br>
-            <code>{userid}</code> | <code>{usertag}</code> | <code>{user}</code></p>
+            <code>{userid}</code> | <code>{usertag}</code> | <code>{user}</code> | <code>{accage}</code> | <code>{acc_age}</code></p>
             
             <p><strong>Footer:</strong><br>
             <code>{userid}</code> | <code>{usertag}</code> | <code>{user}</code></p>
             
             <h3>Salidas</h3>
             <p><strong>Mensaje y descripción:</strong><br>
-            <code>{userid}</code> | <code>{usertag}</code></p>
+            <code>{userid}</code> | <code>{usertag}</code> | <code>{acc_age}</code> | <code>{server_age}</code></p>
             
             <p><strong>Footer:</strong><br>
             <code>{userid}</code> | <code>{usertag}</code></p>
             
             <h3>Mensajes eliminados</h3>
             <p><strong>Mensaje y descripción:</strong><br>
-            <code>{del_msg}</code> | <code>{usertag}</code> | <code>{userid}</code> | <code>{user}</code> | <code>{channel}</code> | <code>{channelid}</code></p>
+            <code>{del_msg}</code> | <code>{usertag}</code> | <code>{userid}</code> | <code>{user}</code> | <code>{channel}</code> | <code>{channelid}</code> | <code>{attached}</code></p>
             
             <p><strong>Footer:</strong><br>
             <code>{usertag}</code> | <code>{userid}</code> | <code>{channelid}</code></p>
             
             <h3>Mensajes editados</h3>
             <p><strong>Mensaje y descripción:</strong><br>
-            <code>{usertag}</code> | <code>{userid}</code> | <code>{user}</code> | <code>{channel}</code> | <code>{channelid}</code> | <code>{old_msg}</code> | <code>{new_msg}</code></p>
+            <code>{usertag}</code> | <code>{userid}</code> | <code>{user}</code> | <code>{channel}</code> | <code>{channelid}</code> | <code>{old_msg}</code> | <code>{new_msg}</code> | <code>{attached}</code></p>
             
             <p><strong>Footer:</strong><br>
             <code>{usertag}</code> | <code>{userid}</code> | <code>{channelid}</code></p>
@@ -193,6 +177,9 @@
                 <li><code>{del_msg}</code>: contenido del mensaje eliminado</li>
                 <li><code>{old_msg}</code>: contenido anterior del mensaje editado</li>
                 <li><code>{new_msg}</code>: contenido del nuevo mensaje editado</li>
+                <li><code>{attached}</code>: contenido de archivos adjuntos en caso de haberlos</li>
+                <li><code>{acc_age}</code>: edad de la cuenta de Discord</li>
+                <li><code>{server_age}</code>: tiempo que lleva el usuario en el servidor</li>
                 <li><code>{\n}</code>: para representar el salto de línea en los logs</li>
             </ul>
         </div>

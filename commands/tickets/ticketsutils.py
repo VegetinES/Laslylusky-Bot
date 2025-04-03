@@ -2,6 +2,7 @@ import discord
 from discord import app_commands
 from database.get import get_server_data, get_specific_field
 import re
+from database.update import update_server_data
 
 COLORS = {
     "rojo": 0xe74c3c,
@@ -90,20 +91,41 @@ def get_ticket_config_state(guild_id: int, channel_id: str) -> int:
     if channel_config.get("_removed"):
         return CONFIG_STATE["NO_CONFIGURADO"]
 
+    if "setup_stage" in channel_config:
+        return channel_config["setup_stage"]
+
     perms_config = channel_config.get("perms", {})
 
     manage_roles = perms_config.get("manage-roles", [0])
     manage_users = perms_config.get("manage-users", [0])
     
-    has_manage_perms = (manage_roles != [0]) or (manage_users != [0])
+    has_manage_perms = False
+    
+    if manage_roles != [0]:
+        for role_id in manage_roles:
+            if role_id != 0:
+                has_manage_perms = True
+                break
+                
+    if not has_manage_perms and manage_users != [0]:
+        for user_id in manage_users:
+            if user_id != 0:
+                has_manage_perms = True
+                break
 
     if not has_manage_perms:
+        channel_config["setup_stage"] = CONFIG_STATE["CANAL_CONFIGURADO"]
+        update_server_data(guild_id, f"tickets/{channel_id}", channel_config)
         return CONFIG_STATE["CANAL_CONFIGURADO"]
     
     has_open_ticket_msg = channel_config.get("ticket-abierto", {}).get("activado", False)
     has_ticket_button = channel_config.get("ticket-abrir", False)
 
     if not has_open_ticket_msg or not has_ticket_button:
+        channel_config["setup_stage"] = CONFIG_STATE["PERMISOS_CONFIGURADOS"]
+        update_server_data(guild_id, f"tickets/{channel_id}", channel_config)
         return CONFIG_STATE["PERMISOS_CONFIGURADOS"]
     
+    channel_config["setup_stage"] = CONFIG_STATE["COMPLETAMENTE_CONFIGURADO"]
+    update_server_data(guild_id, f"tickets/{channel_id}", channel_config)
     return CONFIG_STATE["COMPLETAMENTE_CONFIGURADO"]

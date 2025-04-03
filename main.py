@@ -131,49 +131,191 @@ async def on_guild_join(guild):
         "audit_logs": {
             "ban": {
                 "log_channel": 0,
-                "ban_messages": "None",
+                "message": {
+                    "embed": False,
+                    "title": "",
+                    "description": "",
+                    "footer": "",
+                    "color": "", 
+                    "image": {
+                        "has": False,
+                        "param": ""
+                    },
+                    "thumbnail": {
+                        "has": False,
+                        "param": ""
+                    },
+                    "fields": {},
+                    "message": ""
+                },
                 "activated": False
             },
             "kick": {
                 "log_channel": 0,
-                "kick_messages": "None",
+                "message": {
+                    "embed": False,
+                    "title": "",
+                    "description": "",
+                    "footer": "",
+                    "color": "", 
+                    "image": {
+                        "has": False,
+                        "param": ""
+                    },
+                    "thumbnail": {
+                        "has": False,
+                        "param": ""
+                    },
+                    "fields": {},
+                    "message": ""
+                },
                 "activated": False
             },
             "unban": {
                 "log_channel": 0,
-                "unban_messages": "None",
+                "message": {
+                    "embed": False,
+                    "title": "",
+                    "description": "",
+                    "footer": "",
+                    "color": "", 
+                    "image": {
+                        "has": False,
+                        "param": ""
+                    },
+                    "thumbnail": {
+                        "has": False,
+                        "param": ""
+                    },
+                    "fields": {},
+                    "message": ""
+                },
                 "activated": False
             },
             "enter": {
                 "log_channel": 0,
-                "enter_messages": "None",
+                "message": {
+                    "embed": False,
+                    "title": "",
+                    "description": "",
+                    "footer": "",
+                    "color": "", 
+                    "image": {
+                        "has": False,
+                        "param": ""
+                    },
+                    "thumbnail": {
+                        "has": False,
+                        "param": ""
+                    },
+                    "fields": {},
+                    "message": ""
+                },
                 "activated": False
             },
             "leave": {
                 "log_channel": 0,
-                "leave_messages": "None",
+                "message": {
+                    "embed": False,
+                    "title": "",
+                    "description": "",
+                    "footer": "",
+                    "color": "", 
+                    "image": {
+                        "has": False,
+                        "param": ""
+                    },
+                    "thumbnail": {
+                        "has": False,
+                        "param": ""
+                    },
+                    "fields": {},
+                    "message": ""
+                },
                 "activated": False
             },
             "del_msg": { 
                 "log_channel": 0, 
-                "del_msg_messages": "None", 
-                "ago": 7,
+                "message": {
+                    "embed": False,
+                    "title": "",
+                    "description": "",
+                    "footer": "",
+                    "color": "", 
+                    "image": {
+                        "has": False,
+                        "param": ""
+                    },
+                    "thumbnail": {
+                        "has": False,
+                        "param": ""
+                    },
+                    "fields": {},
+                    "message": ""
+                },
                 "activated": False 
             }, 
             "edited_msg": { 
                 "log_channel": 0, 
-                "edited_msg_messages": "None", 
-                "ago": 7,
+                "message": {
+                    "embed": False,
+                    "title": "",
+                    "description": "",
+                    "footer": "",
+                    "color": "", 
+                    "image": {
+                        "has": False,
+                        "param": ""
+                    },
+                    "thumbnail": {
+                        "has": False,
+                        "param": ""
+                    },
+                    "fields": {},
+                    "message": ""
+                },
                 "activated": False 
             },
             "warn": {
                 "log_channel": 0,
-                "warn_messages": "None",
+                "message": {
+                    "embed": False,
+                    "title": "",
+                    "description": "",
+                    "footer": "",
+                    "color": "", 
+                    "image": {
+                        "has": False,
+                        "param": ""
+                    },
+                    "thumbnail": {
+                        "has": False,
+                        "param": ""
+                    },
+                    "fields": {},
+                    "message": ""
+                },
                 "activated": False
             },
             "unwarn": {
                 "log_channel": 0,
-                "unwarn_messages": "None",
+                "message": {
+                    "embed": False,
+                    "title": "",
+                    "description": "",
+                    "footer": "",
+                    "color": "", 
+                    "image": {
+                        "has": False,
+                        "param": ""
+                    },
+                    "thumbnail": {
+                        "has": False,
+                        "param": ""
+                    },
+                    "fields": {},
+                    "message": ""
+                },
                 "activated": False
             }
         },

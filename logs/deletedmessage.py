@@ -1,38 +1,19 @@
 import discord
 from discord.ext import commands
 from database.get import get_specific_field
-from datetime import datetime, timedelta
-import pytz
+from logs.log_utils import LogParser
 
 class DeletedMessages(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
-        self.max_embed_length = 4096
-
-    def chunk_message(self, message: str, chunk_size: int) -> list:
-        return [message[i:i + chunk_size] for i in range(0, len(message), chunk_size)]
-
-    def replace_variables(self, text: str, message: discord.Message, author: discord.Member) -> str:
-        replacements = {
-            "{del_msg}": message.content,
-            "{usertag}": str(author),
-            "{userid}": str(author.id),
-            "{user}": author.mention,
-            "{channel}": message.channel.mention,
-            "{channelid}": str(message.channel.id)
-        }
-        
-        result = text
-        for key, value in replacements.items():
-            result = result.replace(key, str(value))
-        return result
+        self.log_parser = LogParser(bot)
 
     async def log_deleted_message(self, message: discord.Message):
         try:
             if message.author.bot or message.embeds:
                 return
 
-            if not message.content:
+            if not message.content and not message.attachments:
                 return
 
             guild_data = get_specific_field(message.guild.id, "audit_logs")
@@ -55,93 +36,58 @@ class DeletedMessages(commands.Cog):
             if not log_channel:
                 return
             
-            ago_days = del_msg_config.get("ago", 30)
-            if not isinstance(ago_days, (int, float)):
-                ago_days = 30
-                
-            current_time = datetime.now(pytz.UTC)
-            message_time = message.created_at.replace(tzinfo=pytz.UTC)
-            message_age = current_time - message_time
-            
-            if message_age > timedelta(days=ago_days):
-                return
-            
-            message_format = del_msg_config.get("del_msg_messages", "")
-            if not message_format:
-                return
+            message_content = message.content
 
-            if message_format.startswith("embed:"):
-                await self.send_embed_log(message_format, message, log_channel)
-            else:
-                await self.send_normal_log(message_format, message, log_channel)
-
-        except Exception as e:
-            await log_channel.send(f"Error en log_deleted_message: {e}")
-            print(f"Error en log_deleted_message: {e}")
-
-    async def send_embed_log(self, message_format: str, message: discord.Message, log_channel: discord.TextChannel):
-        try:
-            parts = message_format[6:].split(" ")
-            embed_data = {}
-            current_key = None
-            current_value = []
-            
-            for part in parts:
-                if part.startswith("tl:"):
-                    if current_key:
-                        embed_data[current_key] = " ".join(current_value)
-                    current_key = "title"
-                    current_value = [part[3:]]
-                elif part.startswith("dp:"):
-                    if current_key:
-                        embed_data[current_key] = " ".join(current_value)
-                    current_key = "description"
-                    current_value = [part[3:]]
-                elif part.startswith("ft:"):
-                    if current_key:
-                        embed_data[current_key] = " ".join(current_value)
-                    current_key = "footer"
-                    current_value = [part[3:]]
+            if len(message_content) > self.log_parser.max_direct_message_length:
+                paste_url = await self.log_parser.create_paste(
+                    message_content,
+                    f"Mensaje eliminado - {message.author} - {message.created_at.strftime('%Y-%m-%d %H:%M:%S')}"
+                )
+                if paste_url:
+                    del_msg_content = f"Mensaje demasiado largo, ver aquí: {paste_url}"
                 else:
-                    current_value.append(part)
-            
-            if current_key:
-                embed_data[current_key] = " ".join(current_value)
+                    del_msg_content = message_content[:1000] + "... [mensaje truncado]"
+            else:
+                del_msg_content = message_content
 
-            base_description = self.replace_variables(embed_data.get("description", ""), message, message.author)
-            chunks = self.chunk_message(base_description, self.max_embed_length)
-            
-            for i, chunk in enumerate(chunks):
-                embed = discord.Embed(color=discord.Color.orange())
+            message_data = del_msg_config.get("message", {})
+            message_format = del_msg_config.get("del_msg_messages", "")
+
+            if message_data and isinstance(message_data, dict):
+                await self.log_parser.parse_and_send_log(
+                    log_type="del_msg",
+                    log_channel=log_channel,
+                    message_format=message_data,
+                    message=message,
+                    author=message.author,
+                    del_msg_content=del_msg_content
+                )
+            elif message_format:
+                result = await self.log_parser.create_deleted_message_log(
+                    message_format=message_format,
+                    message=message,
+                    del_msg_content=del_msg_content
+                )
+
+                if "embed" in result:
+                    await log_channel.send(embed=result["embed"])
+                else:
+                    await log_channel.send(content=result["content"])
+            else:
+                embed = discord.Embed(
+                    title="Mensaje Eliminado",
+                    description=f"**Autor:** {message.author.mention}\n**Canal:** {message.channel.mention}\n\n**Contenido:**\n{del_msg_content}",
+                    color=discord.Color.red(),
+                    timestamp=discord.utils.utcnow()
+                )
+                if message.attachments:
+                    attachments_text = self.log_parser.format_attachments(message.attachments)
+                    embed.add_field(name="Archivos adjuntos", value=attachments_text)
                 
-                if i == 0 and "title" in embed_data:
-                    title = self.replace_variables(embed_data["title"], message, message.author)
-                    embed.title = title
-
-                embed.description = chunk
-
-                if i == len(chunks) - 1 and "footer" in embed_data:
-                    footer = self.replace_variables(embed_data["footer"], message, message.author)
-                    embed.set_footer(text=footer)
-
-                embed.timestamp = discord.utils.utcnow()
                 await log_channel.send(embed=embed)
 
         except Exception as e:
-            await log_channel.send(f"Error al mandar el embed de los logs del mensaje eliminado: {e}")
-            print(f"Error al mandar el embed: {e}")
-
-    async def send_normal_log(self, message_format: str, message: discord.Message, log_channel: discord.TextChannel):
-        try:
-            content = self.replace_variables(message_format, message, message.author)
-            
-            chunks = self.chunk_message(content, 2000)
-            for chunk in chunks:
-                await log_channel.send(chunk)
-
-        except Exception as e:
-            await log_channel.send(f"Error al mandar el log del mensaje eliminado: {e}")
-            print(f"Error al mandar el log: {e}")
+            print(f"Error en log_deleted_message: {e}")
 
     @commands.Cog.listener()
     async def on_message_delete(self, message: discord.Message):

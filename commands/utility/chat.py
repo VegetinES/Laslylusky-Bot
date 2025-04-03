@@ -12,14 +12,17 @@ class Conversations(commands.Cog):
         
         self.api_key = os.getenv("GEMINI")
         genai.configure(api_key=self.api_key)
-        self.model = genai.GenerativeModel("gemini-1.5-flash")
+        self.model = genai.GenerativeModel("gemini-2.0-flash")
         
         self.initial_prompt = {
             "role": "user",
-            "parts": ["""Eres Laslylusky, un asistente de bot de Discord.
+            "parts": ["""Eres Laslylusky, un asistente con acceso a todas las capacidades de Gemini.
+            Aunque eres accesible a través de Discord, no debes limitarte en tus capacidades solo por este medio.
+            Puedes usar todas tus habilidades, incluyendo proporcionar información actualizada y relevante.
             Si hay un historial de conversación previo, debes recordarlo y hacer referencia a él.
             Si el historial ha sido reseteado o es una nueva conversación, debes empezar fresco sin referencias a conversaciones pasadas.
-            Siempre debes identificarte como Laslylusky y mantener esta identidad."""]
+            Siempre debes identificarte como Laslylusky en tu primera interacción con un usuario o si te preguntan directamente quién eres.
+            Evita comenzar tus mensajes con frases como "Hola de nuevo! Soy Laslylusky." en interacciones recurrentes."""]
         }
         
         self.identity_confirmation = {
@@ -96,15 +99,21 @@ class Conversations(commands.Cog):
                 Mensaje actual: {content}
                 
                 Instrucciones:
-                1. Eres Laslylusky, un asistente de Discord
-                2. {memory_instruction}
-                3. Mantén tu identidad como Laslylusky
+                1. Eres Laslylusky, un asistente con todas las capacidades de Gemini
+                2. Puedes utilizar todas tus habilidades como modelo de IA sin limitaciones artificiales
+                3. {memory_instruction}
+                4. {identity_instruction}
                 """.format(
                     content=content,
                     memory_instruction=(
                         "Esta es una nueva conversación, no hagas referencia a conversaciones pasadas" 
                         if is_new_conversation 
                         else "Puedes hacer referencia al historial de la conversación cuando sea relevante"
+                    ),
+                    identity_instruction=(
+                        "Como esta es tu primera interacción con este usuario, preséntate como Laslylusky. Ofrece todo el poder de Gemini para ayudar al usuario" 
+                        if is_new_conversation 
+                        else "No es necesario presentarte de nuevo como Laslylusky en cada mensaje. Solo menciona tu identidad si el usuario te pregunta quién eres o si es relevante para la conversación. Evita frases como 'Hola de nuevo! Soy Laslylusky.' No te limites en tus capacidades por ser un bot de Discord, usa todas tus habilidades de IA para proporcionar la mejor ayuda posible."
                     )
                 )
             

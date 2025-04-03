@@ -7,6 +7,28 @@ import platform
 import asyncio
 from .help_data import COMMAND_CATEGORIES
 
+class RefreshButton(discord.ui.View):
+    def __init__(self, cog, interaction=None, ctx=None, timeout=60.0):
+        super().__init__(timeout=timeout)
+        self.cog = cog
+        self.interaction = interaction
+        self.ctx = ctx
+        self.message = None
+    
+    @discord.ui.button(label="Actualizar", style=discord.ButtonStyle.primary, emoji="🔄")
+    async def refresh_button(self, interaction: discord.Interaction, button: discord.ui.Button):
+        new_embed = await self.cog.create_about_embed(interaction=interaction)
+        await interaction.response.edit_message(embed=new_embed, view=self)
+    
+    async def on_timeout(self):
+        try:
+            if self.message:
+                await self.message.edit(view=None)
+        except discord.NotFound:
+            pass
+        except Exception as e:
+            print(f"Error al eliminar los botones tras timeout: {e}")
+
 class About(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
@@ -58,7 +80,7 @@ class About(commands.Cog):
         about_embed.description += self.get_system_info()
 
         about_embed.add_field(name="Servidores en los que estoy", value=f"{len(self.bot.guilds)}", inline=True)
-        about_embed.add_field(name="Versión", value="vB2.1.0", inline=True)
+        about_embed.add_field(name="Versión", value="vB2.2.0", inline=True)
         about_embed.add_field(name="Comandos", value=f"{total_commands}", inline=True)
         about_embed.add_field(name="Usuarios que me ven", value=f"{self.get_total_users()}", inline=True)
         about_embed.add_field(name="Llevo encendido:", value=self.get_uptime_string(), inline=True)
@@ -77,40 +99,18 @@ class About(commands.Cog):
             return
 
         about_embed = await self.create_about_embed(ctx=ctx)
-        message = await ctx.send(embed=about_embed)
+        view = RefreshButton(self, ctx=ctx)
+        message = await ctx.send(embed=about_embed, view=view)
+        view.message = message
 
-        start_time = time.time()
-        while time.time() - start_time < 60:
-            try:
-                new_embed = await self.create_about_embed(ctx=ctx)
-                await message.edit(embed=new_embed)
-                await asyncio.sleep(1)
-                
-            except discord.NotFound:
-                break
-            except Exception as e:
-                print(f"Error al actualizar el mensaje: {e}")
-                break
-    
     @app_commands.command(name="info", description="Muestra información sobre el bot")
     async def about_slash(self, interaction: discord.Interaction):
         await interaction.response.defer()
         
         about_embed = await self.create_about_embed(interaction=interaction)
-        message = await interaction.followup.send(embed=about_embed, wait=True)
-        
-        start_time = time.time()
-        while time.time() - start_time < 60:
-            try:
-                new_embed = await self.create_about_embed(interaction=interaction)
-                await message.edit(embed=new_embed)
-                await asyncio.sleep(1)
-                
-            except discord.NotFound:
-                break
-            except Exception as e:
-                print(f"Error al actualizar el mensaje: {e}")
-                break
+        view = RefreshButton(self, interaction=interaction)
+        message = await interaction.followup.send(embed=about_embed, view=view, wait=True)
+        view.message = message
 
 async def setup(bot):
     if not hasattr(bot, 'start_time'):

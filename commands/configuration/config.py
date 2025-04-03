@@ -8,6 +8,7 @@ from .configdata import show_config_data
 from .configcmd import show_config_cmd
 from .configupdate import show_config_update
 from .configlogs import show_config_logs
+from .configlogs_constants import LOG_TYPES
 from .configperms import show_config_perms, permission_autocomplete
 from ..tickets.configtickets import show_tickets_channel, show_tickets_messages, show_tickets_perms, channel_autocomplete, color_autocomplete, show_tickets_help, show_tickets_modify
 
@@ -35,18 +36,10 @@ class Config(commands.Cog):
         ][:25]
     
     async def log_type_autocomplete(self, interaction: discord.Interaction, current: str) -> list[app_commands.Choice[str]]:
-        log_types = ["ban", "kick", "unban", "enter", "leave", "del_msg", "edited_msg", "warn", "unwarn"]
         return [
-            app_commands.Choice(name=log_type, value=log_type)
-            for log_type in log_types if current.lower() in log_type.lower()
-        ]
-    
-    async def help_type_autocomplete(self, interaction: discord.Interaction, current: str) -> list[app_commands.Choice[str]]:
-        help_types = ["logs", "perms", "cmd", "update", "data"]
-        return [
-            app_commands.Choice(name=help_type, value=help_type)
-            for help_type in help_types if current.lower() in help_type.lower()
-        ]
+            app_commands.Choice(name=LOG_TYPES[log_type]["name"], value=log_type)
+            for log_type in LOG_TYPES if current.lower() in LOG_TYPES[log_type]["name"].lower() or current.lower() in log_type.lower()
+        ][:25]
     
     async def is_admin(self, interaction: discord.Interaction) -> bool:
         if interaction.user.guild_permissions.administrator:
@@ -71,14 +64,10 @@ class Config(commands.Cog):
     config_group = app_commands.Group(name="config", description="Configura el bot para este servidor")
 
     @config_group.command(name="help", description="Muestra la ayuda de configuración")
-    @app_commands.describe(
-        tipo="Tipo de ayuda a mostrar"
-    )
-    @app_commands.autocomplete(tipo=help_type_autocomplete)
-    async def config_help(self, interaction: discord.Interaction, tipo: Optional[str] = None):
+    async def config_help(self, interaction: discord.Interaction):
         if not await self.is_admin(interaction):
             return
-        await show_config_help(interaction, tipo)
+        await show_config_help(interaction)
 
     @config_group.command(name="data", description="Muestra la configuración actual del servidor")
     async def config_data(self, interaction: discord.Interaction):
@@ -109,47 +98,13 @@ class Config(commands.Cog):
 
     @config_group.command(name="logs", description="Configura los registros de auditoría")
     @app_commands.describe(
-        log="Tipo de log a configurar",
-        estado="Activar o desactivar este log",
-        canal="Canal donde se enviarán los logs",
-        tipo_mensaje="Formato del mensaje (embed o normal)"
+        tipo="Tipo de log a configurar"
     )
-    @app_commands.autocomplete(log=log_type_autocomplete)
-    @app_commands.choices(estado=[
-        app_commands.Choice(name="activado", value="activado"),
-        app_commands.Choice(name="desactivado", value="desactivado")
-    ])
-    @app_commands.choices(tipo_mensaje=[
-        app_commands.Choice(name="embed", value="embed"),
-        app_commands.Choice(name="normal", value="normal")
-    ])
-    async def config_logs(
-        self, 
-        interaction: discord.Interaction, 
-        log: str, 
-        estado: str, 
-        canal: discord.TextChannel, 
-        tipo_mensaje: str,
-        mensaje: Optional[str] = None,
-        título: Optional[str] = None,
-        descripción: Optional[str] = None,
-        footer: Optional[str] = None,
-        límite: Optional[int] = None
-    ):
+    @app_commands.autocomplete(tipo=log_type_autocomplete)
+    async def config_logs(self, interaction: discord.Interaction, tipo: str):
         if not await self.is_admin(interaction):
             return
-        await show_config_logs(
-            interaction, 
-            log, 
-            estado, 
-            canal, 
-            tipo_mensaje, 
-            mensaje=mensaje,
-            título=título,
-            descripción=descripción,
-            footer=footer,
-            límite=límite
-        )
+        await show_config_logs(interaction, tipo)
 
     @config_group.command(name="perms", description="Configura los permisos del bot")
     @app_commands.describe(

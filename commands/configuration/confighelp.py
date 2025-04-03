@@ -1,125 +1,131 @@
 import discord
 import asyncio
 
-async def show_config_help(interaction, tipo=None):
-    if tipo and tipo.lower() == "logs":
+async def show_config_help(interaction):
+    # Crear el embed principal de ayuda
+    embed = discord.Embed(
+        title="Configuración del Bot",
+        description="Para obtener información detallada sobre los comandos de configuración, por favor visita la documentación:",
+        color=discord.Color.blue()
+    )
+    
+    embed.add_field(
+        name="Comandos disponibles",
+        value=(
+            "`/config help` - Muestra esta ayuda\n"
+            "`/config data` - Muestra la configuración actual del servidor\n"
+            "`/config update` - Restablece la configuración a los valores predeterminados\n"
+            "`/config cmd comando estado` - Activa o desactiva comandos específicos\n"
+            "`/config logs` - Configuración de registros de auditoría\n"
+            "`/config perms` - Configuración de permisos\n"
+            "`/config tickets help` - Muestra la ayuda de configuración de los tickets"
+        ),
+        inline=False
+    )
+    
+    embed.add_field(
+        name="Documentación",
+        value="[Ver documentación en GitHub](https://github.com/VegetinES/Laslylusky-Bot/tree/main/docs/user/Configuration.md)",
+        inline=False
+    )
+
+    view = ConfigHelpView()
+    
+    await interaction.response.send_message(embed=embed, view=view)
+    
+    view.message = await interaction.original_response()
+
+class ConfigHelpView(discord.ui.View):
+    def __init__(self):
+        super().__init__(timeout=180)
+        self.message = None
+        
+        self.add_item(discord.ui.Button(label="Ayuda /config logs", custom_id="logs_help", style=discord.ButtonStyle.secondary, row=0))
+        self.add_item(discord.ui.Button(label="Ayuda /config update", custom_id="update_help", style=discord.ButtonStyle.secondary, row=0))
+        self.add_item(discord.ui.Button(label="Ayuda /config data", custom_id="data_help", style=discord.ButtonStyle.secondary, row=1))
+        self.add_item(discord.ui.Button(label="Ayuda /config cmd", custom_id="cmd_help", style=discord.ButtonStyle.secondary, row=1))
+        self.add_item(discord.ui.Button(label="Ayuda /config perms", custom_id="perms_help", style=discord.ButtonStyle.secondary, row=2))
+        self.add_item(discord.ui.Button(label="Ayuda /config tickets help", custom_id="tickets_help", style=discord.ButtonStyle.secondary, row=2))
+    
+    async def interaction_check(self, interaction):
+        for child in self.children:
+            if child.custom_id == interaction.data["custom_id"]:
+                await self.handle_button_click(interaction, child.custom_id)
+                return False
+        return True
+
+    async def handle_button_click(self, interaction, custom_id):
+        # Dependiendo del botón, mostrar la ayuda específica
+        if custom_id == "logs_help":
+            await self.show_logs_help(interaction)
+        elif custom_id == "update_help":
+            await self.show_update_help(interaction)
+        elif custom_id == "data_help":
+            await self.show_data_help(interaction)
+        elif custom_id == "cmd_help":
+            await self.show_cmd_help(interaction)
+        elif custom_id == "perms_help":
+            await self.show_perms_help(interaction)
+        elif custom_id == "tickets_help":
+            await self.show_tickets_help(interaction)
+    
+    async def show_logs_help(self, interaction):
         pages = create_logs_help_pages()
-
-        current_page = 0
-
-        previous_button = discord.ui.Button(label="Anterior", style=discord.ButtonStyle.secondary, disabled=True)
-        next_button = discord.ui.Button(label="Siguiente", style=discord.ButtonStyle.primary)
-        
-        async def previous_callback(interaction):
-            nonlocal current_page
-            current_page -= 1
-            
-            previous_button.disabled = current_page == 0
-            next_button.disabled = current_page == len(pages) - 1
-            
-            view = discord.ui.View()
-            view.add_item(previous_button)
-            view.add_item(next_button)
-            await interaction.response.edit_message(embed=pages[current_page], view=view)
-        
-        async def next_callback(interaction):
-            nonlocal current_page
-            current_page += 1
-
-            previous_button.disabled = current_page == 0
-            next_button.disabled = current_page == len(pages) - 1
-
-            view = discord.ui.View()
-            view.add_item(previous_button)
-            view.add_item(next_button)
-            await interaction.response.edit_message(embed=pages[current_page], view=view)
-        
-        previous_button.callback = previous_callback
-        next_button.callback = next_callback
-        
-        view = discord.ui.View(timeout=60.0)
-        view.add_item(previous_button)
-        view.add_item(next_button)
-
-        await interaction.response.send_message(embed=pages[current_page], view=view)
-
-        try:
-            msg = await interaction.original_response()
-            await view.wait()
-            await msg.edit(view=None)
-        except Exception as e:
-            print(f"Error handling view timeout: {e}")
+        await interaction.response.edit_message(embeds=pages, view=None)
     
-    elif tipo and tipo.lower() == "perms":
-        embed = discord.Embed(
-            title="Config perms",
-            description="Ejecución de `/config perms`\n\n`/config perms {permiso} {accion} ({roles}/{usuarios})`\n\n- `{permiso}`: el permiso que se quiere configurar\n- `{accion}`: añadir o eliminar el permiso\n\nAl menos uno de estos campos es obligatorio:\n\n- `{roles}`: menciona o pon los roles que quieres añadir o eliminar, separados por espacios\n- `{usuarios}`: menciona o pon los usuarios que quieres añadir o eliminar, separados por espacios",
-            colour=0x00b0f4
-        )
-        await interaction.response.send_message(embed=embed)
-    
-    elif tipo and tipo.lower() == "cmd":
-        embed = discord.Embed(
-            title="Config cmd",
-            description="Ejecución de `/config cmd`\n\n`/config cmd {comando} {estado}`\n\n- `{comando}`: el comando que se quiere activar o desactivar\n- `{estado}`: activar o desactivar el comando",
-            colour=0x00b0f4
-        )
-        await interaction.response.send_message(embed=embed)
-    
-    elif tipo and tipo.lower() == "update":
+    async def show_update_help(self, interaction):
         embed = discord.Embed(
             title="Config update",
             description="Ejecución de `/config update`\n\n`/config update`\n\nEste comando restablece la configuración del servidor a los valores predeterminados.",
             colour=0x00b0f4
         )
-        await interaction.response.send_message(embed=embed)
+        await interaction.response.edit_message(embed=embed, view=None)
     
-    elif tipo and tipo.lower() == "data":
+    async def show_data_help(self, interaction):
         embed = discord.Embed(
             title="Config data",
             description="Ejecución de `/config data`\n\n`/config data`\n\nEste comando muestra la configuración actual del servidor.",
             colour=0x00b0f4
         )
-        await interaction.response.send_message(embed=embed)
+        await interaction.response.edit_message(embed=embed, view=None)
     
-    else:
+    async def show_cmd_help(self, interaction):
         embed = discord.Embed(
-            title="Configuración del Bot",
-            description="Para obtener información detallada sobre los comandos de configuración, por favor visita la documentación:",
-            color=discord.Color.blue()
+            title="Config cmd",
+            description="Ejecución de `/config cmd`\n\n`/config cmd {comando} {estado}`\n\n- `{comando}`: el comando que se quiere activar o desactivar\n- `{estado}`: activar o desactivar el comando",
+            colour=0x00b0f4
         )
-        
-        embed.add_field(
-            name="Comandos disponibles",
-            value=(
-                "`/config help` - Muestra esta ayuda\n"
-                "`/config help tipo:logs` - Muestra ayuda específica sobre logs\n"
-                "`/config help tipo:perms` - Muestra ayuda específica sobre permisos\n"
-                "`/config help tipo:cmd` - Muestra ayuda específica sobre comandos\n"
-                "`/config help tipo:update` - Muestra ayuda específica sobre actualización\n"
-                "`/config help tipo:data` - Muestra ayuda específica sobre datos\n"
-                "`/config data` - Muestra la configuración actual del servidor\n"
-                "`/config update` - Restablece la configuración a los valores predeterminados\n"
-                "`/config cmd comando estado` - Activa o desactiva comandos específicos\n"
-                "`/config logs` - Configuración de registros de auditoría\n"
-                "`/config perms` - Configuración de permisos\n"
-                "`/config tickets help` - Muestra la ayuda de configuración de los tickets"
-            ),
-            inline=False
+        await interaction.response.edit_message(embed=embed, view=None)
+    
+    async def show_perms_help(self, interaction):
+        embed = discord.Embed(
+            title="Config perms",
+            description="Ejecución de `/config perms`\n\n`/config perms {permiso} {accion} ({roles}/{usuarios})`\n\n- `{permiso}`: el permiso que se quiere configurar\n- `{accion}`: añadir o eliminar el permiso\n\nAl menos uno de estos campos es obligatorio:\n\n- `{roles}`: menciona o pon los roles que quieres añadir o eliminar, separados por espacios\n- `{usuarios}`: menciona o pon los usuarios que quieres añadir o eliminar, separados por espacios",
+            colour=0x00b0f4
         )
-        
-        embed.add_field(
-            name="Documentación",
-            value="[Ver documentación en GitHub](https://github.com/VegetinES/Laslylusky-Bot/tree/main/docs/user/Configuration.md)",
-            inline=False
+        await interaction.response.edit_message(embed=embed, view=None)
+    
+    async def show_tickets_help(self, interaction):
+        embed = discord.Embed(
+            title="Config tickets help",
+            description="Ejecución de `/config tickets help`\n\n`/config tickets help`\n\nEste comando muestra la ayuda específica para configurar el sistema de tickets.",
+            colour=0x00b0f4
         )
-        
-        await interaction.response.send_message(embed=embed)
+        await interaction.response.edit_message(embed=embed, view=None)
+    
+    async def on_timeout(self):
+        if self.message:
+            try:
+                for child in self.children:
+                    child.disabled = True
+                await self.message.edit(view=self)
+            except:
+                pass
 
 def create_logs_help_pages():
     page1 = discord.Embed(
         title="Config logs",
-        description="Ejecución de `/config logs`:\n\n`/config logs {log} {estado} {canal} {tipoMensaje} ({mensaje}/<footer> {descripcion} <titulo>) ({limite})`\n\n- `{log}`: el log que se quiere configurar.\n- `{estado}`: para activar o desactivar los logs\n- `{canal}`: establecer el canal donde se mandarán los logs.\n- `{tipoMensaje}`: poner el tipo de mensaje del log (embed o normal)\n\nEn caso de ser mensaje embed, solo se tendrán que poner los siguientes parámetros:\n- `<titulo>`: establecer el título del embed.\n- `{descripción}`: establecer la descripción del embed (obligatorio)\n- `<footer>`: establecer el footer del embed.\n\nEn caso de ser mensaje normal, solo se tendrá que poner el siguiente parámetro:\n- `{mensaje}`: establecer el mensaje del log.\n\nEn caso de que el log sea de mensajes editados o eliminados, este parámetros es obligatorio:\n- `{límite}`: establecer el tiempo en el que saldrán logs de mensajes editados, mínimo 7 días, máximo 30 días, poner el número de días solo\n\n**Parámetros a poner en los mensajes de logs:**",
+        description="Ejecución de `/config logs`:\n\n`/config logs {log}`\n\n- `{log}`: el log que se quiere configurar\n\n**Parámetros a poner en los mensajes de logs:**",
         color=0x00b0f4
     )
     
@@ -149,25 +155,25 @@ def create_logs_help_pages():
     
     page2.add_field(
         name="Entradas",
-        value="**Mensaje y descripción:**\n`{userid}` | `{usertag}` | `{user}` | `{accage}`\n**Footer:**\n`{userid}` | `{usertag}` | `{user}`",
+        value="**Mensaje y descripción:**\n`{userid}` | `{usertag}` | `{user}` | `{accage}` | `{acc_age}`\n**Footer:**\n`{userid}` | `{usertag}` | `{user}`",
         inline=True
     )
     
     page2.add_field(
         name="Salidas",
-        value="**Mensaje y descripción:**\n`{userid}` | `{usertag}`\n**Footer:**\n`{userid}` | `{usertag}`",
+        value="**Mensaje y descripción:**\n`{userid}` | `{usertag}` | `{acc_age}` | `{server_age}`\n**Footer:**\n`{userid}` | `{usertag}`",
         inline=True
     )
     
     page2.add_field(
         name="Mensajes eliminados",
-        value="**Mensaje y descripción:**\n`{del_msg}` | `{usertag}` | `{userid}` | `{user}` | `{channel}` | `{channelid}`\n**Footer:**\n`{usertag}` | `{userid}` | `{channelid}`",
+        value="**Mensaje y descripción:**\n`{del_msg}` | `{usertag}` | `{userid}` | `{user}` | `{channel}` | `{channelid}` | `{attached}`\n**Footer:**\n`{usertag}` | `{userid}` | `{channelid}`",
         inline=True
     )
     
     page2.add_field(
         name="Mensajes editados",
-        value="**Mensaje y descripción:**\n`{usertag}` | `{userid}` | `{user}` | `{channel}` | `{channelid}` | `{old_msg}` | `{new_msg}`\n**Footer:**\n`{usertag}` | `{userid}` | `{channelid}`",
+        value="**Mensaje y descripción:**\n`{usertag}` | `{userid}` | `{user}` | `{channel}` | `{channelid}` | `{old_msg}` | `{new_msg}` | `{attached}`\n**Footer:**\n`{usertag}` | `{userid}` | `{channelid}`",
         inline=True
     )
     
@@ -185,7 +191,7 @@ def create_logs_help_pages():
     
     page2.add_field(
         name="Parámetros",
-        value="`{reason}`: razón de la sanción\n`{user}`: mención del usuario sancionado, que borra o edita el mensaje o que entra al servidor\n`{userid}`: id del usuario sancionado, que borra o edita el mensaje o que entra al servidor\n`{usertag}`: nombre de usuario normal del usuario sancionado, que borra o edita el mensaje o que entra al servidor\n`{mod}`: mención del mod que sanciona\n`{modid}`: id del mod que sanciona\n`{modtag}`: nombre de usuario normal del mod que sanciona\n`{channel}`: mención del canal\n`{channelid}`: id del canal\n`{channel}`: mención del usuario sancionado, que borra o edita el mensaje o que entra al servidor\n`{del_msg}`: contenido del mensaje eliminado\n`{old_msg}`: contenido anterior del mensaje editado\n`{new_msg}`: contenido del nuevo mensaje editado\n`{accage}`: edad de la cuenta de Discord\n`{\\n}`: para representar el salto de línea en los logs",
+        value="`{reason}`: razón de la sanción\n`{user}`: mención del usuario sancionado, que borra o edita el mensaje o que entra al servidor\n`{userid}`: id del usuario sancionado, que borra o edita el mensaje o que entra al servidor\n`{usertag}`: nombre de usuario normal del usuario sancionado, que borra o edita el mensaje o que entra al servidor\n`{mod}`: mención del mod que sanciona\n`{modid}`: id del mod que sanciona\n`{modtag}`: nombre de usuario normal del mod que sanciona\n`{channel}`: mención del canal\n`{channelid}`: id del canal\n`{channel}`: mención del usuario sancionado, que borra o edita el mensaje o que entra al servidor\n`{del_msg}`: contenido del mensaje eliminado\n`{old_msg}`: contenido anterior del mensaje editado\n`{new_msg}`: contenido del nuevo mensaje editado\n`{attached}`: contenido de archivos adjuntos en caso de haberlos\n`{acc_age}`: edad de la cuenta de Discord\n`{server_age}`: tiempo que lleva el usuario en el servidor\n`{\\n}`: para representar el salto de línea en los logs",
         inline=False
     )
     
