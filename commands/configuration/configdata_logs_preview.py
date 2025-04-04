@@ -83,6 +83,53 @@ PREVIEW_PARAMS = {
         "{modtag}": "moderador",
         "{modid}": "987654321098765432",
         "{warnid}": "1"
+    },
+    "vc_enter": {
+        "{user}": "@Usuario",
+        "{userid}": "123456789012345678",
+        "{usertag}": "usuario",
+        "{channel}": "#canal-de-voz",
+        "{channelid}": "123456789012345679"
+    },
+    "vc_leave": {
+        "{user}": "@Usuario",
+        "{userid}": "123456789012345678",
+        "{usertag}": "usuario",
+        "{channel}": "#canal-de-voz",
+        "{channelid}": "123456789012345679"
+    },
+    "add_usr_rol": {
+        "{user}": "@Usuario",
+        "{userid}": "123456789012345678",
+        "{usertag}": "usuario",
+        "{role}": "@Rol",
+        "{roleid}": "123456789012345680"
+    },
+    "rm_usr_rol": {
+        "{user}": "@Usuario",
+        "{userid}": "123456789012345678",
+        "{usertag}": "usuario",
+        "{role}": "@Rol",
+        "{roleid}": "123456789012345680"
+    },
+    "add_ch": {
+        "{channelid}": "123456789012345679",
+        "{channel}": "#nuevo-canal",
+        "{category}": "General"
+    },
+    "del_ch": {
+        "{channelid}": "123456789012345679",
+        "{channel}": "#canal-eliminado",
+        "{category}": "General"
+    },
+    "changed_av": {
+        "{user}": "@Usuario",
+        "{userid}": "123456789012345678",
+        "{usertag}": "usuario",
+        "{old_avatar_link}": "[antiguo avatar](https://cdn.iconscout.com/icon/free/png-256/free-diablo-2689448-2232249.png)",
+        "{new_avatar_link}": "[nuevo avatar](https://archive.org/download/discordprofilepictures/discordblue.png)",
+        "{old_name}": "otronombre",
+        "{new_name}": "usuario"
     }
 }
 

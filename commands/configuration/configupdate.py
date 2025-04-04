@@ -288,6 +288,153 @@ async def show_config_update(ctx, bot):
                             "message": ""
                         },
                         "activated": False
+                    },
+                    "vc_enter": { 
+                        "log_channel": 0, 
+                        "message": {
+                            "embed": False,
+                            "title": "",
+                            "description": "",
+                            "footer": "",
+                            "color": "", 
+                            "image": {
+                                "has": False,
+                                "param": ""
+                            },
+                            "thumbnail": {
+                                "has": False,
+                                "param": ""
+                            },
+                            "fields": {},
+                            "message": ""
+                        },
+                        "activated": False 
+                    },
+                    "vc_leave": { 
+                        "log_channel": 0, 
+                        "message": {
+                            "embed": False,
+                            "title": "",
+                            "description": "",
+                            "footer": "",
+                            "color": "", 
+                            "image": {
+                                "has": False,
+                                "param": ""
+                            },
+                            "thumbnail": {
+                                "has": False,
+                                "param": ""
+                            },
+                            "fields": {},
+                            "message": ""
+                        },
+                        "activated": False 
+                    },
+                    "add_usr_rol": { 
+                        "log_channel": 0, 
+                        "message": {
+                            "embed": False,
+                            "title": "",
+                            "description": "",
+                            "footer": "",
+                            "color": "", 
+                            "image": {
+                                "has": False,
+                                "param": ""
+                            },
+                            "thumbnail": {
+                                "has": False,
+                                "param": ""
+                            },
+                            "fields": {},
+                            "message": ""
+                        },
+                        "activated": False 
+                    },
+                    "rm_usr_rol": { 
+                        "log_channel": 0, 
+                        "message": {
+                            "embed": False,
+                            "title": "",
+                            "description": "",
+                            "footer": "",
+                            "color": "", 
+                            "image": {
+                                "has": False,
+                                "param": ""
+                            },
+                            "thumbnail": {
+                                "has": False,
+                                "param": ""
+                            },
+                            "fields": {},
+                            "message": ""
+                        },
+                        "activated": False 
+                    },
+                    "add_ch": { 
+                        "log_channel": 0, 
+                        "message": {
+                            "embed": False,
+                            "title": "",
+                            "description": "",
+                            "footer": "",
+                            "color": "", 
+                            "image": {
+                                "has": False,
+                                "param": ""
+                            },
+                            "thumbnail": {
+                                "has": False,
+                                "param": ""
+                            },
+                            "fields": {},
+                            "message": ""
+                        },
+                        "activated": False 
+                    },
+                    "del_ch": { 
+                        "log_channel": 0, 
+                        "message": {
+                            "embed": False,
+                            "title": "",
+                            "description": "",
+                            "footer": "",
+                            "color": "", 
+                            "image": {
+                                "has": False,
+                                "param": ""
+                            },
+                            "thumbnail": {
+                                "has": False,
+                                "param": ""
+                            },
+                            "fields": {},
+                            "message": ""
+                        },
+                        "activated": False 
+                    },
+                    "changed_av": { 
+                        "log_channel": 0, 
+                        "message": {
+                            "embed": False,
+                            "title": "",
+                            "description": "",
+                            "footer": "",
+                            "color": "", 
+                            "image": {
+                                "has": False,
+                                "param": ""
+                            },
+                            "thumbnail": {
+                                "has": False,
+                                "param": ""
+                            },
+                            "fields": {},
+                            "message": ""
+                        },
+                        "activated": False 
                     }
                 },
                 "tickets": {}
@@ -555,6 +702,153 @@ async def show_config_update(ctx, bot):
                             "message": ""
                         },
                         "activated": False
+                    },
+                    "vc_enter": { 
+                        "log_channel": 0, 
+                        "message": {
+                            "embed": False,
+                            "title": "",
+                            "description": "",
+                            "footer": "",
+                            "color": "", 
+                            "image": {
+                                "has": False,
+                                "param": ""
+                            },
+                            "thumbnail": {
+                                "has": False,
+                                "param": ""
+                            },
+                            "fields": {},
+                            "message": ""
+                        },
+                        "activated": False 
+                    },
+                    "vc_leave": { 
+                        "log_channel": 0, 
+                        "message": {
+                            "embed": False,
+                            "title": "",
+                            "description": "",
+                            "footer": "",
+                            "color": "", 
+                            "image": {
+                                "has": False,
+                                "param": ""
+                            },
+                            "thumbnail": {
+                                "has": False,
+                                "param": ""
+                            },
+                            "fields": {},
+                            "message": ""
+                        },
+                        "activated": False 
+                    },
+                    "add_usr_rol": { 
+                        "log_channel": 0, 
+                        "message": {
+                            "embed": False,
+                            "title": "",
+                            "description": "",
+                            "footer": "",
+                            "color": "", 
+                            "image": {
+                                "has": False,
+                                "param": ""
+                            },
+                            "thumbnail": {
+                                "has": False,
+                                "param": ""
+                            },
+                            "fields": {},
+                            "message": ""
+                        },
+                        "activated": False 
+                    },
+                    "rm_usr_rol": { 
+                        "log_channel": 0, 
+                        "message": {
+                            "embed": False,
+                            "title": "",
+                            "description": "",
+                            "footer": "",
+                            "color": "", 
+                            "image": {
+                                "has": False,
+                                "param": ""
+                            },
+                            "thumbnail": {
+                                "has": False,
+                                "param": ""
+                            },
+                            "fields": {},
+                            "message": ""
+                        },
+                        "activated": False 
+                    },
+                    "add_ch": { 
+                        "log_channel": 0, 
+                        "message": {
+                            "embed": False,
+                            "title": "",
+                            "description": "",
+                            "footer": "",
+                            "color": "", 
+                            "image": {
+                                "has": False,
+                                "param": ""
+                            },
+                            "thumbnail": {
+                                "has": False,
+                                "param": ""
+                            },
+                            "fields": {},
+                            "message": ""
+                        },
+                        "activated": False 
+                    },
+                    "del_ch": { 
+                        "log_channel": 0, 
+                        "message": {
+                            "embed": False,
+                            "title": "",
+                            "description": "",
+                            "footer": "",
+                            "color": "", 
+                            "image": {
+                                "has": False,
+                                "param": ""
+                            },
+                            "thumbnail": {
+                                "has": False,
+                                "param": ""
+                            },
+                            "fields": {},
+                            "message": ""
+                        },
+                        "activated": False 
+                    },
+                    "changed_av": { 
+                        "log_channel": 0, 
+                        "message": {
+                            "embed": False,
+                            "title": "",
+                            "description": "",
+                            "footer": "",
+                            "color": "", 
+                            "image": {
+                                "has": False,
+                                "param": ""
+                            },
+                            "thumbnail": {
+                                "has": False,
+                                "param": ""
+                            },
+                            "fields": {},
+                            "message": ""
+                        },
+                        "activated": False 
                     }
                 },
                 "tickets": {}

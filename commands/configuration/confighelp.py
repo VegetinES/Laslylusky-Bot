@@ -2,7 +2,6 @@ import discord
 import asyncio
 
 async def show_config_help(interaction):
-    # Crear el embed principal de ayuda
     embed = discord.Embed(
         title="Configuración del Bot",
         description="Para obtener información detallada sobre los comandos de configuración, por favor visita la documentación:",
@@ -55,7 +54,6 @@ class ConfigHelpView(discord.ui.View):
         return True
 
     async def handle_button_click(self, interaction, custom_id):
-        # Dependiendo del botón, mostrar la ayuda específica
         if custom_id == "logs_help":
             await self.show_logs_help(interaction)
         elif custom_id == "update_help":
@@ -189,10 +187,70 @@ def create_logs_help_pages():
         inline=True
     )
     
-    page2.add_field(
-        name="Parámetros",
-        value="`{reason}`: razón de la sanción\n`{user}`: mención del usuario sancionado, que borra o edita el mensaje o que entra al servidor\n`{userid}`: id del usuario sancionado, que borra o edita el mensaje o que entra al servidor\n`{usertag}`: nombre de usuario normal del usuario sancionado, que borra o edita el mensaje o que entra al servidor\n`{mod}`: mención del mod que sanciona\n`{modid}`: id del mod que sanciona\n`{modtag}`: nombre de usuario normal del mod que sanciona\n`{channel}`: mención del canal\n`{channelid}`: id del canal\n`{channel}`: mención del usuario sancionado, que borra o edita el mensaje o que entra al servidor\n`{del_msg}`: contenido del mensaje eliminado\n`{old_msg}`: contenido anterior del mensaje editado\n`{new_msg}`: contenido del nuevo mensaje editado\n`{attached}`: contenido de archivos adjuntos en caso de haberlos\n`{acc_age}`: edad de la cuenta de Discord\n`{server_age}`: tiempo que lleva el usuario en el servidor\n`{\\n}`: para representar el salto de línea en los logs",
+    page3 = discord.Embed(
+        title="Config logs",
+        description="Parámetros a establecer en los logs (continuación)",
+        color=0x00b0f4
+    )
+    
+    page3.add_field(
+        name="Entrada a canales de voz",
+        value="**Mensaje y descripción:**\n`{user}` | `{usertag}` | `{userid}` | `{channel}` | `{channelid}`\n**Footer:**\n`{usertag}` | `{userid}` | `{channelid}`",
+        inline=True
+    )
+    
+    page3.add_field(
+        name="Salida de canales de voz",
+        value="**Mensaje y descripción:**\n`{user}` | `{usertag}` | `{userid}` | `{channel}` | `{channelid}`\n**Footer:**\n`{usertag}` | `{userid}` | `{channelid}`",
+        inline=True
+    )
+    
+    page3.add_field(
+        name="Roles añadidos a usuarios",
+        value="**Mensaje y descripción:**\n`{user}` | `{usertag}` | `{userid}` | `{role}` | `{roleid}`\n**Footer:**\n`{usertag}` | `{userid}` | `{roleid}`",
+        inline=True
+    )
+    
+    page3.add_field(
+        name="Roles removidos de usuarios",
+        value="**Mensaje y descripción:**\n`{user}` | `{usertag}` | `{userid}` | `{role}` | `{roleid}`\n**Footer:**\n`{usertag}` | `{userid}` | `{roleid}`",
+        inline=True
+    )
+    
+    page3.add_field(
+        name="Canales creados",
+        value="**Mensaje y descripción:**\n`{channel}` | `{channelid}` | `{category}`\n**Footer:**\n`{channelid}`",
+        inline=True
+    )
+    
+    page3.add_field(
+        name="Canales eliminados",
+        value="**Mensaje y descripción:**\n`{channel}` | `{channelid}` | `{category}`\n**Footer:**\n`{channelid}`",
+        inline=True
+    )
+    
+    page3.add_field(
+        name="Actualización de avatar o nombre",
+        value="**Mensaje y descripción:**\n`{user}` | `{usertag}` | `{userid}` | `{old_avatar_link}` | `{new_avatar_link}` | `{old_name}` | `{new_name}`\n**Footer:**\n`{usertag}` | `{userid}`",
+        inline=True
+    )
+    
+    page4 = discord.Embed(
+        title="Config logs",
+        description="Explicación de parámetros",
+        color=0x00b0f4
+    )
+    
+    page4.add_field(
+        name="Parámetros básicos",
+        value="`{reason}`: razón de la sanción\n`{user}`: mención del usuario sancionado, que borra o edita el mensaje o que entra al servidor\n`{userid}`: id del usuario sancionado, que borra o edita el mensaje o que entra al servidor\n`{usertag}`: nombre de usuario normal del usuario sancionado, que borra o edita el mensaje o que entra al servidor\n`{mod}`: mención del mod que sanciona\n`{modid}`: id del mod que sanciona\n`{modtag}`: nombre de usuario normal del mod que sanciona\n`{channel}`: mención del canal\n`{channelid}`: id del canal\n`{del_msg}`: contenido del mensaje eliminado\n`{old_msg}`: contenido anterior del mensaje editado\n`{new_msg}`: contenido del nuevo mensaje editado\n`{attached}`: contenido de archivos adjuntos en caso de haberlos\n`{acc_age}`: edad de la cuenta de Discord\n`{server_age}`: tiempo que lleva el usuario en el servidor\n`{\\n}`: para representar el salto de línea en los logs",
         inline=False
     )
     
-    return [page1, page2]
+    page4.add_field(
+        name="Parámetros adicionales",
+        value="`{role}`: mención del rol que se añade o quita\n`{roleid}`: id del rol que se añade o quita\n`{category}`: nombre de la categoría del canal (o \"sin categoría\")\n`{old_avatar_link}`: link del antiguo avatar del usuario, formato [antiguo avatar](link)\n`{new_avatar_link}`: link del nuevo avatar del usuario, formato [nuevo avatar](link)\n`{old_name}`: antiguo nombre del usuario (o \"el nombre no cambió\")\n`{new_name}`: nuevo nombre del usuario (o \"el nombre no cambió\")",
+        inline=False
+    )
+    
+    return [page1, page2, page3, page4]

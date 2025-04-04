@@ -1,6 +1,6 @@
 UPDATES_INFO = {
     "versions": [
-        "vB1.0.0", "vB1.1.0", "vB1.2.0", "vB1.2.1", "vB1.2.2", "vB1.3.0", "vB1.3.1", "vB1.3.2", "vB1.3.3", "vB1.3.4", "vB1.3.5", "vB1.3.6", "vB1.3.7", "vB1.3.8", "vB2.0.0", "vB2.1.0", "vB2.2.0", "vB2.2.1"
+        "vB1.0.0", "vB1.1.0", "vB1.2.0", "vB1.2.1", "vB1.2.2", "vB1.3.0", "vB1.3.1", "vB1.3.2", "vB1.3.3", "vB1.3.4", "vB1.3.5", "vB1.3.6", "vB1.3.7", "vB1.3.8", "vB2.0.0", "vB2.1.0", "vB2.2.0", "vB2.2.1", "vB2.3.0"
     ],
     "details": {
         "vB1.0.0": {
@@ -191,6 +191,13 @@ UPDATES_INFO = {
             "content": "__Modificado:__ "
                 "\n> <a:linea_6764:823570039667163136> Arreglado el error que impedía mostrar thumbnail y fields en los logs."
                 "\n> <a:linea_6764:823570039667163136> Arreglado el error que impedía mostrar la vista previa de los logs que tenían fields, imágenes o thumbnails en `/config data`."
+                "\n\nComandos actuales: 43"
+                "\nSlash commands: 19 "
+        },
+        "vB2.3.0": {
+            "title": "Información Actualización BETA 'vB2.3.0'",
+            "content": "__Añadido:__ "
+                "\n> <a:linea_6764:823570039667163136> 7 nuevos logs: entrada y salida de usuarios en canales de voz, roles añadidos y eliminados de usuarios, canales creados y eliminados en el servidor, y actualización del perfil de un usuario (avatar y nombre)."
                 "\n\nComandos actuales: 43"
                 "\nSlash commands: 19 "
         }

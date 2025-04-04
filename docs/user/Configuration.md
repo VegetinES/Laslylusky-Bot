@@ -144,6 +144,55 @@ Este comando muestra la ayuda específica para configurar el sistema de tickets.
 **Footer:**
 `{userid}` | `{usertag}` | `{modid}` | `{modtag}`
 
+### Entrada a canales de voz
+**Mensaje y descripción:**
+`{user}` | `{usertag}` | `{userid}` | `{channel}` | `{channelid}`
+
+**Footer:**
+`{usertag}` | `{userid}` | `{channelid}`
+
+### Salida de canales de voz
+**Mensaje y descripción:**
+`{user}` | `{usertag}` | `{userid}` | `{channel}` | `{channelid}`
+
+**Footer:**
+`{usertag}` | `{userid}` | `{channelid}`
+
+### Roles añadidos a usuarios
+**Mensaje y descripción:**
+`{user}` | `{usertag}` | `{userid}` | `{role}` | `{roleid}`
+
+**Footer:**
+`{usertag}` | `{userid}` | `{roleid}`
+
+### Roles removidos de usuarios
+**Mensaje y descripción:**
+`{user}` | `{usertag}` | `{userid}` | `{role}` | `{roleid}`
+
+**Footer:**
+`{usertag}` | `{userid}` | `{roleid}`
+
+### Canales creados
+**Mensaje y descripción:**
+`{channel}` | `{channelid}` | `{category}`
+
+**Footer:**
+`{channelid}`
+
+### Canales eliminados
+**Mensaje y descripción:**
+`{channel}` | `{channelid}` | `{category}`
+
+**Footer:**
+`{channelid}`
+
+### Actualización de avatar o nombre
+**Mensaje y descripción:**
+`{user}` | `{usertag}` | `{userid}` | `{old_avatar_link}` | `{new_avatar_link}` | `{old_name}` | `{new_name}`
+
+**Footer:**
+`{usertag}` | `{userid}`
+
 ## Explicación de parámetros
 
 - `{reason}`: razón de la sanción
@@ -162,3 +211,10 @@ Este comando muestra la ayuda específica para configurar el sistema de tickets.
 - `{acc_age}`: edad de la cuenta de Discord
 - `{server_age}`: tiempo que lleva el usuario en el servidor
 - `{\n}`: para representar el salto de línea en los logs
+- `{role}`: mención del rol que se añade o quita
+- `{roleid}`: id del rol que se añade o quita
+- `{category}`: nombre de la categoría del canal (o "sin categoría")
+- `{old_avatar_link}`: link del antiguo avatar del usuario, formato [antiguo avatar](link)
+- `{new_avatar_link}`: link del nuevo avatar del usuario, formato [nuevo avatar](link)
+- `{old_name}`: antiguo nombre del usuario (o "el nombre no cambió")
+- `{new_name}`: nuevo nombre del usuario (o "el nombre no cambió")

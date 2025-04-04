@@ -162,6 +162,55 @@
             <p><strong>Footer:</strong><br>
             <code>{userid}</code> | <code>{usertag}</code> | <code>{modid}</code> | <code>{modtag}</code></p>
             
+            <h3>Entrada a canales de voz</h3>
+            <p><strong>Mensaje y descripción:</strong><br>
+            <code>{user}</code> | <code>{usertag}</code> | <code>{userid}</code> | <code>{channel}</code> | <code>{channelid}</code></p>
+            
+            <p><strong>Footer:</strong><br>
+            <code>{usertag}</code> | <code>{userid}</code> | <code>{channelid}</code></p>
+            
+            <h3>Salida de canales de voz</h3>
+            <p><strong>Mensaje y descripción:</strong><br>
+            <code>{user}</code> | <code>{usertag}</code> | <code>{userid}</code> | <code>{channel}</code> | <code>{channelid}</code></p>
+            
+            <p><strong>Footer:</strong><br>
+            <code>{usertag}</code> | <code>{userid}</code> | <code>{channelid}</code></p>
+            
+            <h3>Roles añadidos a usuarios</h3>
+            <p><strong>Mensaje y descripción:</strong><br>
+            <code>{user}</code> | <code>{usertag}</code> | <code>{userid}</code> | <code>{role}</code> | <code>{roleid}</code></p>
+            
+            <p><strong>Footer:</strong><br>
+            <code>{usertag}</code> | <code>{userid}</code> | <code>{roleid}</code></p>
+            
+            <h3>Roles removidos de usuarios</h3>
+            <p><strong>Mensaje y descripción:</strong><br>
+            <code>{user}</code> | <code>{usertag}</code> | <code>{userid}</code> | <code>{role}</code> | <code>{roleid}</code></p>
+            
+            <p><strong>Footer:</strong><br>
+            <code>{usertag}</code> | <code>{userid}</code> | <code>{roleid}</code></p>
+            
+            <h3>Canales creados</h3>
+            <p><strong>Mensaje y descripción:</strong><br>
+            <code>{channel}</code> | <code>{channelid}</code> | <code>{category}</code></p>
+            
+            <p><strong>Footer:</strong><br>
+            <code>{channelid}</code></p>
+            
+            <h3>Canales eliminados</h3>
+            <p><strong>Mensaje y descripción:</strong><br>
+            <code>{channel}</code> | <code>{channelid}</code> | <code>{category}</code></p>
+            
+            <p><strong>Footer:</strong><br>
+            <code>{channelid}</code></p>
+            
+            <h3>Actualización de avatar o nombre</h3>
+            <p><strong>Mensaje y descripción:</strong><br>
+            <code>{user}</code> | <code>{usertag}</code> | <code>{userid}</code> | <code>{old_avatar_link}</code> | <code>{new_avatar_link}</code> | <code>{old_name}</code> | <code>{new_name}</code></p>
+            
+            <p><strong>Footer:</strong><br>
+            <code>{usertag}</code> | <code>{userid}</code></p>
+            
             <h2>Explicación de parámetros</h2>
             
             <ul>
@@ -181,6 +230,13 @@
                 <li><code>{acc_age}</code>: edad de la cuenta de Discord</li>
                 <li><code>{server_age}</code>: tiempo que lleva el usuario en el servidor</li>
                 <li><code>{\n}</code>: para representar el salto de línea en los logs</li>
+                <li><code>{role}</code>: mención del rol que se añade o quita</li>
+                <li><code>{roleid}</code>: id del rol que se añade o quita</li>
+                <li><code>{category}</code>: nombre de la categoría del canal (o "sin categoría")</li>
+                <li><code>{old_avatar_link}</code>: link del antiguo avatar del usuario, formato [antiguo avatar](link)</li>
+                <li><code>{new_avatar_link}</code>: link del nuevo avatar del usuario, formato [nuevo avatar](link)</li>
+                <li><code>{old_name}</code>: antiguo nombre del usuario (o "el nombre no cambió")</li>
+                <li><code>{new_name}</code>: nuevo nombre del usuario (o "el nombre no cambió")</li>
             </ul>
         </div>
     </body>

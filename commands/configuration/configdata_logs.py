@@ -20,7 +20,14 @@ class LogsListView(discord.ui.View):
             "del_msg": "Logs de mensajes eliminados",
             "edited_msg": "Logs de mensajes editados",
             "warn": "Logs de advertencias",
-            "unwarn": "Logs de eliminación de advertencias"
+            "unwarn": "Logs de eliminación de advertencias",
+            "vc_enter": "Logs de entrada a canal de voz",
+            "vc_leave": "Logs de salida de canal de voz",
+            "add_usr_rol": "Logs de rol añadido a usuario",
+            "rm_usr_rol": "Logs de rol eliminado a usuario",
+            "add_ch": "Logs de canal creado",
+            "del_ch": "Logs de canal eliminado",
+            "changed_av": "Logs de cambio de avatar/nombre"
         }
         
         for log_key, log_name in log_types.items():
@@ -216,7 +223,14 @@ async def create_log_detail_embed(log_type, log_config, interaction):
         "del_msg": "Logs de mensajes eliminados",
         "edited_msg": "Logs de mensajes editados",
         "warn": "Logs de advertencias",
-        "unwarn": "Logs de eliminación de advertencias"
+        "unwarn": "Logs de eliminación de advertencias",
+        "vc_enter": "Logs de entrada a canal de voz",
+        "vc_leave": "Logs de salida de canal de voz",
+        "add_usr_rol": "Logs de rol añadido a usuario",
+        "rm_usr_rol": "Logs de rol eliminado a usuario",
+        "add_ch": "Logs de canal creado",
+        "del_ch": "Logs de canal eliminado",
+        "changed_av": "Logs de cambio de avatar/nombre"
     }
     
     embed = discord.Embed(

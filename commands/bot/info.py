@@ -80,7 +80,7 @@ class About(commands.Cog):
         about_embed.description += self.get_system_info()
 
         about_embed.add_field(name="Servidores en los que estoy", value=f"{len(self.bot.guilds)}", inline=True)
-        about_embed.add_field(name="Versión", value="vB2.2.1", inline=True)
+        about_embed.add_field(name="Versión", value="vB2.3.0", inline=True)
         about_embed.add_field(name="Comandos", value=f"{total_commands}", inline=True)
         about_embed.add_field(name="Usuarios que me ven", value=f"{self.get_total_users()}", inline=True)
         about_embed.add_field(name="Llevo encendido:", value=self.get_uptime_string(), inline=True)

@@ -18,6 +18,18 @@ async def create_preview(log_type, message_data, guild):
                 color=color_tuple[0]
             )
             
+            if log_type == "changed_av":
+                sample_description = embed.description
+                if "{old_avatar_link}" in sample_description:
+                    sample_description = sample_description.replace("{old_avatar_link}", "[antiguo avatar](https://cdn.iconscout.com/icon/free/png-256/free-diablo-2689448-2232249.png)")
+                if "{new_avatar_link}" in sample_description:
+                    sample_description = sample_description.replace("{new_avatar_link}", "[nuevo avatar](https://archive.org/download/discordprofilepictures/discordblue.png)")
+                if "{old_name}" in sample_description:
+                    sample_description = sample_description.replace("{old_name}", "UsuarioAntiguo")
+                if "{new_name}" in sample_description:
+                    sample_description = sample_description.replace("{new_name}", "UsuarioNuevo")
+                embed.description = sample_description
+            
             if message_data.get("footer"):
                 embed.set_footer(text=message_data["footer"])
             
@@ -44,9 +56,22 @@ async def create_preview(log_type, message_data, guild):
             if message_data.get("fields"):
                 sorted_fields = sorted(message_data["fields"].items(), key=lambda x: int(x[0]))
                 for field_id, field_data in sorted_fields:
+                    field_name = field_data.get("name", "")
+                    field_value = field_data.get("value", "")
+                    
+                    if log_type == "changed_av":
+                        if "{old_avatar_link}" in field_value:
+                            field_value = field_value.replace("{old_avatar_link}", "[antiguo avatar](https://cdn.iconscout.com/icon/free/png-256/free-diablo-2689448-2232249.png)")
+                        if "{new_avatar_link}" in field_value:
+                            field_value = field_value.replace("{new_avatar_link}", "[nuevo avatar](https://archive.org/download/discordprofilepictures/discordblue.png)")
+                        if "{old_name}" in field_value:
+                            field_value = field_value.replace("{old_name}", "UsuarioAntiguo")
+                        if "{new_name}" in field_value:
+                            field_value = field_value.replace("{new_name}", "UsuarioNuevo")
+                    
                     embed.add_field(
-                        name=field_data.get("name", ""),
-                        value=field_data.get("value", ""),
+                        name=field_name,
+                        value=field_value,
                         inline=field_data.get("inline", False)
                     )
 
@@ -78,6 +103,16 @@ async def create_preview(log_type, message_data, guild):
                 return {
                     "content": f"**Configuración de {LOG_TYPES[log_type]['name']}**\n**Tipo de mensaje:** Normal\n**No hay mensaje configurado**"
                 }
+
+            if log_type == "changed_av":
+                if "{old_avatar_link}" in message:
+                    message = message.replace("{old_avatar_link}", "[antiguo avatar](https://cdn.iconscout.com/icon/free/png-256/free-diablo-2689448-2232249.png)")
+                if "{new_avatar_link}" in message:
+                    message = message.replace("{new_avatar_link}", "[nuevo avatar](https://archive.org/download/discordprofilepictures/discordblue.png)")
+                if "{old_name}" in message:
+                    message = message.replace("{old_name}", "UsuarioAntiguo")
+                if "{new_name}" in message:
+                    message = message.replace("{new_name}", "UsuarioNuevo")
 
             display_message = message[:100] + ('...' if len(message) > 100 else '')
             content = f"**Configuración de {LOG_TYPES[log_type]['name']}**\n"
