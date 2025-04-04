@@ -2,7 +2,7 @@
 [![Discord](https://img.shields.io/discord/766964835946463232?color=7289da&logo=discord&logoColor=white)](https://discord.gg/8uuPxpjC4N)
 [![Estado](https://img.shields.io/badge/estado-en%20desarrollo-yellow)](https://github.com/VegetinES/Laslylusky-Bot)
 [![Python](https://img.shields.io/badge/python-3.12+-blue.svg)](https://www.python.org/downloads/)
-[![Version](https://img.shields.io/badge/version-vB2.1.0-orange)](https://github.com/VegetinES/Laslylusky-Bot)
+[![Version](https://img.shields.io/badge/version-vB2.2.1-orange)](https://github.com/VegetinES/Laslylusky-Bot)
 [![Release](https://img.shields.io/badge/release-2%20meses-brightgreen)](https://github.com/VegetinES/Laslylusky-Bot)
 
 <div align="center">
@@ -106,7 +106,7 @@ Este bot se encuentra en desarrollo activo, con constantes mejoras y adiciones. 
 /config data            # Muestra la configuración actual
 /config update          # Restablece la configuración predeterminada
 /config cmd [comando] [estado]  # Activa/desactiva comandos
-/config logs [tipo] [opciones]  # Configura logs de auditoría
+/config logs [tipo]  # Configura logs de auditoría
 /config perms [opciones]        # Configura permisos personalizados
 ```
 
@@ -147,6 +147,10 @@ Para ver la política de privacidad completa del bot, utiliza `%privacidad` o `/
 
 
 ## Actualizaciones Recientes (más detalles con %updates)
+### Versión BETA vB2.2.1
+- Arreglado el error que impedía mostrar thumbnail y fields en los logs.
+- Arreglado el error que impedía mostrar la vista previa de los logs que tenían fields, imágenes o thumbnails en `/config data`.
+
 ### Versión BETA vB2.2.0
 - Nuevos logs: entrada y salida de usuarios en canales de voz, creación/eliminación de canales de texto/voz
 - Nuevos parámetros en los logs de mensajes editados y eliminados: `{attached}` que si en caso de haber archivos adjuntos en el mensaje saldría el enlace

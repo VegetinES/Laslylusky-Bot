@@ -1,6 +1,8 @@
 import discord
 from datetime import datetime
-from .configlogs_preview import create_preview
+import traceback
+from .configdata_logs_preview import create_preview
+import os
 
 class LogsListView(discord.ui.View):
     def __init__(self, author_id, guild_data):
@@ -113,32 +115,45 @@ class LogsListView(discord.ui.View):
             )
             self.stop()
         else:
-            log_config = self.guild_data["audit_logs"][selection]
+            try:
+                log_config = self.guild_data["audit_logs"][selection]
 
-            detail_embed = await create_log_detail_embed(selection, log_config, interaction)
+                detail_embed = await create_log_detail_embed(selection, log_config, interaction)
 
-            preview_data = await create_preview(selection, log_config.get("message", {}), interaction.guild)
-
-            embeds = []
-            
-            if preview_data.get("embed"):
-                embeds.append(preview_data["embed"])
-
-            embeds.append(detail_embed)
-            
-            view = LogBackView(self.author_id, self.guild_data)
-            
-            if not log_config.get("message", {}).get("embed", False) and log_config.get("message", {}).get("message"):
+                preview_data = await create_preview(selection, log_config.get("message", {}), interaction.guild)
+                
+                embeds = []
+                
+                if preview_data.get("embed"):
+                    embeds.append(preview_data["embed"])
+                
+                embeds.append(detail_embed)
+                
+                view = LogBackView(self.author_id, self.guild_data)
+                
+                content = None
+                if not log_config.get("message", {}).get("embed", False) and log_config.get("message", {}).get("message"):
+                    content = preview_data.get("content", "Vista previa del mensaje:")
+                
                 await interaction.response.edit_message(
-                    content=preview_data.get("content", "Vista previa del mensaje:"),
+                    content=content,
                     embeds=embeds,
                     view=view
                 )
-            else:
+            except Exception as e:
+                error_trace = traceback.format_exc()
+                print(f"Error al mostrar la vista previa del log: {e}\n{error_trace}")
+                
+                error_embed = discord.Embed(
+                    title="❌ Error al mostrar vista previa",
+                    description=f"Se produjo un error al procesar la configuración del log:\n```\n{str(e)}\n```",
+                    color=discord.Color.red()
+                )
+                
                 await interaction.response.edit_message(
-                    content=None,
-                    embeds=embeds,
-                    view=view
+                    content="No se pudo generar la vista previa correctamente.",
+                    embeds=[error_embed],
+                    view=LogBackView(self.author_id, self.guild_data)
                 )
 
 class LogBackView(discord.ui.View):
@@ -154,8 +169,7 @@ class LogBackView(discord.ui.View):
         )
         self.back_button.callback = self.back_callback
         self.add_item(self.back_button)
-        
-        # Botón cancelar
+
         self.cancel_button = discord.ui.Button(
             style=discord.ButtonStyle.danger,
             label="Cancelar",
@@ -293,10 +307,16 @@ async def create_log_detail_embed(log_type, log_config, interaction):
                 )
             
             fields = message_config.get("fields", {})
-            if fields:
+            field_count = 0
+            if isinstance(fields, dict):
+                field_count = len(fields)
+            elif isinstance(fields, list):
+                field_count = len([f for f in fields if f is not None and isinstance(f, dict)])
+            
+            if field_count > 0:
                 embed.add_field(
                     name="Campos",
-                    value=f"✅ `{len(fields)}` campos configurados",
+                    value=f"✅ `{field_count}` campos configurados",
                     inline=True
                 )
         else:

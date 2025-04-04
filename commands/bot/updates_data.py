@@ -1,6 +1,6 @@
 UPDATES_INFO = {
     "versions": [
-        "vB1.0.0", "vB1.1.0", "vB1.2.0", "vB1.2.1", "vB1.2.2", "vB1.3.0", "vB1.3.1", "vB1.3.2", "vB1.3.3", "vB1.3.4", "vB1.3.5", "vB1.3.6", "vB1.3.7", "vB1.3.8", "vB2.0.0", "vB2.1.0", "vB2.2.0"
+        "vB1.0.0", "vB1.1.0", "vB1.2.0", "vB1.2.1", "vB1.2.2", "vB1.3.0", "vB1.3.1", "vB1.3.2", "vB1.3.3", "vB1.3.4", "vB1.3.5", "vB1.3.6", "vB1.3.7", "vB1.3.8", "vB2.0.0", "vB2.1.0", "vB2.2.0", "vB2.2.1"
     ],
     "details": {
         "vB1.0.0": {
@@ -183,6 +183,14 @@ UPDATES_INFO = {
                 "\n> <a:linea_6764:823570039667163136> Arreglado problema con la base de datos de infracciones, no se registraban los baneos en las bases de datos."
                 "\n> <a:linea_6764:823570039667163136> Modificado el límite de caracteres que se pueden poner los logs, siendo ahora hasta 600 caracteres en la descripción del embed"
                 "\n> <a:linea_6764:823570039667163136> Modificado el comando info, y solo se actualizará dandóle al botón de \"Actualizar\""
+                "\n\nComandos actuales: 43"
+                "\nSlash commands: 19 "
+        },
+        "vB2.2.1": {
+            "title": "Información Actualización BETA 'vB2.2.1'",
+            "content": "__Modificado:__ "
+                "\n> <a:linea_6764:823570039667163136> Arreglado el error que impedía mostrar thumbnail y fields en los logs."
+                "\n> <a:linea_6764:823570039667163136> Arreglado el error que impedía mostrar la vista previa de los logs que tenían fields, imágenes o thumbnails en `/config data`."
                 "\n\nComandos actuales: 43"
                 "\nSlash commands: 19 "
         }

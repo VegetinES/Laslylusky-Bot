@@ -108,6 +108,9 @@ class LogParser:
         return "\n".join(result)
 
     def is_valid_url(self, url):
+        if not url:
+            return False
+            
         url_pattern = re.compile(
             r'^(https?://)?'
             r'([a-zA-Z0-9]+\.)+[a-zA-Z]{2,}'
@@ -118,6 +121,26 @@ class LogParser:
     
     def is_valid_image_param(self, param):
         return param in VALID_IMAGE_PARAMS or self.is_valid_url(param)
+    
+    def get_user_from_kwargs(self, kwargs):
+        for key in ["target", "member", "user", "author", "after_message"]:
+            if key in kwargs and kwargs[key]:
+                return kwargs[key]
+        
+        if "message" in kwargs and kwargs["message"]:
+            return kwargs["message"].author
+        
+        return None
+
+    def get_guild_from_kwargs(self, kwargs):
+        if "guild" in kwargs and kwargs["guild"]:
+            return kwargs["guild"]
+
+        for key in ["member", "message", "after_message"]:
+            if key in kwargs and kwargs[key] and hasattr(kwargs[key], "guild"):
+                return kwargs[key].guild
+        
+        return None
     
     def get_replacements(self, log_type, **kwargs):
         replacements = {}
@@ -231,6 +254,12 @@ class LogParser:
                     "{usertag}": str(author),
                     "{user}": author.mention
                 })
+            elif message and message.author:
+                replacements.update({
+                    "{userid}": str(message.author.id),
+                    "{usertag}": str(message.author),
+                    "{user}": message.author.mention
+                })
 
         elif log_type == "edited_msg":
             message = kwargs.get("message")
@@ -311,6 +340,9 @@ class LogParser:
         return replacements
 
     def replace_variables(self, text, replacements):
+        if not text:
+            return ""
+            
         result = text.replace(r"{\n}", "\n").replace("{\\n}", "\n")
         
         for key, value in replacements.items():
@@ -332,12 +364,74 @@ class LogParser:
         else:
             await self.send_normal_log(log_type, message_format, replacements, log_channel, **kwargs)
     
+    def process_field_attributes(self, field_data, replacements):
+        try:
+            if not isinstance(field_data, dict):
+                return None
+            
+            field_name_raw = field_data.get("name", "")
+            field_name = self.replace_variables(field_name_raw, replacements)
+            
+            if not field_name:
+                field_name = "\u200b"
+            
+            field_value_raw = field_data.get("value", "")
+            field_value = self.replace_variables(field_value_raw, replacements)
+            
+            if not field_value:
+                field_value = "\u200b"
+            
+            field_inline = field_data.get("inline", False)
+            
+            if isinstance(field_inline, str):
+                field_inline = field_inline.lower() in ["true", "yes", "1"]
+            
+            result = {
+                "name": field_name,
+                "value": field_value,
+                "inline": field_inline
+            }
+            return result
+        except Exception as e:
+            import traceback
+            traceback.print_exc()
+            return None
+    
+    def set_safe_thumbnail(self, embed, thumbnail_param, guild, user):
+        try:
+            if thumbnail_param == "{servericon}":
+                if guild and guild.icon:
+                    embed.set_thumbnail(url=guild.icon.url)
+            elif thumbnail_param == "{useravatar}":
+                if user and hasattr(user, "avatar") and user.avatar:
+                    embed.set_thumbnail(url=user.avatar.url)
+            elif self.is_valid_url(thumbnail_param):
+                embed.set_thumbnail(url=thumbnail_param)
+        except Exception as e:
+            print(f"Error al establecer thumbnail: {e}")
+    
+    def set_safe_image(self, embed, image_param, guild, user):
+        try:
+            if image_param == "{servericon}":
+                if guild and guild.icon:
+                    embed.set_image(url=guild.icon.url)
+            elif image_param == "{useravatar}":
+                if user and hasattr(user, "avatar") and user.avatar:
+                    embed.set_image(url=user.avatar.url)
+            elif self.is_valid_url(image_param):
+                embed.set_image(url=image_param)
+        except Exception as e:
+            print(f"Error al establecer imagen: {e}")
+        
     async def send_embed_log_new(self, log_type, message_config, replacements, log_channel, **kwargs):
         try:
             from commands.configuration.configlogs_constants import COLORS
             
             color_name = message_config.get("color", "default")
-            color_value = COLORS.get(color_name, COLORS["default"])[0] if color_name else 0x3498db
+            try:
+                color_value = COLORS.get(color_name, COLORS["default"])[0] if color_name in COLORS else 0x3498db
+            except (KeyError, IndexError, TypeError):
+                color_value = 0x3498db
             
             embed = discord.Embed(
                 title=self.replace_variables(message_config.get("title", ""), replacements),
@@ -349,43 +443,56 @@ class LogParser:
                 footer_text = self.replace_variables(message_config["footer"], replacements)
                 embed.set_footer(text=footer_text)
 
+            guild = self.get_guild_from_kwargs(kwargs)
+            user = self.get_user_from_kwargs(kwargs)
+
             if message_config.get("thumbnail", {}).get("has", False):
                 thumbnail_param = message_config["thumbnail"].get("param", "")
                 if thumbnail_param:
-                    if thumbnail_param == "{servericon}" and kwargs.get("guild") and kwargs["guild"].icon:
-                        embed.set_thumbnail(url=kwargs["guild"].icon.url)
-                    elif thumbnail_param == "{useravatar}":
-                        target = kwargs.get("target") or kwargs.get("member") or kwargs.get("user")
-                        if target and target.avatar:
-                            embed.set_thumbnail(url=target.avatar.url)
-                    elif self.is_valid_url(thumbnail_param):
-                        embed.set_thumbnail(url=thumbnail_param)
+                    self.set_safe_thumbnail(embed, thumbnail_param, guild, user)
 
             if message_config.get("image", {}).get("has", False):
                 image_param = message_config["image"].get("param", "")
                 if image_param:
-                    if image_param == "{servericon}" and kwargs.get("guild") and kwargs["guild"].icon:
-                        embed.set_image(url=kwargs["guild"].icon.url)
-                    elif image_param == "{useravatar}":
-                        target = kwargs.get("target") or kwargs.get("member") or kwargs.get("user")
-                        if target and target.avatar:
-                            embed.set_image(url=target.avatar.url)
-                    elif self.is_valid_url(image_param):
-                        embed.set_image(url=image_param)
+                    self.set_safe_image(embed, image_param, guild, user)
 
             if message_config.get("fields") and isinstance(message_config["fields"], dict):
-                sorted_fields = sorted(message_config["fields"].items(), key=lambda x: int(x[0]) if x[0].isdigit() else x[0])
-                for field_id, field_data in sorted_fields:
-                    field_name = self.replace_variables(field_data.get("name", ""), replacements)
-                    field_value = self.replace_variables(field_data.get("value", ""), replacements)
-                    field_inline = field_data.get("inline", False)
-                    
-                    embed.add_field(
-                        name=field_name,
-                        value=field_value,
-                        inline=field_inline
-                    )
-            
+                sorted_fields = []
+                for field_id, field_data in message_config["fields"].items():
+                    try:
+                        field_num = int(field_id) if field_id.isdigit() else float('inf')
+                        field_name = self.replace_variables(field_data.get("name", ""), replacements)
+                        field_value = self.replace_variables(field_data.get("value", ""), replacements)
+                        field_inline = field_data.get("inline", False)
+
+                        if not field_name.strip() and not field_value.strip():
+                            continue
+
+                        if not field_name.strip():
+                            field_name = "\u200b"
+                        if not field_value.strip():
+                            field_value = "\u200b"
+                        
+                        sorted_fields.append((field_num, {
+                            "name": field_name,
+                            "value": field_value,
+                            "inline": field_inline
+                        }))
+                    except Exception as e:
+                        print(f"Error procesando campo {field_id}: {e}")
+
+                sorted_fields.sort(key=lambda x: x[0])
+
+                for field_num, field_attrs in sorted_fields:
+                    try:
+                        embed.add_field(
+                            name=field_attrs["name"],
+                            value=field_attrs["value"],
+                            inline=field_attrs["inline"]
+                        )
+                    except Exception as e:
+                        print(f"Error al añadir campo al embed: {e}")
+
             embed.timestamp = discord.utils.utcnow()
 
             view = None
@@ -403,6 +510,8 @@ class LogParser:
             
         except Exception as e:
             print(f"Error al enviar el log embed (nuevo formato): {e}")
+            import traceback
+            traceback.print_exc()
     
     async def send_normal_log_new(self, log_type, message_config, replacements, log_channel, **kwargs):
         try:
@@ -421,54 +530,120 @@ class LogParser:
         except Exception as e:
             print(f"Error al enviar el log normal (nuevo formato): {e}")
     
-    async def send_embed_log(self, log_type, message_format, replacements, log_channel, **kwargs):
+    async def send_embed_log_new(self, log_type, message_config, replacements, log_channel, **kwargs):
         try:
-            temp_marker = "__NEWLINE__"
-            processed_format = message_format.replace(r"{\n}", temp_marker).replace("{\\n}", temp_marker)
+            from commands.configuration.configlogs_constants import COLORS
             
-            parts = processed_format[6:].split(" ")
-            embed_data = {}
-            current_key = None
-            current_value = []
+            color_name = message_config.get("color", "default")
+            try:
+                color_value = COLORS.get(color_name, COLORS["default"])[0] if color_name in COLORS else 0x3498db
+            except (KeyError, IndexError, TypeError):
+                color_value = 0x3498db
             
-            for part in parts:
-                if part.startswith("tl:"):
-                    if current_key:
-                        embed_data[current_key] = " ".join(current_value)
-                    current_key = "title"
-                    current_value = [part[3:]]
-                elif part.startswith("dp:"):
-                    if current_key:
-                        embed_data[current_key] = " ".join(current_value)
-                    current_key = "description"
-                    current_value = [part[3:]]
-                elif part.startswith("ft:"):
-                    if current_key:
-                        embed_data[current_key] = " ".join(current_value)
-                    current_key = "footer"
-                    current_value = [part[3:]]
-                else:
-                    current_value.append(part)
-            
-            if current_key:
-                embed_data[current_key] = " ".join(current_value)
+            embed = discord.Embed(
+                title=self.replace_variables(message_config.get("title", ""), replacements),
+                description=self.replace_variables(message_config.get("description", ""), replacements),
+                color=color_value
+            )
 
-            embed = discord.Embed(color=discord.Color.blue())
-            
-            if "title" in embed_data:
-                title_with_markers = embed_data["title"].replace(temp_marker, "\n")
-                title = self.replace_variables(title_with_markers, replacements)
-                embed.title = title
-            
-            if "description" in embed_data:
-                desc_with_markers = embed_data["description"].replace(temp_marker, "\n")
-                description = self.replace_variables(desc_with_markers, replacements)
-                embed.description = description
+            if message_config.get("footer"):
+                footer_text = self.replace_variables(message_config["footer"], replacements)
+                embed.set_footer(text=footer_text)
 
-            if "footer" in embed_data:
-                footer_with_markers = embed_data["footer"].replace(temp_marker, "\n")
-                footer = self.replace_variables(footer_with_markers, replacements)
-                embed.set_footer(text=footer)
+            guild = self.get_guild_from_kwargs(kwargs)
+            user = self.get_user_from_kwargs(kwargs)
+
+            if message_config.get("thumbnail", {}).get("has", False):
+                thumbnail_param = message_config["thumbnail"].get("param", "")
+                if thumbnail_param:
+                    self.set_safe_thumbnail(embed, thumbnail_param, guild, user)
+
+            if message_config.get("image", {}).get("has", False):
+                image_param = message_config["image"].get("param", "")
+                if image_param:
+                    self.set_safe_image(embed, image_param, guild, user)
+
+            if "fields" in message_config:
+                fields_data = message_config["fields"]
+
+                if isinstance(fields_data, list):
+                    for i, field_data in enumerate(fields_data):
+                        try:
+                            if field_data is None or not isinstance(field_data, dict):
+                                continue
+                            
+                            field_name = self.replace_variables(field_data.get("name", ""), replacements)
+                            field_value = self.replace_variables(field_data.get("value", ""), replacements)
+
+                            if not field_name and not field_value:
+                                continue
+
+                            if not field_name:
+                                field_name = "\u200b"
+                            if not field_value:
+                                field_value = "\u200b"
+                            
+                            field_inline = field_data.get("inline", False)
+                            if isinstance(field_inline, str):
+                                field_inline = field_inline.lower() in ["true", "yes", "1", "si", "sí"]
+                            
+                            embed.add_field(
+                                name=field_name,
+                                value=field_value,
+                                inline=bool(field_inline)
+                            )
+                        except Exception as e:
+                            print(f"Error procesando field {i}: {e}")
+                            import traceback
+                            traceback.print_exc()
+
+                elif isinstance(fields_data, dict):
+                    sorted_fields = []
+                    for field_id, field_data in fields_data.items():
+                        try:
+                            field_num = int(field_id) if field_id.isdigit() else float('inf')
+                            
+                            if not isinstance(field_data, dict):
+                                continue
+                            
+                            field_name = self.replace_variables(field_data.get("name", ""), replacements)
+                            field_value = self.replace_variables(field_data.get("value", ""), replacements)
+                            
+                            if not field_name and not field_value:
+                                continue
+                            
+                            if not field_name:
+                                field_name = "\u200b"
+                            if not field_value:
+                                field_value = "\u200b"
+
+                            field_inline = field_data.get("inline", False)
+                            if isinstance(field_inline, str):
+                                field_inline = field_inline.lower() in ["true", "yes", "1", "si", "sí"]
+                            
+                            sorted_fields.append((field_num, {
+                                "name": field_name,
+                                "value": field_value,
+                                "inline": bool(field_inline)
+                            }))
+                        except Exception as e:
+                            print(f"Error procesando field {field_id}: {e}")
+                            import traceback
+                            traceback.print_exc()
+                    
+                    sorted_fields.sort(key=lambda x: x[0])
+                    
+                    for field_num, field_attrs in sorted_fields:
+                        try:
+                            embed.add_field(
+                                name=field_attrs["name"],
+                                value=field_attrs["value"],
+                                inline=field_attrs["inline"]
+                            )
+                        except Exception as e:
+                            print(f"Error añadiendo field al embed: {e}")
+                            import traceback
+                            traceback.print_exc()
 
             embed.timestamp = discord.utils.utcnow()
 
@@ -486,7 +661,9 @@ class LogParser:
             await log_channel.send(embed=embed, view=view)
             
         except Exception as e:
-            print(f"Error al enviar el log embed (formato antiguo): {e}")
+            print(f"Error al enviar el log embed (nuevo formato): {e}")
+            import traceback
+            traceback.print_exc()
     
     async def send_normal_log(self, log_type, message_format, replacements, log_channel, **kwargs):
         try:
@@ -514,7 +691,9 @@ class LogParser:
                 "{userid}": str(message.author.id),
                 "{usertag}": str(message.author),
                 "{channel}": message.channel.mention,
-                "{channelid}": str(message.channel.id)
+                "{channelid}": str(message.channel.id),
+                "{del_msg}": del_msg_content,
+                "{attached}": attachments
             }
 
             if isinstance(message_format, dict):
@@ -522,14 +701,14 @@ class LogParser:
                     from commands.configuration.configlogs_constants import COLORS
 
                     color_name = message_format.get("color", "default")
-                    color_value = COLORS.get(color_name, COLORS["default"])[0] if color_name else 0x3498db
+                    try:
+                        color_value = COLORS.get(color_name, COLORS["default"])[0] if color_name in COLORS else 0x3498db
+                    except (KeyError, IndexError, TypeError):
+                        color_value = 0x3498db
 
                     title = self.replace_variables(message_format.get("title", ""), replacements)
                     description = self.replace_variables(message_format.get("description", ""), replacements)
                     footer = self.replace_variables(message_format.get("footer", ""), replacements)
-
-                    description = description.replace("{del_msg}", del_msg_content)
-                    description = description.replace("{attached}", attachments)
                     
                     embed = discord.Embed(
                         title=title,
@@ -544,41 +723,94 @@ class LogParser:
                     if message_format.get("thumbnail", {}).get("has", False):
                         thumbnail_param = message_format["thumbnail"].get("param", "")
                         if thumbnail_param:
-                            if thumbnail_param == "{servericon}" and message.guild and message.guild.icon:
-                                embed.set_thumbnail(url=message.guild.icon.url)
-                            elif thumbnail_param == "{useravatar}" and message.author.avatar:
-                                embed.set_thumbnail(url=message.author.avatar.url)
-                            elif self.is_valid_url(thumbnail_param):
-                                embed.set_thumbnail(url=thumbnail_param)
+                            self.set_safe_thumbnail(embed, thumbnail_param, message.guild, message.author)
 
                     if message_format.get("image", {}).get("has", False):
                         image_param = message_format["image"].get("param", "")
                         if image_param:
-                            if image_param == "{servericon}" and message.guild and message.guild.icon:
-                                embed.set_image(url=message.guild.icon.url)
-                            elif image_param == "{useravatar}" and message.author.avatar:
-                                embed.set_image(url=message.author.avatar.url)
-                            elif self.is_valid_url(image_param):
-                                embed.set_image(url=image_param)
+                            self.set_safe_image(embed, image_param, message.guild, message.author)
                     
-                    if message_format.get("fields") and isinstance(message_format["fields"], dict):
-                        sorted_fields = sorted(message_format["fields"].items(), key=lambda x: int(x[0]) if x[0].isdigit() else x[0])
-                        for field_id, field_data in sorted_fields:
-                            field_name = self.replace_variables(field_data.get("name", ""), replacements)
-                            field_value = self.replace_variables(field_data.get("value", ""), replacements)
+                    if "fields" in message_format:
+                        fields_data = message_format["fields"]
 
-                            field_name = field_name.replace("{del_msg}", del_msg_content)
-                            field_name = field_name.replace("{attached}", attachments)
-                            field_value = field_value.replace("{del_msg}", del_msg_content)
-                            field_value = field_value.replace("{attached}", attachments)
+                        if isinstance(fields_data, list):
+                            for i, field_data in enumerate(fields_data):
+                                try:
+                                    if field_data is None or not isinstance(field_data, dict):
+                                        continue
+                                    
+                                    field_name = self.replace_variables(field_data.get("name", ""), replacements)
+                                    field_value = self.replace_variables(field_data.get("value", ""), replacements)
+
+                                    if not field_name and not field_value:
+                                        continue
+
+                                    if not field_name:
+                                        field_name = "\u200b"
+                                    if not field_value:
+                                        field_value = "\u200b"
+
+                                    field_inline = field_data.get("inline", False)
+                                    if isinstance(field_inline, str):
+                                        field_inline = field_inline.lower() in ["true", "yes", "1", "si", "sí"]
+                                    
+                                    embed.add_field(
+                                        name=field_name,
+                                        value=field_value,
+                                        inline=bool(field_inline)
+                                    )
+                                except Exception as e:
+                                    print(f"Error procesando field {i}: {e}")
+                                    import traceback
+                                    traceback.print_exc()
+                        
+                        elif isinstance(fields_data, dict):
+                            sorted_fields = []
+                            for field_id, field_data in fields_data.items():
+                                try:
+                                    field_num = int(field_id) if field_id.isdigit() else float('inf')
+
+                                    if not isinstance(field_data, dict):
+                                        continue
+                                    
+                                    field_name = self.replace_variables(field_data.get("name", ""), replacements)
+                                    field_value = self.replace_variables(field_data.get("value", ""), replacements)
+                                    
+                                    if not field_name and not field_value:
+                                        continue
+
+                                    if not field_name:
+                                        field_name = "\u200b"
+                                    if not field_value:
+                                        field_value = "\u200b"
+
+                                    field_inline = field_data.get("inline", False)
+                                    if isinstance(field_inline, str):
+                                        field_inline = field_inline.lower() in ["true", "yes", "1", "si", "sí"]
+                                    
+                                    sorted_fields.append((field_num, {
+                                        "name": field_name,
+                                        "value": field_value,
+                                        "inline": bool(field_inline)
+                                    }))
+                                except Exception as e:
+                                    print(f"Error procesando field {field_id}: {e}")
+                                    import traceback
+                                    traceback.print_exc()
                             
-                            field_inline = field_data.get("inline", False)
+                            sorted_fields.sort(key=lambda x: x[0])
                             
-                            embed.add_field(
-                                name=field_name,
-                                value=field_value,
-                                inline=field_inline
-                            )
+                            for field_num, field_attrs in sorted_fields:
+                                try:
+                                    embed.add_field(
+                                        name=field_attrs["name"],
+                                        value=field_attrs["value"],
+                                        inline=field_attrs["inline"]
+                                    )
+                                except Exception as e:
+                                    print(f"Error al añadir field al embed: {e}")
+                                    import traceback
+                                    traceback.print_exc()
                     
                     return {"embed": embed}
                 else:
@@ -587,18 +819,11 @@ class LogParser:
                         return {"content": "No hay mensaje configurado"}
 
                     content = self.replace_variables(message_text, replacements)
-
-                    content = content.replace("{del_msg}", del_msg_content)
-                    content = content.replace("{attached}", attachments)
-                    
                     return {"content": content}
             else:
                 result = message_format.replace(r"{\n}", "\n").replace("{\\n}", "\n")
                 for key, value in replacements.items():
                     result = result.replace(key, str(value))
-                
-                result = result.replace("{del_msg}", del_msg_content)
-                result = result.replace("{attached}", attachments)
                 
                 if message_format.startswith("embed:"):
                     parts = result[6:].split(" ")
@@ -645,4 +870,6 @@ class LogParser:
                 
         except Exception as e:
             print(f"Error creando log de mensaje eliminado: {e}")
+            import traceback
+            traceback.print_exc()
             return {"content": "Error al procesar el log del mensaje eliminado."}

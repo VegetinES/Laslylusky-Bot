@@ -57,6 +57,7 @@ async def update_oracle_db():
             oracle.close()
     except Exception as e:
         print(f"Error al actualizar la base de datos Oracle: {e}")
+
 @update_oracle_db.before_loop
 async def before_update_oracle_db():
     await bot.wait_until_ready()
