@@ -22,7 +22,7 @@ class TicketsMainView(discord.ui.View):
             label="Gestionar Tickets",
             emoji="🎫",
             custom_id="tickets_manage",
-            row=0 # 1
+            row=0
         )
         manage_button.callback = self.manage_callback
         self.add_item(manage_button)
@@ -32,7 +32,7 @@ class TicketsMainView(discord.ui.View):
             label="Cancelar",
             emoji="❌",
             custom_id="tickets_cancel",
-            row=0 # 2
+            row=0
         )
         cancel_button.callback = self.cancel_callback
         self.add_item(cancel_button)

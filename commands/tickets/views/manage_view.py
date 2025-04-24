@@ -129,12 +129,12 @@ class TicketsManageView(discord.ui.View):
     async def next_page_callback(self, interaction: discord.Interaction):
         from ..utils.database import get_tickets_data
         
+        self.bot.interaction_guild = interaction.guild
         tickets_data = get_tickets_data(interaction.guild.id)
         total_pages = (len(tickets_data) - 1) // 25 + 1
         
         if self.current_page < total_pages - 1:
             self.current_page += 1
-            self.bot.interaction_guild = interaction.guild
             self.add_ticket_selector()
             
             await interaction.response.edit_message(
@@ -147,6 +147,7 @@ class TicketsManageView(discord.ui.View):
             )
     
     async def ticket_select_callback(self, interaction: discord.Interaction):
+        self.bot.interaction_guild = interaction.guild
         channel_id = interaction.data["values"][0]
         
         from .edit_view import TicketEditView
@@ -178,10 +179,81 @@ class TicketsManageView(discord.ui.View):
     
     async def create_ticket_callback(self, interaction: discord.Interaction):
         from .create_view import TicketCreateView
-        
-        ticket_config = DEFAULT_TICKET_CONFIG.copy()
+        from ..constants import DEFAULT_TICKET_CONFIG
         
         self.bot.interaction_guild = interaction.guild
+        
+        ticket_config = {}
+        
+        for key, value in DEFAULT_TICKET_CONFIG.items():
+            if isinstance(value, dict):
+                if key == "permissions":
+                    ticket_config[key] = {
+                        "manage": {
+                            "roles": [],
+                            "users": []
+                        },
+                        "view": {
+                            "roles": [],
+                            "users": []
+                        }
+                    }
+                elif key == "open_message":
+                    ticket_config[key] = {
+                        "embed": True,
+                        "title": "Sistema de Tickets",
+                        "description": "Haz clic en el botón correspondiente para abrir un ticket de soporte.",
+                        "footer": "",
+                        "color": "blue",
+                        "fields": [],
+                        "image": {
+                            "url": "",
+                            "enabled": False
+                        },
+                        "thumbnail": {
+                            "url": "",
+                            "enabled": False
+                        },
+                        "buttons": [
+                            {
+                                "id": "default",
+                                "label": "Abrir Ticket",
+                                "emoji": "🎫",
+                                "style": 3,
+                                "name_format": "ticket-{id}",
+                                "description": "Abrir un ticket de soporte general"
+                            }
+                        ],
+                        "plain_message": ""
+                    }
+                elif key == "opened_messages":
+                    ticket_config[key] = {
+                        "default": {
+                            "embed": True,
+                            "title": "Ticket Abierto",
+                            "description": "Gracias por abrir un ticket. Un miembro del equipo te atenderá lo antes posible.",
+                            "footer": "",
+                            "color": "green",
+                            "fields": [],
+                            "image": {
+                                "url": "",
+                                "enabled": False
+                            },
+                            "thumbnail": {
+                                "url": "",
+                                "enabled": False
+                            },
+                            "plain_message": ""
+                        }
+                    }
+                else:
+                    ticket_config[key] = {}
+            else:
+                ticket_config[key] = value
+        
+        ticket_config["ticket_channel"] = None
+        ticket_config["log_channel"] = None
+        ticket_config["auto_increment"] = {}
         
         view = TicketCreateView(self.bot, ticket_config)
         embed = discord.Embed(
@@ -197,6 +269,8 @@ class TicketsManageView(discord.ui.View):
     
     async def back_callback(self, interaction: discord.Interaction):
         from .main_view import TicketsMainView
+        
+        self.bot.interaction_guild = interaction.guild
         
         view = TicketsMainView(self.bot)
         embed = discord.Embed(

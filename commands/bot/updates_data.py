@@ -1,6 +1,6 @@
 UPDATES_INFO = {
     "versions": [
-        "vB1.0.0", "vB1.1.0", "vB1.2.0", "vB1.2.1", "vB1.2.2", "vB1.3.0", "vB1.3.1", "vB1.3.2", "vB1.3.3", "vB1.3.4", "vB1.3.5", "vB1.3.6", "vB1.3.7", "vB1.3.8", "vB2.0.0", "vB2.1.0", "vB2.2.0", "vB2.2.1", "vB2.3.0", "vB2.4.0"
+        "vB1.0.0", "vB1.1.0", "vB1.2.0", "vB1.2.1", "vB1.2.2", "vB1.3.0", "vB1.3.1", "vB1.3.2", "vB1.3.3", "vB1.3.4", "vB1.3.5", "vB1.3.6", "vB1.3.7", "vB1.3.8", "vB2.0.0", "vB2.1.0", "vB2.2.0", "vB2.2.1", "vB2.3.0", "vB2.4.0", "vB2.4.1"
     ],
     "details": {
         "vB1.0.0": {
@@ -211,6 +211,13 @@ UPDATES_INFO = {
                 "\n> <a:linea_6764:823570039667163136> Modificada la configuración de los tickets, siendo ahora más intuitivo y fácil de configurar y con mayor personalización (ahora solo existe el comando `/config tickets`). Aquellos tickets anteriores configurados han dejado de funcionar y será necesario una nueva configuración."
                 "\n\nComandos actuales: 43"
                 "\nSlash commands: 20"
+        },
+        "vB2.4.1": {
+            "title": "Información Actualización BETA 'vB2.4.1'",
+            "content": "__Modificado:__ "
+                "\n> <a:linea_6764:823570039667163136> Corrección con la vista en la configuración de los tickets."
+                "\n\nComandos actuales: 43"
+                "\nSlash commands: 20 "
         }
     }
 }

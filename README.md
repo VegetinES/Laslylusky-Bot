@@ -2,7 +2,7 @@
 [![Discord](https://img.shields.io/discord/766964835946463232?color=7289da&logo=discord&logoColor=white)](https://discord.gg/8uuPxpjC4N)
 [![Estado](https://img.shields.io/badge/estado-en%20desarrollo-yellow)](https://github.com/VegetinES/Laslylusky-Bot)
 [![Python](https://img.shields.io/badge/python-3.12+-blue.svg)](https://www.python.org/downloads/)
-[![Version](https://img.shields.io/badge/version-vB2.4.0-orange)](https://github.com/VegetinES/Laslylusky-Bot)
+[![Version](https://img.shields.io/badge/version-vB2.4.1-orange)](https://github.com/VegetinES/Laslylusky-Bot)
 [![Release](https://img.shields.io/badge/release-1%20mes-brightgreen)](https://github.com/VegetinES/Laslylusky-Bot)
 
 <div align="center">
@@ -140,6 +140,9 @@ Para ver la política de privacidad completa del bot, utiliza `%privacidad` o `/
 
 
 ## Actualizaciones Recientes (más detalles con %updates)
+### Versión BETA vB2.4.1
+- Corrección con la vista en la configuración de los tickets.
+
 ### Versión BETA vB2.4.0
 - Modificada la configuración de los tickets, siendo ahora más intuitivo y fácil de configurar y con mayor personalización (ahora solo existe el comando `/config tickets`). Aquellos tickets anteriores configurados han dejado de funcionar y será necesario una nueva configuración.
 - Nuevo comando slash `/clear`, con parámetros de escoger el usuario del que eliminar los mensajes y en que canal borrar los mensajes.

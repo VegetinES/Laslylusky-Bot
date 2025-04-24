@@ -48,14 +48,16 @@ class TicketCreateView(discord.ui.View):
                 self.remove_item(item)
         
         channels = []
-        if self.step == "ticket_channel":
-            placeholder = "Selecciona el canal para los tickets"
-            for channel in self.bot.interaction_guild.text_channels:
-                channels.append(channel)
-        elif self.step == "log_channel":
-            placeholder = "Selecciona el canal para los logs de tickets"
-            for channel in self.bot.interaction_guild.text_channels:
-                channels.append(channel)
+        if hasattr(self.bot, 'interaction_guild') and self.bot.interaction_guild:
+            guild = self.bot.interaction_guild
+            if self.step == "ticket_channel":
+                placeholder = "Selecciona el canal para los tickets"
+                for channel in guild.text_channels:
+                    channels.append(channel)
+            elif self.step == "log_channel":
+                placeholder = "Selecciona el canal para los logs de tickets"
+                for channel in guild.text_channels:
+                    channels.append(channel)
         
         total_pages = (len(channels) - 1) // 25 + 1
         start_idx = self.current_page * 25
@@ -95,7 +97,7 @@ class TicketCreateView(discord.ui.View):
                 )
             
             select = discord.ui.Select(
-                placeholder=f"{placeholder} (Página {self.current_page + 1}/{total_pages})",
+                placeholder=f"{placeholder} (Página {self.current_page + 1}/{max(1, total_pages)})",
                 options=options,
                 custom_id="select_channel",
                 row=0
@@ -106,6 +108,7 @@ class TicketCreateView(discord.ui.View):
     async def prev_page_callback(self, interaction: discord.Interaction):
         if self.current_page > 0:
             self.current_page -= 1
+            self.bot.interaction_guild = interaction.guild
             self.add_channel_selector()
             
             title = "Crear Nuevo Ticket"
@@ -125,6 +128,7 @@ class TicketCreateView(discord.ui.View):
             )
     
     async def next_page_callback(self, interaction: discord.Interaction):
+        self.bot.interaction_guild = interaction.guild
         channels = interaction.guild.text_channels
         total_pages = (len(channels) - 1) // 25 + 1
         
@@ -149,6 +153,8 @@ class TicketCreateView(discord.ui.View):
             )
     
     async def channel_select_callback(self, interaction: discord.Interaction):
+        self.bot.interaction_guild = interaction.guild
+        
         channel_id = interaction.data["values"][0]
         channel = interaction.guild.get_channel(int(channel_id))
         
@@ -197,6 +203,8 @@ class TicketCreateView(discord.ui.View):
             )
     
     async def next_callback(self, interaction: discord.Interaction):
+        self.bot.interaction_guild = interaction.guild
+        
         if self.step == "ticket_channel":
             self.step = "log_channel"
             self.current_page = 0
@@ -218,6 +226,8 @@ class TicketCreateView(discord.ui.View):
             )
     
     async def back_callback(self, interaction: discord.Interaction):
+        self.bot.interaction_guild = interaction.guild
+        
         if self.step == "ticket_channel":
             from .manage_view import TicketsManageView
             

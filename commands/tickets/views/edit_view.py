@@ -104,6 +104,8 @@ class TicketEditView(discord.ui.View):
     
     async def cancel_callback(self, interaction: discord.Interaction):
         try:
+            self.bot.interaction_guild = interaction.guild
+            
             embed = discord.Embed(
                 title="Configuración Cancelada",
                 description="<:No:825734196256440340> Has cancelado la edición del ticket.",
@@ -122,6 +124,8 @@ class TicketEditView(discord.ui.View):
     
     async def change_ticket_channel_callback(self, interaction: discord.Interaction):
         try:
+            self.bot.interaction_guild = interaction.guild
+
             options = []
             
             for channel in interaction.guild.text_channels:
@@ -195,6 +199,8 @@ class TicketEditView(discord.ui.View):
     
     async def change_log_channel_callback(self, interaction: discord.Interaction):
         try:
+            self.bot.interaction_guild = interaction.guild
+
             options = []
             
             for channel in interaction.guild.text_channels:
@@ -268,6 +274,8 @@ class TicketEditView(discord.ui.View):
     
     async def open_message_callback(self, interaction: discord.Interaction):
         try:
+            self.bot.interaction_guild = interaction.guild
+
             from .message_view import MessageConfigView
             
             message_type = "open_message"
@@ -293,6 +301,8 @@ class TicketEditView(discord.ui.View):
     
     async def opened_message_callback(self, interaction: discord.Interaction):
         try:
+            self.bot.interaction_guild = interaction.guild
+
             from .message_view import MessageConfigView
             
             buttons = self.ticket_config.get("open_message", {}).get("buttons", [])
@@ -453,6 +463,8 @@ class TicketEditView(discord.ui.View):
     
     async def permissions_callback(self, interaction: discord.Interaction):
         try:
+            self.bot.interaction_guild = interaction.guild
+
             from .permissions_view import PermissionsView
             
             view = PermissionsView(self.bot, self.ticket_config, self.ticket_channel, self.log_channel)
@@ -475,6 +487,8 @@ class TicketEditView(discord.ui.View):
     async def save_callback(self, interaction: discord.Interaction):
         try:
             from ..utils.database import save_ticket_config
+            
+            self.bot.interaction_guild = interaction.guild
             
             if not self.ticket_config.get("permissions", {}).get("manage", {}).get("roles") and not self.ticket_config.get("permissions", {}).get("manage", {}).get("users"):
                 await interaction.response.send_message(
@@ -561,24 +575,24 @@ class TicketEditView(discord.ui.View):
                         existing_config.get("opened_messages") != self.ticket_config.get("opened_messages"):
                             should_deploy = True
                     
-                    if should_deploy:
-                        await self.deploy_ticket_message(interaction)
-                        message = f"<:Si:825734135116070962> La configuración de tickets para {self.ticket_channel.mention} ha sido guardada correctamente y el mensaje ha sido enviado al canal."
-                    else:
-                        message = f"<:Si:825734135116070962> La configuración de tickets para {self.ticket_channel.mention} ha sido actualizada correctamente."
-                    
                     embed = discord.Embed(
                         title="Configuración Guardada",
-                        description=message,
+                        description="<:Si:825734135116070962> La configuración de tickets para " + 
+                                    f"{self.ticket_channel.mention} ha sido " + 
+                                    ("guardada correctamente y el mensaje ha sido enviado al canal." if should_deploy else "actualizada correctamente."),
                         color=0x2ecc71
                     )
                     
-                    # En lugar de enviar un nuevo mensaje, editamos el actual sin botones
                     await interaction.followup.edit_message(
                         message_id=interaction.message.id,
+                        content=None,
                         embed=embed,
-                        view=None  # Quitar los botones
+                        view=None
                     )
+                    
+                    if should_deploy:
+                        await self.deploy_ticket_message(interaction)
+                    
                 except Exception as e:
                     print(f"Error al configurar permisos o enviar mensaje: {e}")
                     await interaction.followup.send(
@@ -602,6 +616,8 @@ class TicketEditView(discord.ui.View):
 
     async def deploy_ticket_message(self, interaction):
         try:
+            self.bot.interaction_guild = interaction.guild
+
             from ..utils.preview import generate_preview, generate_ticket_view
             
             existing_message = None
@@ -673,6 +689,8 @@ class TicketEditView(discord.ui.View):
     
     async def back_callback(self, interaction: discord.Interaction):
         try:
+            self.bot.interaction_guild = interaction.guild
+
             from .manage_view import TicketsManageView
             
             view = TicketsManageView(self.bot)
@@ -695,6 +713,8 @@ class TicketEditView(discord.ui.View):
             
     async def delete_ticket_callback(self, interaction: discord.Interaction):
         try:
+            self.bot.interaction_guild = interaction.guild
+
             view = ConfirmDeleteView(self.bot, self.ticket_config, self.ticket_channel, self.log_channel)
             
             embed = discord.Embed(
@@ -748,6 +768,8 @@ class ConfirmDeleteView(discord.ui.View):
     
     async def confirm_callback(self, interaction: discord.Interaction):
         try:
+            self.bot.interaction_guild = interaction.guild
+
             from ..utils.helpers import find_and_delete_ticket_message
             from ..utils.database import delete_ticket_config
             
@@ -775,10 +797,9 @@ class ConfirmDeleteView(discord.ui.View):
                     color=0x2ecc71
                 )
                 
-                # Editar el mensaje actual sin botones
                 await interaction.response.edit_message(
                     embed=embed,
-                    view=None  # Quitar los botones
+                    view=None
                 )
                 
                 await asyncio.sleep(3)
@@ -812,6 +833,8 @@ class ConfirmDeleteView(discord.ui.View):
 
     async def cancel_callback(self, interaction: discord.Interaction):
         try:
+            self.bot.interaction_guild = interaction.guild
+
             from .edit_view import TicketEditView
             
             view = TicketEditView(self.bot, self.ticket_config, self.ticket_channel, self.log_channel)

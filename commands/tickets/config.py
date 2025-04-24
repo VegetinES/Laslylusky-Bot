@@ -4,6 +4,9 @@ from .views.main_view import TicketsMainView
 
 async def setup_tickets_config(interaction: discord.Interaction, bot):
     try:
+        if hasattr(bot, 'ticket_config'):
+            delattr(bot, 'ticket_config')
+        
         bot.interaction_guild = interaction.guild
         
         view = TicketsMainView(bot)
