@@ -1,6 +1,6 @@
 UPDATES_INFO = {
     "versions": [
-        "vB1.0.0", "vB1.1.0", "vB1.2.0", "vB1.2.1", "vB1.2.2", "vB1.3.0", "vB1.3.1", "vB1.3.2", "vB1.3.3", "vB1.3.4", "vB1.3.5", "vB1.3.6", "vB1.3.7", "vB1.3.8", "vB2.0.0", "vB2.1.0", "vB2.2.0", "vB2.2.1", "vB2.3.0"
+        "vB1.0.0", "vB1.1.0", "vB1.2.0", "vB1.2.1", "vB1.2.2", "vB1.3.0", "vB1.3.1", "vB1.3.2", "vB1.3.3", "vB1.3.4", "vB1.3.5", "vB1.3.6", "vB1.3.7", "vB1.3.8", "vB2.0.0", "vB2.1.0", "vB2.2.0", "vB2.2.1", "vB2.3.0", "vB2.4.0"
     ],
     "details": {
         "vB1.0.0": {
@@ -200,6 +200,17 @@ UPDATES_INFO = {
                 "\n> <a:linea_6764:823570039667163136> 7 nuevos logs: entrada y salida de usuarios en canales de voz, roles añadidos y eliminados de usuarios, canales creados y eliminados en el servidor, y actualización del perfil de un usuario (avatar y nombre)."
                 "\n\nComandos actuales: 43"
                 "\nSlash commands: 19 "
+        },
+        "vB2.4.0": {
+            "title": "Información Actualización BETA 'vB2.4.0'",
+            "content": "__Añadido:__ "
+                "\n> <a:linea_6764:823570039667163136> Nuevo comando slash `/clear`, con parámetros de escoger el usuario del que eliminar los mensajes y en que canal borrar los mensajes."
+                "\n> <a:linea_6764:823570039667163136> Nuevo comando slash `/updates`, que mostrará las actualizaciones del bot."
+                "\n> <a:linea_6764:823570039667163136> **Cambio experimental:** Nuevo comando slash `/embed`, para crear embeds personalizados (varios errores, se irán corrigiendo y añadiendo más cosas con el paso de las actualizaciones)."
+                "\n\n__Modificado:__ "
+                "\n> <a:linea_6764:823570039667163136> Modificada la configuración de los tickets, siendo ahora más intuitivo y fácil de configurar y con mayor personalización (ahora solo existe el comando `/config tickets`). Aquellos tickets anteriores configurados han dejado de funcionar y será necesario una nueva configuración."
+                "\n\nComandos actuales: 43"
+                "\nSlash commands: 20"
         }
     }
 }

@@ -2,8 +2,8 @@
 [![Discord](https://img.shields.io/discord/766964835946463232?color=7289da&logo=discord&logoColor=white)](https://discord.gg/8uuPxpjC4N)
 [![Estado](https://img.shields.io/badge/estado-en%20desarrollo-yellow)](https://github.com/VegetinES/Laslylusky-Bot)
 [![Python](https://img.shields.io/badge/python-3.12+-blue.svg)](https://www.python.org/downloads/)
-[![Version](https://img.shields.io/badge/version-vB2.3.0-orange)](https://github.com/VegetinES/Laslylusky-Bot)
-[![Release](https://img.shields.io/badge/release-2%20meses-brightgreen)](https://github.com/VegetinES/Laslylusky-Bot)
+[![Version](https://img.shields.io/badge/version-vB2.4.0-orange)](https://github.com/VegetinES/Laslylusky-Bot)
+[![Release](https://img.shields.io/badge/release-1%20mes-brightgreen)](https://github.com/VegetinES/Laslylusky-Bot)
 
 <div align="center">
   <img src="https://i.imgur.com/8PfFjgQ.png" width="200" height="200" alt="Laslylusky">
@@ -38,10 +38,7 @@ Laslylusky es un bot versátil para Discord diseñado para mejorar la experienci
 - `config update`: Reinicia la configuración a valores predeterminados
 
 ### 🎫 Tickets [4]
-- `config tickets canal`: Configura canales para sistema de tickets
-- `config tickets permisos`: Define permisos para gestión de tickets
-- `config tickets mensajes`: Personaliza mensajes de tickets
-- `config tickets modificar`: Gestiona configuraciones existentes
+- `config tickets`: Configurar los tickets
 
 ### ℹ️ Información [4]
 - `userinfo`: Información detallada de usuarios
@@ -102,7 +99,7 @@ Este bot se encuentra en desarrollo activo, con constantes mejoras y adiciones. 
 
 ## 🔧 Comandos de Configuración
 ```
-/config help [tipo]     # Ayuda detallada sobre configuración
+/config help            # Ayuda detallada sobre configuración
 /config data            # Muestra la configuración actual
 /config update          # Restablece la configuración predeterminada
 /config cmd [comando] [estado]  # Activa/desactiva comandos
@@ -112,11 +109,7 @@ Este bot se encuentra en desarrollo activo, con constantes mejoras y adiciones. 
 
 ## 🎫 Configuración de los Tickets
 ```
-/config tickets help                       # Ayuda sobre sistema de tickets
-/config tickets canal                      # Configura canales para tickets
-/config tickets permisos                   # Define permisos para tickets
-/config tickets mensajes                   # Personaliza mensajes de tickets
-/config tickets modificar                  # Gestiona configuraciones existentes
+/config tickets                       # Menú para gestionar los tickets
 ```
 
 ## 📊 Progreso Actual
@@ -147,6 +140,12 @@ Para ver la política de privacidad completa del bot, utiliza `%privacidad` o `/
 
 
 ## Actualizaciones Recientes (más detalles con %updates)
+### Versión BETA vB2.4.0
+- Modificada la configuración de los tickets, siendo ahora más intuitivo y fácil de configurar y con mayor personalización (ahora solo existe el comando `/config tickets`). Aquellos tickets anteriores configurados han dejado de funcionar y será necesario una nueva configuración.
+- Nuevo comando slash `/clear`, con parámetros de escoger el usuario del que eliminar los mensajes y en que canal borrar los mensajes.
+- **Cambio experimental**: añadido el comando `/embed` para crear embeds personalizados (varios errores, se irán corrigiendo y añadiendo más cosas con el paso de las actualizaciones).
+- Nuevo comando slash `/updates`, que mostrará las actualizaciones del bot.
+
 ### Versión BETA vB2.3.0
 - 7 nuevos logs: entrada y salida de usuarios en canales de voz, roles añadidos y eliminados de usuarios, canales creados y eliminados en el servidor, y actualización del perfil de un usuario (avatar y nombre)
 

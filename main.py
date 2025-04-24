@@ -23,6 +23,31 @@ intents.voice_states = True
 
 bot = commands.Bot(command_prefix='%', intents=intents)
 
+@bot.event
+async def on_interaction(interaction):
+    if interaction.type == discord.InteractionType.component:
+        custom_id = interaction.data.get("custom_id", "")
+        if custom_id.startswith("ticket:"):
+            from commands.tickets.utils.helpers import handle_ticket_button
+            await handle_ticket_button(interaction, custom_id)
+
+@bot.event
+async def on_message(message):
+    await bot.process_commands(message)
+    
+    if isinstance(message.channel, discord.Thread) and not message.author.bot:
+        thread = message.channel
+        
+        if thread.archived:
+            parent_channel = thread.parent
+            if parent_channel:
+                from commands.tickets.utils.database import get_ticket_data
+                
+                ticket_config = get_ticket_data(message.guild.id, str(parent_channel.id))
+                if ticket_config:
+                    from commands.tickets.utils.helpers import reopen_ticket
+                    await reopen_ticket(thread, message.author)
+
 bot.remove_command('help')
 
 oracle = Oracle()
@@ -98,377 +123,11 @@ async def load_extensions(directories):
     print(f"Extensiones en subdirectorios: {subdir_extensions}")
 
 @bot.event
-async def on_guild_join(guild):   
-    data = {
-        "guild_id": guild.id,
-        "default_cdm": ["help", "donate", "info", "invite", "privacidad", "updates", "savedatachat", "bot-suggest", "bugreport", "laslylusky", "reset-chat", "config", "infracciones", "moderador"],
-        "act_cmd": ["serverinfo", "slowmode", "kill", "meme", "avatar", "servericon", "userinfo", "ban", "unban", "clear", "kick", "warn", "unwarn", "4k", "anal", "ass", "blowjob", "boobs", "hanal", "hass", "hboobs", "pgif", "pussy", "mcstatus", "mcuser", "hypixel", "hug", "massban", "purgeban"],
-        "deact_cmd": ["embed"],
-        "mute_role": 0,
-        "perms": {
-            "mg-ch-roles": [0],
-            "mg-ch-users": [0],
-            "admin-roles": [0],
-            "admin-users": [0],
-            "mg-rl-roles": [0],
-            "mg-rl-user": [0],
-            "mg-srv-roles": [0],
-            "mg-srv-users": [0],
-            "kick-roles": [0],
-            "kick-users": [0],
-            "ban-roles": [0],
-            "ban-users": [0],
-            "mute-roles": [0],
-            "mute-users": [0],
-            "deafen-roles": [0],
-            "deafen-users": [0],
-            "mg-msg-roles": [0],
-            "mg-msg-users": [0],
-            "warn-users": [0],
-            "warn-roles": [0],
-            "unwarn-users": [0],
-            "unwarn-roles": [0]
-        },
-        "audit_logs": {
-            "ban": {
-                "log_channel": 0,
-                "message": {
-                    "embed": False,
-                    "title": "",
-                    "description": "",
-                    "footer": "",
-                    "color": "", 
-                    "image": {
-                        "has": False,
-                        "param": ""
-                    },
-                    "thumbnail": {
-                        "has": False,
-                        "param": ""
-                    },
-                    "fields": {},
-                    "message": ""
-                },
-                "activated": False
-            },
-            "kick": {
-                "log_channel": 0,
-                "message": {
-                    "embed": False,
-                    "title": "",
-                    "description": "",
-                    "footer": "",
-                    "color": "", 
-                    "image": {
-                        "has": False,
-                        "param": ""
-                    },
-                    "thumbnail": {
-                        "has": False,
-                        "param": ""
-                    },
-                    "fields": {},
-                    "message": ""
-                },
-                "activated": False
-            },
-            "unban": {
-                "log_channel": 0,
-                "message": {
-                    "embed": False,
-                    "title": "",
-                    "description": "",
-                    "footer": "",
-                    "color": "", 
-                    "image": {
-                        "has": False,
-                        "param": ""
-                    },
-                    "thumbnail": {
-                        "has": False,
-                        "param": ""
-                    },
-                    "fields": {},
-                    "message": ""
-                },
-                "activated": False
-            },
-            "enter": {
-                "log_channel": 0,
-                "message": {
-                    "embed": False,
-                    "title": "",
-                    "description": "",
-                    "footer": "",
-                    "color": "", 
-                    "image": {
-                        "has": False,
-                        "param": ""
-                    },
-                    "thumbnail": {
-                        "has": False,
-                        "param": ""
-                    },
-                    "fields": {},
-                    "message": ""
-                },
-                "activated": False
-            },
-            "leave": {
-                "log_channel": 0,
-                "message": {
-                    "embed": False,
-                    "title": "",
-                    "description": "",
-                    "footer": "",
-                    "color": "", 
-                    "image": {
-                        "has": False,
-                        "param": ""
-                    },
-                    "thumbnail": {
-                        "has": False,
-                        "param": ""
-                    },
-                    "fields": {},
-                    "message": ""
-                },
-                "activated": False
-            },
-            "del_msg": { 
-                "log_channel": 0, 
-                "message": {
-                    "embed": False,
-                    "title": "",
-                    "description": "",
-                    "footer": "",
-                    "color": "", 
-                    "image": {
-                        "has": False,
-                        "param": ""
-                    },
-                    "thumbnail": {
-                        "has": False,
-                        "param": ""
-                    },
-                    "fields": {},
-                    "message": ""
-                },
-                "activated": False 
-            }, 
-            "edited_msg": { 
-                "log_channel": 0, 
-                "message": {
-                    "embed": False,
-                    "title": "",
-                    "description": "",
-                    "footer": "",
-                    "color": "", 
-                    "image": {
-                        "has": False,
-                        "param": ""
-                    },
-                    "thumbnail": {
-                        "has": False,
-                        "param": ""
-                    },
-                    "fields": {},
-                    "message": ""
-                },
-                "activated": False 
-            },
-            "warn": {
-                "log_channel": 0,
-                "message": {
-                    "embed": False,
-                    "title": "",
-                    "description": "",
-                    "footer": "",
-                    "color": "", 
-                    "image": {
-                        "has": False,
-                        "param": ""
-                    },
-                    "thumbnail": {
-                        "has": False,
-                        "param": ""
-                    },
-                    "fields": {},
-                    "message": ""
-                },
-                "activated": False
-            },
-            "unwarn": {
-                "log_channel": 0,
-                "message": {
-                    "embed": False,
-                    "title": "",
-                    "description": "",
-                    "footer": "",
-                    "color": "", 
-                    "image": {
-                        "has": False,
-                        "param": ""
-                    },
-                    "thumbnail": {
-                        "has": False,
-                        "param": ""
-                    },
-                    "fields": {},
-                    "message": ""
-                },
-                "activated": False
-            },
-            "vc_enter": { 
-                "log_channel": 0, 
-                "message": {
-                    "embed": False,
-                    "title": "",
-                    "description": "",
-                    "footer": "",
-                    "color": "", 
-                    "image": {
-                        "has": False,
-                        "param": ""
-                    },
-                    "thumbnail": {
-                        "has": False,
-                        "param": ""
-                    },
-                    "fields": {},
-                    "message": ""
-                },
-                "activated": False 
-            },
-            "vc_leave": { 
-                "log_channel": 0, 
-                "message": {
-                    "embed": False,
-                    "title": "",
-                    "description": "",
-                    "footer": "",
-                    "color": "", 
-                    "image": {
-                        "has": False,
-                        "param": ""
-                    },
-                    "thumbnail": {
-                        "has": False,
-                        "param": ""
-                    },
-                    "fields": {},
-                    "message": ""
-                },
-                "activated": False 
-            },
-            "add_usr_rol": { 
-                "log_channel": 0, 
-                "message": {
-                    "embed": False,
-                    "title": "",
-                    "description": "",
-                    "footer": "",
-                    "color": "", 
-                    "image": {
-                        "has": False,
-                        "param": ""
-                    },
-                    "thumbnail": {
-                        "has": False,
-                        "param": ""
-                    },
-                    "fields": {},
-                    "message": ""
-                },
-                "activated": False 
-            },
-            "rm_usr_rol": { 
-                "log_channel": 0, 
-                "message": {
-                    "embed": False,
-                    "title": "",
-                    "description": "",
-                    "footer": "",
-                    "color": "", 
-                    "image": {
-                        "has": False,
-                        "param": ""
-                    },
-                    "thumbnail": {
-                        "has": False,
-                        "param": ""
-                    },
-                    "fields": {},
-                    "message": ""
-                },
-                "activated": False 
-            },
-            "add_ch": { 
-                "log_channel": 0, 
-                "message": {
-                    "embed": False,
-                    "title": "",
-                    "description": "",
-                    "footer": "",
-                    "color": "", 
-                    "image": {
-                        "has": False,
-                        "param": ""
-                    },
-                    "thumbnail": {
-                        "has": False,
-                        "param": ""
-                    },
-                    "fields": {},
-                    "message": ""
-                },
-                "activated": False 
-            },
-            "del_ch": { 
-                "log_channel": 0, 
-                "message": {
-                    "embed": False,
-                    "title": "",
-                    "description": "",
-                    "footer": "",
-                    "color": "", 
-                    "image": {
-                        "has": False,
-                        "param": ""
-                    },
-                    "thumbnail": {
-                        "has": False,
-                        "param": ""
-                    },
-                    "fields": {},
-                    "message": ""
-                },
-                "activated": False 
-            },
-            "changed_av": { 
-                "log_channel": 0, 
-                "message": {
-                    "embed": False,
-                    "title": "",
-                    "description": "",
-                    "footer": "",
-                    "color": "", 
-                    "image": {
-                        "has": False,
-                        "param": ""
-                    },
-                    "thumbnail": {
-                        "has": False,
-                        "param": ""
-                    },
-                    "fields": {},
-                    "message": ""
-                },
-                "activated": False 
-            }
-        },
-        "tickets": {}
-    } 
+async def on_guild_join(guild):  
+
+    from .data import get_data 
+
+    data = get_data(guild.id)
     
     success = save_server_data(guild, data)
     

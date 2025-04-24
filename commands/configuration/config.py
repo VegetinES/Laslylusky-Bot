@@ -10,7 +10,7 @@ from .configupdate import show_config_update
 from .configlogs import show_config_logs
 from .configlogs_constants import LOG_TYPES
 from .configperms import show_config_perms, permission_autocomplete
-from ..tickets.configtickets import show_tickets_channel, show_tickets_messages, show_tickets_perms, channel_autocomplete, color_autocomplete, show_tickets_help, show_tickets_modify
+from ..tickets.config import setup_tickets_config
 
 class Config(commands.Cog):
     def __init__(self, bot):
@@ -130,125 +130,11 @@ class Config(commands.Cog):
             return
         await show_config_perms(interaction, permiso, accion, roles, usuarios)
 
-    tickets_group = app_commands.Group(name="tickets", description="Configura el sistema de tickets", parent=config_group)
-    
-    @tickets_group.command(name="help", description="Muestra la ayuda para el sistema de tickets")
-    async def tickets_help(self, interaction: discord.Interaction):
+    @config_group.command(name="tickets", description="Configura el sistema de tickets")
+    async def config_tickets_cmd(self, interaction: discord.Interaction):
         if not await self.is_admin(interaction):
             return
-        await show_tickets_help(interaction)
-
-    @tickets_group.command(name="canal", description="Configura el canal para los tickets")
-    @app_commands.describe(
-        canal_abrir_ticket="Canal donde estará el mensaje para abrir tickets",
-        canal_logs="Canal donde se enviarán los logs de tickets",
-        nombre_ticket="Nombre base para los tickets (máximo 15 caracteres, usa {id} para numerar automáticamente)"
-    )
-    async def tickets_channel(
-        self,
-        interaction: discord.Interaction,
-        canal_abrir_ticket: discord.TextChannel,
-        canal_logs: discord.TextChannel,
-        nombre_ticket: str
-    ):
-        if not await self.is_admin(interaction):
-            return
-        await show_tickets_channel(interaction, canal_abrir_ticket, canal_logs, nombre_ticket)
-
-    @tickets_group.command(name="mensajes", description="Configura los mensajes de tickets")
-    @app_commands.describe(
-        canal="Canal de tickets configurado",
-        tipo="Tipo de mensaje a configurar",
-        título="Título del mensaje",
-        descripción="Descripción del mensaje",
-        imagen="URL de la imagen para el embed (opcional)",
-        footer="Texto del footer para el embed (opcional)",
-        color="Color del embed (opcional)",
-        mensaje="Mensaje adicional (solo para ticket abierto). Puedes usar {user}, {usertag} y {\\n} (opcional)"
-    )
-    @app_commands.autocomplete(canal=channel_autocomplete, color=color_autocomplete)
-    @app_commands.choices(tipo=[
-        app_commands.Choice(name="ticket abierto", value="ticket-abierto"),
-        app_commands.Choice(name="abrir ticket", value="abrir-ticket")
-    ])
-    async def tickets_messages(
-        self,
-        interaction: discord.Interaction,
-        canal: str,
-        tipo: str,
-        título: str,
-        descripción: str,
-        imagen: Optional[str] = None,
-        footer: Optional[str] = None,
-        color: Optional[str] = None,
-        mensaje: Optional[str] = None
-    ):
-        if not await self.is_admin(interaction):
-            return
-        await show_tickets_messages(
-            interaction, 
-            self.bot,
-            canal, 
-            tipo, 
-            título, 
-            descripción, 
-            imagen, 
-            footer, 
-            color,
-            mensaje
-        )
-
-    @tickets_group.command(name="permisos", description="Configura los permisos de tickets")
-    @app_commands.describe(
-        canal="Canal de tickets configurado",
-        permiso="Tipo de permiso a configurar",
-        accion="Añadir o eliminar permisos",
-        roles="Roles a asignar/quitar (separados por espacios)",
-        usuarios="Usuarios a asignar/quitar (separados por espacios)"
-    )
-    @app_commands.autocomplete(canal=channel_autocomplete)
-    @app_commands.choices(permiso=[
-        app_commands.Choice(name="Gestionar tickets", value="manage"),
-        app_commands.Choice(name="Ver tickets", value="see"),
-        app_commands.Choice(name="Cerrar tickets", value="close"),
-        app_commands.Choice(name="Añadir/eliminar usuarios", value="add-del-usr")
-    ])
-    @app_commands.choices(accion=[
-        app_commands.Choice(name="añadir", value="añadir"),
-        app_commands.Choice(name="eliminar", value="eliminar")
-    ])
-    async def tickets_perms(
-        self,
-        interaction: discord.Interaction,
-        canal: str,
-        permiso: str,
-        accion: str,
-        roles: Optional[str] = None,
-        usuarios: Optional[str] = None
-    ):
-        if not await self.is_admin(interaction):
-            return
-        await show_tickets_perms(interaction, canal, permiso, accion, roles, usuarios)
-        
-    @tickets_group.command(name="modificar", description="Modifica o elimina la configuración de tickets")
-    @app_commands.describe(
-        canal="Canal de tickets configurado",
-        accion="Acción a realizar"
-    )
-    @app_commands.autocomplete(canal=channel_autocomplete)
-    @app_commands.choices(accion=[
-        app_commands.Choice(name="restablecer", value="restablecer"),
-        app_commands.Choice(name="eliminar", value="eliminar")
-    ])
-    async def tickets_modify(
-        self,
-        interaction: discord.Interaction,
-        canal: str,
-        accion: str
-    ):
-        if not await self.is_admin(interaction):
-            return
-        await show_tickets_modify(interaction, canal, accion)
+        await setup_tickets_config(interaction, self.bot)
 
 async def setup(bot):
     await bot.add_cog(Config(bot))

@@ -17,7 +17,7 @@ async def show_config_help(interaction):
             "`/config cmd comando estado` - Activa o desactiva comandos específicos\n"
             "`/config logs` - Configuración de registros de auditoría\n"
             "`/config perms` - Configuración de permisos\n"
-            "`/config tickets help` - Muestra la ayuda de configuración de los tickets"
+            "`/config tickets` - Muestra el menú de configuración de los tickets"
         ),
         inline=False
     )
@@ -106,7 +106,7 @@ class ConfigHelpView(discord.ui.View):
     async def show_tickets_help(self, interaction):
         embed = discord.Embed(
             title="Config tickets help",
-            description="Ejecución de `/config tickets help`\n\n`/config tickets help`\n\nEste comando muestra la ayuda específica para configurar el sistema de tickets.",
+            description="Ejecución de `/config tickets`\n\n`/config tickets`\n\nEste comando muestra un menú para mostrar la ayuda de los tickets o configurar tickets.",
             colour=0x00b0f4
         )
         await interaction.response.edit_message(embed=embed, view=None)

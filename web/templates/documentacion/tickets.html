@@ -18,105 +18,106 @@
             <a href="/privacidad">Privacidad</a>
         </div>
         <div class="doc-container">
-            <h1>Configuración del Sistema de Tickets</h1>
+            <h1>Sistema de Tickets - Guía Completa</h1>
             
             <h2>Descripción General</h2>
             
-            <p>El sistema de tickets permite a los usuarios crear tickets para solicitar ayuda o reportar problemas. Los administradores del servidor pueden configurar diferentes aspectos del sistema a través de los comandos <code>/config tickets</code>.</p>
+            <p>El sistema de tickets permite a los usuarios crear conversaciones privadas con el equipo de soporte de tu servidor de manera organizada y eficiente. Utilizando hilos privados de Discord, los usuarios pueden abrir tickets para solicitar ayuda, reportar problemas o cualquier otro motivo que hayas configurado.</p>
             
-            <h2>Comandos disponibles</h2>
-            
-            <ul>
-                <li><code>/config tickets help</code> - Muestra la ayuda para el sistema de tickets</li>
-                <li><code>/config tickets canal</code> - Configura los canales principales para el sistema de tickets</li>
-                <li><code>/config tickets mensajes</code> - Configura los mensajes que se mostrarán en los tickets</li>
-                <li><code>/config tickets permisos</code> - Configura los permisos para los tickets</li>
-                <li><code>/config tickets modificar</code> - Modifica o elimina la configuración de tickets existente</li>
-            </ul>
-            
-            <h2>Documentación de comandos</h2>
-            
-            <h3>Configurar Canal</h3>
-            
-            <p>Ejecución de <code>/config tickets canal</code></p>
-            
-            <pre><code>/config tickets canal canal_abrir_ticket:&lt;canal&gt; canal_logs:&lt;canal&gt; nombre_ticket:&lt;nombre&gt;</code></pre>
+            <h2>Características Principales</h2>
             
             <ul>
-                <li><code>canal_abrir_ticket</code>: El canal donde aparecerá el botón para abrir tickets</li>
-                <li><code>canal_logs</code>: Canal donde se registrarán las acciones de tickets</li>
-                <li><code>nombre_ticket</code>: Formato para nombrar los tickets (debe incluir {id})</li>
+                <li><strong>Hilos privados:</strong> Utiliza el sistema nativo de hilos de Discord para mantener las conversaciones organizadas</li>
+                <li><strong>Personalización completa:</strong> Configura múltiples tipos de tickets con mensajes personalizados</li>
+                <li><strong>Control de acceso:</strong> Define permisos específicos para roles y usuarios individuales</li>
+                <li><strong>Registros detallados:</strong> Seguimiento completo de todas las acciones realizadas en el sistema</li>
+                <li><strong>Interfaz intuitiva:</strong> Fácil de usar tanto para administradores como para usuarios regulares</li>
             </ul>
             
-            <h3>Configurar Permisos</h3>
-            
-            <p>Ejecución de <code>/config tickets permisos</code></p>
-            
-            <pre><code>/config tickets permisos canal:&lt;id&gt; permiso:&lt;tipo&gt; accion:&lt;acción&gt; [roles:&lt;roles&gt;] [usuarios:&lt;usuarios&gt;]</code></pre>
+            <h2>Comandos de Configuración</h2>
             
             <ul>
-                <li><code>canal</code>: ID del canal configurado</li>
-                <li><code>permiso</code>: Tipo de permiso (Gestionar, Ver, Cerrar, Añadir/eliminar)</li>
-                <li><code>accion</code>: añadir o eliminar</li>
-                <li><code>roles</code>: Roles con permiso (requerido roles o usuarios)</li>
-                <li><code>usuarios</code>: Usuarios con permiso (requerido roles o usuarios)</li>
+                <li><code>/config tickets</code> - Abre el menú principal de configuración de tickets</li>
             </ul>
             
-            <h3>Configurar Mensajes</h3>
+            <h2>Proceso de Configuración</h2>
             
-            <p>Ejecución de <code>/config tickets mensajes</code></p>
+            <div class="config-steps">
+                <h3>Paso 1: Crear un Nuevo Ticket</h3>
+                <p>Desde el menú principal, selecciona "Gestionar Tickets" y luego "Crear Nuevo Ticket". Deberás seleccionar:</p>
+                <ul>
+                    <li>Canal para mostrar el botón de tickets</li>
+                    <li>Canal para los registros (logs) de actividad</li>
+                </ul>
+                
+                <h3>Paso 2: Configurar Permisos</h3>
+                <p>Define quién puede gestionar o simplemente ver los tickets:</p>
+                <ul>
+                    <li><strong>Permisos de Gestión:</strong> Permiten control total sobre tickets (obligatorio configurar al menos un rol o usuario)</li>
+                    <li><strong>Permisos de Visualización:</strong> Permiten solo ver tickets sin interactuar</li>
+                </ul>
+                
+                <h3>Paso 3: Personalizar Mensajes</h3>
+                <p>Configura dos tipos de mensajes:</p>
+                <ul>
+                    <li><strong>Mensaje para abrir tickets:</strong> El que contiene los botones que ven los usuarios</li>
+                    <li><strong>Mensaje de ticket abierto:</strong> El que se muestra dentro del ticket cuando se crea</li>
+                </ul>
+                <p>Puedes personalizar títulos, descripciones, colores, imágenes y más.</p>
+                
+                <h3>Paso 4: Configurar Botones</h3>
+                <p>Añade hasta 5 botones diferentes para distintos tipos de tickets:</p>
+                <ul>
+                    <li>Personaliza textos, emojis y estilos</li>
+                    <li>Define formatos de nombres únicos para cada tipo</li>
+                    <li>Cada botón puede tener su propio mensaje de respuesta</li>
+                </ul>
+                
+                <h3>Paso 5: Guardar y Desplegar</h3>
+                <p>Al guardar la configuración, el sistema automáticamente:</p>
+                <ul>
+                    <li>Configura los permisos del canal</li>
+                    <li>Envía el mensaje con los botones al canal seleccionado</li>
+                    <li>Activa el sistema para que los usuarios puedan crear tickets</li>
+                </ul>
+            </div>
             
-            <pre><code>/config tickets mensajes canal:&lt;id&gt; tipo:&lt;tipo&gt; título:&lt;texto&gt; descripción:&lt;texto&gt; [imagen:&lt;url&gt;] [footer:&lt;texto&gt;] [color:&lt;color&gt;] [mensaje:&lt;texto&gt;]</code></pre>
+            <h2>Formato de Nombres de Tickets</h2>
+            
+            <p>Personaliza el formato de nombres usando estas variables:</p>
+            <ul>
+                <li><code>{id}</code>: Número único autoincremental por tipo de ticket</li>
+                <li><code>{userid}</code>: ID del usuario que abre el ticket</li>
+                <li><code>{usertag}</code>: Nombre de usuario en Discord</li>
+            </ul>
+            <p>Ejemplo: <code>soporte-{id}-{usertag}</code> resultaría en "soporte-1-Usuario#1234"</p>
+            
+            <h2>Interacción con Tickets</h2>
+            
+            <h3>Para Usuarios</h3>
+            <ul>
+                <li>Hacer clic en el botón correspondiente para abrir un ticket</li>
+                <li>El ticket se crea como un hilo privado donde solo pueden ver y participar el creador y el equipo</li>
+                <li>Reciben notificaciones cuando el personal responde a su ticket</li>
+            </ul>
+            
+            <h3>Para el Equipo de Soporte</h3>
+            <ul>
+                <li><strong>Añadir miembros:</strong> Pueden añadir usuarios adicionales al ticket</li>
+                <li><strong>Eliminar miembros:</strong> Pueden remover usuarios del ticket</li>
+                <li><strong>Archivar tickets:</strong> Al finalizar, pueden cerrar el ticket</li>
+                <li><strong>Reabrir tickets:</strong> Los tickets archivados pueden reabrirse si es necesario</li>
+            </ul>
+            
+            <h2>Consejos de Uso</h2>
             
             <ul>
-                <li><code>canal</code>: ID del canal configurado</li>
-                <li><code>tipo</code>: Tipo de mensaje (ticket abierto o abrir ticket)</li>
-                <li><code>título</code>: Título del mensaje</li>
-                <li><code>descripción</code>: Descripción del mensaje</li>
-                <li><code>imagen</code>: URL de imagen (opcional)</li>
-                <li><code>footer</code>: Texto del footer (opcional)</li>
-                <li><code>color</code>: Color del embed (opcional)</li>
-                <li><code>mensaje</code>: Mensaje adicional para tickets abiertos (opcional)</li>
+                <li>Configura diferentes tipos de tickets para distintas necesidades (soporte técnico, reportes, sugerencias)</li>
+                <li>Utiliza colores distintos para cada tipo de ticket para identificarlos fácilmente</li>
+                <li>Configura mensajes claros que expliquen el propósito de cada tipo de ticket</li>
+                <li>Revisa los logs periódicamente para monitorear la actividad</li>
+                <li>Asigna permisos de gestión solo a miembros de confianza</li>
             </ul>
-            
-            <h3>Modificar o Eliminar</h3>
-            
-            <p>Ejecución de <code>/config tickets modificar</code></p>
-            
-            <pre><code>/config tickets modificar canal:&lt;id&gt; accion:&lt;accion&gt;</code></pre>
-            
-            <ul>
-                <li><code>canal</code>: ID del canal configurado</li>
-                <li><code>accion</code>: restablecer (reestablece los permisos y mensajes) o eliminar (elimina la configuración)</li>
-            </ul>
-            
-            <h2>Tipos de Permisos</h2>
-            
-            <ul>
-                <li><strong>Gestionar tickets</strong>: Acceso completo al sistema (requerido)</li>
-                <li><strong>Ver tickets</strong>: Puede ver todos los tickets</li>
-                <li><strong>Cerrar tickets</strong>: Puede cerrar tickets</li>
-                <li><strong>Añadir/eliminar usuarios</strong>: Puede añadir o quitar personas de los tickets</li>
-            </ul>
-            
-            <h2>Variables Disponibles</h2>
-            
-            <p>Para personalizar mensajes puedes usar:</p>
-            <ul>
-                <li><code>{user}</code>: Mención del usuario</li>
-                <li><code>{usertag}</code>: Nombre del usuario con discriminador</li>
-                <li><code>{userid}</code>: ID del usuario</li>
-                <li><code>{\n}</code>: Salto de línea</li>
-            </ul>
-            
-            <h2>Orden de Configuración</h2>
-            
-            <ol>
-                <li>Configura el canal</li>
-                <li>Configura los permisos (al menos 'Gestionar tickets')</li>
-                <li>Configura los mensajes (ambos tipos)</li>
-                <li>¡Listo! Tu sistema de tickets está operativo</li>
-            </ol>
         </div>
     </body>
 </html>
