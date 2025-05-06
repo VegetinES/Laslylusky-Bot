@@ -125,7 +125,7 @@ async def load_extensions(directories):
 @bot.event
 async def on_guild_join(guild):  
 
-    from .data import get_data 
+    from data import get_data 
 
     data = get_data(guild.id)
     

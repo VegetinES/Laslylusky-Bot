@@ -19,7 +19,7 @@ COMMAND_CATEGORIES = {
             },
             "updates": {
                 "description": "Comando para saber las actualizaciones del bot",
-                "usage": "`%updates`",
+                "usage": "`%updates` | `/updates`",
                 "permissions": "Todos pueden utilizar este comando"
             },
             "info": {
@@ -58,6 +58,23 @@ COMMAND_CATEGORIES = {
                 "usage": "`%hug {usuario}`",
                 "permissions": "Todos pueden usar este comando",
                 "extra": "No escribas en el comando `{}`. `{usuario}` debe ser sustituido por la mención a un usuario al que quieres abrazar"
+            },
+            "8ball": {
+                "description": "Comando para consultar la bola mágica 8",
+                "usage": "`%8ball {pregunta}` / `/8ball`",
+                "permissions": "Todos pueden usar este comando",
+                "extra": "No escribas en el comando `{}`. `{pregunta}` debe ser sustituido por la pregunta que quieres hacerle a la bola mágica."
+            },
+            "meme": {
+                "description": "Comando que muestra un meme aleatorio en español",
+                "usage": "`%meme` / `/meme`",
+                "permissions": "Todos pueden usar este comando"
+            },
+            "morse": {
+                "description": "Comando para convertir texto a código morse o viceversa",
+                "usage": "`%morse {texto}` / `/morse`",
+                "permissions": "Todos pueden usar este comando",
+                "extra": "No escribas en el comando `{}`. `{texto}` tiene que ser sustituido por el texto que quieres convertir a morse. En el slash command puedes elegir entre convertir texto a morse o morse a texto."
             }
         }
     },
@@ -148,24 +165,24 @@ COMMAND_CATEGORIES = {
         "commands": {
             "userinfo": {
                 "description": "Comando que envía la información del usuario mencionado, o del usuario que ejecutó el comando",
-                "usage": "`%userinfo` / `%userinfo {usuario}`",
+                "usage": "`%userinfo` / `%userinfo {usuario}` / `/userinfo`",
                 "permissions": "Todos pueden usar este comando",
                 "extra": "No escribas en el comando `{}`. `{usuario}` tiene que ser sustituido por la mención del usuario"
             },
             "avatar": {
                 "description": "Comando que envía la imagen de perfil tuya o del usuario mencionado",
-                "usage": "`%avatar` / `%avatar {usuario}`",
+                "usage": "`%avatar` / `%avatar {usuario}` / `/avatar`",
                 "permissions": "Todos pueden usar este comando",
                 "extra": "No escribas en el comando `{}`. `{usuario}` tiene que ser sustituido por la mención del usuario"
             },
             "servericon": {
                 "description": "Comando que envía la imagen del servidor donde se ejecutó",
-                "usage": "`%servericon`",
+                "usage": "`%servericon` / `/servericon`",
                 "permissions": "Todos pueden usar este comando"
             },
             "serverinfo": {
                 "description": "Comando que envía la información del servidor donde se ha utilizado",
-                "usage": "`%serverinfo`",
+                "usage": "`%serverinfo` / `/serverinfo`",
                 "permissions": "Todos pueden usar este comando"
             }
         }
@@ -174,16 +191,21 @@ COMMAND_CATEGORIES = {
         "emoji": "<:Utilidad:838016540246147133>",
         "commands": {
             "embed": {
-                "description": "Comando simple de un embed",
-                "usage": "`%embed {mensaje}`",
-                "permissions": "Todos pueden usar este comando",
-                "extra": "No escribas en el comando `{}`. `{mensaje}` tiene que ser sustituido por el mensaje que quieres que aparezca en el embed"
+                "description": "Comando para crear y enviar embed a través del bot o un webhook",
+                "usage": "`/embed`",
+                "permissions": "ADMINISTRADOR"
             },
             "laslylusky": {
                 "description": "Comando para tener una conversación con Laslylusky gracias a la IA",
                 "usage": "<@784774864766500864> {texto}",
                 "permissions": "Todos pueden usar este comando",
                 "extra": "No escribas en el comando `{}`. `{texto}` debe ser sustituido por el mensaje que quieras decirle a la IA. La IA mantendrá un chat con el usuario siempre, recordando la conversación a no ser que el usuario la elimine. Para eliminar el chat con la IA de ese canal y empezar otro escribe `%reset-chat`. La AI solo podrá mantener conversación con solo 1 usuario"
+            },
+            "id": {
+                "description": "Comando que muestra información de IDs de emojis, usuarios, canales o roles",
+                "usage": "`/id`",
+                "permissions": "Todos pueden usar este comando",
+                "extra": "Selecciona el tipo de elemento (emoji, usuario, canal o rol) del que quieres ver la ID"
             }
         }
     },
@@ -192,7 +214,7 @@ COMMAND_CATEGORIES = {
         "commands": {
             "mcstatus": {
                 "description": "Comando que muestra el estado de un servidor de Minecraft, ya sea de Java o Bedrock",
-                "usage": "`%mcstatus {serverip} {plataforma}`",
+                "usage": "`%mcstatus {serverip} {plataforma}` | `/mcstatus`",
                 "permissions": "Todos pueden usar este comando",
                 "extra": "No escribas en el comando `{}`. `{serverip}` tiene que ser sustituido por la IP del servidor y `{plataforma}` por la plataforma de Minecraft (poner `java` o `bedrock`)"
             },

@@ -1,5 +1,6 @@
 from database.get import get_specific_field
 import discord
+from discord import app_commands
 from discord.ext import commands
 
 class Avatar(commands.Cog):
@@ -48,6 +49,35 @@ class Avatar(commands.Cog):
         embed.set_image(url=avatar_url)
 
         await ctx.send(embed=embed)
+    
+    @app_commands.command(name="avatar", description="Muestra el avatar de un usuario")
+    @app_commands.describe(usuario="Usuario del que quieres ver el avatar")
+    async def avatar_slash(self, interaction: discord.Interaction, usuario: discord.User = None):
+        act_commands = get_specific_field(interaction.guild.id, "act_cmd")
+        if act_commands is None:
+            embed = discord.Embed(
+                title="<:No:825734196256440340> Error de Configuración",
+                description="No hay datos configurados para este servidor. Usa el comando `/config update` si eres administrador para configurar el bot funcione en el servidor",
+                color=discord.Color.red()
+            )
+            await interaction.response.send_message(embed=embed, ephemeral=True)
+            return
+        
+        if "avatar" not in act_commands:
+            await interaction.response.send_message("El comando no está activado en este servidor.", ephemeral=True)
+            return
+
+        user = usuario or interaction.user
+        avatar_url = user.display_avatar.url
+
+        embed = discord.Embed(
+            title=f"El avatar de {user}",
+            description=f"[URL del avatar de {user}]({avatar_url})",
+            color=0x1d1d1d
+        )
+        embed.set_image(url=avatar_url)
+
+        await interaction.response.send_message(embed=embed)
 
 async def setup(bot):
     await bot.add_cog(Avatar(bot))

@@ -66,7 +66,7 @@
                 <tr>
                     <td><code>updates</code></td>
                     <td>Comando para saber las actualizaciones del bot</td>
-                    <td><code>%updates</code></td>
+                    <td><code>%updates</code> / <code>/updates</code></td>
                     <td>Todos pueden utilizar este comando</td>
                     <td></td>
                 </tr>
@@ -123,6 +123,27 @@
                     <td><code>%hug {usuario}</code></td>
                     <td>Todos pueden usar este comando</td>
                     <td>No escribas en el comando <code>{}</code>. <code>{usuario}</code> debe ser sustituido por la mención a un usuario al que quieres abrazar</td>
+                </tr>
+                <tr>
+                    <td><code>8ball</code></td>
+                    <td>Comando para consultar la bola mágica 8</td>
+                    <td><code>%8ball {pregunta}</code> / <code>/8ball</code></td>
+                    <td>Todos pueden usar este comando</td>
+                    <td>No escribas en el comando <code>{}</code>. <code>{pregunta}</code> debe ser sustituido por la pregunta que quieres hacerle a la bola mágica.</td>
+                </tr>
+                <tr>
+                    <td><code>meme</code></td>
+                    <td>Comando que muestra un meme aleatorio en español</td>
+                    <td><code>%meme</code> / <code>/meme</code></td>
+                    <td>Todos pueden usar este comando</td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td><code>morse</code></td>
+                    <td>Comando para convertir texto a código morse o viceversa</td>
+                    <td><code>%morse {texto}</code> / <code>/morse</code></td>
+                    <td>Todos pueden usar este comando</td>
+                    <td>No escribas en el comando <code>{}</code>. <code>{texto}</code> tiene que ser sustituido por el texto que quieres convertir a morse. En el slash command puedes elegir entre convertir texto a morse o morse a texto.</td>
                 </tr>
             </table>
             
@@ -230,7 +251,7 @@
                     <td>Comando para configurar al bot en el servidor donde se ejecute</td>
                     <td><code>%config</code></td>
                     <td>Administrador</td>
-                    <td>Para utilizar la configuración de forma más detallada y fácil los comandos <code>/config help</code>, <code>/config data</code>, <code>/config update</code>, <code>/config perms</code>, <code>/config logs</code> o <code>/config cmd</code></td>
+                    <td>Para utilizar la configuración de forma más detallada y fácil los comandos <code>/config help</code>, <code>/config data</code>, <code>/config update</code>, <code>/config perms</code>, <code>/config logs</code>, <code>/config cmd</code> o <code>/config tickets help</code></td>
                 </tr>
             </table>
             
@@ -247,30 +268,37 @@
                 <tr>
                     <td><code>userinfo</code></td>
                     <td>Comando que envía la información del usuario mencionado, o del usuario que ejecutó el comando</td>
-                    <td><code>%userinfo</code> / <code>%userinfo {usuario}</code></td>
+                    <td><code>%userinfo</code> / <code>%userinfo {usuario}</code> / <code>/userinfo</code></td>
                     <td>Todos pueden usar este comando</td>
                     <td>No escribas en el comando <code>{}</code>. <code>{usuario}</code> tiene que ser sustituido por la mención del usuario</td>
                 </tr>
                 <tr>
                     <td><code>avatar</code></td>
                     <td>Comando que envía la imagen de perfil tuya o del usuario mencionado</td>
-                    <td><code>%avatar</code> / <code>%avatar {usuario}</code></td>
+                    <td><code>%avatar</code> / <code>%avatar {usuario}</code> / <code>/avatar</code></td>
                     <td>Todos pueden usar este comando</td>
                     <td>No escribas en el comando <code>{}</code>. <code>{usuario}</code> tiene que ser sustituido por la mención del usuario</td>
                 </tr>
                 <tr>
                     <td><code>servericon</code></td>
                     <td>Comando que envía la imagen del servidor donde se ejecutó</td>
-                    <td><code>%servericon</code></td>
+                    <td><code>%servericon</code> / <code>/servericon</code></td>
                     <td>Todos pueden usar este comando</td>
                     <td></td>
                 </tr>
                 <tr>
                     <td><code>serverinfo</code></td>
                     <td>Comando que envía la información del servidor donde se ha utilizado</td>
-                    <td><code>%serverinfo</code></td>
+                    <td><code>%serverinfo</code> / <code>/serverinfo</code></td>
                     <td>Todos pueden usar este comando</td>
                     <td></td>
+                </tr>
+                <tr>
+                    <td><code>id</code></td>
+                    <td>Comando que muestra información de IDs de emojis, usuarios, canales o roles</td>
+                    <td><code>/id</code></td>
+                    <td>Todos pueden usar este comando</td>
+                    <td>Selecciona el tipo de elemento (emoji, usuario, canal o rol) del que quieres ver la ID</td>
                 </tr>
             </table>
             
@@ -286,10 +314,10 @@
                 </tr>
                 <tr>
                     <td><code>embed</code></td>
-                    <td>Comando simple de un embed</td>
-                    <td><code>%embed {mensaje}</code></td>
-                    <td>Todos pueden usar este comando</td>
-                    <td>No escribas en el comando <code>{}</code>. <code>{mensaje}</code> tiene que ser sustituido por el mensaje que quieres que aparezca en el embed</td>
+                    <td>Comando para crear y enviar embed a través del bot o un webhook</td>
+                    <td><code>/embed</code></td>
+                    <td>ADMINISTRADOR</td>
+                    <td></td>
                 </tr>
                 <tr>
                     <td><code>laslylusky</code></td>

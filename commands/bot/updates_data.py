@@ -1,6 +1,6 @@
 UPDATES_INFO = {
     "versions": [
-        "vB1.0.0", "vB1.1.0", "vB1.2.0", "vB1.2.1", "vB1.2.2", "vB1.3.0", "vB1.3.1", "vB1.3.2", "vB1.3.3", "vB1.3.4", "vB1.3.5", "vB1.3.6", "vB1.3.7", "vB1.3.8", "vB2.0.0", "vB2.1.0", "vB2.2.0", "vB2.2.1", "vB2.3.0", "vB2.4.0", "vB2.4.1"
+        "vB1.0.0", "vB1.1.0", "vB1.2.0", "vB1.2.1", "vB1.2.2", "vB1.3.0", "vB1.3.1", "vB1.3.2", "vB1.3.3", "vB1.3.4", "vB1.3.5", "vB1.3.6", "vB1.3.7", "vB1.3.8", "vB2.0.0", "vB2.1.0", "vB2.2.0", "vB2.2.1", "vB2.3.0", "vB2.4.0", "vB2.4.1", "vB2.5.0"
     ],
     "details": {
         "vB1.0.0": {
@@ -218,6 +218,16 @@ UPDATES_INFO = {
                 "\n> <a:linea_6764:823570039667163136> Corrección con la vista en la configuración de los tickets."
                 "\n\nComandos actuales: 43"
                 "\nSlash commands: 20 "
+        },
+        "vB2.5.0": {
+            "title": "Información Actualización BETA 'vB2.5.0'",
+            "content": "__Añadido:__ "
+                "\n> <a:linea_6764:823570039667163136> Añadidos slash commands `/userinfo`, `/serverinfo`, `/servericon` y `/avatar`."
+                "\n> <a:linea_6764:823570039667163136> El comando `embed` ahora puede crear embeds con todas sus características (excepto botones), pudiendo utilizarlo en Webhooks incluso."
+                "\n> <a:linea_6764:823570039667163136> Nuevos comandos de diversión: `meme`, `8ball` y `morse`."
+                "\n> <a:linea_6764:823570039667163136> Nuevo comando `/id` donde puedes obtener el ID de un emoji, rol, miembro o canal del servidor donde se ejecuta."
+                "\n\nComandos actuales: 47"
+                "\nSlash commands: 28"
         }
     }
 }

@@ -2,8 +2,8 @@
 [![Discord](https://img.shields.io/discord/766964835946463232?color=7289da&logo=discord&logoColor=white)](https://discord.gg/8uuPxpjC4N)
 [![Estado](https://img.shields.io/badge/estado-en%20desarrollo-yellow)](https://github.com/VegetinES/Laslylusky-Bot)
 [![Python](https://img.shields.io/badge/python-3.12+-blue.svg)](https://www.python.org/downloads/)
-[![Version](https://img.shields.io/badge/version-vB2.4.1-orange)](https://github.com/VegetinES/Laslylusky-Bot)
-[![Release](https://img.shields.io/badge/release-1%20mes-brightgreen)](https://github.com/VegetinES/Laslylusky-Bot)
+[![Version](https://img.shields.io/badge/version-vB2.5.0-orange)](https://github.com/VegetinES/Laslylusky-Bot)
+[![Release](https://img.shields.io/badge/release-3%20semanas-brightgreen)](https://github.com/VegetinES/Laslylusky-Bot)
 
 <div align="center">
   <img src="https://i.imgur.com/8PfFjgQ.png" width="200" height="200" alt="Laslylusky">
@@ -37,7 +37,7 @@ Laslylusky es un bot versátil para Discord diseñado para mejorar la experienci
 - `config perms`: Configuración avanzada de permisos por roles y usuarios
 - `config update`: Reinicia la configuración a valores predeterminados
 
-### 🎫 Tickets [4]
+### 🎫 Tickets [1]
 - `config tickets`: Configurar los tickets
 
 ### ℹ️ Información [4]
@@ -46,11 +46,12 @@ Laslylusky es un bot versátil para Discord diseñado para mejorar la experienci
 - `avatar`: Muestra la imagen de perfil de usuarios
 - `servericon`: Muestra el icono del servidor
 
-### 🚀 Utilidad [4]
+### 🚀 Utilidad [5]
 - `info`: Información detallada sobre el bot
 - `invite`: Genera enlaces de invitación
 - `embed`: Crea mensajes embebidos personalizados
 - `privacidad`: Información sobre la política de privacidad
+- `id`: ID de un usuario/emoji/canal/rol de un servidor
 
 ### 🧠 IA y Comunicación [3]
 - Mencionar al bot para conversaciones basadas en IA con Gemini
@@ -62,9 +63,12 @@ Laslylusky es un bot versátil para Discord diseñado para mejorar la experienci
 - `mcuser`: Información de perfiles de Minecraft
 - `hypixel`: Estadísticas detalladas de jugadores en Hypixel
 
-### 🎭 Diversión [2]
+### 🎭 Diversión [5]
 - `kill`: Genera escenarios cómicos de "muerte" con IA
 - `hug`: Permite abrazar a otros usuarios
+- `morse`: Para traducir texto a morse y viceversa
+- `8ball`: Haz preguntas para que la bola mágica te responda
+- `meme`: Envía memes
 
 ### 🔞 NSFW [10]
 - Diversos comandos de contenido para adultos (`4k`, `anal`, `ass`, `blowjob`, etc.)
@@ -140,6 +144,12 @@ Para ver la política de privacidad completa del bot, utiliza `%privacidad` o `/
 
 
 ## Actualizaciones Recientes (más detalles con %updates)
+### Versión BETA vB2.5.0
+- Añadidos slash commands `/userinfo`, `/serverinfo`, `/servericon` y `/avatar`.
+- El comando `embed` ahora puede crear embeds con todas sus características (excepto botones), pudiendo utilizarlo en Webhooks incluso.
+- Nuevos comandos de diversión: `meme`, `8ball` y `morse`.
+- Nuevo comando `/id` donde puedes obtener el ID de un emoji, rol, miembro o canal del servidor donde se ejecuta.
+
 ### Versión BETA vB2.4.1
 - Corrección con la vista en la configuración de los tickets.
 

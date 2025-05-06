@@ -17,7 +17,7 @@ Laslylusky tiene múltiples comandos y categorías para diferentes funciones. Aq
 | `help` | Muestra todos los comandos disponibles | `%help [comando]` \| `/help` | Todos pueden utilizar este comando | |
 | `invite` | Muestra el enlace de invitación del bot | `%invite` \| `/invite` | Todos pueden utilizar este comando | |
 | `donate` | Manda al MD (mensaje privado) el enlace para hacer donaciones para contribuir en el desarrollo constante de Laslylusky | `%donate` | Todos pueden utilizar este comando | |
-| `updates` | Comando para saber las actualizaciones del bot | `%updates` | Todos pueden utilizar este comando | |
+| `updates` | Comando para saber las actualizaciones del bot | `%updates` / `/updates` | Todos pueden utilizar este comando | |
 | `info` | Comando que muestra información del bot | `%info` \| `/info` | Todos pueden usar este comando | |
 | `privacidad` | Comando que envía la política de privacidad al utilizar el bot | `%privacidad` \| `/privacidad` | Todos pueden utilizar este comando | |
 | `savedatachat` | Comando para descargar tu conversación que has tenido con la IA | `%savedatachat` \| `/savedatachat` | Todos pueden usar este comando | |
@@ -29,6 +29,9 @@ Laslylusky tiene múltiples comandos y categorías para diferentes funciones. Aq
 |---------|-------------|-----|----------|-------|
 | `kill` | Comando para intentar 'matar' a un jugador mencionado | `%kill {usuario.mencion}` | Todos pueden usar este comando | No escribas en el comando `{}`. `{usuario.mencion}` debe ser sustituido por la mención a un usuario al que quieres intentar 'matar' |
 | `hug` | Comando para abrazar a alguien | `%hug {usuario}` | Todos pueden usar este comando | No escribas en el comando `{}`. `{usuario}` debe ser sustituido por la mención a un usuario al que quieres abrazar |
+| `8ball` | Comando para consultar la bola mágica 8 | `%8ball {pregunta}` / `/8ball` | Todos pueden usar este comando | No escribas en el comando `{}`. `{pregunta}` debe ser sustituido por la pregunta que quieres hacerle a la bola mágica. |
+| `meme` | Comando que muestra un meme aleatorio en español | `%meme` / `/meme` | Todos pueden usar este comando | |
+| `morse` | Comando para convertir texto a código morse o viceversa | `%morse {texto}` / `/morse` | Todos pueden usar este comando | No escribas en el comando `{}`. `{texto}` tiene que ser sustituido por el texto que quieres convertir a morse. En el slash command puedes elegir entre convertir texto a morse o morse a texto. | 
 
 ### 🛡️ Moderación
 
@@ -56,17 +59,18 @@ Laslylusky tiene múltiples comandos y categorías para diferentes funciones. Aq
 
 | Comando | Descripción | Uso | Permisos | Extra |
 |---------|-------------|-----|----------|-------|
-| `userinfo` | Comando que envía la información del usuario mencionado, o del usuario que ejecutó el comando | `%userinfo` / `%userinfo {usuario}` | Todos pueden usar este comando | No escribas en el comando `{}`. `{usuario}` tiene que ser sustituido por la mención del usuario |
-| `avatar` | Comando que envía la imagen de perfil tuya o del usuario mencionado | `%avatar` / `%avatar {usuario}` | Todos pueden usar este comando | No escribas en el comando `{}`. `{usuario}` tiene que ser sustituido por la mención del usuario |
-| `servericon` | Comando que envía la imagen del servidor donde se ejecutó | `%servericon` | Todos pueden usar este comando | |
-| `serverinfo` | Comando que envía la información del servidor donde se ha utilizado | `%serverinfo` | Todos pueden usar este comando | |
+| `userinfo` | Comando que envía la información del usuario mencionado, o del usuario que ejecutó el comando | `%userinfo` / `%userinfo {usuario}` / `/userinfo` | Todos pueden usar este comando | No escribas en el comando `{}`. `{usuario}` tiene que ser sustituido por la mención del usuario |
+| `avatar` | Comando que envía la imagen de perfil tuya o del usuario mencionado | `%avatar` / `%avatar {usuario}` / `/avatar` | Todos pueden usar este comando | No escribas en el comando `{}`. `{usuario}` tiene que ser sustituido por la mención del usuario |
+| `servericon` | Comando que envía la imagen del servidor donde se ejecutó | `%servericon` / `/servericon` | Todos pueden usar este comando | |
+| `serverinfo` | Comando que envía la información del servidor donde se ha utilizado | `%serverinfo` / `/serverinfo` | Todos pueden usar este comando | |
 
 ### 🔧 Utilidad
 
 | Comando | Descripción | Uso | Permisos | Extra |
 |---------|-------------|-----|----------|-------|
-| `embed` | Comando simple de un embed | `%embed {mensaje}` | Todos pueden usar este comando | No escribas en el comando `{}`. `{mensaje}` tiene que ser sustituido por el mensaje que quieres que aparezca en el embed |
+| `embed` | Comando para crear y enviar embed a través del bot o un webhook | `/embed` | ADMINISTRADOR |  |
 | `laslylusky` | Comando para tener una conversación con Laslylusky gracias a la IA | `@Laslylusky {texto}` | Todos pueden usar este comando | No escribas en el comando `{}`. `{texto}` debe ser sustituido por el mensaje que quieras decirle a la IA. La IA mantendrá un chat con el usuario siempre, recordando la conversación a no ser que el usuario la elimine. Para eliminar el chat con la IA de ese canal y empezar otro escribe `%reset-chat`. La AI solo podrá mantener conversación con solo 1 usuario |
+| `id` | Comando que muestra información de IDs de emojis, usuarios, canales o roles | `/id` | Todos pueden usar este comando | Selecciona el tipo de elemento (emoji, usuario, canal o rol) del que quieres ver la ID |
 
 ### 🎮 Minecraft
 
