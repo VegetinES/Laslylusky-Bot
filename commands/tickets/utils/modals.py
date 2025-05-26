@@ -246,3 +246,38 @@ class EmbedFooterModal(discord.ui.Modal, title="Configurar Footer"):
                 "Footer configurado",
                 ephemeral=True
             )
+
+class TicketCloseModal(discord.ui.Modal, title="Cerrar Ticket"):
+    def __init__(self):
+        super().__init__()
+        
+        self.reason = discord.ui.TextInput(
+            label="Razón del cierre",
+            placeholder="Escribe la razón por la que se cierra el ticket",
+            required=True,
+            style=discord.TextStyle.paragraph,
+            max_length=1000
+        )
+        
+        self.resolved = discord.ui.TextInput(
+            label="¿Se resolvió el problema? (si/no)",
+            placeholder="si",
+            default="si",
+            required=True,
+            max_length=3
+        )
+        
+        self.add_item(self.reason)
+        self.add_item(self.resolved)
+        self.callback = None
+    
+    async def on_submit(self, interaction: discord.Interaction):
+        resolved = self.resolved.value.lower() in ["si", "sí", "s", "yes", "y", "true", "t"]
+        
+        if self.callback:
+            await self.callback(interaction, self.reason.value, resolved)
+        else:
+            await interaction.response.send_message(
+                "Ticket cerrado",
+                ephemeral=True
+            )

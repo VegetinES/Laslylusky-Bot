@@ -2,8 +2,7 @@
 [![Discord](https://img.shields.io/discord/766964835946463232?color=7289da&logo=discord&logoColor=white)](https://discord.gg/8uuPxpjC4N)
 [![Estado](https://img.shields.io/badge/estado-en%20desarrollo-yellow)](https://github.com/VegetinES/Laslylusky-Bot)
 [![Python](https://img.shields.io/badge/python-3.12+-blue.svg)](https://www.python.org/downloads/)
-[![Version](https://img.shields.io/badge/version-vB2.5.0-orange)](https://github.com/VegetinES/Laslylusky-Bot)
-[![Release](https://img.shields.io/badge/release-3%20semanas-brightgreen)](https://github.com/VegetinES/Laslylusky-Bot)
+[![Version](https://img.shields.io/badge/version-v1.0.0-blue)](https://github.com/VegetinES/Laslylusky-Bot)
 
 <div align="center">
   <img src="https://i.imgur.com/8PfFjgQ.png" width="200" height="200" alt="Laslylusky">
@@ -19,131 +18,191 @@ Laslylusky es un bot versátil para Discord diseñado para mejorar la experienci
 
 ## ⚙️ Características
 
-### 🛡️ Moderación [9]
-- `ban`/`unban`: Banea y desbanea usuarios con sistema temporal opcional
-- `kick`: Expulsa usuarios del servidor con notificación
-- `clear`: Elimina mensajes masivamente (hasta 100)
-- `warn`/`unwarn`: Sistema completo de advertencias con ID y registro
-- `slowmode`: Configura el modo lento en canales de texto
-- `infracciones`: Consulta el historial detallado de infracciones
-- `moderador`: Estadísticas de moderación por usuario
-- `massban`: Baneo masivo de múltiples usuarios a la vez
-- `purgeban`: Banea a un usuario y elimina sus mensajes de los últimos 7 días
+### 🛡️ Moderación [13]
+- `ban`/`unban`: Sistema de baneo temporal y permanente con notificaciones
+- `kick`: Expulsión de usuarios con registro de motivos
+- `clear`: Eliminación masiva de mensajes con filtros avanzados
+- `warn`/`unwarn`: Sistema completo de advertencias con IDs únicos
+- `slowmode`: Configuración de modo lento en canales
+- `infracciones`: Consulta detallada del historial de sanciones
+- `moderador`: Estadísticas de moderación por staff
+- `massban`: Baneo masivo de múltiples usuarios simultáneo
+- `aislar`/`desaislar`: Aislamiento temporal de usuarios del servidor
 
-### 📊 Configuración [5]
-- `config help`: Ayuda detallada sobre todos los comandos de configuración
-- `config cmd`: Activa o desactiva comandos específicos
-- `config logs`: Sistema completo de logs personalizables
-- `config perms`: Configuración avanzada de permisos por roles y usuarios
-- `config update`: Reinicia la configuración a valores predeterminados
+### 🎫 Sistema de Tickets [1]
+- `config tickets`: Sistema completo de soporte con tickets personalizables, gestión de permisos y logs detallados
 
-### 🎫 Tickets [1]
-- `config tickets`: Configurar los tickets
+### 📊 Configuración [6]
+- `config help`: Guía completa de configuración
+- `config cmd`: Activación/desactivación de comandos específicos
+- `config logs`: Sistema de logs personalizables por eventos
+- `config perms`: Gestión avanzada de permisos por roles y usuarios
+- `config update`: Restablecimiento de configuración predeterminada
+- `voicesetup`: Gestión de canales de voz temporales
 
 ### ℹ️ Información [4]
-- `userinfo`: Información detallada de usuarios
-- `serverinfo`: Estadísticas completas del servidor
-- `avatar`: Muestra la imagen de perfil de usuarios
+- `userinfo`: Información completa de usuarios con estadísticas
+- `serverinfo`: Estadísticas detalladas del servidor
+- `avatar`: Visualización de avatares de usuarios
 - `servericon`: Muestra el icono del servidor
 
-### 🚀 Utilidad [5]
-- `info`: Información detallada sobre el bot
-- `invite`: Genera enlaces de invitación
-- `embed`: Crea mensajes embebidos personalizados
-- `privacidad`: Información sobre la política de privacidad
-- `id`: ID de un usuario/emoji/canal/rol de un servidor
+### 🚀 Utilidad [10]
+- `info`: Información detallada del bot y estadísticas
+- `invite`: Generación de enlaces de invitación
+- `embed`: Creación de mensajes embebidos personalizados
+- `privacidad`: Información sobre política de privacidad
+- `id`: Obtención de IDs de usuarios/emojis/canales/roles
+- `cumpleaños`: Sistema completo de gestión de cumpleaños
+- `estadisticas-juegos`: Estadísticas detalladas de minijuegos
+- `updates`: Información sobre actualizaciones y versiones
+- `recordatorio`: Sistema de recordatorios personalizables
+- `nivel`: Sistema de niveles y experiencia gamificado
+- `comprobar-virus`: Análisis de archivos y enlaces
 
 ### 🧠 IA y Comunicación [3]
-- Mencionar al bot para conversaciones basadas en IA con Gemini
-- `reset-chat`: Reinicia el historial de conversación con la IA
-- `savedatachat`: Guarda el historial de conversación en un archivo JSON
+- Conversaciones inteligentes mencionando al bot (IA Gemini)
+- `reset-chat`: Reinicio del historial de conversación
+- `savedatachat`: Descarga del historial en formato JSON
 
 ### 🎮 Minecraft [3]
 - `mcstatus`: Estado de servidores Minecraft (Java/Bedrock)
-- `mcuser`: Información de perfiles de Minecraft
-- `hypixel`: Estadísticas detalladas de jugadores en Hypixel
+- `mcuser`: Información detallada de perfiles de Minecraft
+- `hypixel`: Estadísticas completas de jugadores en Hypixel
 
-### 🎭 Diversión [5]
-- `kill`: Genera escenarios cómicos de "muerte" con IA
-- `hug`: Permite abrazar a otros usuarios
-- `morse`: Para traducir texto a morse y viceversa
-- `8ball`: Haz preguntas para que la bola mágica te responda
-- `meme`: Envía memes
+### 🎭 Diversión y Minijuegos [16]
+- `kill`: Escenarios cómicos generados con IA
+- `hug`: Interacciones sociales de abrazo
+- `morse`: Traductor bidireccional de código morse
+- `8ball`: Bola mágica para respuestas aleatorias
+- `meme`: Generación de memes en español
+- `trivia`: Desafíos de preguntas y respuestas
+- `ahorcado`: Juego clásico del ahorcado multijugador
+- `blackjack`: Juego de cartas completo
+- `insulto`: Insultos graciosos e inofensivos
+- `buscaminas`: Buscaminas interactivo con dificultades
+- `piedrapapeltijera`: Juego tradicional para dos jugadores
+- `ruletarusa`: Juego de riesgo para 2-6 jugadores
+- `tictactoe`: Tres en raya interactivo
+- `conecta4`: Conecta cuatro clásico
+- `halago`: Envío de halagos positivos
+- `moneda`/`dado`: Lanzamiento de monedas y dados personalizables
+- `2048`: Juego numérico hasta 8192
 
 ### 🔞 NSFW [10]
-- Diversos comandos de contenido para adultos (`4k`, `anal`, `ass`, `blowjob`, etc.)
-- Contenido real y hentai (`hboobs`, `hass`, `hanal`, etc.)
-- Exclusivamente disponibles en canales NSFW
+- Contenido exclusivo para canales con restricción de edad
+- Categorías: real y hentai (`4k`, `anal`, `ass`, `blowjob`, `boobs`, `pussy`, `pgif`, `hboobs`, `hass`, `hanal`)
+- Estrictamente limitado a canales NSFW
 
-### 📝 Feedback [2]
-- `bugreport`: Reporta errores en el bot
-- `bot-suggest`: Envía sugerencias para mejoras
+### 📝 Feedback y Soporte [2]
+- `bugreport`: Sistema de reporte de errores detallado
+- `botsuggest`: Envío de sugerencias para mejoras
 
-## 🚧 Estado de Desarrollo
-Este bot se encuentra en desarrollo activo, con constantes mejoras y adiciones. La versión actual es BETA vB2.1.0.
+## 🚀 Estado de Desarrollo
 
-### Lista de Características Implementadas
-- [x] SISTEMA COMPLETO DE MODERACIÓN CON REGISTROS DE INFRACCIONES
-- [x] INTEGRACIÓN CON GEMINI PARA RESPUESTAS DE IA AVANZADAS
-- [x] BASES DE DATOS MONGODB Y ORACLE PARA CONFIGURACIÓN Y ALMACENAMIENTO
-- [x] COMANDOS TANTO TRADICIONALES (%) COMO SLASH (/)
+Laslylusky está completamente desarrollado y en producción estable. La versión actual incluye todas las funcionalidades principales con actualizaciones regulares.
+
+### Características Implementadas
+- [x] SISTEMA COMPLETO DE MODERACIÓN CON REGISTRO DE INFRACCIONES
+- [x] INTEGRACIÓN AVANZADA CON GEMINI AI PARA CONVERSACIONES NATURALES
+- [x] BASES DE DATOS MONGODB Y ORACLE PARA CONFIGURACIÓN ROBUSTA
+- [x] COMPATIBILIDAD COMPLETA CON COMANDOS TRADICIONALES (%) Y SLASH (/)
 - [x] CONFIGURACIÓN AVANZADA PERSONALIZABLE POR SERVIDOR
-- [x] SISTEMA DE PERMISOS PERSONALIZABLE POR ROLES Y USUARIOS
-- [x] LOGS DE AUDITORÍA CONFIGURABLES
-- [x] INTEGRACIÓN CON APIS EXTERNAS (MINECRAFT, HYPIXEL)
-- [x] SISTEMA DE TICKETS PERSONALIZABLE
+- [x] SISTEMA DE PERMISOS GRANULAR POR ROLES Y USUARIOS
+- [x] LOGS DE AUDITORÍA CONFIGURABLES Y DETALLADOS
+- [x] INTEGRACIÓN COMPLETA CON APIS EXTERNAS (MINECRAFT, HYPIXEL)
+- [x] SISTEMA DE TICKETS PROFESIONAL Y PERSONALIZABLE
+- [x] MÁS DE 80 COMANDOS FUNCIONALES
 
 ## 📥 Comandos de Ayuda
 ```
-%help                   # Muestra todos los comandos disponibles
-%help [comando]         # Información específica de un comando
+%help                   # Listado completo de comandos disponibles
+%help [comando]         # Información específica y detallada de un comando
 /help                   # Versión slash del comando de ayuda
-/help comando:[comando] # Ayuda específica en versión slash
+/help comando:[comando] # Ayuda específica en formato slash
 ```
 
-## 🔧 Comandos de Configuración
+## 🔧 Comandos de Configuración Avanzada
 ```
-/config help            # Ayuda detallada sobre configuración
-/config data            # Muestra la configuración actual
-/config update          # Restablece la configuración predeterminada
-/config cmd [comando] [estado]  # Activa/desactiva comandos
-/config logs [tipo]  # Configura logs de auditoría
-/config perms [opciones]        # Configura permisos personalizados
-```
-
-## 🎫 Configuración de los Tickets
-```
-/config tickets                       # Menú para gestionar los tickets
+/config help            # Guía completa de configuración
+/config data            # Visualización de configuración actual
+/config update          # Restablecimiento a configuración predeterminada
+/config cmd [comando] [estado]  # Activación/desactivación de comandos
+/config logs [tipo]     # Configuración de logs de auditoría específicos
+/config perms [opciones] # Configuración de permisos personalizados
 ```
 
-## 📊 Progreso Actual
-- Núcleo del bot: ✅
-- Sistema de comandos: ✅
-- Integración con IA: ✅
-- Base de datos: ✅
-- Sistema de permisos: ✅
-- Sistema de logs: ✅
-- Sistema de tickets: ✅
-- Hosting: ✅
-- Página web: ✅
-
-## 🤝 Contribuciones
-Agradecemos sugerencias y comentarios para mejorar el bot:
-- `%bot-suggest [sugerencia]` o `/botsuggest sugerencia:[texto]` - Enviar sugerencias
-- `%bugreport [descripción]` o `/bugreport razonbug:[texto]` - Reportar errores
-
-## 📜 Privacidad
-Para ver la política de privacidad completa del bot, utiliza `%privacidad` o `/privacidad`. También puedes consultar la [página web oficial](https://laslylusky.es/privacidad) para información detallada.
+## 🎫 Gestión de Tickets
+```
+/config tickets         # Menú completo para gestionar sistema de tickets
+```
 
 ## 🔗 Enlaces Oficiales
-- [Invitar Bot](https://discord.com/oauth2/authorize?client_id=784774864766500864&scope=bot%20applications.commands&permissions=8589803519)
-- [Servidor de Soporte](https://discord.gg/8uuPxpjC4N)
-- [Página en Top.gg](https://top.gg/bot/784774864766500864)
-- [Página Web](https://laslylusky.es)
-- [PayPal](https://paypal.me/VegetinES)
 
+- **[🚀 Invitar Bot](https://laslylusky.es/invite)** - Añade Laslylusky a tu servidor
+- **[🌐 Página Web](https://laslylusky.es)** - Sitio web oficial
+- **[💬 Servidor de Soporte](https://discord.gg/DN6PDKA7gf)** - Ayuda y comunidad
+- **[📊 Top.gg](https://top.gg/bot/784774864766500864)** - Perfil en Top.gg
+- **[💰 Donaciones](https://paypal.me/VegetinES)** - Apoya el desarrollo
+- **[📝 Valoraciones](https://forms.gle/pqeiSo1n1d49jD7M9)** - Comparte tu experiencia
 
-## Actualizaciones Recientes (más detalles con %updates)
+## 📋 Información Legal
+
+- **[🔒 Política de Privacidad](https://laslylusky.es/privacidad)**
+- **[📄 Términos de Servicio](https://laslylusky.es/tos)**
+
+## 💡 Notas Importantes
+
+- **Comandos Predeterminados:** Los siguientes comandos no pueden desactivarse: "help", "donate", "info", "invite", "privacidad", "updates", "savedatachat", "botsuggest", "bugreport", "laslylusky", "reset-chat", "config", "infracciones", "moderador", "recordatorio", "nivel", "voicesetup", "cumpleaños", "estadisticas-juegos"
+
+- **Formato de Parámetros:**
+  - `<>`: Parámetro opcional
+  - `{}`: Parámetro obligatorio
+  - No incluyas los símbolos `<>` ni `{}` al usar los comandos
+
+- **Comandos NSFW:** Solo disponibles en canales marcados como NSFW
+
+## 🏆 ¿Por qué elegir Laslylusky?
+
+✅ **Completamente gratuito** - Todas las funciones disponibles sin restricciones  
+✅ **Configuración intuitiva** - Sistema de configuración (`/config`) fácil de usar  
+✅ **Soporte activo** - Comunidad y desarrolladores disponibles  
+✅ **Código abierto** - Transparencia y seguridad garantizada  
+✅ **Actualizaciones regulares** - Nuevas funciones constantemente  
+✅ **Sin límites** - Más de 80 comandos sin restricciones de uso  
+
+---
+
+**Laslylusky - El bot de Discord que tu servidor necesita** 🚀
+
+---
+
+## Actualizaciones Recientes (más detalles con %updates o /updates)
+### Versión v1.0.0
+- Nuevos comandos de diversión: `morse`, `8ball`, `ahorcado`, `ruleta-rusa`, `piedrapapeltijera`, `insulto`, `halago`, `meme`, `buscaminas`, `blackjack`, `conecta4`, `tictactoe`, `dado`, `moneda`, `trivia`, `2048`
+- Nuevos comandos para crear recordatorios: `/recordatorio`. Comandos disponibles: `/recordatorio crear`, `/recordatorio gestionar` y `/recordatorio listar`.  La hora es necesaria establecerla con la zona horaria, poniendo el GMT. Podéis ver la zona horaria en [este enlace](https://greenwichmeantime.com/time-zone/).
+- Sistema de niveles añadido: comando nuevo `/nivel`. Necesario configurar en un servidor. Comandos disponibles: `/nivel configurar`, `/nivel ver`, `/nivel top` y `/nivel gestionar`.
+- Sistema de cumpleaños en servidores: ahora se puede establecer mensajes de cumpleaños en un servidor y poner tu fecha de cumpleaños. Necesario configurar en un servidor. Comandos disponibles: `/cumpleaños configurar`, `/cumpleaños gestionar`, `/cumpleaños establecer` y `/cumpleaños ver`.
+- Sistema de creación de canales de voz personalizados temporalmente. Importante configurarlo antes con el comando `/voicesetup`.
+- Creación de estadísticas de comandos con el comando `estadisticas-juegos`.
+- Nuevos comandos para mutear o desmutear a un usuario mediante aislamiento temporal: `mute` y `unmute`.
+- Nuevos logs: creación, actualización y eliminación de categorías, y actualización de canales.
+- Nuevos emojis al bot.
+- Nuevo comando `tos` para ver los términos de servicio del bot.
+- Posibilidad de utilizar al bot en foros e hilos.
+- Nuevo comando `/comprobar-virus` con el sistema de VirusTotal, para comprobar el virus de un archivo o enlace.
+- Añadida la opción de poner la razón a la hora de archivar un ticket. También se enviará una copia del ticket en formato HTML al usuario por MD.
+- Mejorada la interfaz de configuración de tickets, para el tema de gestión de canales y roles.
+- Modificación de `help`, haciendo que esté todo mejor y más decorado, con más información.
+- Cambio del banner del bot.
+- Cambio del comando `/clear`, siendo `usuario` ahora `usuarios:` y un nuevo parámetro `excluir_usuarios:`.
+- Añadido un nuevo parámetro `{perms}` a la configuración de canales creados.
+- El comando `/ban` ahora tiene un parámetro `eliminar_mensajes` para eliminar mensajes de usuarios al banearlos.
+- El comando `%massban` ahora se puede utilizar poniendo ID de los usuarios o la mención de los usuarios, separados por comas.
+- Cambio del comando `/embed`, eliminando los parámetros `código` y `canal`, pudiendo hacerlo ahora de forma más fácil al darle a "Enviar mensaje" en el menú desplegable, además de poder personalizar el nombre y perfil del webhook.
+- Modificado la interfaz en comandos de configuración y tickets.
+- Comando `purgeban`, ya que se ha implementado esa función a `ban`.
+- Actualizada la [privacidad](https://laslylusky.es/privacidad) y [ToS](https://laslylusky.es/tos) del bot.
+
 ### Versión BETA vB2.5.0
 - Añadidos slash commands `/userinfo`, `/serverinfo`, `/servericon` y `/avatar`.
 - El comando `embed` ahora puede crear embeds con todas sus características (excepto botones), pudiendo utilizarlo en Webhooks incluso.

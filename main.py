@@ -3,6 +3,7 @@ from discord.ext import commands, tasks
 import os
 import glob
 import asyncio
+from commands.utility.birthday.database import BirthdayDB
 import webserver
 from database.save import save_server_data
 from database.delete import delete_server_data
@@ -41,12 +42,52 @@ async def on_message(message):
         if thread.archived:
             parent_channel = thread.parent
             if parent_channel:
-                from commands.tickets.utils.database import get_ticket_data
+                from commands.tickets.utils.helpers import get_ticket_data
                 
                 ticket_config = get_ticket_data(message.guild.id, str(parent_channel.id))
                 if ticket_config:
                     from commands.tickets.utils.helpers import reopen_ticket
                     await reopen_ticket(thread, message.author)
+
+@bot.event
+async def on_thread_create(thread):
+    try:
+        await thread.join()
+        print(f"Bot se unió al nuevo hilo: {thread.name} en {thread.guild.name}")
+    except discord.Forbidden:
+        print(f"No se pudo unir al nuevo hilo: {thread.name} (sin permisos)")
+    except discord.HTTPException as e:
+        print(f"Error al unirse al nuevo hilo {thread.name}: {e}")
+    except Exception as e:
+        print(f"Error inesperado al unirse al nuevo hilo {thread.name}: {e}")
+
+@bot.event
+async def on_thread_update(before, after):
+    if before.me is None and after.me is None:
+        try:
+            await after.join()
+            print(f"Bot obtuvo acceso y se unió al hilo: {after.name} en {after.guild.name}")
+        except discord.Forbidden:
+            pass
+        except discord.HTTPException:
+            pass
+        except Exception:
+            pass
+
+async def join_active_threads():
+    for guild in bot.guilds:
+        try:
+            for channel in guild.channels:
+                if isinstance(channel, (discord.TextChannel, discord.ForumChannel)):
+                    for thread in channel.threads:
+                        if thread.me is None and not thread.archived:
+                            try:
+                                await thread.join()
+                                print(f"Bot se unió al hilo activo: {thread.name}")
+                            except:
+                                pass
+        except Exception as e:
+            print(f"Error revisando hilos activos en {guild.name}: {e}")
 
 bot.remove_command('help')
 
@@ -55,8 +96,8 @@ oracle = Oracle()
 @bot.event
 async def on_ready():
     await bot.change_presence(
-        status=discord.Status.idle,
-        activity=discord.Game(name="En mantenimiento, se vienen cosas")
+        status=discord.Status.online,
+        activity=discord.Activity(type=discord.ActivityType.listening, name="/help | %help")
     )
     print(f"Estamos dentro! {bot.user}")
     
@@ -67,6 +108,10 @@ async def on_ready():
         print("Slash commands sincronizados correctamente")
     except Exception as e:
         print(f"Error sincronizando slash commands: {e}")
+
+    print("Revisando hilos activos existentes...")
+    await join_active_threads()
+    print("Revisión de hilos activos completada")
 
     update_oracle_db.start()
 
@@ -92,6 +137,13 @@ async def load_extensions(directories):
     main_extensions = 0
     subdir_extensions = 0
     
+    excluded_files = {
+        'commands/voice/events.py',
+        'commands/voice/config.py',
+        'commands\\voice\\events.py',
+        'commands\\voice\\config.py'
+    }
+    
     for directory in directories:
         main_files = [f for f in glob.glob(f"{directory}/*.py") 
                      if "__pycache__" not in f]
@@ -104,7 +156,7 @@ async def load_extensions(directories):
         all_files = main_files + subdir_files
         
         for file in all_files:
-            if file.endswith(".py"):
+            if file.endswith(".py") and file not in excluded_files:
                 extension = file[:-3].replace("\\", ".").replace("/", ".")
                 
                 try:
@@ -150,9 +202,34 @@ async def on_guild_join(guild):
             oracle.close()
     except Exception as e:
         print(f"Error al inicializar servidor en Oracle DB: {e}")
+
+    print(f"Revisando hilos activos en el nuevo servidor: {guild.name}")
+    try:
+        for channel in guild.channels:
+            if isinstance(channel, (discord.TextChannel, discord.ForumChannel)):
+                for thread in channel.threads:
+                    if thread.me is None and not thread.archived:
+                        try:
+                            await thread.join()
+                            print(f"Bot se unió al hilo activo: {thread.name}")
+                        except:
+                            pass
+    except Exception as e:
+        print(f"Error revisando hilos activos en nuevo servidor {guild.name}: {e}")
         
 @bot.event
 async def on_guild_remove(guild):
+    try:
+        birthday_db = BirthdayDB()
+        
+        await birthday_db.delete_config(guild.id)
+        
+        await birthday_db.delete_all_guild_birthdays(guild.id)
+        
+        print(f"Se han eliminado los datos de cumpleaños del servidor: {guild.name} (ID: {guild.id})")
+    except Exception as e:
+        print(f"Error al eliminar datos de cumpleaños: {e}")
+    
     success = delete_server_data(guild.id)
 
     if success:

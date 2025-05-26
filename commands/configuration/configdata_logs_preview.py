@@ -3,6 +3,8 @@ import re
 from datetime import datetime
 import traceback
 
+from .configlogs_constants import LOG_TYPES
+
 PREVIEW_AVATAR_URL = "https://cdn.discordapp.com/embed/avatars/0.png"
 PREVIEW_SERVER_ICON = "https://cdn.discordapp.com/embed/avatars/1.png"
 
@@ -86,15 +88,15 @@ PREVIEW_PARAMS = {
     },
     "vc_enter": {
         "{user}": "@Usuario",
-        "{userid}": "123456789012345678",
         "{usertag}": "usuario",
+        "{userid}": "123456789012345678",
         "{channel}": "#canal-de-voz",
         "{channelid}": "123456789012345679"
     },
     "vc_leave": {
         "{user}": "@Usuario",
-        "{userid}": "123456789012345678",
         "{usertag}": "usuario",
+        "{userid}": "123456789012345678",
         "{channel}": "#canal-de-voz",
         "{channelid}": "123456789012345679"
     },
@@ -115,12 +117,30 @@ PREVIEW_PARAMS = {
     "add_ch": {
         "{channelid}": "123456789012345679",
         "{channel}": "#nuevo-canal",
-        "{category}": "General"
+        "{category}": "General",
+        "{perms}": "Permisos para `@everyone`:\n- Ver canal ✔️\n- Conectar ❌\n\nPermisos para `@Usuario`:\n- Ver canal ❌\n- Enviar mensajes ✔️"
     },
     "del_ch": {
         "{channelid}": "123456789012345679",
         "{channel}": "#canal-eliminado",
         "{category}": "General"
+    },
+    "mod_ch": {
+        "{channelid}": "123456789012345679",
+        "{channel}": "#canal-modificado"
+    },
+    "add_cat": {
+        "{categoryid}": "123456789012345681",
+        "{category}": "Nueva Categoría",
+        "{perms}": "Permisos para `@everyone`:\n- Ver canales ✔️\n\nPermisos para `@Usuario`:\n- Gestionar canales ✔️"
+    },
+    "del_cat": {
+        "{categoryid}": "123456789012345681",
+        "{category}": "Categoría Eliminada"
+    },
+    "mod_cat": {
+        "{categoryid}": "123456789012345681",
+        "{category}": "Categoría Modificada"
     },
     "changed_av": {
         "{user}": "@Usuario",
@@ -291,25 +311,131 @@ async def create_preview(log_type, message_config, guild):
                         except Exception as e:
                             print(f"Error al añadir field al embed: {e}")
             
+            if log_type == "mod_ch" and message_config.get("changedname", False):
+                embed.add_field(
+                    name="Actualización del nombre",
+                    value="#nombre-antiguo -> #nombre-nuevo",
+                    inline=False
+                )
+                
+            if log_type == "mod_ch" and message_config.get("changedperms", False):
+                embed.add_field(
+                    name="Cambios en permisos",
+                    value="Cambios para `@everyone`:\n- Ver canal: ❌ -> ✔️\n\nCambios para `@Usuario`:\n- Enviar mensajes: ✔️ -> ❌",
+                    inline=False
+                )
+                
+            if log_type == "mod_cat" and message_config.get("changedname", False):
+                embed.add_field(
+                    name="Actualización del nombre",
+                    value="Nombre Antiguo -> Nombre Nuevo",
+                    inline=False
+                )
+                
+            if log_type == "mod_cat" and message_config.get("changedperms", False):
+                embed.add_field(
+                    name="Cambios en permisos",
+                    value="Cambios para `@everyone`:\n- Ver canales: ❌ -> ✔️\n\nCambios para `@Usuario`:\n- Gestionar canales: ✔️ -> ❌",
+                    inline=False
+                )
+            
             embed.timestamp = discord.utils.utcnow()
             
+            log_type_name = {
+                "ban": "Logs de baneo de usuarios",
+                "kick": "Logs de expulsión de usuarios",
+                "unban": "Logs de desbaneo de usuarios",
+                "enter": "Logs de entrada de usuarios",
+                "leave": "Logs de salida de usuarios",
+                "del_msg": "Logs de mensajes eliminados",
+                "edited_msg": "Logs de mensajes editados",
+                "warn": "Logs de advertencias",
+                "unwarn": "Logs de eliminación de advertencias",
+                "vc_enter": "Logs de entrada a canales de voz",
+                "vc_leave": "Logs de salida de canales de voz",
+                "add_usr_rol": "Logs de roles añadidos a usuarios",
+                "rm_usr_rol": "Logs de roles removidos de usuarios",
+                "add_ch": "Logs de canales creados",
+                "del_ch": "Logs de canales eliminados",
+                "mod_ch": "Logs de canales modificados",
+                "add_cat": "Logs de categorías creadas",
+                "del_cat": "Logs de categorías eliminadas",
+                "mod_cat": "Logs de categorías modificadas",
+                "changed_av": "Logs de actualización de avatar o nombre"
+            }.get(log_type, "Logs")
+            
+            content = f"**Configuración de {log_type_name}**\n"
+            content += "**Tipo de mensaje:** Embed\n"
+            content += f"**Color:** {COLORS.get(color_name, COLORS['default'])[1]}\n"
+            
+            if message_config.get("thumbnail", {}).get("has", False):
+                content += f"**Thumbnail:** Activado\n"
+            else:
+                content += f"**Thumbnail:** Desactivado\n"
+                
+            if message_config.get("image", {}).get("has", False):
+                content += f"**Imagen:** Activada\n"
+            else:
+                content += f"**Imagen:** Desactivada\n"
+                
+            fields_count = len(message_config.get("fields", {}))
+            content += f"**Campos:** {fields_count}"
+            
+            if log_type in ["mod_ch", "mod_cat"]:
+                content += "\n\n**Opciones adicionales:**"
+                content += f"\n• Registrar cambios de nombre: {'✅' if message_config.get('changedname', False) else '❌'}"
+                content += f"\n• Registrar cambios de permisos: {'✅' if message_config.get('changedperms', False) else '❌'}"
+            
             return {
+                "content": content,
                 "embed": embed
             }
+        
         else:
-            message_text = message_config.get("message", "")
-            if not message_text:
+            message = message_config.get("message", "")
+            if not message:
                 return {
-                    "content": "No hay mensaje configurado para mostrar una vista previa."
+                    "content": f"**Configuración de {LOG_TYPES[log_type]['name']}**\n**Tipo de mensaje:** Normal\n**No hay mensaje configurado**"
                 }
 
-            content = replace_variables(message_text, replacements)
-            return {
-                "content": content
-            }
+            message_with_vars = replace_variables(message, replacements)
+
+            display_message = message_with_vars[:100] + ('...' if len(message_with_vars) > 100 else '')
+            
+            log_type_name = {
+                "ban": "Logs de baneo de usuarios",
+                "kick": "Logs de expulsión de usuarios",
+                "unban": "Logs de desbaneo de usuarios",
+                "enter": "Logs de entrada de usuarios",
+                "leave": "Logs de salida de usuarios",
+                "del_msg": "Logs de mensajes eliminados",
+                "edited_msg": "Logs de mensajes editados",
+                "warn": "Logs de advertencias",
+                "unwarn": "Logs de eliminación de advertencias",
+                "vc_enter": "Logs de entrada a canales de voz",
+                "vc_leave": "Logs de salida de canales de voz",
+                "add_usr_rol": "Logs de roles añadidos a usuarios",
+                "rm_usr_rol": "Logs de roles removidos de usuarios",
+                "add_ch": "Logs de canales creados",
+                "del_ch": "Logs de canales eliminados",
+                "mod_ch": "Logs de canales modificados",
+                "add_cat": "Logs de categorías creadas",
+                "del_cat": "Logs de categorías eliminadas",
+                "mod_cat": "Logs de categorías modificadas",
+                "changed_av": "Logs de actualización de avatar o nombre"
+            }.get(log_type, "Logs")
+            
+            content = f"**Configuración de {log_type_name}**\n"
+            content += "**Tipo de mensaje:** Normal\n"
+            content += f"**Mensaje configurado:**\n```\n{display_message}\n```"
+            
+            if log_type in ["mod_ch", "mod_cat"]:
+                content += "\n**Opciones adicionales:**"
+                content += f"\n• Registrar cambios de nombre: {'✅' if message_config.get('changedname', False) else '❌'}"
+                content += f"\n• Registrar cambios de permisos: {'✅' if message_config.get('changedperms', False) else '❌'}"
+            
+            return {"content": content}
+            
     except Exception as e:
-        traceback_str = traceback.format_exc()
-        print(f"Error en create_preview: {e}\n{traceback_str}")
-        return {
-            "content": f"Error al generar la vista previa: {e}"
-        }
+        print(f"Error en create_preview: {e}")
+        return {"content": f"Error al generar vista previa: {str(e)}"}

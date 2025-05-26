@@ -315,6 +315,44 @@ def get_replacements(log_type, **kwargs):
         else:
             replacements["{category}"] = "Sin categoría"
     
+    elif log_type == "mod_ch":
+        channel = kwargs.get("channel")
+        
+        if channel:
+            replacements.update({
+                "{channel}": channel.mention,
+                "{channelid}": str(channel.id)
+            })
+
+    elif log_type == "add_cat":
+        category = kwargs.get("category")
+        perms = kwargs.get("perms", "No hay permisos personalizados configurados.")
+        
+        if category:
+            replacements.update({
+                "{category}": category.name,
+                "{categoryid}": str(category.id),
+                "{perms}": perms
+            })
+
+    elif log_type == "del_cat":
+        category = kwargs.get("category")
+        
+        if category:
+            replacements.update({
+                "{category}": category.name,
+                "{categoryid}": str(category.id)
+            })
+
+    elif log_type == "mod_cat":
+        category = kwargs.get("category")
+        
+        if category:
+            replacements.update({
+                "{category}": category.name,
+                "{categoryid}": str(category.id)
+            })
+    
     elif log_type == "changed_av":
         user = kwargs.get("user")
         old_avatar = kwargs.get("old_avatar")

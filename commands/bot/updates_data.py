@@ -1,6 +1,6 @@
 UPDATES_INFO = {
     "versions": [
-        "vB1.0.0", "vB1.1.0", "vB1.2.0", "vB1.2.1", "vB1.2.2", "vB1.3.0", "vB1.3.1", "vB1.3.2", "vB1.3.3", "vB1.3.4", "vB1.3.5", "vB1.3.6", "vB1.3.7", "vB1.3.8", "vB2.0.0", "vB2.1.0", "vB2.2.0", "vB2.2.1", "vB2.3.0", "vB2.4.0", "vB2.4.1", "vB2.5.0"
+        "vB1.0.0", "vB1.1.0", "vB1.2.0", "vB1.2.1", "vB1.2.2", "vB1.3.0", "vB1.3.1", "vB1.3.2", "vB1.3.3", "vB1.3.4", "vB1.3.5", "vB1.3.6", "vB1.3.7", "vB1.3.8", "vB2.0.0", "vB2.1.0", "vB2.2.0", "vB2.2.1", "vB2.3.0", "vB2.4.0", "vB2.4.1", "vB2.5.0", "v1.0.0"
     ],
     "details": {
         "vB1.0.0": {
@@ -228,6 +228,38 @@ UPDATES_INFO = {
                 "\n> <a:linea_6764:823570039667163136> Nuevo comando `/id` donde puedes obtener el ID de un emoji, rol, miembro o canal del servidor donde se ejecuta."
                 "\n\nComandos actuales: 47"
                 "\nSlash commands: 28"
-        }
+        },
+        "v1.0.0": {
+            "title": "Información Actualización 'v1.0.0'",
+            "content": "__Añadido:__ "
+                "\n> <a:linea_6764:823570039667163136> Nuevos comandos de diversión: `morse`, `8ball`, `ahorcado`, `ruleta-rusa`, `piedrapapeltijera`, `insulto`, `halago`, `meme`, `buscaminas`, `blackjack`, `conecta4`, `tictactoe`, `dado`, `moneda`, `trivia`, `2048`."
+                "\n> <a:linea_6764:823570039667163136> Nuevos comandos para crear recordatorios: `/recordatorio`. Comandos disponibles: `/recordatorio crear`, `/recordatorio gestionar` y `/recordatorio listar`.  La hora es necesaria establecerla con la zona horaria, poniendo el GMT. Podéis ver la zona horaria en [este enlace](https://greenwichmeantime.com/time-zone/)."
+                "\n> <a:linea_6764:823570039667163136> Sistema de niveles añadido: comando nuevo `/nivel`. Necesario configurar en un servidor. Comandos disponibles: `/nivel configurar`, `/nivel ver`, `/nivel top` y `/nivel gestionar`."
+                "\n> <a:linea_6764:823570039667163136> Sistema de cumpleaños en servidores: ahora se puede establecer mensajes de cumpleaños en un servidor y poner tu fecha de cumpleaños. Necesario configurar en un servidor. Comandos disponibles: `/cumpleaños configurar`, `/cumpleñaos gestionar`, `/cumpleaños establecer` y `/cumpleaños ver`."
+                "\n> <a:linea_6764:823570039667163136> Sistema de creación de canales de voz personalizados temporalmente. Importante configurarlo antes con el comando `/voicesetup`."
+                "\n> <a:linea_6764:823570039667163136> Creación de estadísticas de comandos con el comando `estadisticas-juegos`."
+                "\n> <a:linea_6764:823570039667163136> Nuevos comandos para aislar o quitar el aislamiento temporal a un usuario en un servidor: `mute` y `unmute`."
+                "\n> <a:linea_6764:823570039667163136> Nuevos logs: creación, actualización y eliminación de categorías, y actualización de canales."
+                "\n> <a:linea_6764:823570039667163136> Nuevos emojis al bot."
+                "\n> <a:linea_6764:823570039667163136> Nuevo comando `tos` para ver los términos de servicio del bot."
+                "\n> <a:linea_6764:823570039667163136> Posibilidad de utilizar al bot en foros e hilos."
+                "\n> <a:linea_6764:823570039667163136> Nuevo comando `/comprobar-virus` con el sistema de VirusTotal, para comprobar el virus de un archivo o enlace."
+                "\n> <a:linea_6764:823570039667163136> Añadida la opción de poner la razón a la hora de archivar un ticket. También se enviará una copia del ticket en formato HTML al usuario por MD."
+                "\n> <a:linea_6764:823570039667163136> Mejorada la interfaz de configuración de tickets, para el tema de gestión de canales y roles."
+                "\n\n__Modificado:__ "
+                "\n> <a:linea_6764:823570039667163136> Modificación de `help`, haciendo que esté todo mejor y más decorado, con más información."
+                "\n> <a:linea_6764:823570039667163136> Cambio del banner del bot."
+                "\n> <a:linea_6764:823570039667163136> Cambio del comando `/clear`, siendo `usuario` ahora `usuarios:` y un nuevo parámetro `excluir_usuarios:`."
+                "\n> <a:linea_6764:823570039667163136> Añadido un nuevo parámetro `{perms}` a la configuración de canales creados."
+                "\n> <a:linea_6764:823570039667163136> El comando `/ban` ahora tiene un parámetro `eliminar_mensajes` para eliminar mensajes de usuarios al banearlos."
+                "\n> <a:linea_6764:823570039667163136> El comando `%massban` ahora se puede utilizar poniendo ID de los usuarios o la mención de los usuarios, separados por comas."
+                "\n> <a:linea_6764:823570039667163136> Cambio del comando `/embed`, eliminando los parámetros `código` y `canal`, pudiendo hacerlo ahora de forma más fácil al darle a 'Enviar mensaje' en el menú desplegable, además de poder personalizar el nombre y perfil del webhook."
+                "\n> <a:linea_6764:823570039667163136> Modificado la interfaz en comandos de configuración y tickets."
+                "\n> <a:linea_6764:823570039667163136> Actualizada la [privacidad](https://laslylusky.es/privacidad) y [ToS](https://laslylusky.es/tos) del bot."
+                "\n\n__Eliminado:__ "
+                "\n> <a:linea_6764:823570039667163136> Comando `purgeban`, ya que se ha implementado esa función a `ban`."
+                "\n\nComandos normales: 68"
+                "\nComandos de barra: 66"
+            }
     }
 }

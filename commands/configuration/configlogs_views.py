@@ -277,12 +277,36 @@ class LogConfigDetailView(discord.ui.View):
             image_btn.callback = self.image_callback
             self.add_item(image_btn)
             
+            if self.log_type in ["mod_ch", "mod_cat"]:
+                track_name = self.message_config.get("changedname", False)
+                track_perms = self.message_config.get("changedperms", False)
+                
+                name_btn = discord.ui.Button(
+                    style=discord.ButtonStyle.success if track_name else discord.ButtonStyle.secondary,
+                    label="Cambios de nombre",
+                    emoji="✅" if track_name else "❌",
+                    custom_id="track_name",
+                    row=2
+                )
+                name_btn.callback = self.track_name_callback
+                self.add_item(name_btn)
+                
+                perms_btn = discord.ui.Button(
+                    style=discord.ButtonStyle.success if track_perms else discord.ButtonStyle.secondary,
+                    label="Cambios de permisos",
+                    emoji="✅" if track_perms else "❌",
+                    custom_id="track_perms",
+                    row=2
+                )
+                perms_btn.callback = self.track_perms_callback
+                self.add_item(perms_btn)
+            
             add_field_btn = discord.ui.Button(
                 style=discord.ButtonStyle.success,
                 label="Añadir campo",
                 emoji="➕",
                 custom_id="add_field",
-                row=2
+                row=3 if self.log_type in ["mod_ch", "mod_cat"] else 2
             )
             add_field_btn.callback = self.add_field_callback
             self.add_item(add_field_btn)
@@ -292,7 +316,7 @@ class LogConfigDetailView(discord.ui.View):
                     style=discord.ButtonStyle.primary,
                     label="Gestionar campos",
                     custom_id="manage_fields",
-                    row=2
+                    row=3 if self.log_type in ["mod_ch", "mod_cat"] else 2
                 )
                 manage_fields_btn.callback = self.manage_fields_callback
                 self.add_item(manage_fields_btn)
@@ -315,12 +339,37 @@ class LogConfigDetailView(discord.ui.View):
             )
             modify_msg_btn.callback = self.modify_msg_callback
             self.add_item(modify_msg_btn)
+            
+            # Añadir opciones específicas para logs de canales/categorías modificados
+            if self.log_type in ["mod_ch", "mod_cat"]:
+                track_name = self.message_config.get("changedname", False)
+                track_perms = self.message_config.get("changedperms", False)
+                
+                name_btn = discord.ui.Button(
+                    style=discord.ButtonStyle.success if track_name else discord.ButtonStyle.secondary,
+                    label="Cambios de nombre",
+                    emoji="✅" if track_name else "❌",
+                    custom_id="track_name",
+                    row=1
+                )
+                name_btn.callback = self.track_name_callback
+                self.add_item(name_btn)
+                
+                perms_btn = discord.ui.Button(
+                    style=discord.ButtonStyle.success if track_perms else discord.ButtonStyle.secondary,
+                    label="Cambios de permisos",
+                    emoji="✅" if track_perms else "❌",
+                    custom_id="track_perms",
+                    row=1
+                )
+                perms_btn.callback = self.track_perms_callback
+                self.add_item(perms_btn)
         
         change_channel_btn = discord.ui.Button(
             style=discord.ButtonStyle.secondary,
             label="Cambiar canal",
             custom_id="change_channel",
-            row=3
+            row=4 if self.log_type in ["mod_ch", "mod_cat"] else 3
         )
         change_channel_btn.callback = self.change_channel_callback
         self.add_item(change_channel_btn)
@@ -329,7 +378,7 @@ class LogConfigDetailView(discord.ui.View):
             style=discord.ButtonStyle.success,
             label="Guardar cambios",
             custom_id="save",
-            row=3
+            row=4 if self.log_type in ["mod_ch", "mod_cat"] else 3
         )
         save_btn.callback = self.save_callback
         self.add_item(save_btn)
@@ -338,7 +387,7 @@ class LogConfigDetailView(discord.ui.View):
             style=discord.ButtonStyle.danger,
             label="Cancelar",
             custom_id="cancel_detail",
-            row=3
+            row=4 if self.log_type in ["mod_ch", "mod_cat"] else 3
         )
         cancel_btn.callback = self.cancel_callback
         self.add_item(cancel_btn)
@@ -450,6 +499,70 @@ class LogConfigDetailView(discord.ui.View):
                 content="¿Estás seguro que deseas desactivar la imagen?",
                 embed=None,
                 view=view
+            )
+            
+    async def track_name_callback(self, interaction: discord.Interaction):
+        try:
+            current_value = self.message_config.get("changedname", False)
+            self.message_config["changedname"] = not current_value
+            
+            self.config_data["changedname"] = not current_value
+            
+            from .configlogs_preview import create_preview
+            preview_data = await create_preview(self.log_type, self.message_config, interaction.guild)
+            
+            new_view = LogConfigDetailView(
+                self.interaction, 
+                self.guild_id, 
+                self.log_type, 
+                self.config_data,
+                self.message_config
+            )
+            
+            status = "activado" if self.message_config["changedname"] else "desactivado"
+            
+            await interaction.response.edit_message(
+                content=f"<:Si:825734135116070962> Seguimiento de cambios de nombre {status}.\n\n{preview_data['content']}",
+                embed=preview_data.get("embed"),
+                view=new_view
+            )
+        except Exception as e:
+            print(f"Error al actualizar seguimiento de nombre: {e}")
+            await interaction.response.send_message(
+                f"<:No:825734196256440340> Error al actualizar la configuración: {str(e)}",
+                ephemeral=True
+            )
+
+    async def track_perms_callback(self, interaction: discord.Interaction):
+        try:
+            current_value = self.message_config.get("changedperms", False)
+            self.message_config["changedperms"] = not current_value
+            
+            self.config_data["changedperms"] = not current_value
+            
+            from .configlogs_preview import create_preview
+            preview_data = await create_preview(self.log_type, self.message_config, interaction.guild)
+            
+            new_view = LogConfigDetailView(
+                self.interaction, 
+                self.guild_id, 
+                self.log_type, 
+                self.config_data,
+                self.message_config
+            )
+            
+            status = "activado" if self.message_config["changedperms"] else "desactivado"
+            
+            await interaction.response.edit_message(
+                content=f"<:Si:825734135116070962> Seguimiento de cambios de permisos {status}.\n\n{preview_data['content']}",
+                embed=preview_data.get("embed"),
+                view=new_view
+            )
+        except Exception as e:
+            print(f"Error al actualizar seguimiento de permisos: {e}")
+            await interaction.response.send_message(
+                f"<:No:825734196256440340> Error al actualizar la configuración: {str(e)}",
+                ephemeral=True
             )
     
     async def manage_fields_callback(self, interaction: discord.Interaction):
@@ -586,12 +699,21 @@ class LogConfigDetailView(discord.ui.View):
         self.config_data["log_channel"] = self.channel_id
         self.config_data["activated"] = True
         
+        if self.log_type in ["mod_ch", "mod_cat"]:
+            self.config_data["changedname"] = self.message_config.get("changedname", False)
+            self.config_data["changedperms"] = self.message_config.get("changedperms", False)
+        
         if update_server_data(self.guild_id, f"audit_logs/{self.log_type}", self.config_data):
             channel = interaction.guild.get_channel(self.channel_id)
             
             saved_msg = f"<:Si:825734135116070962> **{LOG_TYPES[self.log_type]['name']}** configurados correctamente:\n\n"
             saved_msg += f"• Canal: {channel.mention if channel else 'No encontrado'}\n"
             saved_msg += f"• Tipo: {'Embed' if self.message_config.get('embed', False) else 'Mensaje normal'}\n"
+            
+            if self.log_type in ["mod_ch", "mod_cat"]:
+                saved_msg += "• Opciones adicionales:\n"
+                saved_msg += f"  - Seguimiento de cambios de nombre: {'✅' if self.message_config.get('changedname', False) else '❌'}\n"
+                saved_msg += f"  - Seguimiento de cambios de permisos: {'✅' if self.message_config.get('changedperms', False) else '❌'}\n"
             
             await interaction.response.edit_message(
                 content=saved_msg,
@@ -603,7 +725,6 @@ class LogConfigDetailView(discord.ui.View):
                 "<:No:825734196256440340> Error al guardar la configuración. Inténtalo de nuevo.",
                 ephemeral=True
             )
-
 
 class MessageTypeView(discord.ui.View):
     def __init__(self, interaction, guild_id, log_type, config_data):

@@ -126,151 +126,234 @@ class TicketEditView(discord.ui.View):
         try:
             self.bot.interaction_guild = interaction.guild
 
-            options = []
+            channel_select = discord.ui.ChannelSelect(
+                placeholder="Selecciona el nuevo canal para tickets",
+                channel_types=[discord.ChannelType.text],
+                custom_id="change_ticket_channel_select"
+            )
             
-            for channel in interaction.guild.text_channels:
-                options.append(
-                    discord.SelectOption(
-                        label=f"#{channel.name}",
-                        value=str(channel.id),
-                        description=f"Canal #{channel.name}"
-                    )
-                )
-            
-            if options:
-                select = discord.ui.Select(
-                    placeholder="Selecciona el nuevo canal para tickets",
-                    options=options[:25],
-                    custom_id="change_ticket_channel_select"
-                )
-                
-                async def ticket_channel_callback(select_interaction):
-                    try:
-                        channel_id = select_interaction.data["values"][0]
-                        channel = interaction.guild.get_channel(int(channel_id))
-                        
-                        if not channel:
-                            await select_interaction.response.send_message(
-                                "<:No:825734196256440340> No se encontró el canal seleccionado.",
-                                ephemeral=True
-                            )
-                            return
-                        
-                        self.ticket_config["ticket_channel"] = int(channel_id)
-                        self.ticket_channel = channel
-                        
-                        await select_interaction.response.edit_message(
-                            embed=discord.Embed(
-                                title="Configurar Ticket",
-                                description=f"Canal para tickets actualizado: {channel.mention}\n\nContinúa con la configuración.",
-                                color=0x3498db
-                            ),
-                            view=self
-                        )
-                    except Exception as e:
+            async def ticket_channel_callback(select_interaction):
+                try:
+                    channel_id = int(select_interaction.data["values"][0])
+                    channel = interaction.guild.get_channel(channel_id)
+                    
+                    if not channel:
                         await select_interaction.response.send_message(
-                            f"<:No:825734196256440340> Error: {str(e)}",
+                            "<:No:825734196256440340> No se encontró el canal seleccionado.",
                             ephemeral=True
                         )
-                
-                select.callback = ticket_channel_callback
-                
-                temp_view = discord.ui.View(timeout=60)
-                temp_view.add_item(select)
-                
-                await interaction.response.edit_message(
-                    embed=discord.Embed(
-                        title="Cambiar Canal de Tickets",
-                        description="Selecciona el nuevo canal donde se crearán los tickets.",
-                        color=0x3498db
-                    ),
-                    view=temp_view
-                )
-            else:
-                await interaction.response.send_message(
-                    "<:No:825734196256440340> No hay canales de texto disponibles.",
-                    ephemeral=True
-                )
+                        return
+                    
+                    self.ticket_config["ticket_channel"] = channel_id
+                    self.ticket_channel = channel
+                    
+                    await select_interaction.response.edit_message(
+                        embed=discord.Embed(
+                            title="Configurar Ticket",
+                            description=f"Canal para tickets actualizado: {channel.mention}\n\nContinúa con la configuración.",
+                            color=0x3498db
+                        ),
+                        view=self
+                    )
+                except Exception as e:
+                    await select_interaction.response.send_message(
+                        f"<:No:825734196256440340> Error: {str(e)}",
+                        ephemeral=True
+                    )
+            
+            channel_select.callback = ticket_channel_callback
+            
+            temp_view = discord.ui.View(timeout=60)
+            temp_view.add_item(channel_select)
+            
+            await interaction.response.edit_message(
+                embed=discord.Embed(
+                    title="Cambiar Canal de Tickets",
+                    description="Selecciona el nuevo canal donde se crearán los tickets.",
+                    color=0x3498db
+                ),
+                view=temp_view
+            )
         except Exception as e:
             await interaction.response.send_message(
                 f"<:No:825734196256440340> Error: {str(e)}",
                 ephemeral=True
             )
-    
+
     async def change_log_channel_callback(self, interaction: discord.Interaction):
         try:
             self.bot.interaction_guild = interaction.guild
 
-            options = []
+            channel_select = discord.ui.ChannelSelect(
+                placeholder="Selecciona el nuevo canal para logs",
+                channel_types=[discord.ChannelType.text],
+                custom_id="change_log_channel_select"
+            )
             
-            for channel in interaction.guild.text_channels:
-                options.append(
-                    discord.SelectOption(
-                        label=f"#{channel.name}",
-                        value=str(channel.id),
-                        description=f"Canal #{channel.name}"
-                    )
-                )
-            
-            if options:
-                select = discord.ui.Select(
-                    placeholder="Selecciona el nuevo canal para logs",
-                    options=options[:25],
-                    custom_id="change_log_channel_select"
-                )
-                
-                async def log_channel_callback(select_interaction):
-                    try:
-                        channel_id = select_interaction.data["values"][0]
-                        channel = interaction.guild.get_channel(int(channel_id))
-                        
-                        if not channel:
-                            await select_interaction.response.send_message(
-                                "<:No:825734196256440340> No se encontró el canal seleccionado.",
-                                ephemeral=True
-                            )
-                            return
-                        
-                        self.ticket_config["log_channel"] = int(channel_id)
-                        self.log_channel = channel
-                        
-                        await select_interaction.response.edit_message(
-                            embed=discord.Embed(
-                                title="Configurar Ticket",
-                                description=f"Canal para logs actualizado: {channel.mention}\n\nContinúa con la configuración.",
-                                color=0x3498db
-                            ),
-                            view=self
-                        )
-                    except Exception as e:
+            async def log_channel_callback(select_interaction):
+                try:
+                    channel_id = int(select_interaction.data["values"][0])
+                    channel = interaction.guild.get_channel(channel_id)
+                    
+                    if not channel:
                         await select_interaction.response.send_message(
-                            f"<:No:825734196256440340> Error: {str(e)}",
+                            "<:No:825734196256440340> No se encontró el canal seleccionado.",
                             ephemeral=True
                         )
-                
-                select.callback = log_channel_callback
-                
-                temp_view = discord.ui.View(timeout=60)
-                temp_view.add_item(select)
-                
-                await interaction.response.edit_message(
-                    embed=discord.Embed(
-                        title="Cambiar Canal de Logs",
-                        description="Selecciona el nuevo canal donde se enviarán los logs de tickets.",
-                        color=0x3498db
-                    ),
-                    view=temp_view
-                )
-            else:
-                await interaction.response.send_message(
-                    "<:No:825734196256440340> No hay canales de texto disponibles.",
-                    ephemeral=True
-                )
+                        return
+                    
+                    self.ticket_config["log_channel"] = channel_id
+                    self.log_channel = channel
+                    
+                    await select_interaction.response.edit_message(
+                        embed=discord.Embed(
+                            title="Configurar Ticket",
+                            description=f"Canal para logs actualizado: {channel.mention}\n\nContinúa con la configuración.",
+                            color=0x3498db
+                        ),
+                        view=self
+                    )
+                except Exception as e:
+                    await select_interaction.response.send_message(
+                        f"<:No:825734196256440340> Error: {str(e)}",
+                        ephemeral=True
+                    )
+            
+            log_channel_callback.callback = log_channel_callback
+            
+            temp_view = discord.ui.View(timeout=60)
+            temp_view.add_item(channel_select)
+            
+            await interaction.response.edit_message(
+                embed=discord.Embed(
+                    title="Cambiar Canal de Logs",
+                    description="Selecciona el nuevo canal donde se enviarán los logs de tickets.",
+                    color=0x3498db
+                ),
+                view=temp_view
+            )
         except Exception as e:
             await interaction.response.send_message(
                 f"<:No:825734196256440340> Error: {str(e)}",
                 ephemeral=True
             )
+
+    async def save_callback(self, interaction: discord.Interaction):
+        try:
+            from ..utils.database import save_ticket_config
+            
+            self.bot.interaction_guild = interaction.guild
+            
+            if not self.ticket_config.get("permissions", {}).get("manage", {}).get("roles") and not self.ticket_config.get("permissions", {}).get("manage", {}).get("users"):
+                await interaction.response.send_message(
+                    "<:No:825734196256440340> Debes configurar al menos un rol o usuario con permisos de gestión.",
+                    ephemeral=True
+                )
+                return
+            
+            if "open_message" not in self.ticket_config or not isinstance(self.ticket_config["open_message"], dict):
+                from .message_components.message_base_view import MessageBaseView
+                self.ticket_config["open_message"] = MessageBaseView.create_default_open_message()
+            
+            if "opened_message" not in self.ticket_config or not isinstance(self.ticket_config["opened_message"], dict):
+                from .message_components.message_base_view import MessageBaseView
+                self.ticket_config["opened_message"] = MessageBaseView.create_default_opened_message()
+            
+            await interaction.response.defer(ephemeral=False)
+            
+            from ..utils.database import get_ticket_data
+            existing_config = get_ticket_data(interaction.guild.id, str(self.ticket_channel.id))
+            
+            success = await save_ticket_config(interaction.guild.id, str(self.ticket_channel.id), self.ticket_config)
+            
+            if success:
+                try:
+                    if not existing_config or existing_config.get("permissions") != self.ticket_config.get("permissions"):
+                        await self.ticket_channel.set_permissions(
+                            interaction.guild.default_role,
+                            view_channel=True,
+                            create_private_threads=False,
+                            manage_threads=False
+                        )
+                        
+                        for role_id in self.ticket_config.get("permissions", {}).get("manage", {}).get("roles", []):
+                            role = interaction.guild.get_role(int(role_id))
+                            if role:
+                                await self.ticket_channel.set_permissions(
+                                    role,
+                                    manage_threads=True
+                                )
+                        
+                        for user_id in self.ticket_config.get("permissions", {}).get("manage", {}).get("users", []):
+                            user = await interaction.guild.fetch_member(int(user_id))
+                            if user:
+                                await self.ticket_channel.set_permissions(
+                                    user,
+                                    manage_threads=True
+                                )
+                        
+                        for role_id in self.ticket_config.get("permissions", {}).get("view", {}).get("roles", []):
+                            role = interaction.guild.get_role(int(role_id))
+                            if role:
+                                await self.ticket_channel.set_permissions(
+                                    role,
+                                    manage_threads=False
+                                )
+                        
+                        for user_id in self.ticket_config.get("permissions", {}).get("view", {}).get("users", []):
+                            user = await interaction.guild.fetch_member(int(user_id))
+                            if user:
+                                await self.ticket_channel.set_permissions(
+                                    user,
+                                    manage_threads=False
+                                )
+                    
+                    should_deploy = False
+                    if not existing_config:
+                        should_deploy = True
+                    elif existing_config:
+                        if existing_config.get("open_message") != self.ticket_config.get("open_message") or \
+                        existing_config.get("opened_messages") != self.ticket_config.get("opened_messages"):
+                            should_deploy = True
+                    
+                    embed = discord.Embed(
+                        title="Configuración Guardada",
+                        description="<:Si:825734135116070962> La configuración de tickets para " + 
+                                    f"{self.ticket_channel.mention} ha sido " + 
+                                    ("guardada correctamente y el mensaje ha sido enviado al canal." if should_deploy else "actualizada correctamente."),
+                        color=0x2ecc71
+                    )
+                    
+                    await interaction.followup.edit_message(
+                        message_id=interaction.message.id,
+                        content=None,
+                        embed=embed,
+                        view=None
+                    )
+                    
+                    if should_deploy:
+                        await self.deploy_ticket_message(interaction)
+                    
+                except Exception as e:
+                    print(f"Error al configurar permisos o enviar mensaje: {e}")
+                    await interaction.followup.send(
+                        f"<:No:825734196256440340> Error al configurar permisos o enviar mensaje: {str(e)}",
+                        ephemeral=True
+                    )
+            else:
+                await interaction.followup.send(
+                    "<:No:825734196256440340> Error al guardar la configuración.",
+                    ephemeral=True
+                )
+        except Exception as e:
+            print(f"Error al guardar: {e}")
+            try:
+                await interaction.followup.send(
+                    f"<:No:825734196256440340> Error al guardar: {str(e)}",
+                    ephemeral=True
+                )
+            except:
+                pass
     
     async def open_message_callback(self, interaction: discord.Interaction):
         try:

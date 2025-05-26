@@ -94,10 +94,22 @@ class Ban(commands.Cog):
 
     async def get_member_autocomplete(self, interaction: discord.Interaction, current: str):
         members = interaction.guild.members
-        return [
-            app_commands.Choice(name=f"{member.name}#{member.discriminator if member.discriminator != '0' else ''} ({member.id})", value=str(member.id))
-            for member in members if current.lower() in member.name.lower() or current.lower() in str(member.id)
-        ][:25]
+        results = []
+        
+        for member in members:
+            if current.lower() in member.name.lower() or current.lower() in str(member.id):
+                display_name = member.display_name if member.display_name != member.name else ""
+                display_text = f"{member.name}"
+                if display_name:
+                    display_text += f" ({display_name})"
+                display_text += f" - ID: {member.id}"
+                
+                results.append(app_commands.Choice(name=display_text, value=str(member.id)))
+                
+                if len(results) >= 25:
+                    break
+                    
+        return results
 
     @commands.command(name="ban")
     async def ban(self, ctx, target: discord.Member = None, *, args=None):
@@ -153,7 +165,7 @@ class Ban(commands.Cog):
         if args:
             words = args.split()
             last_word = words[-1]
-
+            
             seconds, time_result = self.parse_time(last_word)
             if seconds is not None:
                 ban_time = seconds
@@ -164,10 +176,13 @@ class Ban(commands.Cog):
         
         ban_reason = reason if reason else f"Baneado por {ctx.author.name}"
         
-        if ban_time:
-            ban_reason_display = f"{ban_reason} | Ban temporal: {time_text}"
-        else:
-            ban_reason_display = ban_reason
+        reasons = []
+        if ban_reason:
+            reasons.append(ban_reason)
+        if time_text:
+            reasons.append(f"Ban temporal: {time_text}")
+            
+        ban_reason_display = " | ".join(reasons)
 
         try:
             embed = discord.Embed(
@@ -177,7 +192,6 @@ class Ban(commands.Cog):
             embed.add_field(name="Servidor:", value=ctx.guild.name, inline=False)
             embed.add_field(name="Moderador:", value=ctx.author.name, inline=False)
             embed.add_field(name="Razón:", value=ban_reason_display, inline=False)
-            embed.set_footer(text=f"Hecho por: {ctx.author.name}", icon_url=ctx.author.display_avatar.url)
             embed.timestamp = discord.utils.utcnow()
 
             try:
@@ -219,7 +233,6 @@ class Ban(commands.Cog):
             confirmation.add_field(name="Usuario:", value=f"{target.name} ({target.id})", inline=False)
             confirmation.add_field(name="Moderador:", value=f"{ctx.author.name} ({ctx.author.id})", inline=False)
             confirmation.add_field(name="Razón:", value=ban_reason_display, inline=False)
-            confirmation.set_footer(text=f"CreatedBy: {ctx.author.name}", icon_url=ctx.author.display_avatar.url)
             confirmation.timestamp = discord.utils.utcnow()
 
             await ctx.send(embed=confirmation)
@@ -249,11 +262,22 @@ class Ban(commands.Cog):
     @app_commands.describe(
         usuario="Usuario a banear",
         tiempo="Tiempo del baneo (s para segundos, m para minutos, d para días. Máximo 15 días). Ejemplo: 1d",
-        razon="Razón del baneo"
+        razon="Razón del baneo",
+        eliminar_mensajes="Número de días de mensajes a eliminar (1-7)"
     )
     @app_commands.autocomplete(usuario=get_member_autocomplete)
+    @app_commands.choices(eliminar_mensajes=[
+        app_commands.Choice(name="No eliminar mensajes", value=0),
+        app_commands.Choice(name="1 día de mensajes", value=1),
+        app_commands.Choice(name="2 días de mensajes", value=2),
+        app_commands.Choice(name="3 días de mensajes", value=3),
+        app_commands.Choice(name="4 días de mensajes", value=4),
+        app_commands.Choice(name="5 días de mensajes", value=5),
+        app_commands.Choice(name="6 días de mensajes", value=6),
+        app_commands.Choice(name="7 días de mensajes", value=7)
+    ])
     @app_commands.default_permissions(ban_members=True)
-    async def slash_ban(self, interaction: discord.Interaction, usuario: str, tiempo: str = None, razon: str = None):
+    async def slash_ban(self, interaction: discord.Interaction, usuario: str, tiempo: str = None, razon: str = None, eliminar_mensajes: int = 0):
         act_commands = get_specific_field(interaction.guild.id, "act_cmd")
         if act_commands is None:
             embed = discord.Embed(
@@ -282,6 +306,10 @@ class Ban(commands.Cog):
 
         if not interaction.guild.me.guild_permissions.ban_members:
             await interaction.response.send_message("No tengo permisos para banear usuarios en este servidor.", ephemeral=True)
+            return
+        
+        if eliminar_mensajes < 0 or eliminar_mensajes > 7:
+            await interaction.response.send_message("El número de días para eliminar mensajes debe estar entre 0 y 7.", ephemeral=True)
             return
             
         try:
@@ -322,10 +350,13 @@ class Ban(commands.Cog):
         
         ban_reason = razon if razon else f"Baneado por {interaction.user.name}"
         
-        if ban_time:
-            ban_reason_display = f"{ban_reason} | Ban temporal: {time_text}"
-        else:
-            ban_reason_display = ban_reason
+        reasons = []
+        if ban_reason:
+            reasons.append(ban_reason)
+        if time_text:
+            reasons.append(f"Ban temporal: {time_text}")
+            
+        ban_reason_display = " | ".join(reasons)
         
         try:
             embed = discord.Embed(
@@ -335,6 +366,7 @@ class Ban(commands.Cog):
             embed.add_field(name="Servidor:", value=interaction.guild.name, inline=False)
             embed.add_field(name="Moderador:", value=interaction.user.name, inline=False)
             embed.add_field(name="Razón:", value=ban_reason_display, inline=False)
+                
             embed.set_footer(text=f"Hecho por: {interaction.user.name}", icon_url=interaction.user.display_avatar.url)
             embed.timestamp = discord.utils.utcnow()
             
@@ -346,7 +378,7 @@ class Ban(commands.Cog):
             
             await interaction.response.defer()
             
-            await interaction.guild.ban(discord.Object(id=user_id), reason=ban_reason_display, delete_message_days=0)
+            await interaction.guild.ban(discord.Object(id=user_id), reason=ban_reason_display, delete_message_days=eliminar_mensajes)
             
             try:
                 self.db.connect()
@@ -370,6 +402,7 @@ class Ban(commands.Cog):
             confirmation.add_field(name="Usuario:", value=f"{user_obj.name} ({user_obj.id})", inline=False)
             confirmation.add_field(name="Moderador:", value=f"{interaction.user.name} ({interaction.user.id})", inline=False)
             confirmation.add_field(name="Razón:", value=ban_reason_display, inline=False)
+                
             confirmation.set_footer(text=f"CreatedBy: {interaction.user.name}", icon_url=interaction.user.display_avatar.url)
             confirmation.timestamp = discord.utils.utcnow()
             

@@ -2,6 +2,7 @@ import discord
 from discord.ext import commands
 from discord import app_commands
 import time
+import re
 from database.get import get_specific_field
 from logs.banlogs import send_ban_log
 from database.oracle import Oracle
@@ -39,6 +40,28 @@ class MassBan(commands.Cog):
         
         return any(role_id in allowed_msg_roles or role_id in allowed_admin_roles for role_id in author_role_ids)
 
+    def extract_user_ids(self, ids_str):
+        user_ids = []
+        mention_pattern = r'<@!?(\d+)>'
+        
+        for id_str in ids_str.split(','):
+            id_str = id_str.strip()
+            if not id_str:
+                continue
+            
+            mention_match = re.match(mention_pattern, id_str)
+            if mention_match:
+                user_id = int(mention_match.group(1))
+                user_ids.append(user_id)
+            else:
+                try:
+                    user_id = int(id_str)
+                    user_ids.append(user_id)
+                except ValueError:
+                    raise ValueError(f"'{id_str}' no es una ID válida ni una mención válida")
+        
+        return user_ids
+
     @commands.command(name="massban")
     async def prefix_massban(self, ctx, *, args=None):
         if isinstance(ctx.channel, discord.DMChannel):
@@ -75,29 +98,25 @@ class MassBan(commands.Cog):
             return
 
         if not args:
-            await ctx.reply("Formato correcto: `%massban ID1 ID2 ID3 ... | Razón del baneo`")
+            await ctx.reply("Formato correcto: `%massban ID1,ID2,@usuario3,... razón del baneo`")
             return
         
-        parts = args.split('|', 1)
-        
-        if len(parts) < 2:
-            await ctx.reply("Debes proporcionar una razón para el baneo masivo después del símbolo |")
+        first_space = args.find(' ')
+        if first_space == -1:
+            await ctx.reply("Debes proporcionar IDs/menciones y una razón para el baneo masivo.")
             return
         
-        ids_str = parts[0].strip()
-        razon = parts[1].strip()
+        ids_str = args[:first_space].strip()
+        razon = args[first_space:].strip()
         
         if not razon:
             await ctx.reply("Debes proporcionar una razón para el baneo masivo.")
             return
         
-        user_ids = []
         try:
-            for id_str in ids_str.split():
-                user_id = int(id_str.strip())
-                user_ids.append(user_id)
-        except ValueError:
-            await ctx.reply("Formato de IDs incorrecto. Proporciona IDs válidas separadas por espacios.")
+            user_ids = self.extract_user_ids(ids_str)
+        except ValueError as e:
+            await ctx.reply(f"Formato incorrecto: {str(e)}. Proporciona IDs válidas o menciones separadas por comas.")
             return
         
         if not user_ids:

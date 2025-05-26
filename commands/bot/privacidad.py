@@ -19,7 +19,7 @@ class Privacidad(commands.Cog):
         )
         
         embed.set_thumbnail(
-            url="https://media.discordapp.net/attachments/772803956379222016/1338219290398036042/laslylusky.png"
+            url="https://i.imgur.com/if0NO2o.png"
         )
         
         return embed

@@ -27,6 +27,10 @@ class LogsListView(discord.ui.View):
             "rm_usr_rol": "Logs de rol eliminado a usuario",
             "add_ch": "Logs de canal creado",
             "del_ch": "Logs de canal eliminado",
+            "mod_ch": "Logs de canal modificado",
+            "add_cat": "Logs de categoría creada",
+            "del_cat": "Logs de categoría eliminada",
+            "mod_cat": "Logs de categoría modificada",
             "changed_av": "Logs de cambio de avatar/nombre"
         }
         
@@ -230,6 +234,10 @@ async def create_log_detail_embed(log_type, log_config, interaction):
         "rm_usr_rol": "Logs de rol eliminado a usuario",
         "add_ch": "Logs de canal creado",
         "del_ch": "Logs de canal eliminado",
+        "mod_ch": "Logs de canal modificado",
+        "add_cat": "Logs de categoría creada",
+        "del_cat": "Logs de categoría eliminada",
+        "mod_cat": "Logs de categoría modificada",
         "changed_av": "Logs de cambio de avatar/nombre"
     }
     
@@ -352,6 +360,16 @@ async def create_log_detail_embed(log_type, log_config, interaction):
                     value="❌ No hay mensaje configurado",
                     inline=False
                 )
+    
+    if log_type in ["mod_ch", "mod_cat"]:
+        embed.add_field(
+            name="Opciones adicionales",
+            value=(
+                f"Registrar cambios de nombre: {'✅' if log_config.get('changedname', False) else '❌'}\n"
+                f"Registrar cambios de permisos: {'✅' if log_config.get('changedperms', False) else '❌'}"
+            ),
+            inline=False
+        )
     
     is_configured = is_activated and channel and message_config and (
         (message_config.get("embed", False) and message_config.get("description")) or 

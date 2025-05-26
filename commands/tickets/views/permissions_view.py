@@ -261,74 +261,62 @@ class PermissionConfigView(discord.ui.View):
     
     async def add_role_callback(self, interaction: discord.Interaction):
         try:
-            options = []
-            count = 0
+            role_select = discord.ui.RoleSelect(
+                placeholder="Selecciona un rol para añadir",
+                min_values=1,
+                max_values=1,
+                custom_id="role_select_add"
+            )
             
-            for role in interaction.guild.roles:
-                if role.id != interaction.guild.default_role.id and count < 25:
-                    if role.id not in self.ticket_config["permissions"][self.perm_type]["roles"]:
-                        options.append(
-                            discord.SelectOption(
-                                label=role.name[:25],
-                                value=str(role.id),
-                                description=f"ID: {role.id}"[:50]
-                            )
-                        )
-                        count += 1
-            
-            if options:
-                select = discord.ui.Select(
-                    placeholder="Selecciona un rol para añadir",
-                    options=options,
-                    custom_id="select_role"
-                )
-                
-                async def role_select_callback(select_interaction):
-                    try:
-                        role_id = int(select_interaction.data["values"][0])
-                        
-                        if role_id not in self.ticket_config["permissions"][self.perm_type]["roles"]:
-                            self.ticket_config["permissions"][self.perm_type]["roles"].append(role_id)
-                        
-                        await self.update_permission_view(select_interaction)
-                    except Exception as e:
-                        print(f"Error en role_select_callback: {e}")
+            async def role_select_callback(select_interaction):
+                try:
+                    role_id = int(select_interaction.data["values"][0])
+                    role = interaction.guild.get_role(role_id)
+                    
+                    if not role:
                         await select_interaction.response.send_message(
-                            f"<:No:825734196256440340> Error al seleccionar rol: {str(e)}",
+                            "<:No:825734196256440340> No se encontró el rol.",
                             ephemeral=True
                         )
-                
-                select.callback = role_select_callback
-                
-                temp_view = discord.ui.View(timeout=60)
-                temp_view.add_item(select)
-                
-                back_btn = discord.ui.Button(
-                    style=discord.ButtonStyle.secondary,
-                    label="Cancelar",
-                    custom_id="cancel_add_role"
-                )
-                
-                async def back_callback(btn_interaction):
-                    await self.update_permission_view(btn_interaction)
-                
-                back_btn.callback = back_callback
-                temp_view.add_item(back_btn)
-                
-                await interaction.response.edit_message(
-                    content="Selecciona un rol para añadir:",
-                    embed=None,
-                    view=temp_view
-                )
-            else:
-                await interaction.response.send_message(
-                    "<:No:825734196256440340> No hay roles disponibles para añadir o todos ya han sido añadidos.",
-                    ephemeral=True
-                )
+                        return
+                    
+                    if role_id not in self.ticket_config["permissions"][self.perm_type]["roles"]:
+                        self.ticket_config["permissions"][self.perm_type]["roles"].append(role_id)
+                    
+                    await self.update_permission_view(select_interaction)
+                except Exception as e:
+                    print(f"Error en role_select_callback: {e}")
+                    await select_interaction.response.send_message(
+                        f"<:No:825734196256440340> Error al seleccionar rol: {str(e)}",
+                        ephemeral=True
+                    )
+            
+            role_select.callback = role_select_callback
+            
+            temp_view = discord.ui.View(timeout=60)
+            temp_view.add_item(role_select)
+            
+            back_btn = discord.ui.Button(
+                style=discord.ButtonStyle.secondary,
+                label="Cancelar",
+                custom_id="cancel_add_role"
+            )
+            
+            async def back_callback(btn_interaction):
+                await self.update_permission_view(btn_interaction)
+            
+            back_btn.callback = back_callback
+            temp_view.add_item(back_btn)
+            
+            await interaction.response.edit_message(
+                content=f"Selecciona un rol para añadir:",
+                embed=None,
+                view=temp_view
+            )
         except Exception as e:
             print(f"Error en add_role_callback: {e}")
             await interaction.response.send_message(
-                f"<:No:825734196256440340> Error al mostrar roles: {str(e)}",
+                f"<:No:825734196256440340> Error al mostrar selector: {str(e)}",
                 ephemeral=True
             )
     
@@ -374,35 +362,28 @@ class PermissionConfigView(discord.ui.View):
             )
             return
         
-        configured_roles = []
+        options = []
         for role_id in roles:
             role = interaction.guild.get_role(int(role_id))
             if role:
-                configured_roles.append(role)
+                options.append(
+                    discord.SelectOption(
+                        label=role.name,
+                        value=str(role.id),
+                        description=f"ID: {role.id}"
+                    )
+                )
         
-        if not configured_roles:
+        if not options:
             await interaction.response.send_message(
                 "<:No:825734196256440340> No se encontraron roles configurados.",
                 ephemeral=True
             )
             return
         
-        total_pages = (len(configured_roles) - 1) // 25 + 1
-        view = discord.ui.View()
-        
-        options = []
-        for role in configured_roles[:25]: 
-            options.append(
-                discord.SelectOption(
-                    label=role.name,
-                    value=str(role.id),
-                    description=f"Rol ID: {role.id}"
-                )
-            )
-        
         select = discord.ui.Select(
             placeholder="Selecciona un rol para eliminar",
-            options=options,
+            options=options[:25],
             custom_id="select_role_remove"
         )
         
@@ -415,97 +396,26 @@ class PermissionConfigView(discord.ui.View):
             await self.update_permission_view(select_interaction)
         
         select.callback = role_select_callback
-        view.add_item(select)
         
-        if total_pages > 1:
-            prev_btn = discord.ui.Button(
-                style=discord.ButtonStyle.secondary,
-                label="◀️ Anterior",
-                custom_id="prev_remove_page",
-                disabled=True,
-                row=1
-            )
-            
-            next_btn = discord.ui.Button(
-                style=discord.ButtonStyle.secondary,
-                label="Siguiente ▶️",
-                custom_id="next_remove_page",
-                disabled=False,
-                row=1
-            )
-            
-            current_page = [0]
-            
-            async def prev_remove_callback(btn_interaction):
-                current_page[0] -= 1
-                if current_page[0] < 0:
-                    current_page[0] = 0
-                
-                await update_remove_page(btn_interaction)
-            
-            async def next_remove_callback(btn_interaction):
-                current_page[0] += 1
-                if current_page[0] >= total_pages:
-                    current_page[0] = total_pages - 1
-                
-                await update_remove_page(btn_interaction)
-            
-            async def update_remove_page(btn_interaction):
-                page = current_page[0]
-                start_idx = page * 25
-                end_idx = min(start_idx + 25, len(configured_roles))
-                
-                new_options = []
-                for role in configured_roles[start_idx:end_idx]:
-                    new_options.append(
-                        discord.SelectOption(
-                            label=role.name,
-                            value=str(role.id),
-                            description=f"Rol ID: {role.id}"
-                        )
-                    )
-                
-                for item in view.children:
-                    if isinstance(item, discord.ui.Select):
-                        item.options = new_options
-                        break
-                
-                for item in view.children:
-                    if isinstance(item, discord.ui.Button):
-                        if item.custom_id == "prev_remove_page":
-                            item.disabled = page == 0
-                        elif item.custom_id == "next_remove_page":
-                            item.disabled = page >= total_pages - 1
-                
-                await btn_interaction.response.edit_message(
-                    content=f"Selecciona un rol para eliminar de permisos de {PERMISSIONS_DESCRIPTIONS[self.perm_type]['name']} (Página {page+1}/{total_pages})",
-                    view=view
-                )
-            
-            prev_btn.callback = prev_remove_callback
-            next_btn.callback = next_remove_callback
-            
-            view.add_item(prev_btn)
-            view.add_item(next_btn)
+        temp_view = discord.ui.View()
+        temp_view.add_item(select)
         
         cancel_btn = discord.ui.Button(
             style=discord.ButtonStyle.secondary,
             label="Cancelar",
-            custom_id="cancel_remove_role",
-            row=2
+            custom_id="cancel_remove_role"
         )
         
         async def cancel_callback(btn_interaction):
             await self.update_permission_view(btn_interaction)
         
         cancel_btn.callback = cancel_callback
-        view.add_item(cancel_btn)
+        temp_view.add_item(cancel_btn)
         
         await interaction.response.edit_message(
-            content=f"Selecciona un rol para eliminar de permisos de {PERMISSIONS_DESCRIPTIONS[self.perm_type]['name']}" + 
-                   (f" (Página 1/{total_pages})" if total_pages > 1 else ""),
+            content=f"Selecciona un rol para eliminar de permisos de {PERMISSIONS_DESCRIPTIONS[self.perm_type]['name']}",
             embed=None,
-            view=view
+            view=temp_view
         )
     
     async def add_user_callback(self, interaction: discord.Interaction):
@@ -565,62 +475,150 @@ class PermissionConfigView(discord.ui.View):
             )
             return
         
-        view = discord.ui.View()
-        
-        user_select = discord.ui.UserSelect(
-            placeholder="Selecciona un usuario para eliminar",
-            min_values=1,
-            max_values=1,
-            custom_id="user_select_remove"
-        )
-        
-        async def user_select_callback(select_interaction):
-            user_id = int(select_interaction.data["values"][0])
-            
-            if user_id not in self.ticket_config["permissions"][self.perm_type]["users"]:
-                await select_interaction.response.send_message(
-                    f"<:No:825734196256440340> El usuario seleccionado no tiene configurado el permiso de {PERMISSIONS_DESCRIPTIONS[self.perm_type]['name']}.",
-                    ephemeral=True
-                )
-                return
-            
-            self.ticket_config["permissions"][self.perm_type]["users"].remove(user_id)
-            await self.update_permission_view(select_interaction)
-        
-        user_select.callback = user_select_callback
-        view.add_item(user_select)
-        
-        info_text = "Usuarios con permisos configurados:\n"
-        user_mentions = []
+        options = []
         for user_id in users:
             try:
                 user = await interaction.guild.fetch_member(int(user_id))
                 if user:
-                    user_mentions.append(f"{user.mention} ({user.id})")
+                    options.append(
+                        discord.SelectOption(
+                            label=str(user),
+                            value=str(user.id),
+                            description=f"ID: {user.id}"
+                        )
+                    )
             except:
-                user_mentions.append(f"Usuario ID: {user_id}")
+                options.append(
+                    discord.SelectOption(
+                        label=f"Usuario ID: {user_id}",
+                        value=str(user_id),
+                        description="Usuario no encontrado en el servidor"
+                    )
+                )
         
-        if user_mentions:
-            info_text += "\n".join(user_mentions)
+        if not options:
+            await interaction.response.send_message(
+                "<:No:825734196256440340> No se encontraron usuarios configurados.",
+                ephemeral=True
+            )
+            return
+        
+        if len(options) > 25:
+            total_pages = (len(options) - 1) // 25 + 1
+            current_page = [0]
+            
+            def get_page_options(page):
+                start = page * 25
+                end = min(start + 25, len(options))
+                return options[start:end]
+            
+            select = discord.ui.Select(
+                placeholder=f"Selecciona un usuario para eliminar (Página 1/{total_pages})",
+                options=get_page_options(0),
+                custom_id="select_user_remove"
+            )
+            
+            async def user_select_callback(select_interaction):
+                user_id = int(select_interaction.data["values"][0])
+                
+                if user_id in self.ticket_config["permissions"][self.perm_type]["users"]:
+                    self.ticket_config["permissions"][self.perm_type]["users"].remove(user_id)
+                
+                await self.update_permission_view(select_interaction)
+            
+            select.callback = user_select_callback
+            
+            temp_view = discord.ui.View()
+            temp_view.add_item(select)
+            
+            if total_pages > 1:
+                prev_btn = discord.ui.Button(
+                    style=discord.ButtonStyle.secondary,
+                    label="◀️ Anterior",
+                    custom_id="prev_page_user",
+                    disabled=True,
+                    row=1
+                )
+                
+                next_btn = discord.ui.Button(
+                    style=discord.ButtonStyle.secondary,
+                    label="Siguiente ▶️",
+                    custom_id="next_page_user",
+                    disabled=False,
+                    row=1
+                )
+                
+                async def update_page(btn_interaction, new_page):
+                    current_page[0] = new_page
+                    
+                    for item in temp_view.children:
+                        if isinstance(item, discord.ui.Select):
+                            item.options = get_page_options(new_page)
+                            item.placeholder = f"Selecciona un usuario para eliminar (Página {new_page + 1}/{total_pages})"
+                            break
+                    
+                    for item in temp_view.children:
+                        if isinstance(item, discord.ui.Button):
+                            if item.custom_id == "prev_page_user":
+                                item.disabled = new_page == 0
+                            elif item.custom_id == "next_page_user":
+                                item.disabled = new_page >= total_pages - 1
+                    
+                    await btn_interaction.response.edit_message(
+                        content=f"Selecciona un usuario para eliminar de permisos de {PERMISSIONS_DESCRIPTIONS[self.perm_type]['name']}",
+                        view=temp_view
+                    )
+                
+                async def prev_callback(btn_interaction):
+                    if current_page[0] > 0:
+                        await update_page(btn_interaction, current_page[0] - 1)
+                
+                async def next_callback(btn_interaction):
+                    if current_page[0] < total_pages - 1:
+                        await update_page(btn_interaction, current_page[0] + 1)
+                
+                prev_btn.callback = prev_callback
+                next_btn.callback = next_callback
+                
+                temp_view.add_item(prev_btn)  
+                temp_view.add_item(next_btn)
         else:
-            info_text = "No hay usuarios configurados para mostrar."
+            select = discord.ui.Select(
+                placeholder="Selecciona un usuario para eliminar",
+                options=options,
+                custom_id="select_user_remove"
+            )
+            
+            async def user_select_callback(select_interaction):
+                user_id = int(select_interaction.data["values"][0])
+                
+                if user_id in self.ticket_config["permissions"][self.perm_type]["users"]:
+                    self.ticket_config["permissions"][self.perm_type]["users"].remove(user_id)
+                
+                await self.update_permission_view(select_interaction)
+            
+            select.callback = user_select_callback
+            
+            temp_view = discord.ui.View()
+            temp_view.add_item(select)
         
         cancel_btn = discord.ui.Button(
             style=discord.ButtonStyle.secondary,
             label="Cancelar",
-            custom_id="cancel_remove_user"
+            custom_id="cancel_remove_user",
+            row=2
         )
         
         async def cancel_callback(btn_interaction):
             await self.update_permission_view(btn_interaction)
         
         cancel_btn.callback = cancel_callback
-        view.add_item(cancel_btn)
+        temp_view.add_item(cancel_btn)
         
         await interaction.response.edit_message(
-            content=f"Selecciona un usuario para eliminar de permisos de {PERMISSIONS_DESCRIPTIONS[self.perm_type]['name']}\n\n{info_text}",
+            content=f"Selecciona un usuario para eliminar de permisos de {PERMISSIONS_DESCRIPTIONS[self.perm_type]['name']}",
             embed=None,
-            view=view
+            view=temp_view
         )
     
     async def update_permission_view(self, interaction):

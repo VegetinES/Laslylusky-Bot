@@ -219,7 +219,6 @@ class Kick(commands.Cog):
                 embed.add_field(name="Servidor:", value=interaction.guild.name, inline=False)
                 embed.add_field(name="Moderador:", value=interaction.user.name, inline=False)
                 embed.add_field(name="Razón:", value=kick_reason, inline=False)
-                embed.set_footer(text=f"Expulsado por: {interaction.user.name}", icon_url=interaction.user.display_avatar.url)
                 embed.timestamp = discord.utils.utcnow()
                 
                 await usuario.send(embed=embed)
@@ -235,7 +234,6 @@ class Kick(commands.Cog):
             confirmation.add_field(name="Usuario:", value=f"{usuario.name} ({usuario.id})", inline=False)
             confirmation.add_field(name="Moderador:", value=f"{interaction.user.name} ({interaction.user.id})", inline=False)
             confirmation.add_field(name="Razón:", value=kick_reason, inline=False)
-            confirmation.set_footer(text=f"Expulsado por: {interaction.user.name}", icon_url=interaction.user.display_avatar.url)
             confirmation.timestamp = discord.utils.utcnow()
 
             await interaction.followup.send(embed=confirmation)

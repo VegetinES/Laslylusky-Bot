@@ -104,11 +104,11 @@ class Clear(commands.Cog):
     @app_commands.command(name="clear", description="Elimina un número específico de mensajes")
     @app_commands.describe(
         cantidad="Número de mensajes a eliminar",
-        usuario="Usuario cuyos mensajes se eliminarán (opcional)",
+        usuarios="IDs de usuarios separados por espacios cuyos mensajes se eliminarán (opcional)",
+        excluir_usuarios="IDs de usuarios separados por espacios cuyos mensajes NO se eliminarán (opcional)",
         canal="Canal donde se eliminarán los mensajes (opcional)"
     )
     @app_commands.autocomplete(
-        usuario=user_autocomplete,
         canal=channel_autocomplete
     )
     @app_commands.default_permissions(manage_messages=True)
@@ -116,7 +116,8 @@ class Clear(commands.Cog):
         self, 
         interaction: discord.Interaction, 
         cantidad: int,
-        usuario: Optional[str] = None,
+        usuarios: Optional[str] = None,
+        excluir_usuarios: Optional[str] = None,
         canal: Optional[str] = None
     ):
         act_commands = get_specific_field(interaction.guild.id, "act_cmd")
@@ -157,37 +158,76 @@ class Clear(commands.Cog):
         else:
             target_channel = interaction.channel
 
-        target_user = None
-        if usuario:
-            try:
-                target_user = await interaction.guild.fetch_member(int(usuario))
-                if not target_user:
-                    await interaction.response.send_message('No se pudo encontrar el usuario especificado.', ephemeral=True)
-                    return
-            except:
-                await interaction.response.send_message('No se pudo encontrar el usuario especificado.', ephemeral=True)
+        target_users = []
+        if usuarios:
+            user_ids = usuarios.split()
+            for user_id in user_ids:
+                try:
+                    user = await interaction.guild.fetch_member(int(user_id))
+                    if user:
+                        target_users.append(user.id)
+                except:
+                    pass
+            
+            if not target_users and usuarios:
+                await interaction.response.send_message('No se pudieron encontrar los usuarios especificados.', ephemeral=True)
                 return
+        
+        excluded_users = []
+        if excluir_usuarios:
+            excluded_ids = excluir_usuarios.split()
+            for user_id in excluded_ids:
+                try:
+                    user = await interaction.guild.fetch_member(int(user_id))
+                    if user:
+                        excluded_users.append(user.id)
+                except:
+                    pass
 
         await interaction.response.defer(ephemeral=True)
         
         try:
-            if target_user:
-                def check(message):
-                    return message.author.id == target_user.id
+            def check(message):
+                if target_users:
+                    included = message.author.id in target_users
+                else:
+                    included = True
                 
-                deleted = await target_channel.purge(limit=cantidad, check=check)
+                if excluded_users:
+                    excluded = message.author.id in excluded_users
+                else:
+                    excluded = False
                 
-                confirmation = discord.Embed(
-                    description=f"✅ Se han eliminado {len(deleted)} mensajes de {target_user.mention} en {target_channel.mention}.",
-                    color=discord.Color.random()
-                )
-            else:
-                deleted = await target_channel.purge(limit=cantidad)
+                return included and not excluded
+            
+            deleted = await target_channel.purge(limit=cantidad, check=check)
+            
+            description = f"✅ Se han eliminado {len(deleted)} mensajes en {target_channel.mention}."
+            
+            if target_users:
+                user_mentions = []
+                for user_id in target_users:
+                    user = interaction.guild.get_member(user_id)
+                    if user:
+                        user_mentions.append(user.mention)
                 
-                confirmation = discord.Embed(
-                    description=f"✅ Se han eliminado {len(deleted)} mensajes en {target_channel.mention}.",
-                    color=discord.Color.random()
-                )
+                if user_mentions:
+                    description += f"\nUsuarios incluidos: {', '.join(user_mentions)}"
+            
+            if excluded_users:
+                excluded_mentions = []
+                for user_id in excluded_users:
+                    user = interaction.guild.get_member(user_id)
+                    if user:
+                        excluded_mentions.append(user.mention)
+                
+                if excluded_mentions:
+                    description += f"\nUsuarios excluidos: {', '.join(excluded_mentions)}"
+            
+            confirmation = discord.Embed(
+                description=description,
+                color=discord.Color.random()
+            )
             
             await interaction.followup.send(embed=confirmation, ephemeral=True)
             

@@ -66,7 +66,7 @@
                 <tr>
                     <td><code>updates</code></td>
                     <td>Comando para saber las actualizaciones del bot</td>
-                    <td><code>%updates</code> / <code>/updates</code></td>
+                    <td><code>%updates [actualización]</code> | <code>/updates</code></td>
                     <td>Todos pueden utilizar este comando</td>
                     <td></td>
                 </tr>
@@ -98,9 +98,23 @@
                     <td>Todos pueden usar este comando</td>
                     <td></td>
                 </tr>
+                <tr>
+                    <td><code>bugreport</code></td>
+                    <td>Comando para reportar un bug/error de un comando</td>
+                    <td><code>%bugreport {mensaje}</code> | <code>/bugreport</code></td>
+                    <td>Todos pueden usar este comando</td>
+                    <td>No escribas en el comando <code>{}</code>. <code>{mensaje}</code> tiene que ser sustituido por el mensaje del reporte del bug/error de un comando. Se recomienda usar <code>/bugreport</code></td>
+                </tr>
+                <tr>
+                    <td><code>botsuggest</code></td>
+                    <td>Comando para enviar una sugerencia de lo que quieres que se añada al bot</td>
+                    <td><code>%botsuggest {sugerencia}</code> | <code>/botsuggest</code></td>
+                    <td>Todos pueden utilizar este comando</td>
+                    <td>No escribas en el comando <code>{}</code>. <code>{sugerencia}</code> tiene que ser sustituido por la sugerencia que quieres que añadan al bot</td>
+                </tr>
             </table>
             
-            <h3>😄 Diversión</h3>
+            <h3>😄 Diversión y juegos</h3>
             
             <table>
                 <tr>
@@ -113,9 +127,9 @@
                 <tr>
                     <td><code>kill</code></td>
                     <td>Comando para intentar 'matar' a un jugador mencionado</td>
-                    <td><code>%kill {usuario.mencion}</code></td>
+                    <td><code>%kill {usuario}</code></td>
                     <td>Todos pueden usar este comando</td>
-                    <td>No escribas en el comando <code>{}</code>. <code>{usuario.mencion}</code> debe ser sustituido por la mención a un usuario al que quieres intentar 'matar'</td>
+                    <td>No escribas en el comando <code>{}</code>. <code>{usuario}</code> debe ser sustituido por la mención a un usuario al que quieres intentar 'matar'</td>
                 </tr>
                 <tr>
                     <td><code>hug</code></td>
@@ -127,23 +141,121 @@
                 <tr>
                     <td><code>8ball</code></td>
                     <td>Comando para consultar la bola mágica 8</td>
-                    <td><code>%8ball {pregunta}</code> / <code>/8ball</code></td>
+                    <td><code>%8ball {pregunta}</code> | <code>/8ball</code></td>
                     <td>Todos pueden usar este comando</td>
                     <td>No escribas en el comando <code>{}</code>. <code>{pregunta}</code> debe ser sustituido por la pregunta que quieres hacerle a la bola mágica.</td>
                 </tr>
                 <tr>
                     <td><code>meme</code></td>
                     <td>Comando que muestra un meme aleatorio en español</td>
-                    <td><code>%meme</code> / <code>/meme</code></td>
+                    <td><code>%meme</code> | <code>/meme</code></td>
                     <td>Todos pueden usar este comando</td>
                     <td></td>
                 </tr>
                 <tr>
                     <td><code>morse</code></td>
                     <td>Comando para convertir texto a código morse o viceversa</td>
-                    <td><code>%morse {texto}</code> / <code>/morse</code></td>
+                    <td><code>%morse {texto}</code> | <code>/morse</code></td>
                     <td>Todos pueden usar este comando</td>
                     <td>No escribas en el comando <code>{}</code>. <code>{texto}</code> tiene que ser sustituido por el texto que quieres convertir a morse. En el slash command puedes elegir entre convertir texto a morse o morse a texto.</td>
+                </tr>
+                <tr>
+                    <td><code>trivia</code></td>
+                    <td>Comando para jugar a trivia</td>
+                    <td><code>%trivia</code> | <code>/trivia</code></td>
+                    <td>Todos pueden usar este comando</td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td><code>ahorcado</code></td>
+                    <td>Comando para jugar al ahorcado 2 jugadores</td>
+                    <td><code>%ahorcado</code> | <code>/ahorcado</code></td>
+                    <td>Todos pueden usar este comando</td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td><code>blackjack</code></td>
+                    <td>Comando para jugar al blackjack 2 o más jugadores</td>
+                    <td><code>%blackjack</code> | <code>/blackjack</code></td>
+                    <td>Todos pueden usar este comando</td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td><code>insulto</code></td>
+                    <td>Comando para insultar a alguien de forma graciosa</td>
+                    <td><code>%insulto [usuario]</code> | <code>/insulto</code></td>
+                    <td>Todos pueden usar este comando</td>
+                    <td>No escribas en el comando <code>[]</code>. <code>[usuario]</code> debe ser sustituido por la mención al usuario al que quieres insultar.</td>
+                </tr>
+                <tr>
+                    <td><code>buscaminas</code></td>
+                    <td>Comando para jugar al buscaminas</td>
+                    <td><code>/buscaminas</code></td>
+                    <td>Todos pueden usar este comando</td>
+                    <td>Puedes elegir la dificultad del buscaminas (fácil, medio o difícil)</td>
+                </tr>
+                <tr>
+                    <td><code>piedrapapeltijera</code></td>
+                    <td>Comando para jugar al piedra papel o tijera 2 jugadores</td>
+                    <td><code>%piedrapapeltijera</code> | <code>/piedrapapeltijera</code></td>
+                    <td>Todos pueden usar este comando</td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td><code>ruletarusa</code></td>
+                    <td>Comando para jugar a la ruleta rusa de 2 a 6 jugadores</td>
+                    <td><code>%ruletarusa</code> | <code>/ruletarusa</code></td>
+                    <td>Todos pueden usar este comando</td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td><code>tictactoe</code></td>
+                    <td>Comando para jugar al tres en raya 2 jugadores</td>
+                    <td><code>%tictactoe</code> | <code>/tictactoe</code></td>
+                    <td>Todos pueden usar este comando</td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td><code>conecta4</code></td>
+                    <td>Comando para jugar al conecta4 2 jugadores</td>
+                    <td><code>%conecta4</code> | <code>/conecta4</code></td>
+                    <td>Todos pueden usar este comando</td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td><code>halago</code></td>
+                    <td>Comando para enviar un halago a un usuario</td>
+                    <td><code>%halago [usuario]</code> | <code>/halago</code></td>
+                    <td>Todos pueden usar este comando</td>
+                    <td>No escribas en el comando <code>[]</code>. <code>[usuario]</code> debe ser sustituido por la mención del usuario al que quieres mandarle un halago.</td>
+                </tr>
+                <tr>
+                    <td><code>moneda</code></td>
+                    <td>Comando para lanzar una moneda y ver si sale cara o cruz</td>
+                    <td><code>%moneda</code> | <code>/moneda</code></td>
+                    <td>Todos pueden usar este comando</td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td><code>dado</code></td>
+                    <td>Comando para lanzar un dado y ver el número que ha salido</td>
+                    <td><code>%dado [caras]</code> | <code>/dado</code></td>
+                    <td>Todos pueden usar este comando</td>
+                    <td>No escribas en el comando <code>[]</code>. <code>[caras]</code> debe ser sustituido por el número de caras del dado (por defecto 6).</td>
+                </tr>
+                <tr>
+                    <td><code>estadisticas-juegos</code></td>
+                    <td>Comando para ver estadisticas de minijuegos</td>
+                    <td><code>%estadisticas-juegos</code> | <code>/estadisticas-juegos</code></td>
+                    <td>Todos pueden usar este comando</td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td><code>2048</code></td>
+                    <td>Comando para jugar al 2048 hasta llegar al número 8192 (por ahora)</td>
+                    <td><code>%2048</code> | <code>/2048</code></td>
+                    <td>Todos pueden usar este comando</td>
+                    <td></td>
                 </tr>
             </table>
             
@@ -162,7 +274,7 @@
                     <td>Comando para banear a un usuario, temporal o permanentemente</td>
                     <td><code>%ban {usuario} [razón] [tiempo]</code> | <code>/ban</code></td>
                     <td>Administrador o Banear usuarios</td>
-                    <td>No escribas en el comando <code>{}</code> ni <code>[]</code>. <code>{usuario}</code> tiene que ser sustituido por la mención al usuario o su ID, <code>[razón]</code> por la razón del baneo, que será obligatorio si se poniendo un tiempo <code>[tiempo]</code> s segundos, m minutos y d días máximo 15 días</td>
+                    <td>No escribas en el comando <code>{}</code> ni <code>[]</code>. <code>{usuario}</code> tiene que ser sustituido por la mención al usuario o su ID, <code>[razón]</code> por la razón del baneo. El tiempo se ha de poner en segundos (s), minutos (m) o días (d) máximo 15 días</td>
                 </tr>
                 <tr>
                     <td><code>massban</code></td>
@@ -170,13 +282,6 @@
                     <td><code>%massban {usuarios} {razón}</code> | <code>/massban</code></td>
                     <td>Administrador o Banear usuarios</td>
                     <td>No escribas en el comando <code>{}</code>. <code>{usuarios}</code> tiene que ser sustituido por el ID del los usuarios del ban masivo, separados por espacios, y <code>{razón}</code> por la razón del baneo</td>
-                </tr>
-                <tr>
-                    <td><code>purgeban</code></td>
-                    <td>Comando para banear a al usuario mencionado y eliminar sus mensajes hasta hace 7 días</td>
-                    <td><code>%purgeban {usuario} {razón}</code> | <code>/purgeban</code></td>
-                    <td>Administrador o Banear usuarios</td>
-                    <td>No escribas en el comando <code>{}</code>. <code>{usuario}</code> tiene que ser sustituido por la mención al usuario o su ID, y <code>{razón}</code> por la razón del baneo</td>
                 </tr>
                 <tr>
                     <td><code>unban</code></td>
@@ -201,14 +306,14 @@
                 </tr>
                 <tr>
                     <td><code>warn</code></td>
-                    <td>Comando para mutear al usuario mencionado de forma definitiva hasta que se lo quite de forma manual</td>
+                    <td>Comando para advertir al usuario mencionado</td>
                     <td><code>%warn {usuario} {razón}</code> | <code>/warn</code></td>
                     <td>Advertir usuarios o Administrador</td>
                     <td>No escribas en el comando <code>{}</code>. Sustituye <code>{usuario}</code> por la mención del usuario o la ID del usuario a quien se quiere poner una advertencia, y <code>{razón}</code> por la razón de la advertencia. Se recomienda utilizar <code>/warn</code>. Es necesario configurar el comando en config</td>
                 </tr>
                 <tr>
                     <td><code>unwarn</code></td>
-                    <td>Comando para quitar el mute al usuario mencionado que ya esté silenciado</td>
+                    <td>Comando para quitar el warn al usuario que ya esté advertido</td>
                     <td><code>%unwarn {warnid} {razón}</code> | <code>/unwarn</code></td>
                     <td>Manejar roles o Administrador</td>
                     <td>No escribas en el comando <code>{}</code>. Sustituye <code>{warnid}</code> por el ID de la advertencia (utiliza <code>/infracciones</code> para ver las infracciones del usuario), y <code>{razón}</code> por la razón de porqué se quita la advertencia. Se recomienda utilizar <code>/unwarn</code>. Es necesario configurar el comando en config</td>
@@ -227,6 +332,20 @@
                     <td>Advertir usuarios, Administrador, Banear usuarios, Expulsar usuarios, Gestionar roles, Gestionar servidor</td>
                     <td>No escribas en el comando <code>[]</code>. Sustituye <code>[usuario]</code> por la mención del usuario que quieres ver sanciones aplicadas</td>
                 </tr>
+                <tr>
+                    <td><code>aislar</code></td>
+                    <td>Comando para aislar temporalmente a un usuario en el servidor</td>
+                    <td><code>%aislar {usuario} {tiempo} [razón]</code> | <code>/aislar</code></td>
+                    <td>Administrador, Mutear usuarios, Moderar miembros</td>
+                    <td>No escribas en el comando <code>{}</code> ni <code>[]</code>. <code>{usuario}</code> debe ser sustituido por la mención del usuario, <code>{tiempo}</code> por el tiempo del aislamiento, y <code>[razón]</code> por la razón del aislamiento. El tiempo se ha de poner en segundos (s), minutos (m), horas (h) o días (d), siendo 7 días el máximo.</td>
+                </tr>
+                <tr>
+                    <td><code>desaislar</code></td>
+                    <td>Comando para quitar el aislamiento a un usuario en el servidor</td>
+                    <td><code>%desaislar {usuario} [razón]</code> | <code>/desaislar</code></td>
+                    <td>Administrador, Mutear usuarios, Moderar miembros</td>
+                    <td>No escribas en el comando <code>{}</code> ni <code>[]</code>. <code>{usuario}</code> debe ser sustituido por la mención del usuario y <code>[razón]</code> por la razón del quitar del aislamiento.</td>
+                </tr>
             </table>
             
             <h3>⚙️ Configuración</h3>
@@ -244,14 +363,21 @@
                     <td>Comando de para cambiar el cooldown del canal donde se ejecuta el comando</td>
                     <td><code>%slowmode {tiempo} [razón]</code></td>
                     <td>Gestionar canales</td>
-                    <td></td>
+                    <td>No escribas en el comando <code>{}</code> ni <code>[]</code>. <code>{tiempo}</code> debe ser sustituido por el tiempo del cooldown, y <code>[razón]</code> por la razón del cooldown</td>
                 </tr>
                 <tr>
                     <td><code>config</code></td>
                     <td>Comando para configurar al bot en el servidor donde se ejecute</td>
-                    <td><code>%config</code></td>
+                    <td><code>/config {opción}</code></td>
                     <td>Administrador</td>
                     <td>Para utilizar la configuración de forma más detallada y fácil los comandos <code>/config help</code>, <code>/config data</code>, <code>/config update</code>, <code>/config perms</code>, <code>/config logs</code>, <code>/config cmd</code> o <code>/config tickets help</code></td>
+                </tr>
+                <tr>
+                    <td><code>voicesetup</code></td>
+                    <td>Comando para gestionar canales de voz temporales en un servidor</td>
+                    <td><code>/voicesetup</code></td>
+                    <td>Administrador</td>
+                    <td></td>
                 </tr>
             </table>
             
@@ -268,28 +394,28 @@
                 <tr>
                     <td><code>userinfo</code></td>
                     <td>Comando que envía la información del usuario mencionado, o del usuario que ejecutó el comando</td>
-                    <td><code>%userinfo</code> / <code>%userinfo {usuario}</code> / <code>/userinfo</code></td>
+                    <td><code>%userinfo [usuario]</code> | <code>/userinfo</code></td>
                     <td>Todos pueden usar este comando</td>
-                    <td>No escribas en el comando <code>{}</code>. <code>{usuario}</code> tiene que ser sustituido por la mención del usuario</td>
+                    <td>No escribas en el comando <code>[]</code>. <code>[usuario]</code> tiene que ser sustituido por la mención del usuario</td>
                 </tr>
                 <tr>
                     <td><code>avatar</code></td>
                     <td>Comando que envía la imagen de perfil tuya o del usuario mencionado</td>
-                    <td><code>%avatar</code> / <code>%avatar {usuario}</code> / <code>/avatar</code></td>
+                    <td><code>%avatar [usuario]</code> | <code>/avatar</code></td>
                     <td>Todos pueden usar este comando</td>
-                    <td>No escribas en el comando <code>{}</code>. <code>{usuario}</code> tiene que ser sustituido por la mención del usuario</td>
+                    <td>No escribas en el comando <code>[]</code>. <code>[usuario]</code> tiene que ser sustituido por la mención del usuario</td>
                 </tr>
                 <tr>
                     <td><code>servericon</code></td>
                     <td>Comando que envía la imagen del servidor donde se ejecutó</td>
-                    <td><code>%servericon</code> / <code>/servericon</code></td>
+                    <td><code>%servericon</code> | <code>/servericon</code></td>
                     <td>Todos pueden usar este comando</td>
                     <td></td>
                 </tr>
                 <tr>
                     <td><code>serverinfo</code></td>
                     <td>Comando que envía la información del servidor donde se ha utilizado</td>
-                    <td><code>%serverinfo</code> / <code>/serverinfo</code></td>
+                    <td><code>%serverinfo</code> | <code>/serverinfo</code></td>
                     <td>Todos pueden usar este comando</td>
                     <td></td>
                 </tr>
@@ -326,6 +452,34 @@
                     <td>Todos pueden usar este comando</td>
                     <td>No escribas en el comando <code>{}</code>. <code>{texto}</code> debe ser sustituido por el mensaje que quieras decirle a la IA. La IA mantendrá un chat con el usuario siempre, recordando la conversación a no ser que el usuario la elimine. Para eliminar el chat con la IA de ese canal y empezar otro escribe <code>%reset-chat</code>. La AI solo podrá mantener conversación con solo 1 usuario</td>
                 </tr>
+                <tr>
+                    <td><code>recordatorio</code></td>
+                    <td>Comando para crear recordatorios que el bot te enviará por MD</td>
+                    <td><code>/recordatorio {opción}</code></td>
+                    <td>Todos pueden usar este comando</td>
+                    <td>No escribas en el comando <code>{}</code>. <code>{opción}</code> debe ser sustituido por <code>ver</code>, <code>crear</code> o <code>gestionar</code>. Para la zona horaria en GMT mira tu ubicación en <a href="https://greenwichmeantime.com/time-zone/">este enlace</a></td>
+                </tr>
+                <tr>
+                    <td><code>cumpleaños</code></td>
+                    <td>Comando para gestionar los cumpleaños en un servidor</td>
+                    <td><code>/cumpleaños {opción}</code></td>
+                    <td>Todos pueden usar este comando / ADMINISTRADOR</td>
+                    <td>No escribas en el comando <code>{}</code>. <code>{opción}</code> debe ser sustituido por <code>ver</code>, <code>establecer</code>, <code>eliminar</code> o <code>configurar</code>. Para la zona horaria en GMT mira la ubicación en <a href="https://greenwichmeantime.com/time-zone/">este enlace</a></td>
+                </tr>
+                <tr>
+                    <td><code>nivel</code></td>
+                    <td>Comando para gestionar los niveles en un servidor</td>
+                    <td><code>/nivel {opción}</code></td>
+                    <td>Todos pueden usar este comando / ADMINISTRADOR</td>
+                    <td>No escribas en el comando <code>{}</code>. <code>{opción}</code> debe ser sustituido por <code>ver</code>, <code>gestionar</code>, <code>top</code> o <code>configurar</code></td>
+                </tr>
+                <tr>
+                    <td><code>comprobar-virus</code></td>
+                    <td>Comando para gestionar los niveles en un servidor</td>
+                    <td><code>/comprobar-virus archivo:[archivo] enlace:[enlace]</code></td>
+                    <td>Todos pueden usar este comando</td>
+                    <td>No escribas en el comando <code>[]</code>. <code>[archivo]</code> debe ser sustituido por un archivo y <code>[enalce]</code> por un enlace. Es obligatorio poner uno de los 2 argumentos, y no se pueden poner los 2 a la vez.</td>
+                </tr>
             </table>
             
             <h3>🎮 Minecraft</h3>
@@ -341,7 +495,7 @@
                 <tr>
                     <td><code>mcstatus</code></td>
                     <td>Comando que muestra el estado de un servidor de Minecraft, ya sea de Java o Bedrock</td>
-                    <td><code>%mcstatus {serverip} {plataforma}</code></td>
+                    <td><code>%mcstatus {serverip} {plataforma}</code> | <code>/mcstatus</code></td>
                     <td>Todos pueden usar este comando</td>
                     <td>No escribas en el comando <code>{}</code>. <code>{serverip}</code> tiene que ser sustituido por la IP del servidor y <code>{plataforma}</code> por la plataforma de Minecraft (poner <code>java</code> o <code>bedrock</code>)</td>
                 </tr>
@@ -373,92 +527,77 @@
                     <th>Descripción</th>
                     <th>Uso</th>
                     <th>Permisos</th>
+                    <th>Extra</th>
                 </tr>
                 <tr>
                     <td><code>boobs</code></td>
                     <td>Comando que envía tetas de mujeres (por ahora)(el diablo)</td>
                     <td><code>%boobs</code></td>
-                    <td>Todos pueden utilizar este comando. <strong>Solo se puede utilizar en un canal NSFW</strong></td>
+                    <td>Todos pueden utilizar este comando</td>
+                    <td><strong>Solo se puede utilizar en un canal NSFW</strong></td>
                 </tr>
                 <tr>
                     <td><code>anal</code></td>
                     <td>Comando que envía sexo anal</td>
                     <td><code>%anal</code></td>
-                    <td>Todos pueden utilizar este comando. <strong>Solo se puede utilizar en un canal NSFW</strong></td>
+                    <td>Todos pueden utilizar este comando</td>
+                    <td><strong>Solo se puede utilizar en un canal NSFW</strong></td>
                 </tr>
                 <tr>
                     <td><code>ass</code></td>
                     <td>Comando que envía culos de mujeres</td>
                     <td><code>%ass</code></td>
-                    <td>Todos pueden utilizar este comando. <strong>Solo se puede utilizar en un canal NSFW</strong></td>
+                    <td>Todos pueden utilizar este comando</td>
+                    <td><strong>Solo se puede utilizar en un canal NSFW</strong></td>
                 </tr>
                 <tr>
                     <td><code>pgif</code></td>
                     <td>Comando que envía gifs porno</td>
                     <td><code>%pgif</code></td>
-                    <td>Todos pueden utilizar este comando. <strong>Solo se puede utilizar en un canal NSFW</strong></td>
+                    <td>Todos pueden utilizar este comando</td>
+                    <td><strong>Solo se puede utilizar en un canal NSFW</strong></td>
                 </tr>
                 <tr>
                     <td><code>4k</code></td>
                     <td>Comando que envía contenido porno en 4k</td>
                     <td><code>%4k</code></td>
-                    <td>Todos pueden utilizar este comando. <strong>Solo se puede utilizar en un canal NSFW</strong></td>
+                    <td>Todos pueden utilizar este comando</td>
+                    <td><strong>Solo se puede utilizar en un canal NSFW</strong></td>
                 </tr>
                 <tr>
                     <td><code>pussy</code></td>
                     <td>Comando que envía coños de mujeres</td>
                     <td><code>%pussy</code></td>
-                    <td>Todos pueden utilizar este comando. <strong>Solo se puede utilizar en un canal NSFW</strong></td>
+                    <td>Todos pueden utilizar este comando</td>
+                    <td><strong>Solo se puede utilizar en un canal NSFW</strong></td>
                 </tr>
                 <tr>
                     <td><code>hboobs</code></td>
                     <td>Comando que envía tetas de hentai</td>
                     <td><code>%hboobs</code></td>
-                    <td>Todos pueden utilizar este comando. <strong>Solo se puede utilizar en un canal NSFW</strong></td>
+                    <td>Todos pueden utilizar este comando</td>
+                    <td><strong>Solo se puede utilizar en un canal NSFW</strong></td>
                 </tr>
                 <tr>
                     <td><code>hass</code></td>
                     <td>Comando que envía culos de hentai</td>
                     <td><code>%hass</code></td>
-                    <td>Todos pueden utilizar este comando. <strong>Solo se puede utilizar en un canal NSFW</strong></td>
+                    <td>Todos pueden utilizar este comando</td>
+                    <td><strong>Solo se puede utilizar en un canal NSFW</strong></td>
                 </tr>
                 <tr>
                     <td><code>hanal</code></td>
                     <td>Comando que envía anal de hentai</td>
                     <td><code>%hanal</code></td>
-                    <td>Todos pueden utilizar este comando. <strong>Solo se puede utilizar en un canal NSFW</strong></td>
+                    <td>Todos pueden utilizar este comando</td>
+                    <td><strong>Solo se puede utilizar en un canal NSFW</strong></td>
                 </tr>
                 <tr>
                     <td><code>blowjob</code></td>
                     <td>Comando que envía mamadas</td>
                     <td><code>%blowjob</code></td>
-                    <td>Todos pueden utilizar este comando. <strong>Solo se puede utilizar en un canal NSFW</strong></td>
-                </tr>
-            </table>
-            
-            <h3>📌 Reportar bug | Enviar sugerencia 📨</h3>
-            
-            <table>
-                <tr>
-                    <th>Comando</th>
-                    <th>Descripción</th>
-                    <th>Uso</th>
-                    <th>Permisos</th>
-                    <th>Extra</th>
-                </tr>
-                <tr>
-                    <td><code>bugreport</code></td>
-                    <td>Comando para reportar un bug/error de un comando</td>
-                    <td><code>%bugreport {mensaje}</code> | <code>/bugreport</code></td>
-                    <td>Todos pueden usar este comando</td>
-                    <td>No escribas en el comando <code>{}</code>. <code>{mensaje}</code> tiene que ser sustituido por el mensaje del reporte del bug/error de un comando. Se recomienda usar <code>/bugreport</code></td>
-                </tr>
-                <tr>
-                    <td><code>bot-suggest</code></td>
-                    <td>Comando para enviar una sugerencia de lo que quieres que se añada al bot</td>
-                    <td><code>%bot-suggest {sugerencia}</code> | <code>/botsuggest</code></td>
                     <td>Todos pueden utilizar este comando</td>
-                    <td>No escribas en el comando <code>{}</code>. <code>{sugerencia}</code> tiene que ser sustituido por la sugerencia que quieres que añadan al bot</td>
+                    <td><strong>Solo se puede utilizar en un canal NSFW</strong></td>
                 </tr>
             </table>
             
@@ -466,7 +605,7 @@
             
             <ul>
                 <li><strong>Invitación</strong>: <a href="https://laslylusky.es/invite">Invitar a Laslylusky a tu servidor</a></li>
-                <li><strong>Servidor Discord</strong>: <a href="https://discord.gg/8uuPxpjC4N">Unirse al servidor de soporte</a></li>
+                <li><strong>Servidor Discord</strong>: <a href="https://discord.gg/DN6PDKA7gf">Unirse al servidor de soporte</a></li>
                 <li><strong>Top.gg</strong>: <a href="https://top.gg/bot/784774864766500864">Perfil en Top.gg</a></li>
                 <li><strong>Valorar</strong>: <a href="https://forms.gle/pqeiSo1n1d49jD7M9">Formulario para valorar al bot</a></li>
                 <li><strong>Donar</strong>: <a href="https://paypal.me/VegetinES">Apoyar el desarrollo vía PayPal</a></li>
@@ -477,7 +616,7 @@
             <h2>Notas Importantes</h2>
             
             <ul>
-                <li>Los comandos predeterminados que no pueden desactivarse son: "help", "donate", "info", "invite", "privacidad", "updates", "savedatachat", "bot-suggest", "bugreport", "laslylusky", "reset-chat", "config", "infracciones", "moderador"</li>
+                <li>Los comandos predeterminados que no pueden desactivarse son: "help", "donate", "info", "invite", "privacidad", "updates", "savedatachat", "botsuggest", "bugreport", "laslylusky", "reset-chat", "config", "infracciones", "moderador", "recordatorio", "nivel", "voicesetup", "cumpleaños", "estadisticas-juegos"</li>
                 <li>El bot proporciona información detallada sobre cada comando cuando se solicita con <code>%help &lt;comando&gt;</code> o <code>/help comando:&lt;comando&gt;</code></li>
                 <li>Para ver los comandos NSFW, debes ejecutar los comandos de ayuda en un canal marcado como NSFW</li>
             </ul>

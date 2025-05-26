@@ -89,13 +89,35 @@ LOG_TYPES = {
     },
     "add_ch": {
         "name": "Logs de canales creados",
-        "params": ["{channel}", "{channelid}", "{category}"],
+        "params": ["{channel}", "{channelid}", "{category}", "{perms}"],
         "footer_params": ["{channelid}"]
     },
     "del_ch": {
         "name": "Logs de canales eliminados",
         "params": ["{channel}", "{channelid}", "{category}"],
         "footer_params": ["{channelid}"]
+    },
+    "mod_ch": {
+        "name": "Logs de canales modificados",
+        "params": ["{channel}", "{channelid}"],
+        "footer_params": ["{channelid}"],
+        "config_options": ["changedname", "changedperms"]
+    },
+    "add_cat": {
+        "name": "Logs de categorías creadas",
+        "params": ["{category}", "{categoryid}", "{perms}"],
+        "footer_params": ["{categoryid}"]
+    },
+    "del_cat": {
+        "name": "Logs de categorías eliminadas",
+        "params": ["{category}", "{categoryid}"],
+        "footer_params": ["{categoryid}"]
+    },
+    "mod_cat": {
+        "name": "Logs de categorías modificadas",
+        "params": ["{category}", "{categoryid}"],
+        "footer_params": ["{categoryid}"],
+        "config_options": ["changedname", "changedperms"]
     },
     "changed_av": {
         "name": "Logs de actualización de avatar o nombre",

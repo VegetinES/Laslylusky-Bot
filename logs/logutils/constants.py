@@ -66,13 +66,33 @@ LOG_PARAMS = {
     },
     "add_ch": {
         "name": "Logs de canal creado",
-        "params": ["{channel}", "{channelid}", "{category}"],
+        "params": ["{channel}", "{channelid}", "{category}", "{perms}"],
         "footer_params": ["{channelid}"]
     },
     "del_ch": {
         "name": "Logs de canal eliminado",
         "params": ["{channel}", "{channelid}", "{category}"],
         "footer_params": ["{channelid}"]
+    },
+    "mod_ch": {
+        "name": "Logs de canal modificado",
+        "params": ["{channel}", "{channelid}"],
+        "footer_params": ["{channelid}"]
+    },
+    "add_cat": {
+        "name": "Logs de categoría creada",
+        "params": ["{category}", "{categoryid}", "{perms}"],
+        "footer_params": ["{categoryid}"]
+    },
+    "del_cat": {
+        "name": "Logs de categoría eliminada",
+        "params": ["{category}", "{categoryid}"],
+        "footer_params": ["{categoryid}"]
+    },
+    "mod_cat": {
+        "name": "Logs de categoría modificada",
+        "params": ["{category}", "{categoryid}"],
+        "footer_params": ["{categoryid}"]
     },
     "changed_av": {
         "name": "Logs de cambio de avatar/nombre",

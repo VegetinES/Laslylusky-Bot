@@ -17,7 +17,7 @@ class Kill(commands.Cog):
         
         self.api_key = os.getenv("GEMINI")
         genai.configure(api_key=self.api_key)
-        self.model = genai.GenerativeModel("gemini-1.5-flash")
+        self.model = genai.GenerativeModel("gemini-2.0-flash")
         
     @commands.command()
     async def kill(self, ctx, victim: discord.Member = None):

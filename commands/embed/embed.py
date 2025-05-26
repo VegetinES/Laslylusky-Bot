@@ -18,13 +18,11 @@ class EmbedCommand(commands.Cog):
 
     @app_commands.command(name="embed", description="Crear un mensaje con embeds personalizados")
     @app_commands.describe(
-        codigo="Código para enviar un mensaje con embeds previamente creado",
-        canal="Canal donde enviar el mensaje",
         cargar="Cargar un archivo JSON con datos de un embed",
         mensaje_id="ID del mensaje a editar (opcional)"
     )
     @app_commands.checks.has_permissions(administrator=True)
-    async def embed_slash(self, interaction: discord.Interaction, codigo: Optional[str] = None, canal: Optional[discord.TextChannel] = None, cargar: Optional[discord.Attachment] = None, mensaje_id: Optional[str] = None):
+    async def embed_slash(self, interaction: discord.Interaction, cargar: Optional[discord.Attachment] = None, mensaje_id: Optional[str] = None):
         try:
             if interaction.guild is None:
                 await interaction.response.send_message("Este comando no puede ser usado en mensajes directos.", ephemeral=True)
@@ -82,6 +80,8 @@ class EmbedCommand(commands.Cog):
                     view.content = embed_data.get("content")
                     view.embeds = embed_data.get("embeds", [])
                     view.webhook_url = embed_data.get("webhook_url")
+                    view.webhook_name = embed_data.get("webhook_name")
+                    view.webhook_avatar = embed_data.get("webhook_avatar")
                     view.message_id = mensaje_id
                     view.attachments = embed_data.get("attachments", [])
                     
@@ -96,80 +96,6 @@ class EmbedCommand(commands.Cog):
                 except Exception as e:
                     await interaction.followup.send(f"Error al cargar el archivo JSON: {str(e)}", ephemeral=True)
                     return
-            
-            if codigo:
-                embed_data = self.embed_cache.get_embed(codigo)
-                if not embed_data:
-                    await interaction.response.send_message("El código proporcionado no es válido o ha expirado.", ephemeral=True)
-                    return
-                    
-                if not canal and not embed_data.get("webhook_url"):
-                    await interaction.response.send_message("Por favor, especifica un canal donde enviar el mensaje.", ephemeral=True)
-                    return
-                    
-                content = embed_data.get("content")
-                embeds = embed_data.get("embeds", [])
-                webhook_url = embed_data.get("webhook_url")
-                message_id = embed_data.get("message_id") or mensaje_id
-                attachments = embed_data.get("attachments", [])
-                
-                if not embeds and not content and not attachments:
-                    await interaction.response.send_message(
-                        "El código no contiene ningún contenido válido. Debe tener al menos texto, un embed o una imagen adjunta.",
-                        ephemeral=True
-                    )
-                    return
-                
-                try:
-                    await interaction.response.defer(ephemeral=True)
-                    
-                    files = []
-                    if attachments and not message_id:
-                        async with aiohttp.ClientSession() as session:
-                            for i, url in enumerate(attachments):
-                                try:
-                                    async with session.get(url) as resp:
-                                        if resp.status == 200:
-                                            data = await resp.read()
-                                            filename = f"image_{i+1}.png"
-                                            files.append(discord.File(io.BytesIO(data), filename=filename))
-                                except Exception as e:
-                                    print(f"Error al descargar imagen {url}: {e}")
-                    
-                    if webhook_url:
-                        async with aiohttp.ClientSession() as session:
-                            webhook = discord.Webhook.from_url(webhook_url, session=session)
-                            
-                            if message_id:
-                                await webhook.edit_message(message_id, content=content, embeds=embeds)
-                                await interaction.followup.send(f"Mensaje con ID {message_id} editado exitosamente a través del webhook. Ten en cuenta que no se pueden modificar los adjuntos de un mensaje existente.", ephemeral=True)
-                            else:
-                                message = await webhook.send(content=content, embeds=embeds, files=files, wait=True)
-                                await interaction.followup.send(f"Mensaje enviado exitosamente a través del webhook. ID del mensaje: {message.id}", ephemeral=True)
-                    else:
-                        if message_id:
-                            try:
-                                message = await canal.fetch_message(int(message_id))
-                                if message.author.id == self.bot.user.id:
-                                    await message.edit(content=content, embeds=embeds)
-                                    await interaction.followup.send(f"Mensaje con ID {message_id} editado exitosamente.", ephemeral=True)
-                                else:
-                                    await interaction.followup.send("No puedo editar un mensaje que no fue enviado por mí.", ephemeral=True)
-                            except discord.NotFound:
-                                await interaction.followup.send("No se encontró el mensaje especificado.", ephemeral=True)
-                            except Exception as e:
-                                await interaction.followup.send(f"Error al editar el mensaje: {str(e)}", ephemeral=True)
-                        else:
-                            message = await canal.send(content=content, embeds=embeds, files=files)
-                            await interaction.followup.send(f"Mensaje enviado exitosamente al canal {canal.mention}. ID del mensaje: {message.id}", ephemeral=True)
-                    
-                    for file in files:
-                        file.close()
-                    
-                    self.embed_cache.remove_embed(codigo)
-                except Exception as e:
-                    await interaction.followup.send(f"Error al enviar/editar el mensaje: {str(e)}", ephemeral=True)
-                return
                 
             embed = discord.Embed(
                 description="Usa el menú desplegable para crear tu mensaje personalizado",

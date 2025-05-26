@@ -106,11 +106,23 @@ def embed_to_dict(embed):
     
     return result
 
-def save_embed_to_json(content, embeds, webhook_url=None, message_id=None, attachments=None):
+def save_embed_to_json(content, embeds, webhook_url=None, webhook_name=None, webhook_avatar=None, message_id=None, attachments=None):
     data = {
         "content": content,
         "embeds": [embed_to_dict(embed) for embed in embeds]
     }
+    
+    if webhook_url:
+        data["webhook_url"] = webhook_url
+    
+    if webhook_name:
+        data["webhook_name"] = webhook_name
+    
+    if webhook_avatar:
+        data["webhook_avatar"] = webhook_avatar
+    
+    if message_id:
+        data["message_id"] = message_id
     
     if attachments:
         data["attachments"] = attachments
@@ -131,6 +143,8 @@ def load_embed_from_json(json_string):
         "content": data.get("content"),
         "embeds": embeds,
         "webhook_url": data.get("webhook_url"),
+        "webhook_name": data.get("webhook_name"),
+        "webhook_avatar": data.get("webhook_avatar"),
         "message_id": data.get("message_id"),
         "attachments": data.get("attachments", [])
     }

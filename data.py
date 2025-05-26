@@ -1,8 +1,8 @@
 def get_data(guild):
     data = {
         "guild_id": guild,
-        "default_cdm": ["help", "donate", "info", "invite", "privacidad", "updates", "savedatachat", "bot-suggest", "bugreport", "laslylusky", "reset-chat", "config", "infracciones", "moderador"],
-        "act_cmd": ["serverinfo", "slowmode", "kill", "meme", "avatar", "servericon", "userinfo", "ban", "unban", "clear", "kick", "warn", "unwarn", "4k", "anal", "ass", "blowjob", "boobs", "hanal", "hass", "hboobs", "pgif", "pussy", "mcstatus", "mcuser", "hypixel", "hug", "massban", "purgeban", "embed", "morse", "8ball", "id"],
+        "default_cdm": ["help", "donate", "info", "invite", "privacidad", "updates", "savedatachat", "botsuggest", "bugreport", "laslylusky", "reset-chat", "config", "infracciones", "moderador", "recordatorio", "nivel", "voicesetup", "cumpleaños", "estadisticas-juegos", "comprobar-virus", "tos"],
+        "act_cmd": ["serverinfo", "slowmode", "kill", "meme", "avatar", "servericon", "userinfo", "ban", "unban", "clear", "kick", "warn", "unwarn", "4k", "anal", "ass", "blowjob", "boobs", "hanal", "hass", "hboobs", "pgif", "pussy", "mcstatus", "mcuser", "hypixel", "hug", "massban", "embed", "8ball", "morse", "id", "trivia", "tictactoe", "ruletarusa", "insulto", "halago", "moneda", "dado", "buscaminas", "piedrapapeltijera", "ahorcado", "conecta4", "blackjack", "mute", "unmute", "2048"],
         "deact_cmd": [],
         "mute_role": 0,
         "perms": {

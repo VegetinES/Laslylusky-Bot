@@ -157,10 +157,6 @@ music/
 para_aws/
 wallet/
 instantclient/
-mutelogs.py
-unmutelogs.py
-mute.py
-unmute.py
 Wallet_LASLYLUSKY.zip
 
 # Spyder project settings
@@ -205,6 +201,6 @@ poetry.toml
 pyrightconfig.json
 
 # End of https://www.toptal.com/developers/gitignore/api/python
-commands/moderation/mute.py
 walletbeta/
 portatil/
+error_logs.txt

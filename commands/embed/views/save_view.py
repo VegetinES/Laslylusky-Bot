@@ -42,6 +42,8 @@ class SaveView(ui.View):
                 self.main_view.content, 
                 self.main_view.embeds,
                 webhook_url=self.main_view.webhook_url,
+                webhook_name=self.main_view.webhook_name,
+                webhook_avatar=self.main_view.webhook_avatar,
                 message_id=self.main_view.message_id,
                 attachments=self.main_view.attachments
             )

@@ -17,6 +17,8 @@ class EmbedMainView(ui.View):
         self.content = None
         self.embeds = []
         self.webhook_url = None
+        self.webhook_name = None
+        self.webhook_avatar = None
         self.message_id = None
         self.attachments = []
         
@@ -115,7 +117,7 @@ class EmbedMainView(ui.View):
             print(f"Error al actualizar mensaje: {e}")
             await interaction.response.send_message("Error al actualizar el mensaje.", ephemeral=True)
     
-    async def send_final_message(self, interaction):
+    async def show_send_options(self, interaction):
         if not self.content and not self.embeds and not self.attachments:
             await interaction.response.send_message(
                 "No hay nada que enviar. Añade contenido, embeds o al menos una imagen adjunta.",
@@ -124,54 +126,13 @@ class EmbedMainView(ui.View):
             return
 
         if self.webhook_url:
-            try:
-                await interaction.response.defer(ephemeral=True)
-                
-                import aiohttp
-                async with aiohttp.ClientSession() as session:
-                    webhook = discord.Webhook.from_url(self.webhook_url, session=session)
-                    
-                    files = []
-                    for i, url in enumerate(self.attachments):
-                        try:
-                            async with session.get(url) as resp:
-                                if resp.status == 200:
-                                    data = await resp.read()
-                                    filename = f"image_{i+1}.png"
-                                    files.append(discord.File(io.BytesIO(data), filename=filename))
-                        except Exception as e:
-                            print(f"Error al descargar imagen {url}: {e}")
-                    
-                    if self.message_id:
-                        await webhook.edit_message(self.message_id, content=self.content, embeds=self.embeds)
-                        await interaction.followup.send(f"Mensaje con ID {self.message_id} editado exitosamente a través del webhook. Ten en cuenta que no se pueden modificar los adjuntos de un mensaje existente.", ephemeral=True)
-                    else:
-                        message = await webhook.send(content=self.content, embeds=self.embeds, files=files, wait=True)
-                        await interaction.followup.send(f"Mensaje enviado exitosamente a través del webhook. ID del mensaje: {message.id}", ephemeral=True)
-                
-                for file in files:
-                    file.close()
-                
-                return
-            except Exception as e:
-                await interaction.followup.send(f"Error al enviar a través del webhook: {str(e)}\nSe generará un código para usar con un canal específico.", ephemeral=True)
-        
-        code = ''.join(random.choices(string.ascii_uppercase + string.digits, k=8))
-        
-        self.embed_cache.add_embed(code, {
-            "content": self.content,
-            "embeds": self.embeds.copy(),
-            "webhook_url": self.webhook_url,
-            "message_id": self.message_id,
-            "attachments": self.attachments.copy(),
-            "expires_at": datetime.now() + timedelta(minutes=5)
-        })
-        
-        await interaction.response.edit_message(
-            content=f"Tu mensaje está listo para ser enviado.\nUsa `/embed codigo:{code} canal:@canal` para enviarlo a un canal específico.\nEste código expirará en 5 minutos.",
-            embed=None,
-            view=None
-        )
+            from .send_confirmation_view import WebhookConfirmationView
+            confirmation_view = WebhookConfirmationView(self)
+            await confirmation_view.show(interaction)
+        else:
+            from .channel_select_view import ChannelSelectView
+            channel_view = ChannelSelectView(self)
+            await channel_view.show(interaction)
 
 class MainDropdown(ui.Select):
     def __init__(self, view):
@@ -205,7 +166,7 @@ class MainDropdown(ui.Select):
             ),
             discord.SelectOption(
                 label="Enviar mensaje", 
-                description="Obtener código para enviar el mensaje",
+                description="Enviar el mensaje",
                 value="send"
             ),
             discord.SelectOption(
@@ -250,14 +211,7 @@ class MainDropdown(ui.Select):
             await save_view.show(interaction)
         
         elif selected_value == "send":
-            if not self.main_view.content and not self.main_view.embeds and not self.main_view.attachments:
-                await interaction.response.send_message(
-                    "No hay nada que enviar. Añade contenido, embeds o al menos una imagen adjunta.",
-                    ephemeral=True
-                )
-                return
-            
-            await self.main_view.send_final_message(interaction)
+            await self.main_view.show_send_options(interaction)
         
         elif selected_value == "delete":
             from .confirm_delete_view import ConfirmDeleteView

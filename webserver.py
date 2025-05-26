@@ -15,6 +15,10 @@ def index():
 def privacy():
     return render_template('privacidad.html')
 
+@app.route('/tos')
+def terms():
+    return render_template('tos.html')
+
 @app.route('/documentacion/help')
 def doc_help():
     return render_template('documentacion/help.html')

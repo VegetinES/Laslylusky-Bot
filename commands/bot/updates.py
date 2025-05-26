@@ -10,10 +10,10 @@ class Updates(commands.Cog):
     def create_general_embed(self, user):
         embed = discord.Embed(
             title="Actualizaciones del bot",
-            description="Escribe `%update {versión}` para saber la actualización de esa versión. **Recuerda no escribir `{}`** \n\nSustituye `{versión}` por una de las siguientes versiones.",
+            description="Escribe `%updates {versión}` para saber la actualización de esa versión. **Recuerda no escribir `{}`** \n\nSustituye `{versión}` por una de las siguientes versiones.",
             color=discord.Color.blue()
         )
-        embed.set_thumbnail(url="https://media.discordapp.net/attachments/772803956379222016/1338219290398036042/laslylusky.png")
+        embed.set_thumbnail(url="https://i.imgur.com/if0NO2o.png")
         
         versions_str = "` | `".join(UPDATES_INFO["versions"])
         embed.add_field(name="Actualizaciones Disponibles", value=f"`{versions_str}`")

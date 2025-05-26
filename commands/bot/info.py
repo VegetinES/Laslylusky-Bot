@@ -80,11 +80,11 @@ class About(commands.Cog):
         about_embed.description += self.get_system_info()
 
         about_embed.add_field(name="Servidores en los que estoy", value=f"{len(self.bot.guilds)}", inline=True)
-        about_embed.add_field(name="Versión", value="vB2.5.0", inline=True)
+        about_embed.add_field(name="Versión", value="v1.0.0", inline=True)
         about_embed.add_field(name="Comandos", value=f"{total_commands}", inline=True)
         about_embed.add_field(name="Usuarios que me ven", value=f"{self.get_total_users()}", inline=True)
         about_embed.add_field(name="Llevo encendido:", value=self.get_uptime_string(), inline=True)
-        about_embed.add_field(name="Créditos", value="Tester: itsfoxy23 \nOwner: vegetines", inline=True)
+        about_embed.add_field(name="Créditos", value="Owner: vegetines \nTester: itsfoxy23", inline=True)
 
         about_embed.set_footer(
             text=f"Pedido por: {user.display_name}",
