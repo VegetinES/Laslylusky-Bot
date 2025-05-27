@@ -1,243 +1,532 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <title>Documentación - Configuración</title>
+        <title>Documentación - Configuración del Bot</title>
+        <link rel="icon" type="image/png" href="{{ url_for('static', filename='resources/laslylusky.png') }}">
         <link rel="stylesheet" href="{{ url_for('static', filename='styles/documentation.css') }}">
     </head>
     <body>
         <div class="header">
-            <a href="/" id="home">Home</a>
+            <a href="/">Home</a>
             <div class="dropdown">
-                <a href="#" class="dropbtn">Documentación</a>
+                <a href="#" class="dropbtn active">Documentación</a>
                 <div class="dropdown-content">
                     <a href="/documentacion/help">Help</a>
-                    <a href="/documentacion/configuracion">Configuración</a>
+                    <a href="/documentacion/configuracion" class="active">Configuración</a>
                     <a href="/documentacion/tickets">Configuración Tickets</a>
                 </div>
             </div>
+            <a href="/vegetines">Creador</a>
             <a href="/privacidad">Privacidad</a>
+            <a href="/tos">Términos y Condiciones</a>
         </div>
-        <div class="doc-container">
-            <h1>Configuración del Bot</h1>
-            
-            <h2>Comandos disponibles</h2>
-            
-            <ul>
-                <li><code>/config help</code> - Muestra esta ayuda</li>
-                <li><code>/config data</code> - Muestra la configuración actual del servidor</li>
-                <li><code>/config update</code> - Restablece la configuración a los valores predeterminados</li>
-                <li><code>/config cmd</code> - Activa o desactiva comandos específicos</li>
-                <li><code>/config logs</code> - Configuración de registros de auditoría</li>
-                <li><code>/config perms</code> - Configuración de permisos</li>
-                <li><code>/config tickets help</code> - Muestra la ayuda de configuración de los tickets</li>
-            </ul>
-            
-            <h2>Documentación de comandos</h2>
-            
-            <h3>Config perms</h3>
-            
-            <p>Ejecución de <code>/config perms</code></p>
-            
-            <pre><code>/config perms {permiso} {accion} ({roles}/{usuarios})</code></pre>
-            
-            <ul>
-                <li><code>{permiso}</code>: el permiso que se quiere configurar</li>
-                <li><code>{accion}</code>: añadir o eliminar el permiso</li>
-            </ul>
-            
-            <p>Al menos uno de estos campos es obligatorio:</p>
-            
-            <ul>
-                <li><code>{roles}</code>: menciona o pon los roles que quieres añadir o eliminar, separados por espacios</li>
-                <li><code>{usuarios}</code>: menciona o pon los usuarios que quieres añadir o eliminar, separados por espacios</li>
-            </ul>
-            
-            <h3>Config cmd</h3>
-            
-            <p>Ejecución de <code>/config cmd</code></p>
-            
-            <pre><code>/config cmd {comando} {estado}</code></pre>
-            
-            <ul>
-                <li><code>{comando}</code>: el comando que se quiere activar o desactivar</li>
-                <li><code>{estado}</code>: activar o desactivar el comando</li>
-            </ul>
-            
-            <h3>Config update</h3>
-            
-            <p>Ejecución de <code>/config update</code></p>
-            
-            <pre><code>/config update</code></pre>
-            
-            <p>Este comando restablece la configuración del servidor a los valores predeterminados.</p>
-            
-            <h3>Config data</h3>
-            
-            <p>Ejecución de <code>/config data</code>;</p>
-            
-            <pre><code>/config data</code></pre>
-            
-            <p>Este comando muestra la configuración actual del servidor.</p>
-            
-            <h3>Config logs</h3>
-            
-            <p>Ejecución de <code>/config logs</code>:</p>
-            
-            <pre><code>/config logs {log}</code></pre>
-            
-            <ul>
-                <li><code>{log}</code>: el log que se quiere configurar.</li>
-            </ul>
-            
-            <h3>Config tickets help</h3>
-            
-            <p>Ejecución de <code>/config tickets help</code></p>
-            
-            <pre><code>/config tickets help</code></pre>
-            
-            <p>Este comando muestra la ayuda específica para configurar el sistema de tickets.</p>
-            
-            <h2>Parámetros para mensajes de logs</h2>
-            
-            <h3>Ban</h3>
-            <p><strong>Mensaje y descripción:</strong><br>
-            <code>{userid}</code> | <code>{usertag}</code> | <code>{mod}</code> | <code>{modid}</code> | <code>{modtag}</code> | <code>{reason}</code></p>
-            
-            <p><strong>Footer:</strong><br>
-            <code>{userid}</code> | <code>{usertag}</code> | <code>{modid}</code> | <code>{modtag}</code></p>
-            
-            <h3>Kick</h3>
-            <p><strong>Mensaje y descripción:</strong><br>
-            <code>{userid}</code> | <code>{usertag}</code> | <code>{mod}</code> | <code>{modid}</code> | <code>{modtag}</code> | <code>{reason}</code></p>
-            
-            <p><strong>Footer:</strong><br>
-            <code>{userid}</code> | <code>{usertag}</code> | <code>{modid}</code> | <code>{modtag}</code></p>
-            
-            <h3>Unban</h3>
-            <p><strong>Mensaje y descripción:</strong><br>
-            <code>{userid}</code> | <code>{usertag}</code> | <code>{mod}</code> | <code>{modid}</code> | <code>{modtag}</code></p>
-            
-            <p><strong>Footer:</strong><br>
-            <code>{userid}</code> | <code>{usertag}</code> | <code>{modid}</code> | <code>{modtag}</code></p>
-            
-            <h3>Entradas</h3>
-            <p><strong>Mensaje y descripción:</strong><br>
-            <code>{userid}</code> | <code>{usertag}</code> | <code>{user}</code> | <code>{accage}</code> | <code>{acc_age}</code></p>
-            
-            <p><strong>Footer:</strong><br>
-            <code>{userid}</code> | <code>{usertag}</code> | <code>{user}</code></p>
-            
-            <h3>Salidas</h3>
-            <p><strong>Mensaje y descripción:</strong><br>
-            <code>{userid}</code> | <code>{usertag}</code> | <code>{acc_age}</code> | <code>{server_age}</code></p>
-            
-            <p><strong>Footer:</strong><br>
-            <code>{userid}</code> | <code>{usertag}</code></p>
-            
-            <h3>Mensajes eliminados</h3>
-            <p><strong>Mensaje y descripción:</strong><br>
-            <code>{del_msg}</code> | <code>{usertag}</code> | <code>{userid}</code> | <code>{user}</code> | <code>{channel}</code> | <code>{channelid}</code> | <code>{attached}</code></p>
-            
-            <p><strong>Footer:</strong><br>
-            <code>{usertag}</code> | <code>{userid}</code> | <code>{channelid}</code></p>
-            
-            <h3>Mensajes editados</h3>
-            <p><strong>Mensaje y descripción:</strong><br>
-            <code>{usertag}</code> | <code>{userid}</code> | <code>{user}</code> | <code>{channel}</code> | <code>{channelid}</code> | <code>{old_msg}</code> | <code>{new_msg}</code> | <code>{attached}</code></p>
-            
-            <p><strong>Footer:</strong><br>
-            <code>{usertag}</code> | <code>{userid}</code> | <code>{channelid}</code></p>
-            
-            <h3>Warns</h3>
-            <p><strong>Mensaje y descripción:</strong><br>
-            <code>{userid}</code> | <code>{usertag}</code> | <code>{mod}</code> | <code>{modid}</code> | <code>{modtag}</code> | <code>{reason}</code> | <code>{user}</code></p>
-            
-            <p><strong>Footer:</strong><br>
-            <code>{userid}</code> | <code>{usertag}</code> | <code>{modid}</code> | <code>{modtag}</code></p>
-            
-            <h3>Unwarns</h3>
-            <p><strong>Mensaje y descripción:</strong><br>
-            <code>{userid}</code> | <code>{usertag}</code> | <code>{mod}</code> | <code>{modid}</code> | <code>{modtag}</code> | <code>{reason}</code> | <code>{user}</code></p>
-            
-            <p><strong>Footer:</strong><br>
-            <code>{userid}</code> | <code>{usertag}</code> | <code>{modid}</code> | <code>{modtag}</code></p>
-            
-            <h3>Entrada a canales de voz</h3>
-            <p><strong>Mensaje y descripción:</strong><br>
-            <code>{user}</code> | <code>{usertag}</code> | <code>{userid}</code> | <code>{channel}</code> | <code>{channelid}</code></p>
-            
-            <p><strong>Footer:</strong><br>
-            <code>{usertag}</code> | <code>{userid}</code> | <code>{channelid}</code></p>
-            
-            <h3>Salida de canales de voz</h3>
-            <p><strong>Mensaje y descripción:</strong><br>
-            <code>{user}</code> | <code>{usertag}</code> | <code>{userid}</code> | <code>{channel}</code> | <code>{channelid}</code></p>
-            
-            <p><strong>Footer:</strong><br>
-            <code>{usertag}</code> | <code>{userid}</code> | <code>{channelid}</code></p>
-            
-            <h3>Roles añadidos a usuarios</h3>
-            <p><strong>Mensaje y descripción:</strong><br>
-            <code>{user}</code> | <code>{usertag}</code> | <code>{userid}</code> | <code>{role}</code> | <code>{roleid}</code></p>
-            
-            <p><strong>Footer:</strong><br>
-            <code>{usertag}</code> | <code>{userid}</code> | <code>{roleid}</code></p>
-            
-            <h3>Roles removidos de usuarios</h3>
-            <p><strong>Mensaje y descripción:</strong><br>
-            <code>{user}</code> | <code>{usertag}</code> | <code>{userid}</code> | <code>{role}</code> | <code>{roleid}</code></p>
-            
-            <p><strong>Footer:</strong><br>
-            <code>{usertag}</code> | <code>{userid}</code> | <code>{roleid}</code></p>
-            
-            <h3>Canales creados</h3>
-            <p><strong>Mensaje y descripción:</strong><br>
-            <code>{channel}</code> | <code>{channelid}</code> | <code>{category}</code></p>
-            
-            <p><strong>Footer:</strong><br>
-            <code>{channelid}</code></p>
-            
-            <h3>Canales eliminados</h3>
-            <p><strong>Mensaje y descripción:</strong><br>
-            <code>{channel}</code> | <code>{channelid}</code> | <code>{category}</code></p>
-            
-            <p><strong>Footer:</strong><br>
-            <code>{channelid}</code></p>
-            
-            <h3>Actualización de avatar o nombre</h3>
-            <p><strong>Mensaje y descripción:</strong><br>
-            <code>{user}</code> | <code>{usertag}</code> | <code>{userid}</code> | <code>{old_avatar_link}</code> | <code>{new_avatar_link}</code> | <code>{old_name}</code> | <code>{new_name}</code></p>
-            
-            <p><strong>Footer:</strong><br>
-            <code>{usertag}</code> | <code>{userid}</code></p>
-            
-            <h2>Explicación de parámetros</h2>
-            
-            <ul>
-                <li><code>{reason}</code>: razón de la sanción</li>
-                <li><code>{user}</code>: mención del usuario sancionado, que borra o edita el mensaje o que entra al servidor</li>
-                <li><code>{userid}</code>: id del usuario sancionado, que borra o edita el mensaje o que entra al servidor</li>
-                <li><code>{usertag}</code>: nombre de usuario normal del usuario sancionado, que borra o edita el mensaje o que entra al servidor</li>
-                <li><code>{mod}</code>: mención del mod que sanciona</li>
-                <li><code>{modid}</code>: id del mod que sanciona</li>
-                <li><code>{modtag}</code>: nombre de usuario normal del mod que sanciona</li>
-                <li><code>{channel}</code>: mención del canal</li>
-                <li><code>{channelid}</code>: id del canal</li>
-                <li><code>{del_msg}</code>: contenido del mensaje eliminado</li>
-                <li><code>{old_msg}</code>: contenido anterior del mensaje editado</li>
-                <li><code>{new_msg}</code>: contenido del nuevo mensaje editado</li>
-                <li><code>{attached}</code>: contenido de archivos adjuntos en caso de haberlos</li>
-                <li><code>{acc_age}</code>: edad de la cuenta de Discord</li>
-                <li><code>{server_age}</code>: tiempo que lleva el usuario en el servidor</li>
-                <li><code>{\n}</code>: para representar el salto de línea en los logs</li>
-                <li><code>{role}</code>: mención del rol que se añade o quita</li>
-                <li><code>{roleid}</code>: id del rol que se añade o quita</li>
-                <li><code>{category}</code>: nombre de la categoría del canal (o "sin categoría")</li>
-                <li><code>{old_avatar_link}</code>: link del antiguo avatar del usuario, formato [antiguo avatar](link)</li>
-                <li><code>{new_avatar_link}</code>: link del nuevo avatar del usuario, formato [nuevo avatar](link)</li>
-                <li><code>{old_name}</code>: antiguo nombre del usuario (o "el nombre no cambió")</li>
-                <li><code>{new_name}</code>: nuevo nombre del usuario (o "el nombre no cambió")</li>
-            </ul>
+
+        <div class="hero">
+            <div class="hero-content">
+                <h1>Configuración del Bot</h1>
+                <p class="hero-subtitle">Personaliza Laslylusky para tu servidor</p>
+                <p class="hero-description">
+                    Aprende a configurar cada aspecto del bot, desde permisos hasta logs de auditoría, 
+                    para adaptarlo completamente a las necesidades de tu servidor.
+                </p>
+            </div>
+        </div>
+        
+        <div class="container">
+            <div class="content-wrapper">
+                <div class="sidebar">
+                    <h3>Navegación</h3>
+                    <nav class="table-of-contents">
+                        <a href="#comandos-disponibles">Comandos Disponibles</a>
+                        <a href="#config-perms">Config Perms</a>
+                        <a href="#config-cmd">Config Cmd</a>
+                        <a href="#config-update">Config Update</a>
+                        <a href="#config-data">Config Data</a>
+                        <a href="#config-logs">Config Logs</a>
+                        <a href="#parametros-logs">Parámetros para Logs</a>
+                        <a href="#explicacion-parametros">Explicación de Parámetros</a>
+                    </nav>
+                </div>
+
+                <div class="main-content">
+                    <section id="comandos-disponibles" class="section">
+                        <h2>Comandos Disponibles</h2>
+                        <p class="category-description">Lista completa de comandos de configuración</p>
+                        <div class="commands-grid">
+                            <div class="command-card">
+                                <div class="command-header">
+                                    <h4>/config help</h4>
+                                    <span class="command-perm admin">Admin</span>
+                                </div>
+                                <p>Muestra la ayuda de configuración</p>
+                            </div>
+                            
+                            <div class="command-card">
+                                <div class="command-header">
+                                    <h4>/config data</h4>
+                                    <span class="command-perm admin">Admin</span>
+                                </div>
+                                <p>Muestra la configuración actual del servidor</p>
+                            </div>
+                            
+                            <div class="command-card">
+                                <div class="command-header">
+                                    <h4>/config update</h4>
+                                    <span class="command-perm admin">Admin</span>
+                                </div>
+                                <p>Restablece la configuración a valores predeterminados</p>
+                            </div>
+                            
+                            <div class="command-card">
+                                <div class="command-header">
+                                    <h4>/config cmd</h4>
+                                    <span class="command-perm admin">Admin</span>
+                                </div>
+                                <p>Activa o desactiva comandos específicos</p>
+                            </div>
+                            
+                            <div class="command-card">
+                                <div class="command-header">
+                                    <h4>/config logs</h4>
+                                    <span class="command-perm admin">Admin</span>
+                                </div>
+                                <p>Configuración de registros de auditoría</p>
+                            </div>
+                            
+                            <div class="command-card">
+                                <div class="command-header">
+                                    <h4>/config perms</h4>
+                                    <span class="command-perm admin">Admin</span>
+                                </div>
+                                <p>Configuración de permisos del bot</p>
+                            </div>
+                            
+                            <div class="command-card">
+                                <div class="command-header">
+                                    <h4>/config tickets help</h4>
+                                    <span class="command-perm admin">Admin</span>
+                                </div>
+                                <p>Ayuda específica para configuración de tickets</p>
+                            </div>
+                        </div>
+                    </section>
+
+                    <section id="config-perms" class="section">
+                        <h2>Config Perms</h2>
+                        <p>Configuración avanzada de permisos para comandos específicos</p>
+                        
+                        <div class="syntax-box">
+                            <h4>Sintaxis:</h4>
+                            <code>/config perms {permiso} {acción} ({roles}/{usuarios})</code>
+                        </div>
+                        
+                        <div class="parameters-grid">
+                            <div class="param-item">
+                                <h4>{permiso}</h4>
+                                <p>El permiso que se quiere configurar</p>
+                                <span class="param-type">Requerido</span>
+                            </div>
+                            <div class="param-item">
+                                <h4>{acción}</h4>
+                                <p>Añadir o eliminar el permiso</p>
+                                <span class="param-type">Requerido</span>
+                            </div>
+                            <div class="param-item">
+                                <h4>{roles}</h4>
+                                <p>Roles a añadir o eliminar, separados por espacios</p>
+                                <span class="param-type optional">Opcional*</span>
+                            </div>
+                            <div class="param-item">
+                                <h4>{usuarios}</h4>
+                                <p>Usuarios a añadir o eliminar, separados por espacios</p>
+                                <span class="param-type optional">Opcional*</span>
+                            </div>
+                        </div>
+                        
+                        <div class="important-note">
+                            <p><strong>Nota:</strong> Al menos uno de los campos {roles} o {usuarios} es obligatorio.</p>
+                        </div>
+                    </section>
+
+                    <section id="config-cmd" class="section">
+                        <h2>Config Cmd</h2>
+                        <p>Activa o desactiva comandos específicos en tu servidor</p>
+                        
+                        <div class="syntax-box">
+                            <h4>Sintaxis:</h4>
+                            <code>/config cmd {comando} {estado}</code>
+                        </div>
+                        
+                        <div class="parameters-grid">
+                            <div class="param-item">
+                                <h4>{comando}</h4>
+                                <p>El comando que se quiere activar o desactivar</p>
+                                <span class="param-type">Requerido</span>
+                            </div>
+                            <div class="param-item">
+                                <h4>{estado}</h4>
+                                <p>Activar o desactivar el comando</p>
+                                <span class="param-type">Requerido</span>
+                            </div>
+                        </div>
+                        
+                        <div class="feature-highlight">
+                            <h4>Comandos Predeterminados</h4>
+                            <p>Los siguientes comandos no pueden desactivarse:</p>
+                            <div class="default-commands">
+                                <span class="cmd-tag">help</span>
+                                <span class="cmd-tag">donate</span>
+                                <span class="cmd-tag">info</span>
+                                <span class="cmd-tag">invite</span>
+                                <span class="cmd-tag">privacidad</span>
+                                <span class="cmd-tag">updates</span>
+                                <span class="cmd-tag">savedatachat</span>
+                                <span class="cmd-tag">botsuggest</span>
+                                <span class="cmd-tag">bugreport</span>
+                                <span class="cmd-tag">config</span>
+                            </div>
+                        </div>
+                    </section>
+
+                    <section id="config-update" class="section">
+                        <h2>Config Update</h2>
+                        <p>Restablece toda la configuración del servidor a los valores predeterminados</p>
+                        
+                        <div class="syntax-box">
+                            <h4>Sintaxis:</h4>
+                            <code>/config update</code>
+                        </div>
+                        
+                        <div class="warning-box">
+                            <h4>⚠️ Advertencia</h4>
+                            <p>Este comando restaurará TODA la configuración personalizada a los valores por defecto. Esta acción no se puede deshacer.</p>
+                        </div>
+                    </section>
+
+                    <section id="config-data" class="section">
+                        <h2>Config Data</h2>
+                        <p>Muestra la configuración actual del servidor de forma detallada</p>
+                        
+                        <div class="syntax-box">
+                            <h4>Sintaxis:</h4>
+                            <code>/config data</code>
+                        </div>
+                        
+                        <div class="info-display">
+                            <h4>Información Mostrada:</h4>
+                            <ul>
+                                <li>Comandos activados/desactivados</li>
+                                <li>Permisos configurados</li>
+                                <li>Canales de logs</li>
+                                <li>Configuración de tickets</li>
+                                <li>Configuración de niveles</li>
+                                <li>Configuración de cumpleaños</li>
+                            </ul>
+                        </div>
+                    </section>
+
+                    <section id="config-logs" class="section">
+                        <h2>Config Logs</h2>
+                        <p>Configuración avanzada del sistema de logs de auditoría</p>
+                        
+                        <div class="syntax-box">
+                            <h4>Sintaxis:</h4>
+                            <code>/config logs {log}</code>
+                        </div>
+                        
+                        <div class="parameters-grid">
+                            <div class="param-item">
+                                <h4>{log}</h4>
+                                <p>El tipo de log que se quiere configurar</p>
+                                <span class="param-type">Requerido</span>
+                            </div>
+                        </div>
+                        
+                        <div class="logs-types">
+                            <h4>Tipos de Logs Disponibles:</h4>
+                            <div class="logs-grid">
+                                <div class="log-type">
+                                    <h5>🔨 Moderación</h5>
+                                    <p>Ban, Kick, Unban, Warns</p>
+                                </div>
+                                <div class="log-type">
+                                    <h5>👥 Usuarios</h5>
+                                    <p>Entradas, Salidas, Cambios de perfil</p>
+                                </div>
+                                <div class="log-type">
+                                    <h5>💬 Mensajes</h5>
+                                    <p>Mensajes eliminados, editados</p>
+                                </div>
+                                <div class="log-type">
+                                    <h5>🔊 Voz</h5>
+                                    <p>Entrada/salida de canales de voz</p>
+                                </div>
+                                <div class="log-type">
+                                    <h5>🎭 Roles</h5>
+                                    <p>Roles añadidos/removidos</p>
+                                </div>
+                                <div class="log-type">
+                                    <h5>📝 Canales</h5>
+                                    <p>Canales creados/eliminados</p>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+
+                    <section id="parametros-logs" class="section">
+                        <h2>Parámetros para Mensajes de Logs</h2>
+                        <p class="category-description">Variables disponibles para personalizar los mensajes de los logs</p>
+                        
+                        <div class="log-params">
+                            <div class="log-param-section">
+                                <h3>🔨 Ban / Kick / Unban</h3>
+                                <div class="param-tags">
+                                    <div class="param-section">
+                                        <h4>Mensaje y Descripción:</h4>
+                                        <div class="tags-container">
+                                            <span class="param-tag">{userid}</span>
+                                            <span class="param-tag">{usertag}</span>
+                                            <span class="param-tag">{mod}</span>
+                                            <span class="param-tag">{modid}</span>
+                                            <span class="param-tag">{modtag}</span>
+                                            <span class="param-tag">{reason}</span>
+                                        </div>
+                                    </div>
+                                    <div class="param-section">
+                                        <h4>Footer:</h4>
+                                        <div class="tags-container">
+                                            <span class="param-tag">{userid}</span>
+                                            <span class="param-tag">{usertag}</span>
+                                            <span class="param-tag">{modid}</span>
+                                            <span class="param-tag">{modtag}</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="log-param-section">
+                                <h3>👥 Entradas / Salidas</h3>
+                                <div class="param-tags">
+                                    <div class="param-section">
+                                        <h4>Entradas - Mensaje y Descripción:</h4>
+                                        <div class="tags-container">
+                                            <span class="param-tag">{userid}</span>
+                                            <span class="param-tag">{usertag}</span>
+                                            <span class="param-tag">{user}</span>
+                                            <span class="param-tag">{accage}</span>
+                                            <span class="param-tag">{acc_age}</span>
+                                        </div>
+                                    </div>
+                                    <div class="param-section">
+                                        <h4>Salidas - Mensaje y Descripción:</h4>
+                                        <div class="tags-container">
+                                            <span class="param-tag">{userid}</span>
+                                            <span class="param-tag">{usertag}</span>
+                                            <span class="param-tag">{acc_age}</span>
+                                            <span class="param-tag">{server_age}</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="log-param-section">
+                                <h3>💬 Mensajes</h3>
+                                <div class="param-tags">
+                                    <div class="param-section">
+                                        <h4>Mensajes Eliminados:</h4>
+                                        <div class="tags-container">
+                                            <span class="param-tag">{del_msg}</span>
+                                            <span class="param-tag">{usertag}</span>
+                                            <span class="param-tag">{userid}</span>
+                                            <span class="param-tag">{user}</span>
+                                            <span class="param-tag">{channel}</span>
+                                            <span class="param-tag">{channelid}</span>
+                                            <span class="param-tag">{attached}</span>
+                                        </div>
+                                    </div>
+                                    <div class="param-section">
+                                        <h4>Mensajes Editados:</h4>
+                                        <div class="tags-container">
+                                            <span class="param-tag">{usertag}</span>
+                                            <span class="param-tag">{userid}</span>
+                                            <span class="param-tag">{user}</span>
+                                            <span class="param-tag">{channel}</span>
+                                            <span class="param-tag">{channelid}</span>
+                                            <span class="param-tag">{old_msg}</span>
+                                            <span class="param-tag">{new_msg}</span>
+                                            <span class="param-tag">{attached}</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="log-param-section">
+                                <h3>🔊 Canales de Voz</h3>
+                                <div class="param-tags">
+                                    <div class="param-section">
+                                        <h4>Entrada/Salida de Voz:</h4>
+                                        <div class="tags-container">
+                                            <span class="param-tag">{user}</span>
+                                            <span class="param-tag">{usertag}</span>
+                                            <span class="param-tag">{userid}</span>
+                                            <span class="param-tag">{channel}</span>
+                                            <span class="param-tag">{channelid}</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="log-param-section">
+                                <h3>🎭 Roles</h3>
+                                <div class="param-tags">
+                                    <div class="param-section">
+                                        <h4>Roles Añadidos/Removidos:</h4>
+                                        <div class="tags-container">
+                                            <span class="param-tag">{user}</span>
+                                            <span class="param-tag">{usertag}</span>
+                                            <span class="param-tag">{userid}</span>
+                                            <span class="param-tag">{role}</span>
+                                            <span class="param-tag">{roleid}</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="log-param-section">
+                                <h3>📝 Canales</h3>
+                                <div class="param-tags">
+                                    <div class="param-section">
+                                        <h4>Canales Creados/Eliminados:</h4>
+                                        <div class="tags-container">
+                                            <span class="param-tag">{channel}</span>
+                                            <span class="param-tag">{channelid}</span>
+                                            <span class="param-tag">{category}</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="log-param-section">
+                                <h3>👤 Perfil de Usuario</h3>
+                                <div class="param-tags">
+                                    <div class="param-section">
+                                        <h4>Avatar/Nombre Actualizado:</h4>
+                                        <div class="tags-container">
+                                            <span class="param-tag">{user}</span>
+                                            <span class="param-tag">{usertag}</span>
+                                            <span class="param-tag">{userid}</span>
+                                            <span class="param-tag">{old_avatar_link}</span>
+                                            <span class="param-tag">{new_avatar_link}</span>
+                                            <span class="param-tag">{old_name}</span>
+                                            <span class="param-tag">{new_name}</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+
+                    <section id="explicacion-parametros" class="section">
+                        <h2>Explicación de Parámetros</h2>
+                        <p class="category-description">Descripción detallada de cada variable disponible</p>
+                        
+                        <div class="params-explanation">
+                            <div class="param-explanation">
+                                <h4>{reason}</h4>
+                                <p>Razón de la sanción aplicada</p>
+                            </div>
+                            <div class="param-explanation">
+                                <h4>{user}</h4>
+                                <p>Mención del usuario afectado</p>
+                            </div>
+                            <div class="param-explanation">
+                                <h4>{userid}</h4>
+                                <p>ID único del usuario en Discord</p>
+                            </div>
+                            <div class="param-explanation">
+                                <h4>{usertag}</h4>
+                                <p>Nombre de usuario normal (ej: Usuario#1234)</p>
+                            </div>
+                            <div class="param-explanation">
+                                <h4>{mod}</h4>
+                                <p>Mención del moderador que aplica la acción</p>
+                            </div>
+                            <div class="param-explanation">
+                                <h4>{modid}</h4>
+                                <p>ID único del moderador</p>
+                            </div>
+                            <div class="param-explanation">
+                                <h4>{modtag}</h4>
+                                <p>Nombre de usuario del moderador</p>
+                            </div>
+                            <div class="param-explanation">
+                                <h4>{channel}</h4>
+                                <p>Mención del canal relacionado</p>
+                            </div>
+                            <div class="param-explanation">
+                                <h4>{channelid}</h4>
+                                <p>ID único del canal</p>
+                            </div>
+                            <div class="param-explanation">
+                                <h4>{del_msg}</h4>
+                                <p>Contenido del mensaje eliminado</p>
+                            </div>
+                            <div class="param-explanation">
+                                <h4>{old_msg}</h4>
+                                <p>Contenido anterior del mensaje editado</p>
+                            </div>
+                            <div class="param-explanation">
+                                <h4>{new_msg}</h4>
+                                <p>Contenido nuevo del mensaje editado</p>
+                            </div>
+                            <div class="param-explanation">
+                                <h4>{attached}</h4>
+                                <p>Información de archivos adjuntos</p>
+                            </div>
+                            <div class="param-explanation">
+                                <h4>{acc_age}</h4>
+                                <p>Edad de la cuenta de Discord</p>
+                            </div>
+                            <div class="param-explanation">
+                                <h4>{server_age}</h4>
+                                <p>Tiempo que lleva el usuario en el servidor</p>
+                            </div>
+                            <div class="param-explanation">
+                                <h4>{\n}</h4>
+                                <p>Salto de línea en los logs</p>
+                            </div>
+                            <div class="param-explanation">
+                                <h4>{role}</h4>
+                                <p>Mención del rol añadido o quitado</p>
+                            </div>
+                            <div class="param-explanation">
+                                <h4>{roleid}</h4>
+                                <p>ID único del rol</p>
+                            </div>
+                            <div class="param-explanation">
+                                <h4>{category}</h4>
+                                <p>Nombre de la categoría del canal</p>
+                            </div>
+                            <div class="param-explanation">
+                                <h4>{old_avatar_link}</h4>
+                                <p>Enlace al avatar anterior del usuario</p>
+                            </div>
+                            <div class="param-explanation">
+                                <h4>{new_avatar_link}</h4>
+                                <p>Enlace al nuevo avatar del usuario</p>
+                            </div>
+                            <div class="param-explanation">
+                                <h4>{old_name}</h4>
+                                <p>Nombre anterior del usuario</p>
+                            </div>
+                            <div class="param-explanation">
+                                <h4>{new_name}</h4>
+                                <p>Nuevo nombre del usuario</p>
+                            </div>
+                        </div>
+                    </section>
+                </div>
+            </div>
         </div>
     </body>
 </html>

@@ -1,123 +1,498 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <title>Documentación - Configuración de Tickets</title>
+        <title>Documentación - Sistema de Tickets</title>
+        <link rel="icon" type="image/png" href="{{ url_for('static', filename='resources/laslylusky.png') }}">
         <link rel="stylesheet" href="{{ url_for('static', filename='styles/documentation.css') }}">
     </head>
     <body>
         <div class="header">
-            <a href="/" id="home">Home</a>
+            <a href="/">Home</a>
             <div class="dropdown">
-                <a href="#" class="dropbtn">Documentación</a>
+                <a href="#" class="dropbtn active">Documentación</a>
                 <div class="dropdown-content">
                     <a href="/documentacion/help">Help</a>
                     <a href="/documentacion/configuracion">Configuración</a>
-                    <a href="/documentacion/tickets">Configuración Tickets</a>
+                    <a href="/documentacion/tickets" class="active">Configuración Tickets</a>
                 </div>
             </div>
+            <a href="/vegetines">Creador</a>
             <a href="/privacidad">Privacidad</a>
+            <a href="/tos">Términos y Condiciones</a>
         </div>
-        <div class="doc-container">
-            <h1>Sistema de Tickets - Guía Completa</h1>
-            
-            <h2>Descripción General</h2>
-            
-            <p>El sistema de tickets permite a los usuarios crear conversaciones privadas con el equipo de soporte de tu servidor de manera organizada y eficiente. Utilizando hilos privados de Discord, los usuarios pueden abrir tickets para solicitar ayuda, reportar problemas o cualquier otro motivo que hayas configurado.</p>
-            
-            <h2>Características Principales</h2>
-            
-            <ul>
-                <li><strong>Hilos privados:</strong> Utiliza el sistema nativo de hilos de Discord para mantener las conversaciones organizadas</li>
-                <li><strong>Personalización completa:</strong> Configura múltiples tipos de tickets con mensajes personalizados</li>
-                <li><strong>Control de acceso:</strong> Define permisos específicos para roles y usuarios individuales</li>
-                <li><strong>Registros detallados:</strong> Seguimiento completo de todas las acciones realizadas en el sistema</li>
-                <li><strong>Interfaz intuitiva:</strong> Fácil de usar tanto para administradores como para usuarios regulares</li>
-            </ul>
-            
-            <h2>Comandos de Configuración</h2>
-            
-            <ul>
-                <li><code>/config tickets</code> - Abre el menú principal de configuración de tickets</li>
-            </ul>
-            
-            <h2>Proceso de Configuración</h2>
-            
-            <div class="config-steps">
-                <h3>Paso 1: Crear un Nuevo Ticket</h3>
-                <p>Desde el menú principal, selecciona "Gestionar Tickets" y luego "Crear Nuevo Ticket". Deberás seleccionar:</p>
-                <ul>
-                    <li>Canal para mostrar el botón de tickets</li>
-                    <li>Canal para los registros (logs) de actividad</li>
-                </ul>
-                
-                <h3>Paso 2: Configurar Permisos</h3>
-                <p>Define quién puede gestionar o simplemente ver los tickets:</p>
-                <ul>
-                    <li><strong>Permisos de Gestión:</strong> Permiten control total sobre tickets (obligatorio configurar al menos un rol o usuario)</li>
-                    <li><strong>Permisos de Visualización:</strong> Permiten solo ver tickets sin interactuar</li>
-                </ul>
-                
-                <h3>Paso 3: Personalizar Mensajes</h3>
-                <p>Configura dos tipos de mensajes:</p>
-                <ul>
-                    <li><strong>Mensaje para abrir tickets:</strong> El que contiene los botones que ven los usuarios</li>
-                    <li><strong>Mensaje de ticket abierto:</strong> El que se muestra dentro del ticket cuando se crea</li>
-                </ul>
-                <p>Puedes personalizar títulos, descripciones, colores, imágenes y más.</p>
-                
-                <h3>Paso 4: Configurar Botones</h3>
-                <p>Añade hasta 5 botones diferentes para distintos tipos de tickets:</p>
-                <ul>
-                    <li>Personaliza textos, emojis y estilos</li>
-                    <li>Define formatos de nombres únicos para cada tipo</li>
-                    <li>Cada botón puede tener su propio mensaje de respuesta</li>
-                </ul>
-                
-                <h3>Paso 5: Guardar y Desplegar</h3>
-                <p>Al guardar la configuración, el sistema automáticamente:</p>
-                <ul>
-                    <li>Configura los permisos del canal</li>
-                    <li>Envía el mensaje con los botones al canal seleccionado</li>
-                    <li>Activa el sistema para que los usuarios puedan crear tickets</li>
-                </ul>
+
+        <div class="hero">
+            <div class="hero-content">
+                <h1>Sistema de Tickets</h1>
+                <p class="hero-subtitle">Configuración completa del sistema de soporte</p>
+                <p class="hero-description">
+                    Crea un sistema de soporte profesional utilizando hilos privados de Discord. 
+                    Personaliza completamente la experiencia de tus usuarios y organiza el soporte de manera eficiente.
+                </p>
             </div>
-            
-            <h2>Formato de Nombres de Tickets</h2>
-            
-            <p>Personaliza el formato de nombres usando estas variables:</p>
-            <ul>
-                <li><code>{id}</code>: Número único autoincremental por tipo de ticket</li>
-                <li><code>{userid}</code>: ID del usuario que abre el ticket</li>
-                <li><code>{usertag}</code>: Nombre de usuario en Discord</li>
-            </ul>
-            <p>Ejemplo: <code>soporte-{id}-{usertag}</code> resultaría en "soporte-1-Usuario#1234"</p>
-            
-            <h2>Interacción con Tickets</h2>
-            
-            <h3>Para Usuarios</h3>
-            <ul>
-                <li>Hacer clic en el botón correspondiente para abrir un ticket</li>
-                <li>El ticket se crea como un hilo privado donde solo pueden ver y participar el creador y el equipo</li>
-                <li>Reciben notificaciones cuando el personal responde a su ticket</li>
-            </ul>
-            
-            <h3>Para el Equipo de Soporte</h3>
-            <ul>
-                <li><strong>Añadir miembros:</strong> Pueden añadir usuarios adicionales al ticket</li>
-                <li><strong>Eliminar miembros:</strong> Pueden remover usuarios del ticket</li>
-                <li><strong>Archivar tickets:</strong> Al finalizar, pueden cerrar el ticket</li>
-                <li><strong>Reabrir tickets:</strong> Los tickets archivados pueden reabrirse si es necesario</li>
-            </ul>
-            
-            <h2>Consejos de Uso</h2>
-            
-            <ul>
-                <li>Configura diferentes tipos de tickets para distintas necesidades (soporte técnico, reportes, sugerencias)</li>
-                <li>Utiliza colores distintos para cada tipo de ticket para identificarlos fácilmente</li>
-                <li>Configura mensajes claros que expliquen el propósito de cada tipo de ticket</li>
-                <li>Revisa los logs periódicamente para monitorear la actividad</li>
-                <li>Asigna permisos de gestión solo a miembros de confianza</li>
-            </ul>
+        </div>
+        
+        <div class="container">
+            <div class="content-wrapper">
+                <div class="sidebar">
+                    <h3>Navegación</h3>
+                    <nav class="table-of-contents">
+                        <a href="#descripcion">Descripción General</a>
+                        <a href="#caracteristicas">Características</a>
+                        <a href="#comandos">Comandos</a>
+                        <a href="#configuracion">Proceso de Configuración</a>
+                        <a href="#formato-nombres">Formato de Nombres</a>
+                        <a href="#interaccion">Interacción con Tickets</a>
+                        <a href="#consejos">Consejos de Uso</a>
+                    </nav>
+                </div>
+
+                <div class="main-content">
+                    <section id="descripcion" class="section">
+                        <h2>Descripción General</h2>
+                        <p>
+                            El sistema de tickets permite a los usuarios crear conversaciones privadas con el equipo de soporte 
+                            de tu servidor de manera organizada y eficiente. Utilizando hilos privados de Discord, los usuarios 
+                            pueden abrir tickets para solicitar ayuda, reportar problemas o cualquier otro motivo que hayas configurado.
+                        </p>
+                        
+                        <div class="overview-grid">
+                            <div class="overview-item">
+                                <div class="overview-icon">🎫</div>
+                                <h4>Tickets Organizados</h4>
+                                <p>Sistema basado en hilos nativos de Discord para mantener conversaciones organizadas</p>
+                            </div>
+                            <div class="overview-item">
+                                <div class="overview-icon">🔒</div>
+                                <h4>Privacidad Garantizada</h4>
+                                <p>Solo el usuario creador y el equipo de soporte pueden ver el contenido</p>
+                            </div>
+                            <div class="overview-item">
+                                <div class="overview-icon">⚙️</div>
+                                <h4>Altamente Personalizable</h4>
+                                <p>Configura múltiples tipos de tickets con mensajes y botones personalizados</p>
+                            </div>
+                            <div class="overview-item">
+                                <div class="overview-icon">📊</div>
+                                <h4>Registros Completos</h4>
+                                <p>Seguimiento detallado de todas las acciones realizadas en el sistema</p>
+                            </div>
+                        </div>
+                    </section>
+
+                    <section id="caracteristicas" class="section">
+                        <h2>Características Principales</h2>
+                        <div class="features-showcase">
+                            <div class="feature-card">
+                                <div class="feature-header">
+                                    <div class="feature-icon">🧵</div>
+                                    <h3>Hilos Privados</h3>
+                                </div>
+                                <p>Utiliza el sistema nativo de hilos de Discord para mantener las conversaciones organizadas y privadas.</p>
+                                <div class="feature-benefits">
+                                    <span class="benefit">✓ Organización automática</span>
+                                    <span class="benefit">✓ Notificaciones nativas</span>
+                                    <span class="benefit">✓ Interfaz familiar</span>
+                                </div>
+                            </div>
+
+                            <div class="feature-card">
+                                <div class="feature-header">
+                                    <div class="feature-icon">🎨</div>
+                                    <h3>Personalización Completa</h3>
+                                </div>
+                                <p>Configura múltiples tipos de tickets con mensajes, colores, emojis y estilos personalizados.</p>
+                                <div class="feature-benefits">
+                                    <span class="benefit">✓ Múltiples categorías</span>
+                                    <span class="benefit">✓ Mensajes personalizados</span>
+                                    <span class="benefit">✓ Colores y emojis</span>
+                                </div>
+                            </div>
+
+                            <div class="feature-card">
+                                <div class="feature-header">
+                                    <div class="feature-icon">🛡️</div>
+                                    <h3>Control de Acceso</h3>
+                                </div>
+                                <p>Define permisos específicos para roles y usuarios individuales con control granular.</p>
+                                <div class="feature-benefits">
+                                    <span class="benefit">✓ Permisos por rol</span>
+                                    <span class="benefit">✓ Permisos individuales</span>
+                                    <span class="benefit">✓ Control granular</span>
+                                </div>
+                            </div>
+
+                            <div class="feature-card">
+                                <div class="feature-header">
+                                    <div class="feature-icon">📝</div>
+                                    <h3>Registros Detallados</h3>
+                                </div>
+                                <p>Seguimiento completo de todas las acciones realizadas en el sistema de tickets.</p>
+                                <div class="feature-benefits">
+                                    <span class="benefit">✓ Logs de actividad</span>
+                                    <span class="benefit">✓ Historial completo</span>
+                                    <span class="benefit">✓ Auditoría avanzada</span>
+                                </div>
+                            </div>
+
+                            <div class="feature-card">
+                                <div class="feature-header">
+                                    <div class="feature-icon">🚀</div>
+                                    <h3>Interfaz Intuitiva</h3>
+                                </div>
+                                <p>Fácil de usar tanto para administradores como para usuarios regulares.</p>
+                                <div class="feature-benefits">
+                                    <span class="benefit">✓ Configuración sencilla</span>
+                                    <span class="benefit">✓ Uso intuitivo</span>
+                                    <span class="benefit">✓ Experiencia fluida</span>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+
+                    <section id="comandos" class="section">
+                        <h2>Comandos de Configuración</h2>
+                        <div class="commands-grid">
+                            <div class="command-card featured">
+                                <div class="command-header">
+                                    <h4>/config tickets</h4>
+                                    <span class="command-perm admin">Administrador</span>
+                                </div>
+                                <p>Abre el menú principal de configuración de tickets con todas las opciones disponibles</p>
+                                <div class="command-usage">
+                                    <code>/config tickets</code>
+                                </div>
+                                <div class="command-note">
+                                    Comando principal para acceder a todas las funciones
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+
+                    <section id="configuracion" class="section">
+                        <h2>Proceso de Configuración</h2>
+                        <p class="category-description">Guía paso a paso para configurar el sistema de tickets</p>
+                        
+                        <div class="config-steps">
+                            <div class="config-step">
+                                <div class="step-number">1</div>
+                                <div class="step-content">
+                                    <h3>Crear un Nuevo Ticket</h3>
+                                    <p>Desde el menú principal, selecciona "Gestionar Tickets" y luego "Crear Nuevo Ticket".</p>
+                                    <div class="step-details">
+                                        <h4>Configuración Inicial:</h4>
+                                        <ul>
+                                            <li><strong>Canal para botones:</strong> Donde los usuarios verán los botones de tickets</li>
+                                            <li><strong>Canal de logs:</strong> Para registrar toda la actividad del sistema</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="config-step">
+                                <div class="step-number">2</div>
+                                <div class="step-content">
+                                    <h3>Configurar Permisos</h3>
+                                    <p>Define quién puede gestionar o simplemente ver los tickets.</p>
+                                    <div class="step-details">
+                                        <div class="permissions-grid">
+                                            <div class="perm-type">
+                                                <h4>🛡️ Permisos de Gestión</h4>
+                                                <p>Control total sobre tickets</p>
+                                                <ul>
+                                                    <li>Crear y cerrar tickets</li>
+                                                    <li>Añadir/remover usuarios</li>
+                                                    <li>Archivar tickets</li>
+                                                </ul>
+                                                <div class="perm-note required">Obligatorio configurar</div>
+                                            </div>
+                                            <div class="perm-type">
+                                                <h4>👀 Permisos de Visualización</h4>
+                                                <p>Solo ver tickets sin interactuar</p>
+                                                <ul>
+                                                    <li>Ver contenido de tickets</li>
+                                                    <li>Leer conversaciones</li>
+                                                    <li>Sin permisos de gestión</li>
+                                                </ul>
+                                                <div class="perm-note optional">Opcional</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="config-step">
+                                <div class="step-number">3</div>
+                                <div class="step-content">
+                                    <h3>Personalizar Mensajes</h3>
+                                    <p>Configura los mensajes que verán los usuarios.</p>
+                                    <div class="step-details">
+                                        <div class="messages-grid">
+                                            <div class="message-type">
+                                                <h4>📢 Mensaje para Abrir Tickets</h4>
+                                                <p>El mensaje principal que contiene los botones</p>
+                                                <div class="message-options">
+                                                    <span class="option">Título personalizable</span>
+                                                    <span class="option">Descripción detallada</span>
+                                                    <span class="option">Color personalizado</span>
+                                                    <span class="option">Imagen opcional</span>
+                                                </div>
+                                            </div>
+                                            <div class="message-type">
+                                                <h4>🎫 Mensaje de Ticket Abierto</h4>
+                                                <p>El mensaje que aparece cuando se crea el ticket</p>
+                                                <div class="message-options">
+                                                    <span class="option">Saludo personalizado</span>
+                                                    <span class="option">Instrucciones claras</span>
+                                                    <span class="option">Información de contacto</span>
+                                                    <span class="option">Tiempo de respuesta</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="config-step">
+                                <div class="step-number">4</div>
+                                <div class="step-content">
+                                    <h3>Configurar Botones</h3>
+                                    <p>Añade hasta 5 botones diferentes para distintos tipos de tickets.</p>
+                                    <div class="step-details">
+                                        <div class="buttons-showcase">
+                                            <div class="button-option">
+                                                <h4>🎨 Personalización Visual</h4>
+                                                <ul>
+                                                    <li>Texto personalizado</li>
+                                                    <li>Emojis únicos</li>
+                                                    <li>Estilos de botón</li>
+                                                    <li>Colores específicos</li>
+                                                </ul>
+                                            </div>
+                                            <div class="button-option">
+                                                <h4>🏷️ Formato de Nombres</h4>
+                                                <ul>
+                                                    <li>Nombres únicos por tipo</li>
+                                                    <li>Variables personalizables</li>
+                                                    <li>Numeración automática</li>
+                                                    <li>Identificación clara</li>
+                                                </ul>
+                                            </div>
+                                            <div class="button-option">
+                                                <h4>💬 Mensajes de Respuesta</h4>
+                                                <ul>
+                                                    <li>Respuesta automática</li>
+                                                    <li>Contexto específico</li>
+                                                    <li>Instrucciones claras</li>
+                                                    <li>Información relevante</li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="config-step">
+                                <div class="step-number">5</div>
+                                <div class="step-content">
+                                    <h3>Guardar y Desplegar</h3>
+                                    <p>Al finalizar la configuración, el sistema se activa automáticamente.</p>
+                                    <div class="step-details">
+                                        <div class="deployment-features">
+                                            <div class="deploy-item">
+                                                <div class="deploy-icon">🔧</div>
+                                                <h4>Configuración Automática</h4>
+                                                <p>Los permisos del canal se configuran automáticamente</p>
+                                            </div>
+                                            <div class="deploy-item">
+                                                <div class="deploy-icon">📤</div>
+                                                <h4>Envío de Mensajes</h4>
+                                                <p>El mensaje con botones se envía al canal seleccionado</p>
+                                            </div>
+                                            <div class="deploy-item">
+                                                <div class="deploy-icon">✅</div>
+                                                <h4>Sistema Activo</h4>
+                                                <p>Los usuarios pueden comenzar a crear tickets inmediatamente</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+
+                    <section id="formato-nombres" class="section">
+                        <h2>Formato de Nombres de Tickets</h2>
+                        <p>Personaliza cómo se nombran los tickets usando variables dinámicas.</p>
+                        
+                        <div class="naming-system">
+                            <div class="variables-grid">
+                                <div class="variable-card">
+                                    <div class="var-name">{id}</div>
+                                    <div class="var-desc">Número único autoincremental por tipo de ticket</div>
+                                    <div class="var-example">Ejemplo: 1, 2, 3...</div>
+                                </div>
+                                <div class="variable-card">
+                                    <div class="var-name">{userid}</div>
+                                    <div class="var-desc">ID del usuario que abre el ticket</div>
+                                    <div class="var-example">Ejemplo: 123456789012345678</div>
+                                </div>
+                                <div class="variable-card">
+                                    <div class="var-name">{usertag}</div>
+                                    <div class="var-desc">Nombre de usuario en Discord</div>
+                                    <div class="var-example">Ejemplo: Usuario#1234</div>
+                                </div>
+                            </div>
+                            
+                            <div class="naming-examples">
+                                <h3>Ejemplos de Formatos</h3>
+                                <div class="examples-grid">
+                                    <div class="example-item">
+                                        <div class="example-format"><code>soporte-{id}-{usertag}</code></div>
+                                        <div class="example-result">soporte-1-Usuario#1234</div>
+                                    </div>
+                                    <div class="example-item">
+                                        <div class="example-format"><code>ticket-{id}</code></div>
+                                        <div class="example-result">ticket-5</div>
+                                    </div>
+                                    <div class="example-item">
+                                        <div class="example-format"><code>{usertag}-ayuda</code></div>
+                                        <div class="example-result">Usuario#1234-ayuda</div>
+                                    </div>
+                                    <div class="example-item">
+                                        <div class="example-format"><code>consulta-{userid}</code></div>
+                                        <div class="example-result">consulta-123456789012345678</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+
+                    <section id="interaccion" class="section">
+                        <h2>Interacción con Tickets</h2>
+                        <div class="interaction-section">
+                            <div class="user-experience">
+                                <h3>👥 Para Usuarios</h3>
+                                <div class="experience-flow">
+                                    <div class="flow-item">
+                                        <div class="flow-icon">👆</div>
+                                        <h4>1. Hacer Clic</h4>
+                                        <p>El usuario hace clic en el botón correspondiente para abrir un ticket</p>
+                                    </div>
+                                    <div class="flow-arrow">→</div>
+                                    <div class="flow-item">
+                                        <div class="flow-icon">🎫</div>
+                                        <h4>2. Ticket Creado</h4>
+                                        <p>Se crea un hilo privado donde solo el usuario y el equipo pueden participar</p>
+                                    </div>
+                                    <div class="flow-arrow">→</div>
+                                    <div class="flow-item">
+                                        <div class="flow-icon">🔔</div>
+                                        <h4>3. Notificaciones</h4>
+                                        <p>Recibe notificaciones cuando el personal responde a su ticket</p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="staff-tools">
+                                <h3>🛠️ Para el Equipo de Soporte</h3>
+                                <div class="tools-grid">
+                                    <div class="tool-card">
+                                        <div class="tool-icon">➕</div>
+                                        <h4>Añadir Miembros</h4>
+                                        <p>Pueden añadir usuarios adicionales al ticket cuando sea necesario</p>
+                                    </div>
+                                    <div class="tool-card">
+                                        <div class="tool-icon">➖</div>
+                                        <h4>Eliminar Miembros</h4>
+                                        <p>Pueden remover usuarios del ticket si es apropiado</p>
+                                    </div>
+                                    <div class="tool-card">
+                                        <div class="tool-icon">📦</div>
+                                        <h4>Archivar Tickets</h4>
+                                        <p>Al finalizar, pueden cerrar y archivar el ticket</p>
+                                    </div>
+                                    <div class="tool-card">
+                                        <div class="tool-icon">🔓</div>
+                                        <h4>Reabrir Tickets</h4>
+                                        <p>Los tickets archivados pueden reabrirse si es necesario</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+
+                    <section id="consejos" class="section">
+                        <h2>Consejos de Uso</h2>
+                        <div class="tips-grid">
+                            <div class="tip-card">
+                                <div class="tip-icon">🎯</div>
+                                <h4>Tipos Específicos</h4>
+                                <p>Configura diferentes tipos de tickets para distintas necesidades (soporte técnico, reportes, sugerencias)</p>
+                            </div>
+                            <div class="tip-card">
+                                <div class="tip-icon">🎨</div>
+                                <h4>Colores Distintivos</h4>
+                                <p>Utiliza colores distintos para cada tipo de ticket para identificarlos fácilmente</p>
+                            </div>
+                            <div class="tip-card">
+                                <div class="tip-icon">💬</div>
+                                <h4>Mensajes Claros</h4>
+                                <p>Configura mensajes claros que expliquen el propósito de cada tipo de ticket</p>
+                            </div>
+                            <div class="tip-card">
+                                <div class="tip-icon">📊</div>
+                                <h4>Revisar Logs</h4>
+                                <p>Revisa los logs periódicamente para monitorear la actividad y mejorar el servicio</p>
+                            </div>
+                            <div class="tip-card">
+                                <div class="tip-icon">🔐</div>
+                                <h4>Permisos Seguros</h4>
+                                <p>Asigna permisos de gestión solo a miembros de confianza del equipo</p>
+                            </div>
+                            <div class="tip-card">
+                                <div class="tip-icon">⚡</div>
+                                <h4>Respuesta Rápida</h4>
+                                <p>Establece tiempos de respuesta claros y trata de cumplirlos consistentemente</p>
+                            </div>
+                        </div>
+                        
+                        <div class="best-practices">
+                            <h3>Mejores Prácticas</h3>
+                            <div class="practices-list">
+                                <div class="practice-item">
+                                    <div class="practice-icon">✅</div>
+                                    <div class="practice-content">
+                                        <h4>Configuración Inicial Completa</h4>
+                                        <p>Dedica tiempo a configurar todos los aspectos antes de activar el sistema</p>
+                                    </div>
+                                </div>
+                                <div class="practice-item">
+                                    <div class="practice-icon">✅</div>
+                                    <div class="practice-content">
+                                        <h4>Capacitación del Equipo</h4>
+                                        <p>Asegúrate de que tu equipo sepa cómo usar todas las funciones disponibles</p>
+                                    </div>
+                                </div>
+                                <div class="practice-item">
+                                    <div class="practice-icon">✅</div>
+                                    <div class="practice-content">
+                                        <h4>Monitoreo Constante</h4>
+                                        <p>Revisa regularmente el funcionamiento y ajusta según sea necesario</p>
+                                    </div>
+                                </div>
+                                <div class="practice-item">
+                                    <div class="practice-icon">✅</div>
+                                    <div class="practice-content">
+                                        <h4>Feedback de Usuarios</h4>
+                                        <p>Recopila comentarios de los usuarios para mejorar el sistema</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+                </div>
+            </div>
         </div>
     </body>
 </html>

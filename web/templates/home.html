@@ -1,12 +1,13 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <title>Home</title>
+        <title>Laslylusky - Bot de Discord</title>
+        <link rel="icon" type="image/png" href="{{ url_for('static', filename='resources/laslylusky.png') }}">
         <link rel="stylesheet" href="{{ url_for('static', filename='styles/home.css') }}">
     </head>
     <body>
         <div class="header">
-            <a href="/" id="home">Home</a>
+            <a href="/" id="home" class="active">Home</a>
             <div class="dropdown">
                 <a href="#" class="dropbtn">Documentación</a>
                 <div class="dropdown-content">
@@ -15,14 +16,93 @@
                     <a href="/documentacion/tickets">Configuración Tickets</a>
                 </div>
             </div>
+            <a href="/vegetines">Creador</a>
             <a href="/privacidad">Privacidad</a>
             <a href="/tos">Términos y Condiciones</a>
         </div>
-        <div class="content">
-            <h3>Funcionando en Flask!</h3>
-            <div style="display: flex; justify-content: center; margin-top: 20px;">
-                <iframe src="https://discord.com/widget?id=766964835946463232&theme=dark" width="350" height="500" allowtransparency="true" frameborder="0" sandbox="allow-popups allow-popups-to-escape-sandbox allow-same-origin allow-scripts"></iframe>
+        
+        <div class="hero">
+            <div class="hero-content">
+                <h1>Laslylusky</h1>
+                <h2>Bot de Discord Multifuncional</h2>
+                <p class="hero-subtitle">El bot más completo para tu servidor de Discord</p>
+                <p class="hero-description">
+                    Laslylusky ofrece inteligencia artificial, moderación avanzada, juegos interactivos, 
+                    sistema de niveles y mucho más. Todo en un solo bot fácil de usar y configurar.
+                </p>
+                <div class="hero-buttons">
+                    <a href="/invite" class="btn-primary">Invitar Bot</a>
+                    <a href="/documentacion/help" class="btn-secondary">Ver Comandos</a>
+                </div>
             </div>
+        </div>
+        
+        <div class="container">
+            <section class="features">
+                <h2>Características Principales</h2>
+                <div class="features-grid">
+                    <div class="feature-item">
+                        <div class="feature-icon">🤖</div>
+                        <h3>Inteligencia Artificial</h3>
+                        <p>Conversa con Laslylusky gracias a la IA integrada. Mantiene conversaciones coherentes y naturales.</p>
+                    </div>
+                    <div class="feature-item">
+                        <div class="feature-icon">🛡️</div>
+                        <h3>Moderación Avanzada</h3>
+                        <p>Sistema completo de moderación con logs, advertencias, baneos temporales y mucho más.</p>
+                    </div>
+                    <div class="feature-item">
+                        <div class="feature-icon">🎮</div>
+                        <h3>Juegos Interactivos</h3>
+                        <p>Más de 15 juegos diferentes: ahorcado, blackjack, buscaminas, trivia y muchos más.</p>
+                    </div>
+                    <div class="feature-item">
+                        <div class="feature-icon">📊</div>
+                        <h3>Sistema de Niveles</h3>
+                        <p>Sistema de XP y niveles personalizable para mantener a tu comunidad activa y enganchada.</p>
+                    </div>
+                    <div class="feature-item">
+                        <div class="feature-icon">🎫</div>
+                        <h3>Sistema de Tickets</h3>
+                        <p>Crea un sistema de soporte profesional con hilos privados y configuración personalizada.</p>
+                    </div>
+                    <div class="feature-item">
+                        <div class="feature-icon">⚙️</div>
+                        <h3>Altamente Configurable</h3>
+                        <p>Personaliza cada aspecto del bot según las necesidades de tu servidor.</p>
+                    </div>
+                </div>
+            </section>
+            
+            <section class="discord-widget">
+                <h2>Únete a Nuestra Comunidad</h2>
+                <p>Conecta con otros usuarios, recibe soporte y mantente al día con las últimas actualizaciones</p>
+                <div class="widget-container">
+                    <iframe src="https://discord.com/widget?id=766964835946463232&theme=dark" width="350" height="500" allowtransparency="true" frameborder="0" sandbox="allow-popups allow-popups-to-escape-sandbox allow-same-origin allow-scripts"></iframe>
+                </div>
+            </section>
+            
+            <section class="stats">
+                <h2>Estadísticas</h2>
+                <div class="stats-grid">
+                    <div class="stat-item">
+                        <div class="stat-number">100+</div>
+                        <div class="stat-label">Comandos Disponibles</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number">24/7</div>
+                        <div class="stat-label">Funcionamiento</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number">15+</div>
+                        <div class="stat-label">Juegos Integrados</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number">Open Source</div>
+                        <div class="stat-label">Código Abierto</div>
+                    </div>
+                </div>
+            </section>
         </div>
     </body>
 </html>

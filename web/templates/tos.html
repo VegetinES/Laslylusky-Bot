@@ -2,206 +2,536 @@
 <html>
     <head>
         <title>Términos y Condiciones - Laslylusky</title>
+        <link rel="icon" type="image/png" href="{{ url_for('static', filename='resources/laslylusky.png') }}">
         <link rel="stylesheet" href="{{ url_for('static', filename='styles/tos.css') }}">
     </head>
     <body>
         <div class="header">
-            <a href="/">
-                <img src="{{ url_for('static', filename='resources/laslylusky.png') }}" alt="Logo">
-            </a>
-            <h1>Términos y Condiciones de Laslylusky</h1>
+            <a href="/">Home</a>
+            <div class="dropdown">
+                <a href="#" class="dropbtn">Documentación</a>
+                <div class="dropdown-content">
+                    <a href="/documentacion/help">Help</a>
+                    <a href="/documentacion/configuracion">Configuración</a>
+                    <a href="/documentacion/tickets">Configuración Tickets</a>
+                </div>
+            </div>
+            <a href="/vegetines">Creador</a>
+            <a href="/privacidad">Privacidad</a>
+            <a href="/tos" class="active">Términos y Condiciones</a>
         </div>
         
-        <div class="last-update">
-            <p><strong>Última actualización:</strong> 26 de mayo de 2025</p>
+        <div class="hero">
+            <div class="hero-content">
+                <div class="logo-container">
+                    <img src="{{ url_for('static', filename='resources/laslylusky.png') }}" alt="Laslylusky Logo">
+                </div>
+                <h1>Términos y Condiciones</h1>
+                <p class="hero-subtitle">Condiciones de uso del Bot Laslylusky</p>
+                <div class="last-update">
+                    <p><strong>Última actualización:</strong> 26 de mayo de 2025</p>
+                </div>
+            </div>
         </div>
+        
+        <div class="container">
+            <div class="content-wrapper">
+                <div class="sidebar">
+                    <h3>Navegación</h3>
+                    <nav class="table-of-contents">
+                        <a href="#aceptacion">1. Aceptación</a>
+                        <a href="#descripcion">2. Descripción del Servicio</a>
+                        <a href="#elegibilidad">3. Elegibilidad</a>
+                        <a href="#uso-aceptable">4. Uso Aceptable</a>
+                        <a href="#uso-prohibido">5. Uso Prohibido</a>
+                        <a href="#moderacion">6. Moderación y Sanciones</a>
+                        <a href="#disponibilidad">7. Disponibilidad del Servicio</a>
+                        <a href="#datos">8. Datos y Privacidad</a>
+                        <a href="#codigo-abierto">9. Código Abierto</a>
+                        <a href="#responsabilidad">10. Limitación de Responsabilidad</a>
+                        <a href="#indemnizacion">11. Indemnización</a>
+                        <a href="#modificaciones">12. Modificaciones</a>
+                        <a href="#terminacion">13. Terminación</a>
+                        <a href="#ley-aplicable">14. Ley Aplicable</a>
+                        <a href="#disputas">15. Resolución de Disputas</a>
+                        <a href="#contacto">17. Contacto y Soporte</a>
+                    </nav>
+                </div>
+                
+                <div class="main-content">
+                    <section id="aceptacion" class="section">
+                        <h2>1. Aceptación de los Términos</h2>
+                        <p>Al usar Laslylusky ("el bot", "el servicio"), aceptas estos Términos y Condiciones. Si no estás de acuerdo, no uses el bot.</p>
+                        <div class="highlight-box">
+                            <p><strong>Importante:</strong> El uso continuado del bot constituye la aceptación de estos términos.</p>
+                        </div>
+                    </section>
 
-        <div class="section">
-            <h2>1. Aceptación de los Términos</h2>
-            <p>Al usar Laslylusky ("el bot", "el servicio"), aceptas estos Términos y Condiciones. Si no estás de acuerdo, no uses el bot.</p>
-        </div>
+                    <section id="descripcion" class="section">
+                        <h2>2. Descripción del Servicio</h2>
+                        <p>Laslylusky es un bot de Discord que proporciona:</p>
+                        <div class="services-grid">
+                            <div class="service-item">
+                                <div class="service-icon">🤖</div>
+                                <h4>Asistente de IA</h4>
+                                <p>Conversaciones inteligentes y naturales</p>
+                            </div>
+                            <div class="service-item">
+                                <div class="service-icon">🛡️</div>
+                                <h4>Moderación</h4>
+                                <p>Herramientas avanzadas para servidores</p>
+                            </div>
+                            <div class="service-item">
+                                <div class="service-icon">📊</div>
+                                <h4>Sistema de Niveles</h4>
+                                <p>Experiencia y recompensas para usuarios</p>
+                            </div>
+                            <div class="service-item">
+                                <div class="service-icon">🎮</div>
+                                <h4>Juegos</h4>
+                                <p>Entretenimiento interactivo</p>
+                            </div>
+                            <div class="service-item">
+                                <div class="service-icon">⏰</div>
+                                <h4>Recordatorios</h4>
+                                <p>Notificaciones personalizadas</p>
+                            </div>
+                            <div class="service-item">
+                                <div class="service-icon">🎫</div>
+                                <h4>Sistema de Tickets</h4>
+                                <p>Soporte y atención al usuario</p>
+                            </div>
+                        </div>
+                    </section>
 
-        <div class="section">
-            <h2>2. Descripción del Servicio</h2>
-            <p>Laslylusky es un bot de Discord que proporciona:</p>
-            <ul>
-                <li>Asistente de inteligencia artificial para conversaciones</li>
-                <li>Herramientas de moderación para servidores</li>
-                <li>Sistema de niveles y experiencia</li>
-                <li>Juegos y entretenimiento</li>
-                <li>Recordatorios y notificaciones</li>
-                <li>Logs de auditoría y configuración personalizada</li>
-                <li>Sistema de tickets de soporte</li>
-            </ul>
-        </div>
+                    <section id="elegibilidad" class="section">
+                        <h2>3. Elegibilidad</h2>
+                        <p>Para usar Laslylusky debes:</p>
+                        <div class="requirements-list">
+                            <div class="requirement-item">
+                                <div class="req-icon">✅</div>
+                                <div class="req-content">
+                                    <h4>Cuenta de Discord Válida</h4>
+                                    <p>Tener una cuenta activa y en regla</p>
+                                </div>
+                            </div>
+                            <div class="requirement-item">
+                                <div class="req-icon">📋</div>
+                                <div class="req-content">
+                                    <h4>Cumplir ToS de Discord</h4>
+                                    <p>Respetar los términos de servicio de Discord</p>
+                                </div>
+                            </div>
+                            <div class="requirement-item">
+                                <div class="req-icon">🎂</div>
+                                <div class="req-content">
+                                    <h4>Edad Mínima</h4>
+                                    <p>Tener al menos 13 años (o la edad mínima en tu jurisdicción)</p>
+                                </div>
+                            </div>
+                            <div class="requirement-item">
+                                <div class="req-icon">👨‍👩‍👧‍👦</div>
+                                <div class="req-content">
+                                    <h4>Autorización Parental</h4>
+                                    <p>Si eres menor de edad, necesitas permiso de tus padres</p>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
 
-        <div class="section">
-            <h2>3. Elegibilidad</h2>
-            <p>Para usar Laslylusky debes:</p>
-            <ul>
-                <li>Tener una cuenta válida de Discord</li>
-                <li>Cumplir con los Términos de Servicio de Discord</li>
-                <li>Tener al menos 13 años de edad (o la edad mínima en tu jurisdicción)</li>
-                <li>Tener autorización parental si eres menor de edad</li>
-            </ul>
-        </div>
+                    <section id="uso-aceptable" class="section">
+                        <h2>4. Uso Aceptable</h2>
+                        <p>Al usar Laslylusky, te comprometes a:</p>
+                        <div class="usage-grid">
+                            <div class="usage-item acceptable">
+                                <h4>✅ Uso Legal y Ético</h4>
+                                <p>Utilizar el bot de manera responsable y conforme a la ley</p>
+                            </div>
+                            <div class="usage-item acceptable">
+                                <h4>✅ Respeto a la Comunidad</h4>
+                                <p>No usar el bot para acosar, intimidar o dañar a otros</p>
+                            </div>
+                            <div class="usage-item acceptable">
+                                <h4>✅ Uso Responsable</h4>
+                                <p>No sobrecargar intencionalmente los servicios</p>
+                            </div>
+                            <div class="usage-item acceptable">
+                                <h4>✅ Cumplimiento de Reglas</h4>
+                                <p>Respetar las reglas de Discord y de los servidores</p>
+                            </div>
+                        </div>
+                    </section>
 
-        <div class="section">
-            <h2>4. Uso Aceptable</h2>
-            <p>Al usar Laslylusky, te comprometes a:</p>
-            <ul>
-                <li>Usar el bot de manera legal y ética</li>
-                <li>No intentar explotar vulnerabilidades o errores</li>
-                <li>No usar el bot para acosar, intimidar o dañar a otros</li>
-                <li>No sobrecargar intencionalmente los servicios del bot</li>
-                <li>Respetar las reglas de Discord y de los servidores</li>
-                <li>No usar el bot para actividades ilegales</li>
-            </ul>
-        </div>
+                    <section id="uso-prohibido" class="section">
+                        <h2>5. Uso Prohibido</h2>
+                        <p>Está expresamente prohibido:</p>
+                        <div class="usage-grid">
+                            <div class="usage-item prohibited">
+                                <h4>❌ Spam y Contenido No Deseado</h4>
+                                <p>Usar el bot para generar spam o mensajes repetitivos</p>
+                            </div>
+                            <div class="usage-item prohibited">
+                                <h4>❌ Intentos de Hackeo</h4>
+                                <p>Intentar hackear, modificar o dañar el bot</p>
+                            </div>
+                            <div class="usage-item prohibited">
+                                <h4>❌ Evasión de Restricciones</h4>
+                                <p>Crear cuentas falsas para evadir limitaciones</p>
+                            </div>
+                            <div class="usage-item prohibited">
+                                <h4>❌ Contenido Malicioso</h4>
+                                <p>Distribuir malware o contenido dañino</p>
+                            </div>
+                            <div class="usage-item prohibited">
+                                <h4>❌ Violación de Derechos</h4>
+                                <p>Violar derechos de autor o propiedad intelectual</p>
+                            </div>
+                            <div class="usage-item prohibited">
+                                <h4>❌ Contenido Inapropiado</h4>
+                                <p>Compartir contenido explícito, violento o ilegal</p>
+                            </div>
+                        </div>
+                    </section>
 
-        <div class="section">
-            <h2>5. Uso Prohibido</h2>
-            <p>Está expresamente prohibido:</p>
-            <ul>
-                <li>Usar el bot para spam o contenido no deseado</li>
-                <li>Intentar hackear, modificar o dañar el bot</li>
-                <li>Crear cuentas falsas para evadir restricciones</li>
-                <li>Usar el bot para distribuir malware o contenido dañino</li>
-                <li>Violar derechos de autor o propiedad intelectual</li>
-                <li>Compartir contenido explícito, violento o ilegal</li>
-                <li>Usar el bot para doxing o acoso</li>
-            </ul>
-        </div>
+                    <section id="moderacion" class="section">
+                        <h2>6. Moderación y Sanciones</h2>
+                        <p>Nos reservamos el derecho de:</p>
+                        <div class="moderation-actions">
+                            <div class="mod-action">
+                                <div class="mod-icon">🚫</div>
+                                <h4>Suspender o Prohibir Acceso</h4>
+                                <p>Por violaciones a estos términos</p>
+                            </div>
+                            <div class="mod-action">
+                                <div class="mod-icon">🗑️</div>
+                                <h4>Eliminar Contenido</h4>
+                                <p>Contenido inapropiado o que viole las normas</p>
+                            </div>
+                            <div class="mod-action">
+                                <div class="mod-icon">🚨</div>
+                                <h4>Reportar Actividades</h4>
+                                <p>Actividades ilegales a las autoridades competentes</p>
+                            </div>
+                            <div class="mod-action">
+                                <div class="mod-icon">⚖️</div>
+                                <h4>Medidas Disciplinarias</h4>
+                                <p>Según consideremos apropiado</p>
+                            </div>
+                        </div>
+                    </section>
 
-        <div class="section">
-            <h2>6. Moderación y Sanciones</h2>
-            <p>Nos reservamos el derecho de:</p>
-            <ul>
-                <li>Suspender o prohibir el acceso al bot por violaciones</li>
-                <li>Eliminar o modificar contenido inapropiado</li>
-                <li>Reportar actividades ilegales a las autoridades</li>
-                <li>Tomar medidas disciplinarias según consideremos apropiado</li>
-            </ul>
-        </div>
+                    <section id="disponibilidad" class="section">
+                        <h2>7. Disponibilidad del Servicio</h2>
+                        <div class="availability-info">
+                            <div class="availability-item">
+                                <h4>"Tal Como Está"</h4>
+                                <p>El bot se proporciona sin garantías implícitas</p>
+                            </div>
+                            <div class="availability-item">
+                                <h4>Sin Garantía de 100% Uptime</h4>
+                                <p>Pueden ocurrir interrupciones por mantenimiento</p>
+                            </div>
+                            <div class="availability-item">
+                                <h4>Derecho a Modificaciones</h4>
+                                <p>Podemos modificar o discontinuar funciones</p>
+                            </div>
+                        </div>
+                    </section>
 
-        <div class="section">
-            <h2>7. Disponibilidad del Servicio</h2>
-            <p>Respecto a la disponibilidad:</p>
-            <ul>
-                <li>El bot se proporciona "tal como está"</li>
-                <li>No garantizamos disponibilidad del 100%</li>
-                <li>Pueden ocurrir interrupciones por mantenimiento</li>
-                <li>Nos reservamos el derecho de modificar o discontinuar funciones</li>
-            </ul>
-        </div>
+                    <section id="datos" class="section">
+                        <h2>8. Datos y Privacidad</h2>
+                        <p>El manejo de datos se rige por nuestra <a href="/privacidad" class="privacy-link">Política de Privacidad</a>. Al usar el bot, aceptas:</p>
+                        <div class="privacy-points">
+                            <div class="privacy-point">
+                                <div class="privacy-icon">📊</div>
+                                <p>La recopilación de datos necesarios para el funcionamiento</p>
+                            </div>
+                            <div class="privacy-point">
+                                <div class="privacy-icon">🔒</div>
+                                <p>El almacenamiento seguro de tu información</p>
+                            </div>
+                            <div class="privacy-point">
+                                <div class="privacy-icon">📋</div>
+                                <p>Las prácticas descritas en la Política de Privacidad</p>
+                            </div>
+                        </div>
+                    </section>
 
-        <div class="section">
-            <h2>8. Datos y Privacidad</h2>
-            <p>El manejo de datos se rige por nuestra <a href="/privacidad">Política de Privacidad</a>. Al usar el bot, aceptas:</p>
-            <ul>
-                <li>La recopilación de datos necesarios para el funcionamiento</li>
-                <li>El almacenamiento seguro de tu información</li>
-                <li>Las prácticas descritas en la Política de Privacidad</li>
-            </ul>
-        </div>
+                    <section id="codigo-abierto" class="section">
+                        <h2>9. Código Abierto y Propiedad Intelectual</h2>
+                        <p>Laslylusky es un proyecto de código abierto con las siguientes condiciones:</p>
+                        
+                        <div class="open-source-sections">
+                            <div class="os-section">
+                                <h3>9.1 Derechos del Código</h3>
+                                <div class="code-rights">
+                                    <div class="right-item">
+                                        <div class="right-icon">👑</div>
+                                        <p><strong>Propiedad:</strong> El código fuente es propiedad de vegetines</p>
+                                    </div>
+                                    <div class="right-item">
+                                        <div class="right-icon">🌐</div>
+                                        <p><strong>Disponibilidad:</strong> Código disponible públicamente</p>
+                                    </div>
+                                    <div class="right-item">
+                                        <div class="right-icon">🔧</div>
+                                        <p><strong>Modificación:</strong> Puedes modificar y distribuir libremente</p>
+                                    </div>
+                                    <div class="right-item">
+                                        <div class="right-icon">❤️</div>
+                                        <p><strong>Créditos:</strong> No es necesario dar créditos (pero es apreciado)</p>
+                                    </div>
+                                </div>
+                            </div>
 
-        <div class="section">
-            <h2>9. Propiedad Intelectual</h2>
-            <p>Respecto a la propiedad intelectual:</p>
-            <ul>
-                <li>Laslylusky y su código son propiedad del creador</li>
-                <li>Los usuarios conservan los derechos sobre su contenido</li>
-                <li>No puedes copiar, modificar o distribuir el bot sin autorización</li>
-                <li>Respetamos los derechos de propiedad intelectual de terceros</li>
-            </ul>
-        </div>
+                            <div class="os-section">
+                                <h3>9.2 Limitaciones del Repositorio</h3>
+                                <div class="limitations">
+                                    <div class="limitation-item">
+                                        <span class="limit-icon">🚫</span>
+                                        <p>No se aceptan contribuciones externas al repositorio oficial</p>
+                                    </div>
+                                    <div class="limitation-item">
+                                        <span class="limit-icon">👨‍💻</span>
+                                        <p>Solo el creador puede realizar cambios en el repositorio principal</p>
+                                    </div>
+                                    <div class="limitation-item">
+                                        <span class="limit-icon">🔀</span>
+                                        <p>Los forks deben mantenerse en repositorios separados</p>
+                                    </div>
+                                </div>
+                            </div>
 
-        <div class="section">
-            <h2>10. Limitación de Responsabilidad</h2>
-            <p>En el máximo permitido por la ley:</p>
-            <ul>
-                <li>No somos responsables de daños indirectos o consecuenciales</li>
-                <li>Nuestra responsabilidad está limitada al uso del servicio</li>
-                <li>No garantizamos la precisión de la información proporcionada</li>
-                <li>El usuario es responsable de sus propias acciones</li>
-            </ul>
-        </div>
+                            <div class="os-section">
+                                <h3>9.3 Uso del Código</h3>
+                                <div class="usage-permissions">
+                                    <div class="permission-item">
+                                        <span class="perm-icon">✅</span>
+                                        <p>Uso para proyectos personales y comerciales</p>
+                                    </div>
+                                    <div class="permission-item">
+                                        <span class="perm-icon">✅</span>
+                                        <p>Modificación y adaptación libre</p>
+                                    </div>
+                                    <div class="permission-item">
+                                        <span class="perm-icon">✅</span>
+                                        <p>Distribución sin restricciones</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
 
-        <div class="section">
-            <h2>11. Indemnización</h2>
-            <p>Aceptas indemnizar y eximir de responsabilidad a Laslylusky y su creador por:</p>
-            <ul>
-                <li>Tu uso del bot</li>
-                <li>Violaciones de estos términos</li>
-                <li>Violaciones de derechos de terceros</li>
-                <li>Cualquier actividad ilegal relacionada con tu uso</li>
-            </ul>
-        </div>
+                        <div class="os-summary">
+                            <h3>Resumen del Código Abierto</h3>
+                            <div class="summary-grid">
+                                <div class="summary-item can">
+                                    <h4>✅ Puedes:</h4>
+                                    <ul>
+                                        <li>Clonar, descargar, modificar</li>
+                                        <li>Crear tu propia versión</li>
+                                        <li>Usar comercialmente</li>
+                                    </ul>
+                                </div>
+                                <div class="summary-item cannot">
+                                    <h4>❌ No puedes:</h4>
+                                    <ul>
+                                        <li>Contribuir al repositorio oficial</li>
+                                        <li>Reclamar autoría original</li>
+                                    </ul>
+                                </div>
+                                <div class="summary-item note">
+                                    <h4>ℹ️ Nota:</h4>
+                                    <p>El código es tuyo una vez lo descargues, pero la propiedad intelectual original permanece con vegetines</p>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
 
-        <div class="section">
-            <h2>12. Modificaciones</h2>
-            <p>Nos reservamos el derecho de:</p>
-            <ul>
-                <li>Modificar estos términos en cualquier momento</li>
-                <li>Notificar cambios importantes a través del servidor de Discord</li>
-                <li>Requerir aceptación de nuevos términos para continuar usando el bot</li>
-            </ul>
-        </div>
+                    <section id="responsabilidad" class="section">
+                        <h2>10. Limitación de Responsabilidad</h2>
+                        <p>En el máximo permitido por la ley:</p>
+                        <div class="liability-items">
+                            <div class="liability-item">
+                                <div class="liability-icon">⚠️</div>
+                                <p>No somos responsables de daños indirectos o consecuenciales</p>
+                            </div>
+                            <div class="liability-item">
+                                <div class="liability-icon">📝</div>
+                                <p>Nuestra responsabilidad está limitada al uso del servicio</p>
+                            </div>
+                            <div class="liability-item">
+                                <div class="liability-icon">❓</div>
+                                <p>No garantizamos la precisión de la información proporcionada</p>
+                            </div>
+                            <div class="liability-item">
+                                <div class="liability-icon">👤</div>
+                                <p>El usuario es responsable de sus propias acciones</p>
+                            </div>
+                        </div>
+                    </section>
 
-        <div class="section">
-            <h2>13. Terminación</h2>
-            <p>Estos términos permanecen en vigor hasta:</p>
-            <ul>
-                <li>Dejes de usar el bot</li>
-                <li>Terminemos tu acceso por violaciones</li>
-                <li>Discontinuemos el servicio</li>
-            </ul>
-        </div>
+                    <section id="indemnizacion" class="section">
+                        <h2>11. Indemnización</h2>
+                        <p>Aceptas indemnizar y eximir de responsabilidad a Laslylusky y su creador por:</p>
+                        <div class="indemnification-list">
+                            <div class="indem-item">
+                                <span class="indem-icon">⚖️</span>
+                                <p>Tu uso del bot y violaciones de estos términos</p>
+                            </div>
+                            <div class="indem-item">
+                                <span class="indem-icon">🚫</span>
+                                <p>Violaciones de derechos de terceros</p>
+                            </div>
+                            <div class="indem-item">
+                                <span class="indem-icon">🏛️</span>
+                                <p>Cualquier actividad ilegal relacionada con tu uso</p>
+                            </div>
+                            <div class="indem-item">
+                                <span class="indem-icon">💻</span>
+                                <p>Modificaciones o usos del código fuente que realices</p>
+                            </div>
+                        </div>
+                    </section>
 
-        <div class="section">
-            <h2>14. Ley Aplicable</h2>
-            <p>Estos términos se rigen por:</p>
-            <ul>
-                <li>Las leyes de España</li>
-                <li>Los Términos de Servicio de Discord</li>
-                <li>Leyes internacionales aplicables</li>
-            </ul>
-        </div>
+                    <section id="modificaciones" class="section">
+                        <h2>12. Modificaciones</h2>
+                        <div class="modification-info">
+                            <div class="mod-info-item">
+                                <h4>Derecho a Modificar</h4>
+                                <p>Nos reservamos el derecho de modificar estos términos en cualquier momento</p>
+                            </div>
+                            <div class="mod-info-item">
+                                <h4>Notificación</h4>
+                                <p>Los cambios importantes se notificarán a través del servidor de Discord</p>
+                            </div>
+                            <div class="mod-info-item">
+                                <h4>Aceptación</h4>
+                                <p>Podemos requerir aceptación de nuevos términos para continuar usando el bot</p>
+                            </div>
+                        </div>
+                    </section>
 
-        <div class="section">
-            <h2>15. Resolución de Disputas</h2>
-            <p>Para resolver disputas:</p>
-            <ul>
-                <li>Contacta primero a través de nuestro servidor de Discord</li>
-                <li>Buscaremos una solución amistosa</li>
-                <li>Como último recurso, se aplicará mediación o arbitraje</li>
-            </ul>
-        </div>
+                    <section id="terminacion" class="section">
+                        <h2>13. Terminación</h2>
+                        <p>Estos términos permanecen en vigor hasta:</p>
+                        <div class="termination-conditions">
+                            <div class="term-condition">
+                                <div class="term-icon">🚪</div>
+                                <p>Dejes de usar el bot voluntariamente</p>
+                            </div>
+                            <div class="term-condition">
+                                <div class="term-icon">🔒</div>
+                                <p>Terminemos tu acceso por violaciones</p>
+                            </div>
+                            <div class="term-condition">
+                                <div class="term-icon">📴</div>
+                                <p>Discontinuemos el servicio</p>
+                            </div>
+                        </div>
+                        <div class="termination-note">
+                            <p><strong>Nota:</strong> La disponibilidad del código abierto no se ve afectada por la terminación de estos términos.</p>
+                        </div>
+                    </section>
 
-        <div class="section">
-            <h2>16. Separabilidad</h2>
-            <p>Si alguna disposición de estos términos es inválida, el resto permanece en vigor.</p>
-        </div>
+                    <section id="ley-aplicable" class="section">
+                        <h2>14. Ley Aplicable</h2>
+                        <div class="law-grid">
+                            <div class="law-item">
+                                <div class="law-icon">🇪🇸</div>
+                                <h4>Leyes de España</h4>
+                                <p>Jurisdicción principal</p>
+                            </div>
+                            <div class="law-item">
+                                <div class="law-icon">💬</div>
+                                <h4>Discord ToS</h4>
+                                <p>Términos de servicio de Discord</p>
+                            </div>
+                            <div class="law-item">
+                                <div class="law-icon">🌍</div>
+                                <h4>Leyes Internacionales</h4>
+                                <p>Leyes internacionales aplicables</p>
+                            </div>
+                        </div>
+                    </section>
 
-        <div class="section">
-            <h2>17. Contacto y Soporte</h2>
-            <p>Para soporte, preguntas o reportar problemas:</p>
-            <ul>
-                <li><strong>Servidor de Discord:</strong> <a href="https://discord.gg/DN6PDKA7gf">https://discord.gg/DN6PDKA7gf</a></li>
-                <li><strong>Usuario de Discord:</strong> vegetines (ID: 702934069138161835)</li>
-                <li><strong>Método:</strong> Crear un ticket de soporte en el servidor</li>
-            </ul>
-        </div>
+                    <section id="disputas" class="section">
+                        <h2>15. Resolución de Disputas</h2>
+                        <div class="dispute-process">
+                            <div class="dispute-step">
+                                <div class="step-number">1</div>
+                                <div class="step-content">
+                                    <h4>Contacto Inicial</h4>
+                                    <p>Contacta primero a través de nuestro servidor de Discord</p>
+                                </div>
+                            </div>
+                            <div class="dispute-step">
+                                <div class="step-number">2</div>
+                                <div class="step-content">
+                                    <h4>Solución Amistosa</h4>
+                                    <p>Buscaremos una solución que beneficie a ambas partes</p>
+                                </div>
+                            </div>
+                            <div class="dispute-step">
+                                <div class="step-number">3</div>
+                                <div class="step-content">
+                                    <h4>Mediación</h4>
+                                    <p>Como último recurso, se aplicará mediación o arbitraje</p>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
 
-        <div class="section">
-            <h2>18. Reconocimientos</h2>
-            <p>Laslylusky utiliza:</p>
-            <ul>
-                <li>Discord.py para la interacción con Discord</li>
-                <li>Google Gemini AI para funciones de inteligencia artificial</li>
-                <li>MongoDB para almacenamiento de datos</li>
-                <li>Otras librerías de código abierto según sea necesario</li>
-            </ul>
+                    <section id="contacto" class="section">
+                        <h2>17. Contacto y Soporte</h2>
+                        <p>Para soporte, preguntas o reportar problemas:</p>
+                        <div class="contact-info">
+                            <div class="contact-method">
+                                <div class="contact-icon">💬</div>
+                                <h4>Servidor de Discord</h4>
+                                <a href="https://discord.gg/DN6PDKA7gf" class="contact-link">Unirse al servidor</a>
+                            </div>
+                            <div class="contact-method">
+                                <div class="contact-icon">👨‍💻</div>
+                                <h4>Creador</h4>
+                                <p><strong>vegetines</strong> (ID: 702934069138161835)</p>
+                            </div>
+                            <div class="contact-method">
+                                <div class="contact-icon">🎫</div>
+                                <h4>Método Preferido</h4>
+                                <p>Crear un ticket de soporte en el servidor</p>
+                            </div>
+                            <div class="contact-method">
+                                <div class="contact-icon">💻</div>
+                                <h4>GitHub</h4>
+                                <a href="https://github.com/VegetinES/Laslylusky-Bot" class="contact-link">Ver repositorio</a>
+                            </div>
+                        </div>
+                        
+                        <div class="acknowledgments">
+                            <h3>18. Reconocimientos</h3>
+                            <p>Laslylusky utiliza las siguientes tecnologías:</p>
+                            <div class="tech-grid">
+                                <div class="tech-item">
+                                    <span class="tech-name">Discord.py</span>
+                                    <span class="tech-desc">Interacción con Discord</span>
+                                </div>
+                                <div class="tech-item">
+                                    <span class="tech-name">Google Gemini AI</span>
+                                    <span class="tech-desc">Funciones de inteligencia artificial</span>
+                                </div>
+                                <div class="tech-item">
+                                    <span class="tech-name">MongoDB</span>
+                                    <span class="tech-desc">Almacenamiento de datos</span>
+                                </div>
+                                <div class="tech-item">
+                                    <span class="tech-name">Flask</span>
+                                    <span class="tech-desc">Servidor web</span>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+                </div>
+            </div>
         </div>
     </body>
 </html>

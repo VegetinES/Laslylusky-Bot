@@ -31,6 +31,18 @@ def doc_config():
 def tickets_documentation():
     return render_template('documentacion/tickets.html')
 
+@app.route('/vegetines')
+def vegetines():
+    return render_template('vegetines/vegetines.html')
+
+@app.route('/vegetines/portafolio')
+def vegetines_portfolio():
+    return render_template('vegetines/portafolio.html')
+
+@app.route('/vegetines/servicios')
+def vegetines_services():
+    return redirect("https://ko-fi.com/vegetines/commissions")
+
 @app.route('/invite')
 def invite():
     discord_invite_link = "https://discord.com/oauth2/authorize?client_id=784774864766500864&scope=bot&permissions=8"
