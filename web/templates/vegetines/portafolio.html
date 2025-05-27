@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Portfolio - Vegetines</title>
+        <link rel="icon" type="image/png" href="{{ url_for('static', filename='resources/laslylusky.png') }}">
+        <link rel="stylesheet" href="{{ url_for('static', filename='styles/vegetines.css') }}">
+    </head>
+    <body>
+        <div class="header">
+            <a href="/" id="home">Home</a>
+            <div class="dropdown">
+                <a href="#" class="dropbtn">Documentación</a>
+                <div class="dropdown-content">
+                    <a href="/documentacion/help">Help</a>
+                    <a href="/documentacion/configuracion">Configuración</a>
+                    <a href="/documentacion/tickets">Configuración Tickets</a>
+                </div>
+            </div>
+            <a href="/vegetines" class="active">Creador</a>
+            <a href="/privacidad">Privacidad</a>
+            <a href="/tos">Términos y Condiciones</a>
+        </div>
+        
+        <div class="portfolio-header">
+            <div class="container">
+                <h1>Portfolio de Proyectos</h1>
+                <p>Una colección de mis trabajos y proyectos más destacados</p>
+                <div class="portfolio-nav">
+                    <a href="/vegetines">← Volver al perfil</a>
+                    <a href="/vegetines/servicios">Ver servicios →</a>
+                </div>
+            </div>
+        </div>
+        
+        <div class="container">
+            <section class="projects">
+                <div class="projects-grid">
+                    <div class="project-item featured">
+                        <div class="project-header">
+                            <h3>Bot de Discord Laslylusky</h3>
+                            <span class="project-type">Bot de Discord</span>
+                        </div>
+                        <p>
+                            Bot multifuncional para Discord con inteligencia artificial, sistema de moderación, 
+                            juegos, niveles y múltiples funcionalidades. Desarrollado con Python y Discord.py.
+                        </p>
+                        <div class="project-tags">
+                            <span class="tag">Python</span>
+                            <span class="tag">Discord.py</span>
+                            <span class="tag">MongoDB</span>
+                            <span class="tag">Flask</span>
+                            <span class="tag">IA</span>
+                        </div>
+                        <a href="https://github.com/VegetinES/Laslylusky-Bot" target="_blank" class="project-link">Ver en GitHub</a>
+                    </div>
+                    
+                    <div class="project-item">
+                        <div class="project-header">
+                            <h3>Gestor de Tareas Android</h3>
+                            <span class="project-type">Aplicación Móvil</span>
+                        </div>
+                        <p>
+                            Aplicación de Android para gestionar tareas y recordatorios con interfaz intuitiva 
+                            y funcionalidades avanzadas de organización.
+                        </p>
+                        <div class="project-tags">
+                            <span class="tag">Android</span>
+                            <span class="tag">Java</span>
+                            <span class="tag">SQLite</span>
+                        </div>
+                        <a href="https://github.com/VegetinES/GestorTareas" target="_blank" class="project-link">Ver en GitHub</a>
+                    </div>
+                    
+                    <div class="project-item">
+                        <div class="project-header">
+                            <h3>Juego Educativo Unity</h3>
+                            <span class="project-type">Aplicación Educativa</span>
+                        </div>
+                        <p>
+                            Aplicación de Unity para Windows y tablets Android de un juego con accesibilidad 
+                            para niños con TEA (Trastorno del Espectro Autista).
+                        </p>
+                        <div class="project-tags">
+                            <span class="tag">Unity</span>
+                            <span class="tag">C#</span>
+                            <span class="tag">Accesibilidad</span>
+                            <span class="tag">Educativo</span>
+                        </div>
+                        <a href="https://github.com/VegetinES/Proyecto-UCLM" target="_blank" class="project-link">Ver en GitHub</a>
+                    </div>
+                    
+                    <div class="project-item">
+                        <div class="project-header">
+                            <h3>Aplicación Symfony</h3>
+                            <span class="project-type">Web Backend</span>
+                        </div>
+                        <p>
+                            Aplicación web básica desarrollada con el framework Symfony, 
+                            demostrando conocimientos en desarrollo backend con PHP.
+                        </p>
+                        <div class="project-tags">
+                            <span class="tag">PHP</span>
+                            <span class="tag">Symfony</span>
+                            <span class="tag">MySQL</span>
+                        </div>
+                        <a href="https://github.com/VegetinES/symfony-reto" target="_blank" class="project-link">Ver en GitHub</a>
+                    </div>
+                    
+                    <div class="project-item">
+                        <div class="project-header">
+                            <h3>API RESTful</h3>
+                            <span class="project-type">API Backend</span>
+                        </div>
+                        <p>
+                            API RESTful simple para gestión de usuarios, implementando las mejores prácticas 
+                            de desarrollo de APIs y arquitectura REST.
+                        </p>
+                        <div class="project-tags">
+                            <span class="tag">Python</span>
+                            <span class="tag">Flask</span>
+                            <span class="tag">REST API</span>
+                            <span class="tag">JSON</span>
+                        </div>
+                        <a href="https://github.com/VegetinES/API-RESTful" target="_blank" class="project-link">Ver en GitHub</a>
+                    </div>
+                    
+                    <div class="project-item">
+                        <div class="project-header">
+                            <h3>Lista con React</h3>
+                            <span class="project-type">Web Frontend</span>
+                        </div>
+                        <p>
+                            Aplicación de lista interactiva desarrollada con React y Vite, 
+                            demostrando conocimientos en desarrollo frontend moderno.
+                        </p>
+                        <div class="project-tags">
+                            <span class="tag">React</span>
+                            <span class="tag">Vite</span>
+                            <span class="tag">JavaScript</span>
+                            <span class="tag">CSS</span>
+                        </div>
+                        <a href="https://github.com/VegetinES/lista-react" target="_blank" class="project-link">Ver en GitHub</a>
+                    </div>
+                    
+                    <div class="project-item">
+                        <div class="project-header">
+                            <h3>Lista con Angular</h3>
+                            <span class="project-type">Web Frontend</span>
+                        </div>
+                        <p>
+                            Lista de elementos desarrollada con Angular CLI, 
+                            mostrando experiencia con frameworks frontend enterprise.
+                        </p>
+                        <div class="project-tags">
+                            <span class="tag">Angular</span>
+                            <span class="tag">TypeScript</span>
+                            <span class="tag">CLI</span>
+                            <span class="tag">SPA</span>
+                        </div>
+                        <a href="https://github.com/VegetinES/lista-angular" target="_blank" class="project-link">Ver en GitHub</a>
+                    </div>
+                </div>
+            </section>
+            
+            <section class="certifications">
+                <h2>Certificaciones y Cursos</h2>
+                <div class="certifications-grid">
+                    <div class="cert-category">
+                        <h3>Ciberseguridad</h3>
+                        <div class="cert-list">
+                            <a href="https://www.efundae.es/mod/customcert/verify_certificate.php?code=MYWfPI4cq0&qrcode=1" target="_blank" class="cert-item">
+                                Certificado en Ciberseguridad
+                            </a>
+                            <a href="https://www.coursera.org/account/accomplishments/professional-cert/4QIPM0FJY2ES" target="_blank" class="cert-item">
+                                Google Cybersecurity Professional Certificate
+                            </a>
+                        </div>
+                    </div>
+                    
+                    <div class="cert-category">
+                        <h3>Inteligencia Artificial</h3>
+                        <div class="cert-list">
+                            <a href="https://www.credly.com/badges/adda0b40-9894-4351-90f9-414de75220e0" target="_blank" class="cert-item">
+                                Artificial Intelligence Fundamentals
+                            </a>
+                            <div class="cert-item">
+                                Desarrollo de Sistemas de IA
+                            </div>
+                            <a href="https://www.udemy.com/certificate/UC-96cab72f-46a4-4ea5-bc3a-577601fd4a34/" target="_blank" class="cert-item">
+                                Machine Learning: Python y Data Science
+                            </a>
+                            <div class="cert-item">
+                                Data Scientist
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="cert-category">
+                        <h3>Desarrollo Web</h3>
+                        <div class="cert-list">
+                            <a href="https://www.efundae.es/mod/customcert/verify_certificate.php?code=l20n7eAsyo&qrcode=1" target="_blank" class="cert-item">
+                                Desarrollo Web - Frameworks
+                            </a>
+                            <a href="https://www.udemy.com/certificate/UC-c8ebd4a8-e5a2-440a-8703-356fddb97ff4/" target="_blank" class="cert-item">
+                                Django: Desarrollo Web Backend con Python
+                            </a>
+                        </div>
+                    </div>
+                    
+                    <div class="cert-category">
+                        <h3>Testing y Cloud</h3>
+                        <div class="cert-list">
+                            <a href="https://www.udemy.com/certificate/UC-7c95e6f3-bf83-40a9-a638-96c9b1888b39/" target="_blank" class="cert-item">
+                                Testing y Debugging de Software
+                            </a>
+                            <div class="cert-item">
+                                Servicios en la Nube (Cloud) con AWS
+                            </div>
+                            <div class="cert-item">
+                                Análisis en Código BDD y TDD
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="cert-category">
+                        <h3>Otros</h3>
+                        <div class="cert-list">
+                            <a href="https://platzi.com/p/enriquesequihernandez/" target="_blank" class="cert-item">
+                                Procesamiento de Lenguaje Natural con Python y NLTK
+                            </a>
+                            <div class="cert-item">
+                                Fundamentos de Robótica
+                            </div>
+                            <div class="cert-item">
+                                Transformación Digital
+                            </div>
+                            <div class="cert-item">
+                                Iniciación a la Programación: Python
+                            </div>
+                            <div class="cert-item">
+                                Autoedición, Diseño y Maquetación
+                            </div>
+                            <div class="cert-item">
+                                Paquete Office: Excel
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </body>
+</html>

@@ -134,7 +134,7 @@ venv.bak/
 
 # Otros archivos o carpetas importantes
 laslylusky/
-vegetines/
+/commands/vegetines/
 laslylinux/
 *.key
 uploaddatachat.py
