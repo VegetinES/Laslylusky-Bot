@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="es">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        
+        <title>Dashboard - Laslylusky | Gestiona tus Servidores de Discord</title>
+        <meta name="description" content="Panel de control de Laslylusky. Gestiona y configura el bot en todos tus servidores de Discord desde una interfaz fácil de usar.">
+        <meta name="keywords" content="dashboard laslylusky, panel control discord bot, gestionar bot discord, configurar bot discord, dashboard bot discord español">
+        <meta name="author" content="Vegetines - Enrique Sequí Hernández">
+        <meta name="robots" content="noindex, nofollow">
+        <meta name="language" content="Spanish">
+        
+        <meta property="og:type" content="website">
+        <meta property="og:url" content="https://laslylusky.es/es/dashboard">
+        <meta property="og:title" content="Dashboard - Laslylusky | Gestiona tus Servidores">
+        <meta property="og:description" content="Panel de control para gestionar y configurar Laslylusky en todos tus servidores de Discord.">
+        <meta property="og:image" content="https://laslylusky.es/static/resources/laslylusky.png">
+        <meta property="og:image:width" content="512">
+        <meta property="og:image:height" content="512">
+        <meta property="og:image:alt" content="Dashboard de Laslylusky Bot">
+        <meta property="og:site_name" content="Laslylusky">
+        <meta property="og:locale" content="es_ES">
+        <meta property="og:locale:alternate" content="en_US">
+        
+        <meta name="twitter:card" content="summary">
+        <meta name="twitter:url" content="https://laslylusky.es/es/dashboard">
+        <meta name="twitter:title" content="Dashboard - Laslylusky">
+        <meta name="twitter:description" content="Panel de control para gestionar Laslylusky en tus servidores de Discord.">
+        <meta name="twitter:image" content="https://laslylusky.es/static/resources/laslylusky.png">
+        <meta name="twitter:image:alt" content="Dashboard de Laslylusky Bot">
+        <meta name="twitter:creator" content="@VegetinES">
+        
+        <meta name="theme-color" content="#4da6ff">
+        
+        <link rel="canonical" href="https://laslylusky.es/es/dashboard">
+        
+        <link rel="alternate" hreflang="es" href="https://laslylusky.es/es/dashboard">
+        <link rel="alternate" hreflang="en" href="https://laslylusky.es/en/dashboard">
+        <link rel="alternate" hreflang="x-default" href="https://laslylusky.es/es/dashboard">
+        
+        <link rel="icon" type="image/png" href="{{ url_for('static', filename='resources/laslylusky.png') }}">
+        <link rel="apple-touch-icon" href="{{ url_for('static', filename='resources/laslylusky.png') }}">
+        
+        <script type="application/ld+json">
+        {
+            "@context": "https://schema.org",
+            "@type": "WebApplication",
+            "name": "Dashboard Laslylusky",
+            "applicationCategory": "UtilitiesApplication",
+            "description": "Panel de control para gestionar y configurar el bot Laslylusky en servidores de Discord",
+            "url": "https://laslylusky.es/es/dashboard",
+            "author": {
+                "@type": "Person",
+                "name": "Vegetines",
+                "alternateName": "Enrique Sequí Hernández"
+            },
+            "isPartOf": {
+                "@type": "SoftwareApplication",
+                "name": "Laslylusky",
+                "url": "https://laslylusky.es"
+            },
+            "operatingSystem": "Web Browser",
+            "permissions": "Requires Discord authentication",
+            "softwareVersion": "4.0",
+            "dateModified": "2025-06-09"
+        }
+        </script>
+        
+        <link rel="stylesheet" href="{{ url_for('static', filename='styles/dashboard.css') }}">
+    </head>
+    <body>
+        <div class="header">
+            <div class="header-content">
+                <div class="logo">
+                    <a href="/es/">Laslylusky</a>
+                </div>
+                
+                <nav class="desktop-nav">
+                    <a href="/es/">Home</a>
+                    <div class="dropdown">
+                        <a href="#" class="dropbtn">Documentación</a>
+                        <div class="dropdown-content">
+                            <a href="/es/documentacion/help">Help</a>
+                            <a href="/es/documentacion/configuracion">Configuración</a>
+                            <a href="/es/documentacion/tickets">Configuración Tickets</a>
+                        </div>
+                    </div>
+                    <a href="/es/dashboard" class="active">Dashboard</a>
+                    <a href="/es/vegetines">Creador</a>
+                    <a href="/es/privacidad">Privacidad</a>
+                    <a href="/es/tos">Términos y Condiciones</a>
+                    <div class="dropdown">
+                        <a href="#" class="dropbtn">🌐 ES</a>
+                        <div class="dropdown-content">
+                            <a href="/es/dashboard">🇪🇸 Español</a>
+                            <a href="/en/dashboard">🇺🇸 English</a>
+                        </div>
+                    </div>
+                </nav>
+
+                <div class="user-info">
+                    <img src="{{ user.avatar }}" alt="Avatar" class="user-avatar">
+                    <span class="username">{{ user.username }}</span>
+                    <a href="/logout" class="logout-btn">Cerrar Sesión</a>
+                </div>
+
+                <div class="mobile-menu-toggle">
+                    <span class="hamburger-line"></span>
+                    <span class="hamburger-line"></span>
+                    <span class="hamburger-line"></span>
+                </div>
+            </div>
+
+            <div class="mobile-nav">
+                <a href="/es/">🏠 Home</a>
+                <div class="mobile-dropdown">
+                    <a href="#" class="mobile-dropbtn">📚 Documentación</a>
+                    <div class="mobile-dropdown-content">
+                        <a href="/es/documentacion/help">Help</a>
+                        <a href="/es/documentacion/configuracion">Configuración</a>
+                        <a href="/es/documentacion/tickets">Configuración Tickets</a>
+                    </div>
+                </div>
+                <a href="/es/dashboard" class="active">📊 Dashboard</a>
+                <a href="/es/vegetines">👨‍💻 Creador</a>
+                <a href="/es/privacidad">🔒 Privacidad</a>
+                <a href="/es/tos">📋 Términos y Condiciones</a>
+                <div class="mobile-dropdown">
+                    <a href="#" class="mobile-dropbtn">🌐 Idioma</a>
+                    <div class="mobile-dropdown-content">
+                        <a href="/es/dashboard">🇪🇸 Español</a>
+                        <a href="/en/dashboard">🇺🇸 English</a>
+                    </div>
+                </div>
+                <a href="/logout" class="mobile-logout">🚪 Cerrar Sesión</a>
+            </div>
+        </div>
+        
+        <div class="hero">
+            <div class="hero-content">
+                <h1>Dashboard</h1>
+                <p class="hero-subtitle">Gestiona tus servidores con Laslylusky</p>
+                <p class="hero-description">
+                    Configura y administra Laslylusky en todos los servidores donde tienes permisos de gestión.
+                </p>
+            </div>
+        </div>
+        
+        <div class="container">
+            <section class="user-section">
+                <div class="user-card">
+                    <img src="{{ user.avatar }}" alt="Avatar del usuario" class="user-avatar-large">
+                    <div class="user-details">
+                        <h2>{{ user.username }}</h2>
+                        <p>{{ user.discriminator }}</p>
+                        <span class="user-id">ID: {{ user.id }}</span>
+                    </div>
+                </div>
+            </section>
+
+            <section class="servers-section">
+                <h2>Servidores Gestionables</h2>
+                <p class="servers-description">
+                    Estos son los servidores donde tienes permisos de "Gestionar Servidor" o "Administrador".
+                </p>
+                
+                {% if servers %}
+                <div class="servers-grid">
+                    {% for server in servers %}
+                    <div class="server-card">
+                        <div class="server-header">
+                            {% if server.icon %}
+                            <img src="https://cdn.discordapp.com/icons/{{ server.id }}/{{ server.icon }}.png" alt="Icono del servidor" class="server-icon">
+                            {% else %}
+                            <div class="server-icon-placeholder">{{ server.name[0].upper() }}</div>
+                            {% endif %}
+                            <div class="server-info">
+                                <h3>{{ server.name }}</h3>
+                                <p class="server-id">ID: {{ server.id }}</p>
+                                {% if server.bot_present %}
+                                <span class="bot-status present">✅ Bot presente</span>
+                                {% else %}
+                                <span class="bot-status absent">❌ Bot no presente</span>
+                                {% endif %}
+                            </div>
+                        </div>
+                        <div class="server-actions">
+                            {% if server.bot_present %}
+                            <a href="/es/dashboard/{{ server.id }}" class="btn-manage">Gestionar</a>
+                            {% else %}
+                            <a href="/invite?guild_id={{ server.id }}" class="btn-add">Añadir Bot</a>
+                            {% endif %}
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+                {% else %}
+                <div class="no-servers">
+                    <div class="no-servers-icon">🏠</div>
+                    <h3>No hay servidores disponibles</h3>
+                    <p>No tienes permisos de gestión en ningún servidor de Discord.</p>
+                    <a href="/invite" class="btn-invite">Invitar Laslylusky</a>
+                </div>
+                {% endif %}
+            </section>
+        </div>
+
+        <script>
+            document.querySelector('.mobile-menu-toggle').addEventListener('click', function() {
+            const mobileNav = document.querySelector('.mobile-nav');
+            const isActive = mobileNav.classList.contains('active');
+            
+            if (isActive) {
+                document.querySelectorAll('.mobile-dropdown').forEach(dropdown => {
+                    dropdown.classList.remove('active');
+                });
+            }
+            
+            mobileNav.classList.toggle('active');
+            this.classList.toggle('active');
+        });
+
+        document.querySelectorAll('.mobile-dropbtn').forEach(btn => {
+            btn.addEventListener('click', function(e) {
+                e.preventDefault();
+                e.stopPropagation();
+                const dropdown = this.parentElement;
+                const isCurrentlyActive = dropdown.classList.contains('active');
+                
+                document.querySelectorAll('.mobile-dropdown').forEach(otherDropdown => {
+                    if (otherDropdown !== dropdown) {
+                        otherDropdown.classList.remove('active');
+                    }
+                });
+                
+                dropdown.classList.toggle('active');
+            });
+        });
+
+        document.addEventListener('click', function(e) {
+            if (!e.target.closest('.mobile-dropdown') && !e.target.closest('.mobile-menu-toggle')) {
+                document.querySelectorAll('.mobile-dropdown').forEach(dropdown => {
+                    dropdown.classList.remove('active');
+                });
+            }
+        });
+        </script>
+    </body>
+</html>

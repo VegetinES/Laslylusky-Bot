@@ -2,23 +2,70 @@
 <html>
     <head>
         <title>Política de Privacidad - Laslylusky</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link rel="icon" type="image/png" href="{{ url_for('static', filename='resources/laslylusky.png') }}">
         <link rel="stylesheet" href="{{ url_for('static', filename='styles/privacidad.css') }}">
     </head>
     <body>
         <div class="header">
-            <a href="/">Home</a>
-            <div class="dropdown">
-                <a href="#" class="dropbtn">Documentación</a>
-                <div class="dropdown-content">
-                    <a href="/documentacion/help">Help</a>
-                    <a href="/documentacion/configuracion">Configuración</a>
-                    <a href="/documentacion/tickets">Configuración Tickets</a>
+            <div class="header-content">
+                <div class="logo">
+                    <a href="/es/">Laslylusky</a>
+                </div>
+                
+                <nav class="desktop-nav">
+                    <a href="/es/">Home</a>
+                    <div class="dropdown">
+                        <a href="#" class="dropbtn">Documentación</a>
+                        <div class="dropdown-content">
+                            <a href="/es/documentacion/help">Help</a>
+                            <a href="/es/documentacion/configuracion">Configuración</a>
+                            <a href="/es/documentacion/tickets">Configuración Tickets</a>
+                        </div>
+                    </div>
+                    <a href="/es/dashboard">Dashboard</a>
+                    <a href="/es/vegetines">Creador</a>
+                    <a href="/es/privacidad" class="active">Privacidad</a>
+                    <a href="/es/tos">Términos y Condiciones</a>
+                    <div class="dropdown">
+                        <a href="#" class="dropbtn">🌐 ES</a>
+                        <div class="dropdown-content">
+                            <a href="/es/privacidad">🇪🇸 Español</a>
+                            <a href="/en/privacy">🇺🇸 English</a>
+                        </div>
+                    </div>
+                </nav>
+
+                <div class="mobile-menu-toggle">
+                    <span class="hamburger-line"></span>
+                    <span class="hamburger-line"></span>
+                    <span class="hamburger-line"></span>
                 </div>
             </div>
-            <a href="/vegetines">Creador</a>
-            <a href="/privacidad" class="active">Privacidad</a>
-            <a href="/tos">Términos y Condiciones</a>
+
+            <div class="mobile-nav">
+                <a href="/es/">🏠 Home</a>
+                <div class="mobile-dropdown">
+                    <a href="#" class="mobile-dropbtn">📚 Documentación</a>
+                    <div class="mobile-dropdown-content">
+                        <a href="/es/documentacion/help">Help</a>
+                        <a href="/es/documentacion/configuracion">Configuración</a>
+                        <a href="/es/documentacion/tickets">Configuración Tickets</a>
+                    </div>
+                </div>
+                <a href="/es/dashboard">📊 Dashboard</a>
+                <a href="/es/vegetines">👨‍💻 Creador</a>
+                <a href="/es/privacidad" class="active">🔒 Privacidad</a>
+                <a href="/es/tos">📋 Términos y Condiciones</a>
+                <div class="mobile-dropdown">
+                    <a href="#" class="mobile-dropbtn">🌐 Idioma</a>
+                    <div class="mobile-dropdown-content">
+                        <a href="/es/privacidad">🇪🇸 Español</a>
+                        <a href="/en/privacy">🇺🇸 English</a>
+                    </div>
+                </div>
+            </div>
         </div>
         
         <div class="hero">
@@ -306,5 +353,46 @@
                 </div>
             </div>
         </div>
+
+        <script>
+            document.querySelector('.mobile-menu-toggle').addEventListener('click', function() {
+                const mobileNav = document.querySelector('.mobile-nav');
+                const isActive = mobileNav.classList.contains('active');
+                
+                if (isActive) {
+                    document.querySelectorAll('.mobile-dropdown').forEach(dropdown => {
+                        dropdown.classList.remove('active');
+                    });
+                }
+                
+                mobileNav.classList.toggle('active');
+                this.classList.toggle('active');
+            });
+
+            document.querySelectorAll('.mobile-dropbtn').forEach(btn => {
+                btn.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    const dropdown = this.parentElement;
+                    const isCurrentlyActive = dropdown.classList.contains('active');
+                    
+                    document.querySelectorAll('.mobile-dropdown').forEach(otherDropdown => {
+                        if (otherDropdown !== dropdown) {
+                            otherDropdown.classList.remove('active');
+                        }
+                    });
+                    
+                    dropdown.classList.toggle('active');
+                });
+            });
+
+            document.addEventListener('click', function(e) {
+                if (!e.target.closest('.mobile-dropdown') && !e.target.closest('.mobile-menu-toggle')) {
+                    document.querySelectorAll('.mobile-dropdown').forEach(dropdown => {
+                        dropdown.classList.remove('active');
+                    });
+                }
+            });
+        </script>
     </body>
 </html>

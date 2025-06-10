@@ -1,0 +1,793 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Documentación - Comandos de Laslylusky</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="icon" type="image/png" href="{{ url_for('static', filename='resources/laslylusky.png') }}">
+        <link rel="stylesheet" href="{{ url_for('static', filename='styles/documentation.css') }}">
+    </head>
+    <body>
+        <div class="header">
+            <div class="header-content">
+                <div class="logo">
+                    <a href="/es/">Laslylusky</a>
+                </div>
+                
+                <nav class="desktop-nav">
+                    <a href="/es/">Home</a>
+                    <div class="dropdown">
+                        <a href="#" class="dropbtn active">Documentación</a>
+                        <div class="dropdown-content">
+                            <a href="/es/documentacion/help" class="active">Help</a>
+                            <a href="/es/documentacion/configuracion">Configuración</a>
+                            <a href="/es/documentacion/tickets">Configuración Tickets</a>
+                        </div>
+                    </div>
+                    <a href="/es/dashboard">Dashboard</a>
+                    <a href="/es/vegetines">Creador</a>
+                    <a href="/es/privacidad">Privacidad</a>
+                    <a href="/es/tos">Términos y Condiciones</a>
+                    <div class="dropdown">
+                        <a href="#" class="dropbtn">🌐 ES</a>
+                        <div class="dropdown-content">
+                            <a href="/es/documentacion/help">🇪🇸 Español</a>
+                            <a href="/en/documentation/help">🇺🇸 English</a>
+                        </div>
+                    </div>
+                </nav>
+
+                <div class="mobile-menu-toggle">
+                    <span class="hamburger-line"></span>
+                    <span class="hamburger-line"></span>
+                    <span class="hamburger-line"></span>
+                </div>
+            </div>
+
+            <div class="mobile-nav">
+                <a href="/es/">🏠 Home</a>
+                <div class="mobile-dropdown">
+                    <a href="#" class="mobile-dropbtn">📚 Documentación</a>
+                    <div class="mobile-dropdown-content">
+                        <a href="/es/documentacion/help" class="active">Help</a>
+                        <a href="/es/documentacion/configuracion">Configuración</a>
+                        <a href="/es/documentacion/tickets">Configuración Tickets</a>
+                    </div>
+                </div>
+                <a href="/es/dashboard">📊 Dashboard</a>
+                <a href="/es/vegetines">👨‍💻 Creador</a>
+                <a href="/es/privacidad">🔒 Privacidad</a>
+                <a href="/es/tos">📋 Términos y Condiciones</a>
+                <div class="mobile-dropdown">
+                    <a href="#" class="mobile-dropbtn">🌐 Idioma</a>
+                    <div class="mobile-dropdown-content">
+                        <a href="/es/documentacion/help">🇪🇸 Español</a>
+                        <a href="/en/documentation/help">🇺🇸 English</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="hero">
+            <div class="hero-content">
+                <h1>Comandos de Laslylusky</h1>
+                <p class="hero-subtitle">Guía completa de todos los comandos disponibles</p>
+                <p class="hero-description">
+                    Descubre todas las funciones y comandos que Laslylusky tiene para ofrecerte. 
+                    Desde inteligencia artificial hasta moderación y juegos.
+                </p>
+            </div>
+        </div>
+        
+        <div class="container">
+            <div class="content-wrapper">
+                <div class="sidebar">
+                    <h3>Navegación</h3>
+                    <nav class="table-of-contents">
+                        <a href="#general">Información General</a>
+                        <a href="#laslylusky">🤖 Laslylusky</a>
+                        <a href="#diversion">😄 Diversión y Juegos</a>
+                        <a href="#moderacion">🛡️ Moderación</a>
+                        <a href="#configuracion">⚙️ Configuración</a>
+                        <a href="#informacion">ℹ️ Información</a>
+                        <a href="#utilidad">🔧 Utilidad</a>
+                        <a href="#minecraft">🎮 Minecraft</a>
+                        <a href="#nsfw">🔞 NSFW</a>
+                        <a href="#enlaces">Enlaces Útiles</a>
+                    </nav>
+                </div>
+
+                <div class="main-content">
+                    <section id="general" class="section">
+                        <h2>Información General</h2>
+                        <div class="info-grid">
+                            <div class="info-item">
+                                <div class="info-icon">%</div>
+                                <h4>Prefix del Bot</h4>
+                                <p>El prefix del bot es <code>%</code></p>
+                            </div>
+                            <div class="info-item">
+                                <div class="info-icon">❓</div>
+                                <h4>Ayuda Específica</h4>
+                                <p>Usa <code>%help &lt;comando&gt;</code> o <code>/help comando:&lt;comando&gt;</code></p>
+                            </div>
+                            <div class="info-item">
+                                <div class="info-icon">🔒</div>
+                                <h4>Política de Privacidad</h4>
+                                <p>Usa <code>%privacidad</code> o <code>/privacidad</code></p>
+                            </div>
+                        </div>
+                    </section>
+
+                    <section id="laslylusky" class="section">
+                        <h2>🤖 Laslylusky</h2>
+                        <p class="category-description">Comandos principales y funciones del bot</p>
+                        <div class="commands-grid">
+                            <div class="command-card">
+                                <div class="command-header">
+                                    <h4>help</h4>
+                                    <span class="command-perm everyone">Todos</span>
+                                </div>
+                                <p>Muestra todos los comandos disponibles</p>
+                                <div class="command-usage">
+                                    <code>%help [comando]</code> | <code>/help</code>
+                                </div>
+                            </div>
+
+                            <div class="command-card">
+                                <div class="command-header">
+                                    <h4>invite</h4>
+                                    <span class="command-perm everyone">Todos</span>
+                                </div>
+                                <p>Muestra el enlace de invitación del bot</p>
+                                <div class="command-usage">
+                                    <code>%invite</code> | <code>/invite</code>
+                                </div>
+                            </div>
+
+                            <div class="command-card">
+                                <div class="command-header">
+                                    <h4>donate</h4>
+                                    <span class="command-perm everyone">Todos</span>
+                                </div>
+                                <p>Enlace para hacer donaciones y contribuir al desarrollo</p>
+                                <div class="command-usage">
+                                    <code>%donate</code>
+                                </div>
+                            </div>
+
+                            <div class="command-card">
+                                <div class="command-header">
+                                    <h4>updates</h4>
+                                    <span class="command-perm everyone">Todos</span>
+                                </div>
+                                <p>Información sobre las actualizaciones del bot</p>
+                                <div class="command-usage">
+                                    <code>%updates [actualización]</code> | <code>/updates</code>
+                                </div>
+                            </div>
+
+                            <div class="command-card">
+                                <div class="command-header">
+                                    <h4>info</h4>
+                                    <span class="command-perm everyone">Todos</span>
+                                </div>
+                                <p>Información detallada del bot</p>
+                                <div class="command-usage">
+                                    <code>%info</code> | <code>/info</code>
+                                </div>
+                            </div>
+
+                            <div class="command-card">
+                                <div class="command-header">
+                                    <h4>savedatachat</h4>
+                                    <span class="command-perm everyone">Todos</span>
+                                </div>
+                                <p>Descarga tu conversación con la IA</p>
+                                <div class="command-usage">
+                                    <code>%savedatachat</code> | <code>/savedatachat</code>
+                                </div>
+                            </div>
+
+                            <div class="command-card">
+                                <div class="command-header">
+                                    <h4>reset-chat</h4>
+                                    <span class="command-perm everyone">Todos</span>
+                                </div>
+                                <p>Restablece la conversación de la IA</p>
+                                <div class="command-usage">
+                                    <code>%reset-chat</code> | <code>/reset-chat</code>
+                                </div>
+                            </div>
+
+                            <div class="command-card">
+                                <div class="command-header">
+                                    <h4>bugreport</h4>
+                                    <span class="command-perm everyone">Todos</span>
+                                </div>
+                                <p>Reporta errores o bugs del bot</p>
+                                <div class="command-usage">
+                                    <code>%bugreport {mensaje}</code> | <code>/bugreport</code>
+                                </div>
+                                <div class="command-note">
+                                    Se recomienda usar <code>/bugreport</code>
+                                </div>
+                            </div>
+
+                            <div class="command-card">
+                                <div class="command-header">
+                                    <h4>botsuggest</h4>
+                                    <span class="command-perm everyone">Todos</span>
+                                </div>
+                                <p>Envía sugerencias para el bot</p>
+                                <div class="command-usage">
+                                    <code>%botsuggest {sugerencia}</code> | <code>/botsuggest</code>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+
+                    <section id="diversion" class="section">
+                        <h2>😄 Diversión y Juegos</h2>
+                        <p class="category-description">Comandos de entretenimiento y juegos interactivos</p>
+                        <div class="commands-grid">
+                            <div class="command-card">
+                                <div class="command-header">
+                                    <h4>kill</h4>
+                                    <span class="command-perm everyone">Todos</span>
+                                </div>
+                                <p>Intenta 'matar' a un jugador mencionado</p>
+                                <div class="command-usage">
+                                    <code>%kill {usuario}</code>
+                                </div>
+                            </div>
+
+                            <div class="command-card">
+                                <div class="command-header">
+                                    <h4>8ball</h4>
+                                    <span class="command-perm everyone">Todos</span>
+                                </div>
+                                <p>Consulta la bola mágica 8</p>
+                                <div class="command-usage">
+                                    <code>%8ball {pregunta}</code> | <code>/8ball</code>
+                                </div>
+                            </div>
+
+                            <div class="command-card">
+                                <div class="command-header">
+                                    <h4>meme</h4>
+                                    <span class="command-perm everyone">Todos</span>
+                                </div>
+                                <p>Muestra un meme aleatorio en español</p>
+                                <div class="command-usage">
+                                    <code>%meme</code> | <code>/meme</code>
+                                </div>
+                            </div>
+
+                            <div class="command-card">
+                                <div class="command-header">
+                                    <h4>trivia</h4>
+                                    <span class="command-perm everyone">Todos</span>
+                                </div>
+                                <p>Juega preguntas de trivia</p>
+                                <div class="command-usage">
+                                    <code>%trivia</code> | <code>/trivia</code>
+                                </div>
+                            </div>
+
+                            <div class="command-card">
+                                <div class="command-header">
+                                    <h4>ahorcado</h4>
+                                    <span class="command-perm everyone">Todos</span>
+                                </div>
+                                <p>Juego del ahorcado para 2 jugadores</p>
+                                <div class="command-usage">
+                                    <code>%ahorcado</code> | <code>/ahorcado</code>
+                                </div>
+                            </div>
+
+                            <div class="command-card">
+                                <div class="command-header">
+                                    <h4>blackjack</h4>
+                                    <span class="command-perm everyone">Todos</span>
+                                </div>
+                                <p>Juego de blackjack para 2 o más jugadores</p>
+                                <div class="command-usage">
+                                    <code>%blackjack</code> | <code>/blackjack</code>
+                                </div>
+                            </div>
+
+                            <div class="command-card">
+                                <div class="command-header">
+                                    <h4>buscaminas</h4>
+                                    <span class="command-perm everyone">Todos</span>
+                                </div>
+                                <p>Juego del buscaminas con diferentes dificultades</p>
+                                <div class="command-usage">
+                                    <code>/buscaminas</code>
+                                </div>
+                                <div class="command-note">
+                                    Dificultades: fácil, medio, difícil
+                                </div>
+                            </div>
+
+                            <div class="command-card">
+                                <div class="command-header">
+                                    <h4>tictactoe</h4>
+                                    <span class="command-perm everyone">Todos</span>
+                                </div>
+                                <p>Tres en raya para 2 jugadores</p>
+                                <div class="command-usage">
+                                    <code>%tictactoe</code> | <code>/tictactoe</code>
+                                </div>
+                            </div>
+
+                            <div class="command-card">
+                                <div class="command-header">
+                                    <h4>conecta4</h4>
+                                    <span class="command-perm everyone">Todos</span>
+                                </div>
+                                <p>Conecta 4 para 2 jugadores</p>
+                                <div class="command-usage">
+                                    <code>%conecta4</code> | <code>/conecta4</code>
+                                </div>
+                            </div>
+
+                            <div class="command-card">
+                                <div class="command-header">
+                                    <h4>2048</h4>
+                                    <span class="command-perm everyone">Todos</span>
+                                </div>
+                                <p>Juego 2048 hasta llegar al número 8192</p>
+                                <div class="command-usage">
+                                    <code>%2048</code> | <code>/2048</code>
+                                </div>
+                            </div>
+
+                            <div class="command-card">
+                                <div class="command-header">
+                                    <h4>estadisticas-juegos</h4>
+                                    <span class="command-perm everyone">Todos</span>
+                                </div>
+                                <p>Ver estadísticas de minijuegos</p>
+                                <div class="command-usage">
+                                    <code>%estadisticas-juegos</code> | <code>/estadisticas-juegos</code>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+
+                    <section id="moderacion" class="section">
+                        <h2>🛡️ Moderación</h2>
+                        <p class="category-description">Herramientas para moderación de servidores</p>
+                        <div class="commands-grid">
+                            <div class="command-card">
+                                <div class="command-header">
+                                    <h4>ban</h4>
+                                    <span class="command-perm admin">Administrador</span>
+                                </div>
+                                <p>Banea a un usuario temporal o permanentemente</p>
+                                <div class="command-usage">
+                                    <code>%ban {usuario} [razón] [tiempo]</code> | <code>/ban</code>
+                                </div>
+                                <div class="command-note">
+                                    Tiempo máximo: 15 días (s/m/d)
+                                </div>
+                            </div>
+
+                            <div class="command-card">
+                                <div class="command-header">
+                                    <h4>kick</h4>
+                                    <span class="command-perm admin">Administrador</span>
+                                </div>
+                                <p>Expulsa al usuario mencionado</p>
+                                <div class="command-usage">
+                                    <code>%kick {usuario} {razón}</code> | <code>/kick</code>
+                                </div>
+                            </div>
+
+                            <div class="command-card">
+                                <div class="command-header">
+                                    <h4>clear</h4>
+                                    <span class="command-perm admin">Administrador</span>
+                                </div>
+                                <p>Borra la cantidad de mensajes especificada</p>
+                                <div class="command-usage">
+                                    <code>%clear {número}</code> | <code>/clear</code>
+                                </div>
+                                <div class="command-note">
+                                    Rango: 1-100 mensajes
+                                </div>
+                            </div>
+
+                            <div class="command-card">
+                                <div class="command-header">
+                                    <h4>warn</h4>
+                                    <span class="command-perm mod">Moderador</span>
+                                </div>
+                                <p>Advierte al usuario mencionado</p>
+                                <div class="command-usage">
+                                    <code>%warn {usuario} {razón}</code> | <code>/warn</code>
+                                </div>
+                                <div class="command-note">
+                                    Requiere configuración previa
+                                </div>
+                            </div>
+
+                            <div class="command-card">
+                                <div class="command-header">
+                                    <h4>unwarn</h4>
+                                    <span class="command-perm mod">Moderador</span>
+                                </div>
+                                <p>Quita una advertencia al usuario</p>
+                                <div class="command-usage">
+                                    <code>%unwarn {warnid} {razón}</code> | <code>/unwarn</code>
+                                </div>
+                            </div>
+
+                            <div class="command-card">
+                                <div class="command-header">
+                                    <h4>infracciones</h4>
+                                    <span class="command-perm mod">Moderador</span>
+                                </div>
+                                <p>Ver las infracciones de un usuario</p>
+                                <div class="command-usage">
+                                    <code>%infracciones {usuario}</code> | <code>/infracciones</code>
+                                </div>
+                            </div>
+
+                            <div class="command-card">
+                                <div class="command-header">
+                                    <h4>aislar</h4>
+                                    <span class="command-perm admin">Administrador</span>
+                                </div>
+                                <p>Aísla temporalmente a un usuario</p>
+                                <div class="command-usage">
+                                    <code>%aislar {usuario} {tiempo} [razón]</code> | <code>/aislar</code>
+                                </div>
+                                <div class="command-note">
+                                    Tiempo máximo: 7 días
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+
+                    <section id="configuracion" class="section">
+                        <h2>⚙️ Configuración</h2>
+                        <p class="category-description">Comandos para configurar el bot en tu servidor</p>
+                        <div class="commands-grid">
+                            <div class="command-card">
+                                <div class="command-header">
+                                    <h4>config</h4>
+                                    <span class="command-perm admin">Administrador</span>
+                                </div>
+                                <p>Configuración principal del bot en el servidor</p>
+                                <div class="command-usage">
+                                    <code>/config {opción}</code>
+                                </div>
+                                <div class="command-note">
+                                    Opciones: help, data, update, perms, logs, cmd, tickets
+                                </div>
+                            </div>
+
+                            <div class="command-card">
+                                <div class="command-header">
+                                    <h4>voicesetup</h4>
+                                    <span class="command-perm admin">Administrador</span>
+                                </div>
+                                <p>Gestiona canales de voz temporales</p>
+                                <div class="command-usage">
+                                    <code>/voicesetup</code>
+                                </div>
+                            </div>
+
+                            <div class="command-card">
+                                <div class="command-header">
+                                    <h4>slowmode</h4>
+                                    <span class="command-perm mod">Moderador</span>
+                                </div>
+                                <p>Cambia el cooldown del canal</p>
+                                <div class="command-usage">
+                                    <code>%slowmode {tiempo} [razón]</code>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+
+                    <section id="informacion" class="section">
+                        <h2>ℹ️ Información</h2>
+                        <p class="category-description">Comandos para obtener información de usuarios y servidores</p>
+                        <div class="commands-grid">
+                            <div class="command-card">
+                                <div class="command-header">
+                                    <h4>userinfo</h4>
+                                    <span class="command-perm everyone">Todos</span>
+                                </div>
+                                <p>Información del usuario mencionado o propio</p>
+                                <div class="command-usage">
+                                    <code>%userinfo [usuario]</code> | <code>/userinfo</code>
+                                </div>
+                            </div>
+
+                            <div class="command-card">
+                                <div class="command-header">
+                                    <h4>avatar</h4>
+                                    <span class="command-perm everyone">Todos</span>
+                                </div>
+                                <p>Muestra el avatar del usuario</p>
+                                <div class="command-usage">
+                                    <code>%avatar [usuario]</code> | <code>/avatar</code>
+                                </div>
+                            </div>
+
+                            <div class="command-card">
+                                <div class="command-header">
+                                    <h4>serverinfo</h4>
+                                    <span class="command-perm everyone">Todos</span>
+                                </div>
+                                <p>Información del servidor actual</p>
+                                <div class="command-usage">
+                                    <code>%serverinfo</code> | <code>/serverinfo</code>
+                                </div>
+                            </div>
+
+                            <div class="command-card">
+                                <div class="command-header">
+                                    <h4>id</h4>
+                                    <span class="command-perm everyone">Todos</span>
+                                </div>
+                                <p>Muestra IDs de emojis, usuarios, canales o roles</p>
+                                <div class="command-usage">
+                                    <code>/id</code>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+
+                    <section id="utilidad" class="section">
+                        <h2>🔧 Utilidad</h2>
+                        <p class="category-description">Herramientas útiles y funcionalidades especiales</p>
+                        <div class="commands-grid">
+                            <div class="command-card featured">
+                                <div class="command-header">
+                                    <h4>laslylusky</h4>
+                                    <span class="command-perm everyone">Todos</span>
+                                </div>
+                                <p>Conversa con la IA de Laslylusky</p>
+                                <div class="command-usage">
+                                    <code>@Laslylusky {texto}</code>
+                                </div>
+                                <div class="command-note">
+                                    Mantiene conversación continua por usuario
+                                </div>
+                            </div>
+
+                            <div class="command-card">
+                                <div class="command-header">
+                                    <h4>recordatorio</h4>
+                                    <span class="command-perm everyone">Todos</span>
+                                </div>
+                                <p>Crea recordatorios que el bot te enviará</p>
+                                <div class="command-usage">
+                                    <code>/recordatorio {opción}</code>
+                                </div>
+                                <div class="command-note">
+                                    Opciones: ver, crear, gestionar
+                                </div>
+                            </div>
+
+                            <div class="command-card">
+                                <div class="command-header">
+                                    <h4>cumpleaños</h4>
+                                    <span class="command-perm everyone">Todos</span>
+                                </div>
+                                <p>Gestiona cumpleaños en el servidor</p>
+                                <div class="command-usage">
+                                    <code>/cumpleaños {opción}</code>
+                                </div>
+                                <div class="command-note">
+                                    Opciones: ver, establecer, eliminar, configurar
+                                </div>
+                            </div>
+
+                            <div class="command-card">
+                                <div class="command-header">
+                                    <h4>nivel</h4>
+                                    <span class="command-perm everyone">Todos</span>
+                                </div>
+                                <p>Gestiona el sistema de niveles</p>
+                                <div class="command-usage">
+                                    <code>/nivel {opción}</code>
+                                </div>
+                                <div class="command-note">
+                                    Opciones: ver, gestionar, top, configurar
+                                </div>
+                            </div>
+
+                            <div class="command-card">
+                                <div class="command-header">
+                                    <h4>embed</h4>
+                                    <span class="command-perm admin">Administrador</span>
+                                </div>
+                                <p>Crea y envía embeds personalizados</p>
+                                <div class="command-usage">
+                                    <code>/embed</code>
+                                </div>
+                            </div>
+
+                            <div class="command-card">
+                                <div class="command-header">
+                                    <h4>comprobar-virus</h4>
+                                    <span class="command-perm everyone">Todos</span>
+                                </div>
+                                <p>Escanea archivos y enlaces en busca de virus</p>
+                                <div class="command-usage">
+                                    <code>/comprobar-virus archivo:[archivo] enlace:[enlace]</code>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+
+                    <section id="minecraft" class="section">
+                        <h2>🎮 Minecraft</h2>
+                        <p class="category-description">Comandos relacionados con Minecraft</p>
+                        <div class="commands-grid">
+                            <div class="command-card">
+                                <div class="command-header">
+                                    <h4>mcstatus</h4>
+                                    <span class="command-perm everyone">Todos</span>
+                                </div>
+                                <p>Estado de servidores de Minecraft (Java/Bedrock)</p>
+                                <div class="command-usage">
+                                    <code>%mcstatus {serverip} {plataforma}</code> | <code>/mcstatus</code>
+                                </div>
+                            </div>
+
+                            <div class="command-card">
+                                <div class="command-header">
+                                    <h4>mcuser</h4>
+                                    <span class="command-perm everyone">Todos</span>
+                                </div>
+                                <p>Información de cuentas de Minecraft</p>
+                                <div class="command-usage">
+                                    <code>%mcuser {usuario}</code>
+                                </div>
+                            </div>
+
+                            <div class="command-card">
+                                <div class="command-header">
+                                    <h4>hypixel</h4>
+                                    <span class="command-perm everyone">Todos</span>
+                                </div>
+                                <p>Estadísticas de jugadores en Hypixel</p>
+                                <div class="command-usage">
+                                    <code>%hypixel {usuario}</code>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+
+                    <section id="nsfw" class="section">
+                        <h2>🔞 NSFW</h2>
+                        <div class="nsfw-warning">
+                            <p><strong>⚠️ Advertencia:</strong> Estos comandos solo pueden utilizarse en canales marcados como NSFW</p>
+                        </div>
+                        <p class="category-description">Comandos de contenido adulto (solo canales NSFW)</p>
+                        <div class="nsfw-grid">
+                            <div class="nsfw-note">
+                                <p>Los comandos NSFW están disponibles pero requieren canales apropiados. 
+                                Para ver la lista completa, ejecuta los comandos de ayuda en un canal NSFW.</p>
+                            </div>
+                        </div>
+                    </section>
+
+                    <section id="enlaces" class="section">
+                        <h2>Enlaces Útiles</h2>
+                        <div class="links-grid">
+                            <div class="link-card">
+                                <div class="link-icon">🤖</div>
+                                <h4>Invitar Bot</h4>
+                                <p>Añade Laslylusky a tu servidor</p>
+                                <a href="https://laslylusky.es/invite" class="link-button">Invitar</a>
+                            </div>
+
+                            <div class="link-card">
+                                <div class="link-icon">💬</div>
+                                <h4>Servidor de Soporte</h4>
+                                <p>Únete a nuestra comunidad</p>
+                                <a href="https://discord.gg/DN6PDKA7gf" class="link-button">Unirse</a>
+                            </div>
+
+                            <div class="link-card">
+                                <div class="link-icon">⭐</div>
+                                <h4>Top.gg</h4>
+                                <p>Vota por Laslylusky</p>
+                                <a href="https://top.gg/bot/784774864766500864" class="link-button">Votar</a>
+                            </div>
+
+                            <div class="link-card">
+                                <div class="link-icon">💖</div>
+                                <h4>Donar</h4>
+                                <p>Apoya el desarrollo</p>
+                                <a href="https://paypal.me/VegetinES" class="link-button">PayPal</a>
+                            </div>
+
+                            <div class="link-card">
+                                <div class="link-icon">💻</div>
+                                <h4>GitHub</h4>
+                                <p>Código fuente abierto</p>
+                                <a href="https://github.com/VegetinES/Laslylusky-Bot" class="link-button">Repositorio</a>
+                            </div>
+
+                            <div class="link-card">
+                                <div class="link-icon">🌐</div>
+                                <h4>Página Web</h4>
+                                <p>Sitio web oficial</p>
+                                <a href="https://laslylusky.es" class="link-button">Visitar</a>
+                            </div>
+                        </div>
+                    </section>
+
+                    <div class="important-notes">
+                        <h2>Notas Importantes</h2>
+                        <div class="notes-grid">
+                            <div class="note-item">
+                                <h4>Comandos Predeterminados</h4>
+                                <p>Los siguientes comandos no pueden desactivarse: help, donate, info, invite, privacidad, updates, savedatachat, botsuggest, bugreport, laslylusky, reset-chat, config, infracciones, moderador, recordatorio, nivel, voicesetup, cumpleaños, estadisticas-juegos</p>
+                            </div>
+                            <div class="note-item">
+                                <h4>Ayuda Detallada</h4>
+                                <p>El bot proporciona información específica de cada comando cuando se solicita con <code>%help &lt;comando&gt;</code> o <code>/help comando:&lt;comando&gt;</code></p>
+                            </div>
+                            <div class="note-item">
+                                <h4>Contenido NSFW</h4>
+                                <p>Para ver los comandos NSFW, debes ejecutar los comandos de ayuda en un canal marcado como NSFW</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <script>
+            document.querySelector('.mobile-menu-toggle').addEventListener('click', function() {
+                const mobileNav = document.querySelector('.mobile-nav');
+                const isActive = mobileNav.classList.contains('active');
+                
+                if (isActive) {
+                    document.querySelectorAll('.mobile-dropdown').forEach(dropdown => {
+                        dropdown.classList.remove('active');
+                    });
+                }
+                
+                mobileNav.classList.toggle('active');
+                this.classList.toggle('active');
+            });
+
+            document.querySelectorAll('.mobile-dropbtn').forEach(btn => {
+                btn.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    const dropdown = this.parentElement;
+                    const isCurrentlyActive = dropdown.classList.contains('active');
+                    
+                    document.querySelectorAll('.mobile-dropdown').forEach(otherDropdown => {
+                        if (otherDropdown !== dropdown) {
+                            otherDropdown.classList.remove('active');
+                        }
+                    });
+                    
+                    dropdown.classList.toggle('active');
+                });
+            });
+
+            document.addEventListener('click', function(e) {
+                if (!e.target.closest('.mobile-dropdown') && !e.target.closest('.mobile-menu-toggle')) {
+                    document.querySelectorAll('.mobile-dropdown').forEach(dropdown => {
+                        dropdown.classList.remove('active');
+                    });
+                }
+            });
+        </script>
+    </body>
+</html>

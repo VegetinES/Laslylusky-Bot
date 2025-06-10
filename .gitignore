@@ -152,7 +152,9 @@ ffmpeg_bin/ffmpeg.py
 *.ppk
 cosas.txt
 music/
-*.json
+laslylusky-bot-firebase-adminsdk-fbsvc-6513468f39.json
+commands/fun/trivia.json
+database/cosas.json
 *.pem
 para_aws/
 wallet/

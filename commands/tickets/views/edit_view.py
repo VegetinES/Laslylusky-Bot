@@ -261,85 +261,22 @@ class TicketEditView(discord.ui.View):
             
             await interaction.response.defer(ephemeral=False)
             
-            from ..utils.database import get_ticket_data
-            existing_config = get_ticket_data(interaction.guild.id, str(self.ticket_channel.id))
-            
             success = await save_ticket_config(interaction.guild.id, str(self.ticket_channel.id), self.ticket_config)
             
             if success:
-                try:
-                    if not existing_config or existing_config.get("permissions") != self.ticket_config.get("permissions"):
-                        await self.ticket_channel.set_permissions(
-                            interaction.guild.default_role,
-                            view_channel=True,
-                            create_private_threads=False,
-                            manage_threads=False
-                        )
-                        
-                        for role_id in self.ticket_config.get("permissions", {}).get("manage", {}).get("roles", []):
-                            role = interaction.guild.get_role(int(role_id))
-                            if role:
-                                await self.ticket_channel.set_permissions(
-                                    role,
-                                    manage_threads=True
-                                )
-                        
-                        for user_id in self.ticket_config.get("permissions", {}).get("manage", {}).get("users", []):
-                            user = await interaction.guild.fetch_member(int(user_id))
-                            if user:
-                                await self.ticket_channel.set_permissions(
-                                    user,
-                                    manage_threads=True
-                                )
-                        
-                        for role_id in self.ticket_config.get("permissions", {}).get("view", {}).get("roles", []):
-                            role = interaction.guild.get_role(int(role_id))
-                            if role:
-                                await self.ticket_channel.set_permissions(
-                                    role,
-                                    manage_threads=False
-                                )
-                        
-                        for user_id in self.ticket_config.get("permissions", {}).get("view", {}).get("users", []):
-                            user = await interaction.guild.fetch_member(int(user_id))
-                            if user:
-                                await self.ticket_channel.set_permissions(
-                                    user,
-                                    manage_threads=False
-                                )
-                    
-                    should_deploy = False
-                    if not existing_config:
-                        should_deploy = True
-                    elif existing_config:
-                        if existing_config.get("open_message") != self.ticket_config.get("open_message") or \
-                        existing_config.get("opened_messages") != self.ticket_config.get("opened_messages"):
-                            should_deploy = True
-                    
-                    embed = discord.Embed(
-                        title="Configuración Guardada",
-                        description="<:Si:825734135116070962> La configuración de tickets para " + 
-                                    f"{self.ticket_channel.mention} ha sido " + 
-                                    ("guardada correctamente y el mensaje ha sido enviado al canal." if should_deploy else "actualizada correctamente."),
-                        color=0x2ecc71
-                    )
-                    
-                    await interaction.followup.edit_message(
-                        message_id=interaction.message.id,
-                        content=None,
-                        embed=embed,
-                        view=None
-                    )
-                    
-                    if should_deploy:
-                        await self.deploy_ticket_message(interaction)
-                    
-                except Exception as e:
-                    print(f"Error al configurar permisos o enviar mensaje: {e}")
-                    await interaction.followup.send(
-                        f"<:No:825734196256440340> Error al configurar permisos o enviar mensaje: {str(e)}",
-                        ephemeral=True
-                    )
+                embed = discord.Embed(
+                    title="Configuración Guardada",
+                    description="<:Si:825734135116070962> La configuración de tickets para " + 
+                                f"{self.ticket_channel.mention} ha sido guardada correctamente. Los cambios se aplicarán automáticamente.",
+                    color=0x2ecc71
+                )
+                
+                await interaction.followup.edit_message(
+                    message_id=interaction.message.id,
+                    content=None,
+                    embed=embed,
+                    view=None
+                )
             else:
                 await interaction.followup.send(
                     "<:No:825734196256440340> Error al guardar la configuración.",
@@ -566,210 +503,7 @@ class TicketEditView(discord.ui.View):
                 f"<:No:825734196256440340> Error al abrir la configuración de permisos: {str(e)}",
                 ephemeral=True
             )
-    
-    async def save_callback(self, interaction: discord.Interaction):
-        try:
-            from ..utils.database import save_ticket_config
             
-            self.bot.interaction_guild = interaction.guild
-            
-            if not self.ticket_config.get("permissions", {}).get("manage", {}).get("roles") and not self.ticket_config.get("permissions", {}).get("manage", {}).get("users"):
-                await interaction.response.send_message(
-                    "<:No:825734196256440340> Debes configurar al menos un rol o usuario con permisos de gestión.",
-                    ephemeral=True
-                )
-                return
-            
-            if "open_message" not in self.ticket_config or not isinstance(self.ticket_config["open_message"], dict):
-                from .message_components.message_base_view import MessageBaseView
-                self.ticket_config["open_message"] = MessageBaseView.create_default_open_message()
-            
-            if "opened_message" not in self.ticket_config or not isinstance(self.ticket_config["opened_message"], dict):
-                from .message_components.message_base_view import MessageBaseView
-                self.ticket_config["opened_message"] = MessageBaseView.create_default_opened_message()
-            
-            await interaction.response.defer(ephemeral=False)
-            
-            from ..utils.database import get_ticket_data
-            existing_config = get_ticket_data(interaction.guild.id, str(self.ticket_channel.id))
-            
-            success = await save_ticket_config(interaction.guild.id, str(self.ticket_channel.id), self.ticket_config)
-            
-            if success:
-                try:
-                    if not existing_config or existing_config.get("permissions") != self.ticket_config.get("permissions"):
-                        await self.ticket_channel.set_permissions(
-                            interaction.guild.default_role,
-                            view_channel=True,
-                            create_private_threads=False,
-                            send_messages_in_threads=True,
-                            manage_threads=False
-                        )
-                        
-                        for role_id in self.ticket_config.get("permissions", {}).get("manage", {}).get("roles", []):
-                            role = interaction.guild.get_role(int(role_id))
-                            if role:
-                                await self.ticket_channel.set_permissions(
-                                    role,
-                                    view_channel=True,
-                                    create_private_threads=True,
-                                    send_messages_in_threads=True,
-                                    manage_threads=True
-                                )
-                        
-                        for user_id in self.ticket_config.get("permissions", {}).get("manage", {}).get("users", []):
-                            user = await interaction.guild.fetch_member(int(user_id))
-                            if user:
-                                await self.ticket_channel.set_permissions(
-                                    user,
-                                    view_channel=True,
-                                    create_private_threads=True,
-                                    send_messages_in_threads=True,
-                                    manage_threads=True
-                                )
-                        
-                        for role_id in self.ticket_config.get("permissions", {}).get("view", {}).get("roles", []):
-                            role = interaction.guild.get_role(int(role_id))
-                            if role:
-                                await self.ticket_channel.set_permissions(
-                                    role,
-                                    view_channel=True,
-                                    create_private_threads=False,
-                                    send_messages_in_threads=False,
-                                    manage_threads=False
-                                )
-                        
-                        for user_id in self.ticket_config.get("permissions", {}).get("view", {}).get("users", []):
-                            user = await interaction.guild.fetch_member(int(user_id))
-                            if user:
-                                await self.ticket_channel.set_permissions(
-                                    user,
-                                    view_channel=True,
-                                    create_private_threads=False,
-                                    send_messages_in_threads=False,
-                                    manage_threads=False
-                                )
-                    
-                    should_deploy = False
-                    if not existing_config:
-                        should_deploy = True
-                    elif existing_config:
-                        if existing_config.get("open_message") != self.ticket_config.get("open_message") or \
-                        existing_config.get("opened_messages") != self.ticket_config.get("opened_messages"):
-                            should_deploy = True
-                    
-                    embed = discord.Embed(
-                        title="Configuración Guardada",
-                        description="<:Si:825734135116070962> La configuración de tickets para " + 
-                                    f"{self.ticket_channel.mention} ha sido " + 
-                                    ("guardada correctamente y el mensaje ha sido enviado al canal." if should_deploy else "actualizada correctamente."),
-                        color=0x2ecc71
-                    )
-                    
-                    await interaction.followup.edit_message(
-                        message_id=interaction.message.id,
-                        content=None,
-                        embed=embed,
-                        view=None
-                    )
-                    
-                    if should_deploy:
-                        await self.deploy_ticket_message(interaction)
-                    
-                except Exception as e:
-                    print(f"Error al configurar permisos o enviar mensaje: {e}")
-                    await interaction.followup.send(
-                        f"<:No:825734196256440340> Error al configurar permisos o enviar mensaje: {str(e)}",
-                        ephemeral=True
-                    )
-            else:
-                await interaction.followup.send(
-                    "<:No:825734196256440340> Error al guardar la configuración.",
-                    ephemeral=True
-                )
-        except Exception as e:
-            print(f"Error al guardar: {e}")
-            try:
-                await interaction.followup.send(
-                    f"<:No:825734196256440340> Error al guardar: {str(e)}",
-                    ephemeral=True
-                )
-            except:
-                pass
-
-    async def deploy_ticket_message(self, interaction):
-        try:
-            self.bot.interaction_guild = interaction.guild
-
-            from ..utils.preview import generate_preview, generate_ticket_view
-            
-            existing_message = None
-            async for message in self.ticket_channel.history(limit=100):
-                if message.author.id == interaction.client.user.id and message.components:
-                    for row in message.components:
-                        for component in row.children:
-                            if component.custom_id and component.custom_id.startswith("ticket:open:"):
-                                existing_message = message
-                                break
-                        if existing_message:
-                            break
-                if existing_message:
-                    break
-            
-            message_config = self.ticket_config.get("open_message", {})
-            message_config["VIEW_MODE"] = True
-            
-            preview = await generate_preview("open_message", message_config, interaction.guild)
-            view = await generate_ticket_view(self.ticket_config, str(self.ticket_channel.id))
-            
-            if "VIEW_MODE" in message_config:
-                del message_config["VIEW_MODE"]
-            
-            content = preview.get("content", "")
-            if "**Mensaje para abrir tickets**" in content:
-                content = content.replace("**Mensaje para abrir tickets**\n\n", "")
-            
-            if existing_message:
-                try:
-                    await existing_message.edit(
-                        content=content,
-                        embed=preview.get("embed"),
-                        view=view
-                    )
-                    print(f"Mensaje de tickets actualizado en el canal {self.ticket_channel.id}")
-                except Exception as edit_error:
-                    print(f"Error al actualizar mensaje existente: {edit_error}")
-                    try:
-                        await existing_message.delete()
-                        await self.ticket_channel.send(
-                            content=content,
-                            embed=preview.get("embed"),
-                            view=view
-                        )
-                        print(f"Mensaje antiguo eliminado y nuevo mensaje enviado al canal {self.ticket_channel.id}")
-                    except Exception as delete_error:
-                        print(f"Error al eliminar mensaje existente: {delete_error}")
-                        await self.ticket_channel.send(
-                            content=content,
-                            embed=preview.get("embed"),
-                            view=view
-                        )
-                        print(f"No se pudo eliminar mensaje antiguo, nuevo mensaje enviado al canal {self.ticket_channel.id}")
-            else:
-                await self.ticket_channel.send(
-                    content=content,
-                    embed=preview.get("embed"),
-                    view=view
-                )
-                print(f"Nuevo mensaje de tickets enviado al canal {self.ticket_channel.id}")
-        except Exception as e:
-            print(f"Error al desplegar mensaje de tickets: {e}")
-            await interaction.followup.send(
-                f"<:No:825734196256440340> Error al desplegar mensaje de tickets: {str(e)}",
-                ephemeral=True
-            )
-            raise
-    
     async def back_callback(self, interaction: discord.Interaction):
         try:
             self.bot.interaction_guild = interaction.guild
@@ -853,23 +587,9 @@ class ConfirmDeleteView(discord.ui.View):
         try:
             self.bot.interaction_guild = interaction.guild
 
-            from ..utils.helpers import find_and_delete_ticket_message
             from ..utils.database import delete_ticket_config
             
             channel_id_str = str(self.ticket_channel.id)
-            print(f"Intentando eliminar mensaje en el canal: {channel_id_str}")
-            
-            message_deleted = await find_and_delete_ticket_message(
-                self.ticket_channel, 
-                interaction.client.user.id,
-                channel_id_str
-            )
-            
-            if message_deleted:
-                print(f"Mensaje de ticket eliminado con éxito")
-            else:
-                print(f"No se pudo encontrar o eliminar el mensaje de ticket")
-            
             print(f"Eliminando configuración de ticket para guild {interaction.guild.id}, canal {channel_id_str}")
             success = await delete_ticket_config(interaction.guild.id, channel_id_str)
             

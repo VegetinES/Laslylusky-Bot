@@ -1,0 +1,620 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Documentation - Bot Configuration</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="icon" type="image/png" href="{{ url_for('static', filename='resources/laslylusky.png') }}">
+        <link rel="stylesheet" href="{{ url_for('static', filename='styles/documentation.css') }}">
+    </head>
+    <body>
+        <div class="header">
+            <div class="header-content">
+                <div class="logo">
+                    <a href="/en/">Laslylusky</a>
+                </div>
+                
+                <nav class="desktop-nav">
+                    <a href="/en/">Home</a>
+                    <div class="dropdown">
+                        <a href="#" class="dropbtn active">Documentation</a>
+                        <div class="dropdown-content">
+                            <a href="/en/documentation/help">Help</a>
+                            <a href="/en/documentation/configuration" class="active">Configuration</a>
+                            <a href="/en/documentation/tickets">Tickets Configuration</a>
+                        </div>
+                    </div>
+                    <a href="/en/dashboard">Dashboard</a>
+                    <a href="/en/vegetines">Creator</a>
+                    <a href="/en/privacy">Privacy</a>
+                    <a href="/en/tos">Terms of Service</a>
+                    <div class="dropdown">
+                        <a href="#" class="dropbtn">🌐 EN</a>
+                        <div class="dropdown-content">
+                            <a href="/es/documentacion/configuracion">🇪🇸 Español</a>
+                            <a href="/en/documentation/configuration">🇺🇸 English</a>
+                        </div>
+                    </div>
+                </nav>
+
+                <div class="mobile-menu-toggle">
+                    <span class="hamburger-line"></span>
+                    <span class="hamburger-line"></span>
+                    <span class="hamburger-line"></span>
+                </div>
+            </div>
+
+            <div class="mobile-nav">
+                <a href="/en/">🏠 Home</a>
+                <div class="mobile-dropdown">
+                    <a href="#" class="mobile-dropbtn">📚 Documentation</a>
+                    <div class="mobile-dropdown-content">
+                        <a href="/en/documentation/help">Help</a>
+                        <a href="/en/documentation/configuration" class="active">Configuration</a>
+                        <a href="/en/documentation/tickets">Tickets Configuration</a>
+                    </div>
+                </div>
+                <a href="/en/dashboard">📊 Dashboard</a>
+                <a href="/en/vegetines">👨‍💻 Creator</a>
+                <a href="/en/privacy">🔒 Privacy</a>
+                <a href="/en/tos">📋 Terms of Service</a>
+                <div class="mobile-dropdown">
+                    <a href="#" class="mobile-dropbtn">🌐 Language</a>
+                    <div class="mobile-dropdown-content">
+                        <a href="/es/documentacion/configuracion">🇪🇸 Español</a>
+                        <a href="/en/documentation/configuration">🇺🇸 English</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="hero">
+            <div class="hero-content">
+                <h1>Bot Configuration</h1>
+                <p class="hero-subtitle">Customize Laslylusky for your server</p>
+                <p class="hero-description">
+                    Learn to configure every aspect of the bot, from permissions to audit logs, 
+                    to fully adapt it to your server's needs.
+                </p>
+            </div>
+        </div>
+        
+        <div class="container">
+            <div class="content-wrapper">
+                <div class="sidebar">
+                    <h3>Navigation</h3>
+                    <nav class="table-of-contents">
+                        <a href="#available-commands">Available Commands</a>
+                        <a href="#config-perms">Config Perms</a>
+                        <a href="#config-cmd">Config Cmd</a>
+                        <a href="#config-update">Config Update</a>
+                        <a href="#config-data">Config Data</a>
+                        <a href="#config-logs">Config Logs</a>
+                        <a href="#log-parameters">Log Parameters</a>
+                        <a href="#parameter-explanation">Parameter Explanation</a>
+                    </nav>
+                </div>
+
+                <div class="main-content">
+                    <section id="available-commands" class="section">
+                        <h2>Available Commands</h2>
+                        <p class="category-description">Complete list of configuration commands</p>
+                        <div class="commands-grid">
+                            <div class="command-card">
+                                <div class="command-header">
+                                    <h4>/config help</h4>
+                                    <span class="command-perm admin">Admin</span>
+                                </div>
+                                <p>Shows configuration help</p>
+                            </div>
+                            
+                            <div class="command-card">
+                                <div class="command-header">
+                                    <h4>/config data</h4>
+                                    <span class="command-perm admin">Admin</span>
+                                </div>
+                                <p>Shows current server configuration</p>
+                            </div>
+                            
+                            <div class="command-card">
+                                <div class="command-header">
+                                    <h4>/config update</h4>
+                                    <span class="command-perm admin">Admin</span>
+                                </div>
+                                <p>Reset configuration to default values</p>
+                            </div>
+                            
+                            <div class="command-card">
+                                <div class="command-header">
+                                    <h4>/config cmd</h4>
+                                    <span class="command-perm admin">Admin</span>
+                                </div>
+                                <p>Enable or disable specific commands</p>
+                            </div>
+                            
+                            <div class="command-card">
+                                <div class="command-header">
+                                    <h4>/config logs</h4>
+                                    <span class="command-perm admin">Admin</span>
+                                </div>
+                                <p>Audit log configuration</p>
+                            </div>
+                            
+                            <div class="command-card">
+                                <div class="command-header">
+                                    <h4>/config perms</h4>
+                                    <span class="command-perm admin">Admin</span>
+                                </div>
+                                <p>Bot permissions configuration</p>
+                            </div>
+                            
+                            <div class="command-card">
+                                <div class="command-header">
+                                    <h4>/config tickets help</h4>
+                                    <span class="command-perm admin">Admin</span>
+                                </div>
+                                <p>Specific help for ticket configuration</p>
+                            </div>
+                        </div>
+                    </section>
+
+                    <section id="config-perms" class="section">
+                        <h2>Config Perms</h2>
+                        <p>Advanced permission configuration for specific commands</p>
+                        
+                        <div class="syntax-box">
+                            <h4>Syntax:</h4>
+                            <code>/config perms {permission} {action} ({roles}/{users})</code>
+                        </div>
+                        
+                        <div class="parameters-grid">
+                            <div class="param-item">
+                                <h4>{permission}</h4>
+                                <p>The permission to configure</p>
+                                <span class="param-type">Required</span>
+                            </div>
+                            <div class="param-item">
+                                <h4>{action}</h4>
+                                <p>Add or remove the permission</p>
+                                <span class="param-type">Required</span>
+                            </div>
+                            <div class="param-item">
+                                <h4>{roles}</h4>
+                                <p>Roles to add or remove, separated by spaces</p>
+                                <span class="param-type optional">Optional*</span>
+                            </div>
+                            <div class="param-item">
+                                <h4>{users}</h4>
+                                <p>Users to add or remove, separated by spaces</p>
+                                <span class="param-type optional">Optional*</span>
+                            </div>
+                        </div>
+                        
+                        <div class="important-note">
+                            <p><strong>Note:</strong> At least one of the {roles} or {users} fields is mandatory.</p>
+                        </div>
+                    </section>
+
+                    <section id="config-cmd" class="section">
+                        <h2>Config Cmd</h2>
+                        <p>Enable or disable specific commands on your server</p>
+                        
+                        <div class="syntax-box">
+                            <h4>Syntax:</h4>
+                            <code>/config cmd {command} {state}</code>
+                        </div>
+                        
+                        <div class="parameters-grid">
+                            <div class="param-item">
+                                <h4>{command}</h4>
+                                <p>The command to enable or disable</p>
+                                <span class="param-type">Required</span>
+                            </div>
+                            <div class="param-item">
+                                <h4>{state}</h4>
+                                <p>Enable or disable the command</p>
+                                <span class="param-type">Required</span>
+                            </div>
+                        </div>
+                        
+                        <div class="feature-highlight">
+                            <h4>Default Commands</h4>
+                            <p>The following commands cannot be disabled:</p>
+                            <div class="default-commands">
+                                <span class="cmd-tag">help</span>
+                                <span class="cmd-tag">donate</span>
+                                <span class="cmd-tag">info</span>
+                                <span class="cmd-tag">invite</span>
+                                <span class="cmd-tag">privacidad</span>
+                                <span class="cmd-tag">updates</span>
+                                <span class="cmd-tag">savedatachat</span>
+                                <span class="cmd-tag">botsuggest</span>
+                                <span class="cmd-tag">bugreport</span>
+                                <span class="cmd-tag">config</span>
+                            </div>
+                        </div>
+                    </section>
+
+                    <section id="config-update" class="section">
+                        <h2>Config Update</h2>
+                        <p>Reset all server configuration to default values</p>
+                        
+                        <div class="syntax-box">
+                            <h4>Syntax:</h4>
+                            <code>/config update</code>
+                        </div>
+                        
+                        <div class="warning-box">
+                            <h4>⚠️ Warning</h4>
+                            <p>This command will restore ALL custom configuration to default values. This action cannot be undone.</p>
+                        </div>
+                    </section>
+
+                    <section id="config-data" class="section">
+                        <h2>Config Data</h2>
+                        <p>Shows the current server configuration in detail</p>
+                        
+                        <div class="syntax-box">
+                            <h4>Syntax:</h4>
+                            <code>/config data</code>
+                        </div>
+                        
+                        <div class="info-display">
+                            <h4>Information Displayed:</h4>
+                            <ul>
+                                <li>Enabled/disabled commands</li>
+                                <li>Configured permissions</li>
+                                <li>Log channels</li>
+                                <li>Ticket configuration</li>
+                                <li>Level configuration</li>
+                                <li>Birthday configuration</li>
+                            </ul>
+                        </div>
+                    </section>
+
+                    <section id="config-logs" class="section">
+                        <h2>Config Logs</h2>
+                        <p>Advanced configuration of the audit log system</p>
+                        
+                        <div class="syntax-box">
+                            <h4>Syntax:</h4>
+                            <code>/config logs {log}</code>
+                        </div>
+                        
+                        <div class="parameters-grid">
+                            <div class="param-item">
+                                <h4>{log}</h4>
+                                <p>The type of log to configure</p>
+                                <span class="param-type">Required</span>
+                            </div>
+                        </div>
+                        
+                        <div class="logs-types">
+                            <h4>Available Log Types:</h4>
+                            <div class="logs-grid">
+                                <div class="log-type">
+                                    <h5>🔨 Moderation</h5>
+                                    <p>Ban, Kick, Unban, Warns</p>
+                                </div>
+                                <div class="log-type">
+                                    <h5>👥 Users</h5>
+                                    <p>Joins, Leaves, Profile changes</p>
+                                </div>
+                                <div class="log-type">
+                                    <h5>💬 Messages</h5>
+                                    <p>Deleted, edited messages</p>
+                                </div>
+                                <div class="log-type">
+                                    <h5>🔊 Voice</h5>
+                                    <p>Voice channel join/leave</p>
+                                </div>
+                                <div class="log-type">
+                                    <h5>🎭 Roles</h5>
+                                    <p>Roles added/removed</p>
+                                </div>
+                                <div class="log-type">
+                                    <h5>📝 Channels</h5>
+                                    <p>Channels created/deleted</p>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+
+                    <section id="log-parameters" class="section">
+                        <h2>Parameters for Log Messages</h2>
+                        <p class="category-description">Available variables to customize log messages</p>
+                        
+                        <div class="log-params">
+                            <div class="log-param-section">
+                                <h3>🔨 Ban / Kick / Unban</h3>
+                                <div class="param-tags">
+                                    <div class="param-section">
+                                        <h4>Message and Description:</h4>
+                                        <div class="tags-container">
+                                            <span class="param-tag">{userid}</span>
+                                            <span class="param-tag">{usertag}</span>
+                                            <span class="param-tag">{mod}</span>
+                                            <span class="param-tag">{modid}</span>
+                                            <span class="param-tag">{modtag}</span>
+                                            <span class="param-tag">{reason}</span>
+                                        </div>
+                                    </div>
+                                    <div class="param-section">
+                                        <h4>Footer:</h4>
+                                        <div class="tags-container">
+                                            <span class="param-tag">{userid}</span>
+                                            <span class="param-tag">{usertag}</span>
+                                            <span class="param-tag">{modid}</span>
+                                            <span class="param-tag">{modtag}</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="log-param-section">
+                                <h3>👥 Joins / Leaves</h3>
+                                <div class="param-tags">
+                                    <div class="param-section">
+                                        <h4>Joins - Message and Description:</h4>
+                                        <div class="tags-container">
+                                            <span class="param-tag">{userid}</span>
+                                            <span class="param-tag">{usertag}</span>
+                                            <span class="param-tag">{user}</span>
+                                            <span class="param-tag">{accage}</span>
+                                            <span class="param-tag">{acc_age}</span>
+                                        </div>
+                                    </div>
+                                    <div class="param-section">
+                                        <h4>Leaves - Message and Description:</h4>
+                                        <div class="tags-container">
+                                            <span class="param-tag">{userid}</span>
+                                            <span class="param-tag">{usertag}</span>
+                                            <span class="param-tag">{acc_age}</span>
+                                            <span class="param-tag">{server_age}</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="log-param-section">
+                                <h3>💬 Messages</h3>
+                                <div class="param-tags">
+                                    <div class="param-section">
+                                        <h4>Deleted Messages:</h4>
+                                        <div class="tags-container">
+                                            <span class="param-tag">{del_msg}</span>
+                                            <span class="param-tag">{usertag}</span>
+                                            <span class="param-tag">{userid}</span>
+                                            <span class="param-tag">{user}</span>
+                                            <span class="param-tag">{channel}</span>
+                                            <span class="param-tag">{channelid}</span>
+                                            <span class="param-tag">{attached}</span>
+                                        </div>
+                                    </div>
+                                    <div class="param-section">
+                                        <h4>Edited Messages:</h4>
+                                        <div class="tags-container">
+                                            <span class="param-tag">{usertag}</span>
+                                            <span class="param-tag">{userid}</span>
+                                            <span class="param-tag">{user}</span>
+                                            <span class="param-tag">{channel}</span>
+                                            <span class="param-tag">{channelid}</span>
+                                            <span class="param-tag">{old_msg}</span>
+                                            <span class="param-tag">{new_msg}</span>
+                                            <span class="param-tag">{attached}</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="log-param-section">
+                                <h3>🔊 Voice Channels</h3>
+                                <div class="param-tags">
+                                    <div class="param-section">
+                                        <h4>Voice Join/Leave:</h4>
+                                        <div class="tags-container">
+                                            <span class="param-tag">{user}</span>
+                                            <span class="param-tag">{usertag}</span>
+                                            <span class="param-tag">{userid}</span>
+                                            <span class="param-tag">{channel}</span>
+                                            <span class="param-tag">{channelid}</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="log-param-section">
+                                <h3>🎭 Roles</h3>
+                                <div class="param-tags">
+                                    <div class="param-section">
+                                        <h4>Roles Added/Removed:</h4>
+                                        <div class="tags-container">
+                                            <span class="param-tag">{user}</span>
+                                            <span class="param-tag">{usertag}</span>
+                                            <span class="param-tag">{userid}</span>
+                                            <span class="param-tag">{role}</span>
+                                            <span class="param-tag">{roleid}</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="log-param-section">
+                                <h3>📝 Channels</h3>
+                                <div class="param-tags">
+                                    <div class="param-section">
+                                        <h4>Channels Created/Deleted:</h4>
+                                        <div class="tags-container">
+                                            <span class="param-tag">{channel}</span>
+                                            <span class="param-tag">{channelid}</span>
+                                            <span class="param-tag">{category}</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="log-param-section">
+                                <h3>👤 User Profile</h3>
+                                <div class="param-tags">
+                                    <div class="param-section">
+                                        <h4>Avatar/Name Updated:</h4>
+                                        <div class="tags-container">
+                                            <span class="param-tag">{user}</span>
+                                            <span class="param-tag">{usertag}</span>
+                                            <span class="param-tag">{userid}</span>
+                                            <span class="param-tag">{old_avatar_link}</span>
+                                            <span class="param-tag">{new_avatar_link}</span>
+                                            <span class="param-tag">{old_name}</span>
+                                            <span class="param-tag">{new_name}</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+
+                    <section id="parameter-explanation" class="section">
+                        <h2>Parameter Explanation</h2>
+                        <p class="category-description">Detailed description of each available variable</p>
+                        
+                        <div class="params-explanation">
+                            <div class="param-explanation">
+                                <h4>{reason}</h4>
+                                <p>Reason for the applied sanction</p>
+                            </div>
+                            <div class="param-explanation">
+                                <h4>{user}</h4>
+                                <p>Mention of the affected user</p>
+                            </div>
+                            <div class="param-explanation">
+                                <h4>{userid}</h4>
+                                <p>Unique user ID on Discord</p>
+                            </div>
+                            <div class="param-explanation">
+                                <h4>{usertag}</h4>
+                                <p>Normal username (e.g.: User#1234)</p>
+                            </div>
+                            <div class="param-explanation">
+                                <h4>{mod}</h4>
+                                <p>Mention of the moderator applying the action</p>
+                            </div>
+                            <div class="param-explanation">
+                                <h4>{modid}</h4>
+                                <p>Unique moderator ID</p>
+                            </div>
+                            <div class="param-explanation">
+                                <h4>{modtag}</h4>
+                                <p>Moderator username</p>
+                            </div>
+                            <div class="param-explanation">
+                                <h4>{channel}</h4>
+                                <p>Mention of the related channel</p>
+                            </div>
+                            <div class="param-explanation">
+                                <h4>{channelid}</h4>
+                                <p>Unique channel ID</p>
+                            </div>
+                            <div class="param-explanation">
+                                <h4>{del_msg}</h4>
+                                <p>Content of the deleted message</p>
+                            </div>
+                            <div class="param-explanation">
+                                <h4>{old_msg}</h4>
+                                <p>Previous content of the edited message</p>
+                            </div>
+                            <div class="param-explanation">
+                                <h4>{new_msg}</h4>
+                                <p>New content of the edited message</p>
+                            </div>
+                            <div class="param-explanation">
+                                <h4>{attached}</h4>
+                                <p>Attachment information</p>
+                            </div>
+                            <div class="param-explanation">
+                                <h4>{acc_age}</h4>
+                                <p>Discord account age</p>
+                            </div>
+                            <div class="param-explanation">
+                                <h4>{server_age}</h4>
+                                <p>Time the user has been on the server</p>
+                            </div>
+                            <div class="param-explanation">
+                                <h4>{\n}</h4>
+                                <p>Line break in logs</p>
+                            </div>
+                            <div class="param-explanation">
+                                <h4>{role}</h4>
+                                <p>Mention of the added or removed role</p>
+                            </div>
+                            <div class="param-explanation">
+                                <h4>{roleid}</h4>
+                                <p>Unique role ID</p>
+                            </div>
+                            <div class="param-explanation">
+                                <h4>{category}</h4>
+                                <p>Channel category name</p>
+                            </div>
+                            <div class="param-explanation">
+                                <h4>{old_avatar_link}</h4>
+                                <p>Link to user's previous avatar</p>
+                            </div>
+                            <div class="param-explanation">
+                                <h4>{new_avatar_link}</h4>
+                                <p>Link to user's new avatar</p>
+                            </div>
+                            <div class="param-explanation">
+                                <h4>{old_name}</h4>
+                                <p>User's previous name</p>
+                            </div>
+                            <div class="param-explanation">
+                                <h4>{new_name}</h4>
+                                <p>User's new name</p>
+                            </div>
+                        </div>
+                    </section>
+                </div>
+            </div>
+        </div>
+
+        <script>
+            document.querySelector('.mobile-menu-toggle').addEventListener('click', function() {
+                const mobileNav = document.querySelector('.mobile-nav');
+                const isActive = mobileNav.classList.contains('active');
+                
+                if (isActive) {
+                    document.querySelectorAll('.mobile-dropdown').forEach(dropdown => {
+                        dropdown.classList.remove('active');
+                    });
+                }
+                
+                mobileNav.classList.toggle('active');
+                this.classList.toggle('active');
+            });
+
+            document.querySelectorAll('.mobile-dropbtn').forEach(btn => {
+                btn.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    const dropdown = this.parentElement;
+                    const isCurrentlyActive = dropdown.classList.contains('active');
+                    
+                    document.querySelectorAll('.mobile-dropdown').forEach(otherDropdown => {
+                        if (otherDropdown !== dropdown) {
+                            otherDropdown.classList.remove('active');
+                        }
+                    });
+                    
+                    dropdown.classList.toggle('active');
+                });
+            });
+
+            document.addEventListener('click', function(e) {
+                if (!e.target.closest('.mobile-dropdown') && !e.target.closest('.mobile-menu-toggle')) {
+                    document.querySelectorAll('.mobile-dropdown').forEach(dropdown => {
+                        dropdown.classList.remove('active');
+                    });
+                }
+            });
+        </script>
+    </body>
+</html>

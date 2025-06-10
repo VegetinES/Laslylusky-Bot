@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="es">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        
+        <title>Laslylusky - Bot de Discord Multifuncional | IA, Moderación y Juegos</title>
+        <meta name="description" content="Laslylusky es el bot de Discord más completo con inteligencia artificial, moderación avanzada, sistema de niveles, juegos interactivos y sistema de tickets. Gratis y open source.">
+        <meta name="keywords" content="bot discord, discord bot español, bot moderacion, bot inteligencia artificial, bot juegos discord, bot niveles discord, discord bot gratis, open source bot">
+        <meta name="author" content="Vegetines - Enrique Sequí Hernández">
+        <meta name="robots" content="index, follow">
+        <meta name="language" content="Spanish">
+        <meta name="revisit-after" content="7 days">
+        
+        <meta property="og:type" content="website">
+        <meta property="og:url" content="https://laslylusky.es/es/">
+        <meta property="og:title" content="Laslylusky - Bot de Discord Multifuncional">
+        <meta property="og:description" content="El bot de Discord más completo con IA, moderación avanzada, juegos interactivos y sistema de niveles. Gratis y open source.">
+        <meta property="og:image" content="https://laslylusky.es/static/resources/laslylusky.png">
+        <meta property="og:image:width" content="512">
+        <meta property="og:image:height" content="512">
+        <meta property="og:image:alt" content="Logo de Laslylusky Bot">
+        <meta property="og:site_name" content="Laslylusky">
+        <meta property="og:locale" content="es_ES">
+        <meta property="og:locale:alternate" content="en_US">
+        
+        <meta name="twitter:card" content="summary_large_image">
+        <meta name="twitter:url" content="https://laslylusky.es/es/">
+        <meta name="twitter:title" content="Laslylusky - Bot de Discord Multifuncional">
+        <meta name="twitter:description" content="El bot de Discord más completo con IA, moderación avanzada, juegos interactivos y sistema de niveles. Gratis y open source.">
+        <meta name="twitter:image" content="https://laslylusky.es/static/resources/laslylusky.png">
+        <meta name="twitter:image:alt" content="Logo de Laslylusky Bot">
+        <meta name="twitter:creator" content="@VegetinES">
+        
+        <meta name="theme-color" content="#4da6ff">
+        
+        <link rel="canonical" href="https://laslylusky.es/es/">
+        
+        <link rel="alternate" hreflang="es" href="https://laslylusky.es/es/">
+        <link rel="alternate" hreflang="en" href="https://laslylusky.es/en/">
+        <link rel="alternate" hreflang="x-default" href="https://laslylusky.es/es/">
+        
+        <link rel="icon" type="image/png" href="{{ url_for('static', filename='resources/laslylusky.png') }}">
+        <link rel="apple-touch-icon" href="{{ url_for('static', filename='resources/laslylusky.png') }}">
+        
+        <script type="application/ld+json">
+        {
+            "@context": "https://schema.org",
+            "@type": "SoftwareApplication",
+            "name": "Laslylusky",
+            "applicationCategory": "ChatApplication",
+            "operatingSystem": "Discord",
+            "description": "Bot de Discord multifuncional con inteligencia artificial, moderación avanzada, sistema de niveles y juegos interactivos",
+            "url": "https://laslylusky.es",
+            "author": {
+                "@type": "Person",
+                "name": "Vegetines",
+                "alternateName": "Enrique Sequí Hernández"
+            },
+            "offers": {
+                "@type": "Offer",
+                "price": "0",
+                "priceCurrency": "EUR"
+            },
+            "aggregateRating": {
+                "@type": "AggregateRating",
+                "ratingValue": "5",
+                "ratingCount": "100"
+            },
+            "softwareVersion": "4.0",
+            "datePublished": "2021-01-01",
+            "dateModified": "2025-05-31"
+        }
+        </script>
+        
+        <link rel="stylesheet" href="{{ url_for('static', filename='styles/home.css') }}">
+    </head>
+    <body>
+        <div class="header">
+            <div class="header-content">
+                <div class="logo">
+                    <a href="/es/">Laslylusky</a>
+                </div>
+                
+                <nav class="desktop-nav">
+                    <a href="/es/" id="home" class="active">Home</a>
+                    <div class="dropdown">
+                        <a href="#" class="dropbtn">Documentación</a>
+                        <div class="dropdown-content">
+                            <a href="/es/documentacion/help">Help</a>
+                            <a href="/es/documentacion/configuracion">Configuración</a>
+                            <a href="/es/documentacion/tickets">Configuración Tickets</a>
+                        </div>
+                    </div>
+                    <a href="/es/dashboard">Dashboard</a>
+                    <a href="/es/vegetines">Creador</a>
+                    <a href="/es/privacidad">Privacidad</a>
+                    <a href="/es/tos">Términos y Condiciones</a>
+                    <div class="dropdown">
+                        <a href="#" class="dropbtn">🌐 ES</a>
+                        <div class="dropdown-content">
+                            <a href="/es/">🇪🇸 Español</a>
+                            <a href="/en/">🇺🇸 English</a>
+                        </div>
+                    </div>
+                </nav>
+
+                <div class="mobile-menu-toggle">
+                    <span class="hamburger-line"></span>
+                    <span class="hamburger-line"></span>
+                    <span class="hamburger-line"></span>
+                </div>
+            </div>
+
+            <div class="mobile-nav">
+                <a href="/es/" class="active">🏠 Home</a>
+                <div class="mobile-dropdown">
+                    <a href="#" class="mobile-dropbtn">📚 Documentación</a>
+                    <div class="mobile-dropdown-content">
+                        <a href="/es/documentacion/help">Help</a>
+                        <a href="/es/documentacion/configuracion">Configuración</a>
+                        <a href="/es/documentacion/tickets">Configuración Tickets</a>
+                    </div>
+                </div>
+                <a href="/es/dashboard">📊 Dashboard</a>
+                <a href="/es/vegetines">👨‍💻 Creador</a>
+                <a href="/es/privacidad">🔒 Privacidad</a>
+                <a href="/es/tos">📋 Términos y Condiciones</a>
+                <div class="mobile-dropdown">
+                    <a href="#" class="mobile-dropbtn">🌐 Idioma</a>
+                    <div class="mobile-dropdown-content">
+                        <a href="/es/">🇪🇸 Español</a>
+                        <a href="/en/">🇺🇸 English</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <script>
+            document.querySelector('.mobile-menu-toggle').addEventListener('click', function() {
+                const mobileNav = document.querySelector('.mobile-nav');
+                const isActive = mobileNav.classList.contains('active');
+                
+                if (isActive) {
+                    document.querySelectorAll('.mobile-dropdown').forEach(dropdown => {
+                        dropdown.classList.remove('active');
+                    });
+                }
+                
+                mobileNav.classList.toggle('active');
+                this.classList.toggle('active');
+            });
+
+            document.querySelectorAll('.mobile-dropbtn').forEach(btn => {
+                btn.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    const dropdown = this.parentElement;
+                    const isCurrentlyActive = dropdown.classList.contains('active');
+                    
+                    document.querySelectorAll('.mobile-dropdown').forEach(otherDropdown => {
+                        if (otherDropdown !== dropdown) {
+                            otherDropdown.classList.remove('active');
+                        }
+                    });
+                    
+                    dropdown.classList.toggle('active');
+                });
+            });
+
+            document.addEventListener('click', function(e) {
+                if (!e.target.closest('.mobile-dropdown') && !e.target.closest('.mobile-menu-toggle')) {
+                    document.querySelectorAll('.mobile-dropdown').forEach(dropdown => {
+                        dropdown.classList.remove('active');
+                    });
+                }
+            });
+
+            if (document.getElementById('dashboard-link')) {
+                document.getElementById('dashboard-link').addEventListener('click', function(e) {
+                    e.preventDefault();
+                    window.location.href = '/dashboard';
+                });
+            }
+
+            if (document.getElementById('dashboard-link-mobile')) {
+                document.getElementById('dashboard-link-mobile').addEventListener('click', function(e) {
+                    e.preventDefault();
+                    window.location.href = '/dashboard';
+                });
+            }
+        </script>
+        
+        <div class="hero">
+            <div class="hero-content">
+                <h1>Laslylusky</h1>
+                <h2>Bot de Discord Multifuncional</h2>
+                <p class="hero-subtitle">El bot más completo para tu servidor de Discord</p>
+                <p class="hero-description">
+                    Laslylusky ofrece inteligencia artificial, moderación avanzada, juegos interactivos, 
+                    sistema de niveles y mucho más. Todo en un solo bot fácil de usar y configurar.
+                </p>
+                <div class="hero-buttons">
+                    <a href="/invite" class="btn-primary">Invitar Bot</a>
+                    <a href="/es/documentacion/help" class="btn-secondary">Ver Comandos</a>
+                </div>
+            </div>
+        </div>
+        
+        <div class="container">
+            <section class="features">
+                <h2>Características Principales</h2>
+                <div class="features-grid">
+                    <div class="feature-item">
+                        <div class="feature-icon">🤖</div>
+                        <h3>Inteligencia Artificial</h3>
+                        <p>Conversa con Laslylusky gracias a la IA integrada. Mantiene conversaciones coherentes y naturales.</p>
+                    </div>
+                    <div class="feature-item">
+                        <div class="feature-icon">🛡️</div>
+                        <h3>Moderación Avanzada</h3>
+                        <p>Sistema completo de moderación con logs, advertencias, baneos temporales y mucho más.</p>
+                    </div>
+                    <div class="feature-item">
+                        <div class="feature-icon">🎮</div>
+                        <h3>Juegos Interactivos</h3>
+                        <p>Más de 15 juegos diferentes: ahorcado, blackjack, buscaminas, trivia y muchos más.</p>
+                    </div>
+                    <div class="feature-item">
+                        <div class="feature-icon">📊</div>
+                        <h3>Sistema de Niveles</h3>
+                        <p>Sistema de XP y niveles personalizable para mantener a tu comunidad activa y enganchada.</p>
+                    </div>
+                    <div class="feature-item">
+                        <div class="feature-icon">🎫</div>
+                        <h3>Sistema de Tickets</h3>
+                        <p>Crea un sistema de soporte profesional con hilos privados y configuración personalizada.</p>
+                    </div>
+                    <div class="feature-item">
+                        <div class="feature-icon">⚙️</div>
+                        <h3>Altamente Configurable</h3>
+                        <p>Personaliza cada aspecto del bot según las necesidades de tu servidor.</p>
+                    </div>
+                </div>
+            </section>
+            
+            <section class="discord-widget">
+                <h2>Únete a Nuestra Comunidad</h2>
+                <p>Conecta con otros usuarios, recibe soporte y mantente al día con las últimas actualizaciones</p>
+                <div class="widget-container">
+                    <iframe src="https://discord.com/widget?id=766964835946463232&theme=dark" width="350" height="500" allowtransparency="true" frameborder="0" sandbox="allow-popups allow-popups-to-escape-sandbox allow-same-origin allow-scripts"></iframe>
+                </div>
+            </section>
+            
+            <section class="stats">
+                <h2>Estadísticas</h2>
+                <div class="stats-grid">
+                    <div class="stat-item">
+                        <div class="stat-number">100+</div>
+                        <div class="stat-label">Comandos Disponibles</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number">24/7</div>
+                        <div class="stat-label">Funcionamiento</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number">15+</div>
+                        <div class="stat-label">Juegos Integrados</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number">Open Source</div>
+                        <div class="stat-label">Código Abierto</div>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </body>
+</html>

@@ -1,0 +1,398 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Privacy Policy - Laslylusky</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="icon" type="image/png" href="{{ url_for('static', filename='resources/laslylusky.png') }}">
+        <link rel="stylesheet" href="{{ url_for('static', filename='styles/privacidad.css') }}">
+    </head>
+    <body>
+        <div class="header">
+            <div class="header-content">
+                <div class="logo">
+                    <a href="/en/">Laslylusky</a>
+                </div>
+                
+                <nav class="desktop-nav">
+                    <a href="/en/">Home</a>
+                    <div class="dropdown">
+                        <a href="#" class="dropbtn">Documentation</a>
+                        <div class="dropdown-content">
+                            <a href="/en/documentation/help">Help</a>
+                            <a href="/en/documentation/configuration">Configuration</a>
+                            <a href="/en/documentation/tickets">Tickets Configuration</a>
+                        </div>
+                    </div>
+                    <a href="/en/dashboard">Dashboard</a>
+                    <a href="/en/vegetines">Creator</a>
+                    <a href="/en/privacy" class="active">Privacy</a>
+                    <a href="/en/tos">Terms of Service</a>
+                    <div class="dropdown">
+                        <a href="#" class="dropbtn">🌐 EN</a>
+                        <div class="dropdown-content">
+                            <a href="/es/privacidad">🇪🇸 Español</a>
+                            <a href="/en/privacy">🇺🇸 English</a>
+                        </div>
+                    </div>
+                </nav>
+
+                <div class="mobile-menu-toggle">
+                    <span class="hamburger-line"></span>
+                    <span class="hamburger-line"></span>
+                    <span class="hamburger-line"></span>
+                </div>
+            </div>
+
+            <div class="mobile-nav">
+                <a href="/en/">🏠 Home</a>
+                <div class="mobile-dropdown">
+                    <a href="#" class="mobile-dropbtn">📚 Documentation</a>
+                    <div class="mobile-dropdown-content">
+                        <a href="/en/documentation/help">Help</a>
+                        <a href="/en/documentation/configuration">Configuration</a>
+                        <a href="/en/documentation/tickets">Tickets Configuration</a>
+                    </div>
+                </div>
+                <a href="/en/dashboard">📊 Dashboard</a>
+                <a href="/en/vegetines">👨‍💻 Creator</a>
+                <a href="/en/privacy" class="active">🔒 Privacy</a>
+                <a href="/en/tos">📋 Terms of Service</a>
+                <div class="mobile-dropdown">
+                    <a href="#" class="mobile-dropbtn">🌐 Language</a>
+                    <div class="mobile-dropdown-content">
+                        <a href="/es/privacidad">🇪🇸 Español</a>
+                        <a href="/en/privacy">🇺🇸 English</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="hero">
+            <div class="hero-content">
+                <div class="logo-container">
+                    <img src="{{ url_for('static', filename='resources/laslylusky.png') }}" alt="Laslylusky Logo">
+                </div>
+                <h1>Privacy Policy</h1>
+                <p class="hero-subtitle">Your privacy is important to us</p>
+                <div class="last-update">
+                    <p><strong>Last updated:</strong> May 26, 2025</p>
+                </div>
+            </div>
+        </div>
+        
+        <div class="container">
+            <div class="content-wrapper">
+                <div class="sidebar">
+                    <h3>Index</h3>
+                    <nav class="table-of-contents">
+                        <a href="#introduction">1. Introduction</a>
+                        <a href="#information">2. Information We Collect</a>
+                        <a href="#usage">3. How We Use Information</a>
+                        <a href="#access">4. Data Access</a>
+                        <a href="#security">5. Storage and Security</a>
+                        <a href="#retention">6. Data Retention</a>
+                        <a href="#rights">7. Your Rights</a>
+                        <a href="#deletion">8. Data Deletion</a>
+                        <a href="#third-parties">9. Sharing Data with Third Parties</a>
+                        <a href="#open-source">10. Open Source and Privacy</a>
+                        <a href="#changes">11. Policy Changes</a>
+                        <a href="#compliance">12. Legal Compliance</a>
+                        <a href="#contact">13. Contact</a>
+                    </nav>
+                </div>
+                
+                <div class="main-content">
+                    <section id="introduction" class="section">
+                        <h2>1. Introduction</h2>
+                        <p>This Privacy Policy describes how Laslylusky ("the bot", "we") collects, uses and protects information when you use our services on Discord. By using Laslylusky, you accept the practices described in this policy.</p>
+                    </section>
+
+                    <section id="information" class="section">
+                        <h2>2. Information We Collect</h2>
+                        <p>We collect the following types of data that are essential for the bot's operation:</p>
+                        
+                        <div class="subsection">
+                            <h3>2.1 User Data</h3>
+                            <ul class="data-list">
+                                <li><strong>Discord User IDs:</strong> To uniquely identify users</li>
+                                <li><strong>AI Conversation History:</strong> Messages exchanged with the AI assistant to maintain context</li>
+                                <li><strong>Level and XP Data:</strong> Experience points, current level, message count and last activity</li>
+                                <li><strong>Reminders:</strong> Titles, descriptions, dates and time zones of configured reminders</li>
+                                <li><strong>Birthday Dates:</strong> Birth day and month for automatic congratulations</li>
+                                <li><strong>Game Statistics:</strong> Scores, match history and game statistics (hangman, minesweeper, blackjack)</li>
+                            </ul>
+                        </div>
+
+                        <div class="subsection">
+                            <h3>2.2 Server Data</h3>
+                            <ul class="data-list">
+                                <li><strong>Discord Server IDs:</strong> To uniquely identify servers</li>
+                                <li><strong>Command Configuration:</strong> Commands enabled/disabled per server</li>
+                                <li><strong>Permission Configuration:</strong> IDs of roles and users with special permissions</li>
+                                <li><strong>Log Configuration:</strong> Channels and custom messages for audit logs</li>
+                                <li><strong>Ticket Configuration:</strong> Support ticket system configuration</li>
+                                <li><strong>Voice Channel Configuration:</strong> Temporary voice channel configuration</li>
+                            </ul>
+                        </div>
+
+                        <div class="subsection">
+                            <h3>2.3 Moderation Data</h3>
+                            <ul class="data-list">
+                                <li><strong>Infractions:</strong> Warnings, bans, moderator IDs, reasons and dates</li>
+                                <li><strong>Infraction IDs:</strong> Unique identifiers for warnings</li>
+                            </ul>
+                        </div>
+                    </section>
+
+                    <section id="usage" class="section">
+                        <h2>3. How We Use Information</h2>
+                        <p>We use the collected data to:</p>
+                        <ul class="feature-list">
+                            <li>Provide basic bot functionalities (commands, moderation, entertainment)</li>
+                            <li>Maintain coherent conversations with the AI assistant</li>
+                            <li>Manage leveling systems and rewards</li>
+                            <li>Send reminders and birthday congratulations</li>
+                            <li>Maintain game statistics and rankings</li>
+                            <li>Customize user experience per server</li>
+                            <li>Provide moderation functions and audit logs</li>
+                            <li>Manage ticket systems and support</li>
+                        </ul>
+                    </section>
+
+                    <section id="access" class="section">
+                        <h2>4. Data Access</h2>
+                        <p>Access to data is strictly limited to:</p>
+                        <div class="access-grid">
+                            <div class="access-item">
+                                <h4>Bot Creator</h4>
+                                <p><strong>vegetines</strong> (ID: 702934069138161835)</p>
+                                <span class="access-level full">Full access for technical maintenance and support</span>
+                            </div>
+                            <div class="access-item">
+                                <h4>Users</h4>
+                                <p>Can only access their own data</p>
+                                <span class="access-level limited">Limited access through specific commands</span>
+                            </div>
+                            <div class="access-item">
+                                <h4>Server Moderators</h4>
+                                <p>Only moderation data from their server</p>
+                                <span class="access-level server">Server-restricted access</span>
+                            </div>
+                        </div>
+                        <div class="important-note">
+                            <p><strong>Important:</strong> Although the bot's code is open and publicly available, this does not grant access to stored data. Data remains private and protected regardless of source code availability.</p>
+                        </div>
+                    </section>
+
+                    <section id="security" class="section">
+                        <h2>5. Storage and Security</h2>
+                        <p>We implement appropriate security measures to protect your data:</p>
+                        <div class="security-grid">
+                            <div class="security-item">
+                                <div class="security-icon">🔒</div>
+                                <h4>Secure Databases</h4>
+                                <p>Data stored with restricted access</p>
+                            </div>
+                            <div class="security-item">
+                                <div class="security-icon">🔐</div>
+                                <h4>Encrypted Connections</h4>
+                                <p>All communications are encrypted</p>
+                            </div>
+                            <div class="security-item">
+                                <div class="security-icon">👥</div>
+                                <h4>Limited Access</h4>
+                                <p>Only authorized personnel have access</p>
+                            </div>
+                            <div class="security-item">
+                                <div class="security-icon">💾</div>
+                                <h4>Backups</h4>
+                                <p>Regular backups to prevent data loss</p>
+                            </div>
+                        </div>
+                    </section>
+
+                    <section id="retention" class="section">
+                        <h2>6. Data Retention</h2>
+                        <p>Data is retained while:</p>
+                        <ul class="retention-list">
+                            <li>The bot is active on your server</li>
+                            <li>You maintain an active Discord account</li>
+                            <li>Data is necessary to provide services</li>
+                            <li>You do not specifically request its deletion</li>
+                        </ul>
+                    </section>
+
+                    <section id="rights" class="section">
+                        <h2>7. Your Rights</h2>
+                        <p>You have the right to:</p>
+                        <div class="rights-grid">
+                            <div class="right-item">
+                                <h4>Access</h4>
+                                <p>Download your AI history using the <code>/savedatachat</code> command</p>
+                            </div>
+                            <div class="right-item">
+                                <h4>Rectification</h4>
+                                <p>Request correction of incorrect data</p>
+                            </div>
+                            <div class="right-item">
+                                <h4>Deletion</h4>
+                                <p>Request deletion of your data</p>
+                            </div>
+                            <div class="right-item">
+                                <h4>Portability</h4>
+                                <p>Get a copy of your data in readable format</p>
+                            </div>
+                        </div>
+                    </section>
+
+                    <section id="deletion" class="section">
+                        <h2>8. Data Deletion</h2>
+                        <div class="deletion-methods">
+                            <div class="deletion-item">
+                                <h4>AI History</h4>
+                                <p>Use the <code>/reset-chat</code> command</p>
+                            </div>
+                            <div class="deletion-item">
+                                <h4>Other Data</h4>
+                                <p>Contact us through a support ticket on our server</p>
+                                <a href="https://discord.gg/DN6PDKA7gf" class="discord-link">Support server</a>
+                            </div>
+                        </div>
+                    </section>
+
+                    <section id="third-parties" class="section">
+                        <h2>9. Sharing Data with Third Parties</h2>
+                        <p>We do not share, sell or transfer your personal data to third parties, except:</p>
+                        <ul class="exception-list">
+                            <li>When required by law</li>
+                            <li>To protect our legal rights</li>
+                            <li>With your explicit consent</li>
+                        </ul>
+                    </section>
+
+                    <section id="open-source" class="section">
+                        <h2>10. Open Source and Privacy</h2>
+                        <p>Laslylusky is an open source project:</p>
+                        <div class="open-source-info">
+                            <div class="info-column">
+                                <h4>✅ Code Availability</h4>
+                                <ul>
+                                    <li>Source code is publicly available</li>
+                                    <li>Anyone can review, clone and modify the code</li>
+                                    <li>Complete transparency in operation</li>
+                                </ul>
+                            </div>
+                            <div class="info-column">
+                                <h4>🔒 Data Protection</h4>
+                                <ul>
+                                    <li>User data remains private</li>
+                                    <li>Credentials are not included in public code</li>
+                                    <li>Sensitive configurations are protected</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </section>
+
+                    <section id="changes" class="section">
+                        <h2>11. Policy Changes</h2>
+                        <p>We reserve the right to update this policy. Important changes will be notified through:</p>
+                        <div class="notification-methods">
+                            <div class="method-item">
+                                <span class="method-icon">💬</span>
+                                <p>Our Discord server</p>
+                            </div>
+                            <div class="method-item">
+                                <span class="method-icon">🌐</span>
+                                <p>Updates on this website</p>
+                            </div>
+                            <div class="method-item">
+                                <span class="method-icon">🤖</span>
+                                <p>Bot commands when appropriate</p>
+                            </div>
+                        </div>
+                    </section>
+
+                    <section id="compliance" class="section">
+                        <h2>12. Legal Compliance</h2>
+                        <p>This policy complies with:</p>
+                        <div class="compliance-grid">
+                            <div class="compliance-item">
+                                <h4>Discord ToS</h4>
+                                <p>Discord Terms of Service</p>
+                            </div>
+                            <div class="compliance-item">
+                                <h4>GDPR</h4>
+                                <p>General Data Protection Regulation</p>
+                            </div>
+                            <div class="compliance-item">
+                                <h4>Applicable Laws</h4>
+                                <p>International privacy laws</p>
+                            </div>
+                        </div>
+                    </section>
+
+                    <section id="contact" class="section">
+                        <h2>13. Contact</h2>
+                        <p>For questions about this policy or to exercise your rights:</p>
+                        <div class="contact-info">
+                            <div class="contact-method">
+                                <h4>Discord Server</h4>
+                                <a href="https://discord.gg/DN6PDKA7gf" class="contact-link discord">Join server</a>
+                            </div>
+                            <div class="contact-method">
+                                <h4>Main User</h4>
+                                <p><strong>vegetines</strong> (ID: 702934069138161835)</p>
+                            </div>
+                            <div class="contact-method">
+                                <h4>Preferred Method</h4>
+                                <p>Create a support ticket on the server</p>
+                            </div>
+                        </div>
+                    </section>
+                </div>
+            </div>
+        </div>
+
+        <script>
+            document.querySelector('.mobile-menu-toggle').addEventListener('click', function() {
+                const mobileNav = document.querySelector('.mobile-nav');
+                const isActive = mobileNav.classList.contains('active');
+                
+                if (isActive) {
+                    document.querySelectorAll('.mobile-dropdown').forEach(dropdown => {
+                        dropdown.classList.remove('active');
+                    });
+                }
+                
+                mobileNav.classList.toggle('active');
+                this.classList.toggle('active');
+            });
+
+            document.querySelectorAll('.mobile-dropbtn').forEach(btn => {
+                btn.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    const dropdown = this.parentElement;
+                    const isCurrentlyActive = dropdown.classList.contains('active');
+                    
+                    document.querySelectorAll('.mobile-dropdown').forEach(otherDropdown => {
+                        if (otherDropdown !== dropdown) {
+                            otherDropdown.classList.remove('active');
+                        }
+                    });
+                    
+                    dropdown.classList.toggle('active');
+                });
+            });
+
+            document.addEventListener('click', function(e) {
+                if (!e.target.closest('.mobile-dropdown') && !e.target.closest('.mobile-menu-toggle')) {
+                    document.querySelectorAll('.mobile-dropdown').forEach(dropdown => {
+                        dropdown.classList.remove('active');
+                    });
+                }
+            });
+        </script>
+    </body>
+</html>

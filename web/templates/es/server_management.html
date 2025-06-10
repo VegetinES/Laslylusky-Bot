@@ -1,0 +1,1187 @@
+<!DOCTYPE html>
+<html lang="es">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Gestionar {{ server.name }} - Laslylusky</title>
+        <link rel="icon" type="image/png" href="{{ url_for('static', filename='resources/laslylusky.png') }}">
+        <link rel="stylesheet" href="{{ url_for('static', filename='styles/dashboard.css') }}">
+        <link rel="stylesheet" href="{{ url_for('static', filename='styles/server_management.css') }}">
+        <style>
+            .permissions-main-content {
+                display: grid;
+                grid-template-columns: 350px 1fr;
+                gap: 30px;
+                max-width: 1400px;
+                margin: 0 auto;
+            }
+
+            .permissions-sidebar {
+                background: rgba(30, 30, 30, 0.8);
+                border-radius: 15px;
+                border: 1px solid #333;
+                backdrop-filter: blur(10px);
+                height: fit-content;
+                position: sticky;
+                top: 20px;
+            }
+
+            .permissions-categories {
+                max-height: 500px;
+                overflow-y: auto;
+                margin-bottom: 15px;
+            }
+
+            .permission-category {
+                margin-bottom: 15px;
+            }
+
+            .category-header {
+                background-color: #3a3a3a;
+                padding: 12px 15px;
+                border-radius: 8px;
+                margin-bottom: 8px;
+                cursor: pointer;
+                transition: all 0.3s ease;
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+            }
+
+            .category-header:hover {
+                background-color: #444;
+            }
+
+            .category-header.active {
+                background-color: rgba(77, 166, 255, 0.2);
+                border: 1px solid #4da6ff;
+            }
+
+            .category-name {
+                color: #e0e0e0;
+                font-weight: 600;
+                margin: 0;
+                display: flex;
+                align-items: center;
+                gap: 8px;
+            }
+
+            .category-description {
+                color: #b0b0b0;
+                font-size: 0.8rem;
+                margin: 0;
+            }
+
+            .category-toggle {
+                color: #b0b0b0;
+                font-size: 1.2rem;
+                transition: transform 0.3s ease;
+            }
+
+            .category-header.expanded .category-toggle {
+                transform: rotate(90deg);
+            }
+
+            .category-permissions {
+                display: none;
+                padding-left: 15px;
+            }
+
+            .category-permissions.expanded {
+                display: block;
+            }
+
+            .permission-item {
+                background-color: #2a2a2a;
+                border: 1px solid #444;
+                border-radius: 6px;
+                padding: 10px 12px;
+                margin-bottom: 6px;
+                cursor: pointer;
+                transition: all 0.3s ease;
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+            }
+
+            .permission-item:hover {
+                border-color: #4da6ff;
+                background-color: #333;
+            }
+
+            .permission-item.active {
+                border-color: #4da6ff;
+                background-color: rgba(77, 166, 255, 0.1);
+            }
+
+            .permission-info {
+                flex: 1;
+            }
+
+            .permission-name {
+                color: #e0e0e0;
+                font-weight: 500;
+                margin-bottom: 2px;
+                font-size: 0.9rem;
+            }
+
+            .permission-type {
+                color: #b0b0b0;
+                font-size: 0.75rem;
+            }
+
+            .permission-count {
+                background-color: #4da6ff;
+                color: white;
+                padding: 2px 6px;
+                border-radius: 10px;
+                font-size: 0.7rem;
+                font-weight: 600;
+                min-width: 20px;
+                text-align: center;
+            }
+
+            .permission-count.zero {
+                background-color: #666;
+            }
+
+            .permissions-editor {
+                background: rgba(30, 30, 30, 0.8);
+                border-radius: 15px;
+                border: 1px solid #333;
+                backdrop-filter: blur(10px);
+                min-height: 600px;
+            }
+
+            .permission-detail-content {
+                display: grid;
+                gap: 25px;
+            }
+
+            .permission-description {
+                background-color: rgba(77, 166, 255, 0.1);
+                border: 1px solid #4da6ff;
+                border-radius: 8px;
+                padding: 15px;
+                color: #e0e0e0;
+                line-height: 1.4;
+            }
+
+            .permission-items-section {
+                background-color: #1e1e1e;
+                border: 1px solid #444;
+                border-radius: 8px;
+                padding: 20px;
+            }
+
+            .permission-items-list {
+                min-height: 100px;
+                margin-bottom: 15px;
+            }
+
+            .permission-items-list:empty::before {
+                content: "No hay elementos configurados";
+                color: #666;
+                font-style: italic;
+                display: block;
+                text-align: center;
+                padding: 30px;
+            }
+
+            .permission-item-element {
+                background-color: #333;
+                border: 1px solid #555;
+                border-radius: 6px;
+                padding: 10px 12px;
+                margin-bottom: 8px;
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                transition: all 0.3s ease;
+            }
+
+            .permission-item-element:hover {
+                border-color: #666;
+                background-color: #3a3a3a;
+            }
+
+            .item-info {
+                display: flex;
+                align-items: center;
+                gap: 10px;
+                flex: 1;
+            }
+
+            .item-avatar {
+                width: 24px;
+                height: 24px;
+                border-radius: 50%;
+                border: 1px solid #666;
+            }
+
+            .item-color {
+                width: 12px;
+                height: 12px;
+                border-radius: 50%;
+                border: 1px solid #666;
+            }
+
+            .item-name {
+                color: #e0e0e0;
+                font-weight: 500;
+            }
+
+            .item-actions {
+                display: flex;
+                gap: 8px;
+            }
+
+            .add-permission-section {
+                background-color: #1e1e1e;
+                border: 1px solid #444;
+                border-radius: 8px;
+                padding: 20px;
+            }
+
+            .add-permission-controls {
+                display: grid;
+                gap: 20px;
+            }
+
+            .add-permission-controls .form-group {
+                display: grid;
+                gap: 10px;
+            }
+
+            .add-permission-controls .form-group label {
+                color: #e0e0e0;
+                font-weight: 600;
+                margin-bottom: 5px;
+            }
+
+            .add-permission-controls .btn-secondary {
+                justify-self: start;
+                margin-top: 5px;
+            }
+
+            @media (max-width: 1200px) {
+                .permissions-main-content {
+                    grid-template-columns: 300px 1fr;
+                    gap: 20px;
+                }
+            }
+
+            @media (max-width: 768px) {
+                .permissions-main-content {
+                    grid-template-columns: 1fr;
+                    gap: 20px;
+                }
+                
+                .permissions-sidebar {
+                    position: relative;
+                    top: 0;
+                    order: 2;
+                }
+                
+                .permissions-editor {
+                    order: 1;
+                }
+            }
+        </style>
+    </head>
+    <body>
+        <div class="header">
+            <div class="header-content">
+                <div class="logo">
+                    <a href="/es/">Laslylusky</a>
+                </div>
+                
+                <nav class="desktop-nav">
+                    <a href="/es/">Home</a>
+                    <div class="dropdown">
+                        <a href="#" class="dropbtn">Documentación</a>
+                        <div class="dropdown-content">
+                            <a href="/es/documentacion/help">Help</a>
+                            <a href="/es/documentacion/configuracion">Configuración</a>
+                            <a href="/es/documentacion/tickets">Configuración Tickets</a>
+                        </div>
+                    </div>
+                    <a href="/es/dashboard">Dashboard</a>
+                    <a href="/es/vegetines">Creador</a>
+                    <a href="/es/privacidad">Privacidad</a>
+                    <a href="/es/tos">Términos y Condiciones</a>
+                    <div class="dropdown">
+                        <a href="#" class="dropbtn">🌐 ES</a>
+                        <div class="dropdown-content">
+                            <a href="/es/dashboard/{{ server.id }}">🇪🇸 Español</a>
+                            <a href="/en/dashboard/{{ server.id }}">🇺🇸 English</a>
+                        </div>
+                    </div>
+                </nav>
+
+                <div class="user-info">
+                    <img src="{{ user.avatar }}" alt="Avatar" class="user-avatar">
+                    <span class="username">{{ user.username }}</span>
+                    <a href="/logout" class="logout-btn">Cerrar Sesión</a>
+                </div>
+
+                <div class="mobile-menu-toggle">
+                    <span class="hamburger-line"></span>
+                    <span class="hamburger-line"></span>
+                    <span class="hamburger-line"></span>
+                </div>
+            </div>
+
+            <div class="mobile-nav">
+                <a href="/es/">🏠 Home</a>
+                <div class="mobile-dropdown">
+                    <a href="#" class="mobile-dropbtn">📚 Documentación</a>
+                    <div class="mobile-dropdown-content">
+                        <a href="/es/documentacion/help">Help</a>
+                        <a href="/es/documentacion/configuracion">Configuración</a>
+                        <a href="/es/documentacion/tickets">Configuración Tickets</a>
+                    </div>
+                </div>
+                <a href="/es/dashboard">📊 Dashboard</a>
+                <a href="/es/vegetines">👨‍💻 Creador</a>
+                <a href="/es/privacidad">🔒 Privacidad</a>
+                <a href="/es/tos">📋 Términos y Condiciones</a>
+                <div class="mobile-dropdown">
+                    <a href="#" class="mobile-dropbtn">🌐 Idioma</a>
+                    <div class="mobile-dropdown-content">
+                        <a href="/es/dashboard/{{ server.id }}">🇪🇸 Español</a>
+                        <a href="/en/dashboard/{{ server.id }}">🇺🇸 English</a>
+                    </div>
+                </div>
+                <a href="/logout" class="mobile-logout">🚪 Cerrar Sesión</a>
+            </div>
+        </div>
+
+        <div class="breadcrumb">
+            <div class="breadcrumb-content">
+                <a href="/es/dashboard">Dashboard</a>
+                <span class="breadcrumb-separator">›</span>
+                <span class="breadcrumb-current">{{ server.name }}</span>
+            </div>
+        </div>
+        
+        <div class="hero-small">
+            <div class="hero-content">
+                <div class="server-header">
+                    {% if server.icon %}
+                    <img src="https://cdn.discordapp.com/icons/{{ server.id }}/{{ server.icon }}.png" alt="Icono del servidor" class="server-icon-large">
+                    {% else %}
+                    <div class="server-icon-placeholder-large">{{ server.name[0].upper() }}</div>
+                    {% endif %}
+                    <div class="server-title">
+                        <h1>{{ server.name }}</h1>
+                        <p class="server-subtitle">Configuración del bot</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="container">
+            <div class="management-tabs">
+                <button class="tab-button active" data-tab="commands">
+                    <span class="tab-icon">⚙️</span>
+                    <span class="tab-text">Comandos</span>
+                </button>
+                <button class="tab-button" data-tab="permissions">
+                    <span class="tab-icon">🔑</span>
+                    <span class="tab-text">Permisos</span>
+                </button>
+                <button class="tab-button" data-tab="logs">
+                    <span class="tab-icon">📋</span>
+                    <span class="tab-text">Logs</span>
+                </button>
+                <button class="tab-button" data-tab="tickets">
+                    <span class="tab-icon">🎫</span>
+                    <span class="tab-text">Tickets</span>
+                </button>
+            </div>
+
+            <div class="tab-content active" id="commands-tab">
+                <div class="config-section">
+                    <div class="section-header">
+                        <h2>Gestión de Comandos</h2>
+                        <p class="section-description">
+                            Activa o desactiva comandos específicos del bot para este servidor.
+                        </p>
+                    </div>
+
+                    <div class="commands-controls">
+                        <div class="search-filter">
+                            <input type="text" id="command-search" placeholder="Buscar comandos..." class="search-input">
+                        </div>
+                        
+                        <div class="bulk-actions">
+                            <button class="btn-secondary" id="select-all">Seleccionar Todo</button>
+                            <button class="btn-secondary" id="deselect-all">Deseleccionar Todo</button>
+                        </div>
+                    </div>
+
+                    <div class="commands-grid" id="commands-container">
+                        <div class="loading-state">
+                            <div class="spinner"></div>
+                            <p>Cargando comandos...</p>
+                        </div>
+                    </div>
+
+                    <div class="save-actions" id="save-actions" style="display: none;">
+                        <div class="changes-indicator">
+                            <span class="changes-count">0</span> cambios pendientes
+                        </div>
+                        <div class="action-buttons">
+                            <button class="btn-cancel" id="cancel-changes">Cancelar</button>
+                            <button class="btn-save" id="save-changes">Guardar Cambios</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="tab-content" id="permissions-tab">
+                <div class="permissions-main-content">
+                    <div class="permissions-sidebar">
+                        <div class="sidebar-section">
+                            <h3>🔑 Categorías de Permisos</h3>
+                            <div class="permissions-filter">
+                                <input type="text" id="permissions-search" placeholder="Buscar permisos..." class="search-input">
+                            </div>
+                            <div class="permissions-categories" id="permissions-categories">
+                                <div class="loading-state">
+                                    <div class="spinner"></div>
+                                    <p>Cargando permisos...</p>
+                                </div>
+                            </div>
+                            <button class="btn-primary btn-full-width" id="create-custom-permission-btn">
+                                <span class="btn-icon">➕</span>
+                                Crear Permiso Personalizado
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="permissions-editor">
+                        <div class="editor-header">
+                            <h2 id="permissions-editor-title">Selecciona un permiso para configurar</h2>
+                            <div class="editor-actions">
+                                <button class="btn-danger" id="delete-permission-btn" style="display: none;">
+                                    <span class="btn-icon">🗑️</span>
+                                    Eliminar Permiso
+                                </button>
+                            </div>
+                        </div>
+
+                        <div class="editor-content" id="permissions-editor-content">
+                            <div class="welcome-state">
+                                <div class="welcome-icon">🔑</div>
+                                <h3>Gestión de Permisos</h3>
+                                <p>Selecciona una categoría y permiso para configurar quién puede usar las funciones específicas del bot.</p>
+                                <div class="welcome-features">
+                                    <div class="feature-item">
+                                        <span class="feature-icon">👥</span>
+                                        <span>Gestión de roles</span>
+                                    </div>
+                                    <div class="feature-item">
+                                        <span class="feature-icon">👤</span>
+                                        <span>Gestión de usuarios</span>
+                                    </div>
+                                    <div class="feature-item">
+                                        <span class="feature-icon">🛡️</span>
+                                        <span>Control granular</span>
+                                    </div>
+                                    <div class="feature-item">
+                                        <span class="feature-icon">⚙️</span>
+                                        <span>Permisos personalizados</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="tab-content" id="logs-tab">
+                <div class="logs-main-content">
+                    <div class="logs-sidebar">
+                        <div class="sidebar-section">
+                            <h3>📋 Tipos de Logs</h3>
+                            <div class="logs-filter">
+                                <input type="text" id="logs-search" placeholder="Buscar logs..." class="search-input">
+                                <div class="filter-buttons">
+                                    <button class="filter-btn active" data-filter="all">Todos</button>
+                                    <button class="filter-btn" data-filter="activated">Activos</button>
+                                    <button class="filter-btn" data-filter="deactivated">Inactivos</button>
+                                </div>
+                            </div>
+                            <div class="logs-list" id="logs-list">
+                                <div class="loading-state">
+                                    <div class="spinner"></div>
+                                    <p>Cargando logs...</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="sidebar-section">
+                            <h3>👁️ Vista Previa</h3>
+                            <div class="preview-controls">
+                                <button class="btn-secondary btn-toggle" id="toggle-logs-preview-btn">
+                                    <span class="btn-icon">👁️</span>
+                                    Mostrar Vista Previa
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="logs-editor">
+                        <div class="editor-header">
+                            <h2 id="logs-editor-title">Selecciona un log para configurar</h2>
+                            <div class="editor-actions">
+                                <button class="btn-warning" id="logs-undo-btn" style="display: none;">
+                                    <span class="btn-icon">↶</span>
+                                    Deshacer
+                                </button>
+                                <button class="btn-secondary" id="cancel-logs-edit-btn" style="display: none;">Cancelar</button>
+                                <button class="btn-success" id="save-log-btn" style="display: none;">Guardar Configuración</button>
+                            </div>
+                        </div>
+
+                        <div class="editor-content" id="logs-editor-content">
+                            <div class="welcome-state">
+                                <div class="welcome-icon">📋</div>
+                                <h3>Configuración de Logs</h3>
+                                <p>Selecciona un tipo de log para configurarlo y comenzar a registrar eventos en tu servidor.</p>
+                                <div class="welcome-features">
+                                    <div class="feature-item">
+                                        <span class="feature-icon">⚙️</span>
+                                        <span>Personalización completa</span>
+                                    </div>
+                                    <div class="feature-item">
+                                        <span class="feature-icon">📝</span>
+                                        <span>Mensajes personalizados</span>
+                                    </div>
+                                    <div class="feature-item">
+                                        <span class="feature-icon">🎨</span>
+                                        <span>Embeds y colores</span>
+                                    </div>
+                                    <div class="feature-item">
+                                        <span class="feature-icon">📊</span>
+                                        <span>Campos y parámetros</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="logs-preview" id="logs-preview">
+                        <div class="preview-header">
+                            <h3>Vista Previa</h3>
+                            <button class="btn-close" id="close-logs-preview-btn">✕</button>
+                        </div>
+                        <div class="preview-content">
+                            <div class="preview-section">
+                                <h4>📝 Configuración actual</h4>
+                                <div class="preview-message" id="log-preview-content">
+                                    <p>Selecciona un log para ver la vista previa</p>
+                                </div>
+                            </div>
+                            <div class="preview-section">
+                                <h4>🔧 Parámetros disponibles</h4>
+                                <div class="parameters-list" id="log-parameters-list">
+                                    <p>Los parámetros aparecerán aquí</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="tab-content" id="tickets-tab">
+                <div class="tickets-main-content">
+                    <div class="tickets-sidebar">
+                        <div class="sidebar-section">
+                            <h3>🎫 Tickets Configurados</h3>
+                            <div class="tickets-list" id="tickets-list">
+                                <div class="loading-state">
+                                    <div class="spinner"></div>
+                                    <p>Cargando tickets...</p>
+                                </div>
+                            </div>
+                            <button class="btn-primary btn-full-width" id="create-ticket-btn">
+                                <span class="btn-icon">➕</span>
+                                Crear Nuevo Ticket
+                            </button>
+                        </div>
+
+                        <div class="sidebar-section">
+                            <h3>👁️ Vista Previa</h3>
+                            <div class="preview-controls">
+                                <button class="btn-secondary btn-toggle" id="toggle-preview-btn">
+                                    <span class="btn-icon">👁️</span>
+                                    Mostrar Vista Previa
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="tickets-editor">
+                        <div class="editor-header">
+                            <h2 id="editor-title">Selecciona un ticket para editar</h2>
+                            <div class="editor-actions">
+                                <button class="btn-warning" id="undo-btn" style="display: none;">
+                                    <span class="btn-icon">↶</span>
+                                    Deshacer
+                                </button>
+                                <button class="btn-secondary" id="cancel-edit-btn" style="display: none;">Cancelar</button>
+                                <button class="btn-success" id="save-ticket-btn" style="display: none;">Guardar en Firebase</button>
+                            </div>
+                        </div>
+
+                        <div class="editor-content" id="editor-content">
+                            <div class="welcome-state">
+                                <div class="welcome-icon">🎫</div>
+                                <h3>Configuración de Tickets</h3>
+                                <p>Selecciona un ticket existente para editarlo o crea uno nuevo para comenzar.</p>
+                                <div class="welcome-features">
+                                    <div class="feature-item">
+                                        <span class="feature-icon">⚙️</span>
+                                        <span>Personalización completa</span>
+                                    </div>
+                                    <div class="feature-item">
+                                        <span class="feature-icon">🔒</span>
+                                        <span>Control de permisos</span>
+                                    </div>
+                                    <div class="feature-item">
+                                        <span class="feature-icon">📝</span>
+                                        <span>Mensajes personalizados</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="tickets-preview" id="tickets-preview">
+                        <div class="preview-header">
+                            <h3>Vista Previa</h3>
+                            <button class="btn-close" id="close-preview-btn">✕</button>
+                        </div>
+                        <div class="preview-content">
+                            <div class="preview-section">
+                                <h4>📝 Mensaje para abrir tickets</h4>
+                                <div class="preview-message" id="open-message-preview">
+                                    <p>Selecciona un ticket para ver la vista previa</p>
+                                </div>
+                            </div>
+                            <div class="preview-section">
+                                <h4>💬 Mensaje de ticket abierto</h4>
+                                <div class="preview-message" id="opened-message-preview">
+                                    <p>Configura un ticket para ver la vista previa</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="modal-overlay" id="modal-overlay"></div>
+        
+        <div class="modal" id="create-custom-permission-modal">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3>⚙️ Crear Permiso Personalizado</h3>
+                    <button class="modal-close">✕</button>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label for="custom-permission-name">🏷️ Nombre del permiso</label>
+                        <input type="text" id="custom-permission-name" class="form-input" placeholder="mi-permiso-personalizado">
+                        <small>Solo letras minúsculas, números y guiones. Se creará automáticamente para roles y usuarios.</small>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn-secondary" id="cancel-custom-permission">Cancelar</button>
+                    <button class="btn-primary" id="save-custom-permission">Crear Permiso</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="modal" id="permission-detail-modal">
+            <div class="modal-content modal-large">
+                <div class="modal-header">
+                    <h3 id="permission-detail-title">🔑 Configurar Permiso</h3>
+                    <button class="modal-close">✕</button>
+                </div>
+                <div class="modal-body">
+                    <div class="permission-detail-content">
+                        <div class="permission-description" id="permission-description">
+                            <p>Descripción del permiso aparecerá aquí</p>
+                        </div>
+                        
+                        <div class="permission-items-section" id="permission-items-section">
+                            <h4 id="permission-items-title">👥 Roles con este permiso</h4>
+                            <div class="permission-items-list" id="permission-items-list">
+                                <div class="empty-state">No hay elementos configurados</div>
+                            </div>
+                        </div>
+                        
+                        <div class="add-permission-section">
+                            <h4 id="add-permission-title">➕ Añadir al permiso</h4>
+                            <div class="add-permission-controls" id="add-permission-controls">
+                                <div class="form-group" id="add-role-group">
+                                    <label>👥 Añadir rol</label>
+                                    <select id="permission-role-select" class="form-select">
+                                        <option value="">Selecciona un rol...</option>
+                                    </select>
+                                    <button class="btn-secondary" id="add-permission-role">
+                                        <span class="btn-icon">➕</span>
+                                        Añadir Rol
+                                    </button>
+                                </div>
+                                
+                                <div class="form-group" id="add-user-group">
+                                    <label>👤 Añadir usuario</label>
+                                    <input type="text" id="permission-user-input" class="form-input" placeholder="ID del usuario">
+                                    <button class="btn-secondary" id="add-permission-user">
+                                        <span class="btn-icon">➕</span>
+                                        Añadir Usuario
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn-secondary" id="close-permission-detail">Cerrar</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="modal" id="log-channel-select-modal">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3>Seleccionar Canal para Logs</h3>
+                    <button class="modal-close">✕</button>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label for="log-channel-select">📋 Canal para Logs</label>
+                        <select id="log-channel-select" class="form-select">
+                            <option value="">Selecciona un canal...</option>
+                        </select>
+                        <small>Canal donde se enviarán los registros de este tipo de log</small>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn-secondary" id="cancel-log-channel-select">Cancelar</button>
+                    <button class="btn-primary" id="confirm-log-channel-select">Continuar</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="modal" id="log-message-config-modal">
+            <div class="modal-content modal-large">
+                <div class="modal-header">
+                    <h3 id="log-message-modal-title">📝 Configurar Mensaje de Log</h3>
+                    <button class="modal-close">✕</button>
+                </div>
+                <div class="modal-body">
+                    <div class="log-message-config">
+                        <div class="message-type-selector">
+                            <button class="message-type-btn active" data-type="embed">📋 Embed</button>
+                            <button class="message-type-btn" data-type="text">📝 Texto</button>
+                        </div>
+                        
+                        <div class="message-content" id="log-embed-config">
+                            <div class="form-group">
+                                <label for="log-embed-title">🏷️ Título</label>
+                                <input type="text" id="log-embed-title" class="form-input" placeholder="Título del embed (opcional)">
+                            </div>
+                            <div class="form-group">
+                                <label for="log-embed-description">📝 Descripción</label>
+                                <textarea id="log-embed-description" class="form-textarea" placeholder="Descripción del embed (obligatorio)" rows="4"></textarea>
+                            </div>
+                            <div class="form-group">
+                                <label for="log-embed-footer">🔖 Footer</label>
+                                <input type="text" id="log-embed-footer" class="form-input" placeholder="Footer del embed (opcional)">
+                            </div>
+                            <div class="form-group">
+                                <label>🎨 Color</label>
+                                <div class="color-grid" id="log-color-grid">
+                                    <div class="color-option selected" data-color="default" style="background-color: #3498db;">Azul</div>
+                                    <div class="color-option" data-color="red" style="background-color: #e74c3c;">Rojo</div>
+                                    <div class="color-option" data-color="green" style="background-color: #2ecc71;">Verde</div>
+                                    <div class="color-option" data-color="yellow" style="background-color: #f1c40f;">Amarillo</div>
+                                    <div class="color-option" data-color="orange" style="background-color: #e67e22;">Naranja</div>
+                                    <div class="color-option" data-color="purple" style="background-color: #9b59b6;">Morado</div>
+                                    <div class="color-option" data-color="pink" style="background-color: #ff6b81;">Rosa</div>
+                                    <div class="color-option" data-color="gray" style="background-color: #95a5a6;">Gris</div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label>🖼️ Imagen</label>
+                                <div class="checkbox-group">
+                                    <input type="checkbox" id="log-enable-image">
+                                    <label for="log-enable-image">Activar imagen</label>
+                                </div>
+                                <input type="url" id="log-image-url" class="form-input" placeholder="URL de la imagen o {servericon} o {useravatar}" disabled>
+                            </div>
+                            <div class="form-group">
+                                <label>🔍 Thumbnail</label>
+                                <div class="checkbox-group">
+                                    <input type="checkbox" id="log-enable-thumbnail">
+                                    <label for="log-enable-thumbnail">Activar thumbnail</label>
+                                </div>
+                                <input type="url" id="log-thumbnail-url" class="form-input" placeholder="URL del thumbnail o {servericon} o {useravatar}" disabled>
+                            </div>
+                        </div>
+                        
+                        <div class="message-content" id="log-text-config" style="display: none;">
+                            <div class="form-group">
+                                <label for="log-plain-message">📝 Mensaje de texto</label>
+                                <textarea id="log-plain-message" class="form-textarea" placeholder="Escribe tu mensaje aquí usando los parámetros disponibles..." rows="6"></textarea>
+                            </div>
+                        </div>
+
+                        <div class="fields-config" id="log-fields-config">
+                            <h4>📊 Campos del Embed</h4>
+                            <div class="fields-list" id="log-fields-list"></div>
+                            <button class="btn-secondary" id="add-log-field-btn">
+                                <span class="btn-icon">➕</span>
+                                Añadir Campo
+                            </button>
+                        </div>
+
+                        <div class="parameters-info">
+                            <h4>🔧 Parámetros disponibles</h4>
+                            <div class="parameters-grid" id="log-parameters-info">
+                                <p>Los parámetros aparecerán aquí según el tipo de log seleccionado</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn-secondary" id="cancel-log-message-config">Cancelar</button>
+                    <button class="btn-primary" id="save-log-message-config">Guardar Mensaje</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="modal" id="log-field-config-modal">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3>📊 Configurar Campo</h3>
+                    <button class="modal-close">✕</button>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label for="log-field-name">🏷️ Nombre del campo</label>
+                        <input type="text" id="log-field-name" class="form-input" placeholder="Nombre del campo">
+                    </div>
+                    <div class="form-group">
+                        <label for="log-field-value">📝 Valor del campo</label>
+                        <textarea id="log-field-value" class="form-textarea" placeholder="Valor del campo" rows="3"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <div class="checkbox-group">
+                            <input type="checkbox" id="log-field-inline">
+                            <label for="log-field-inline">Campo en línea</label>
+                        </div>
+                        <small>Los campos en línea aparecen uno al lado del otro</small>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn-secondary" id="cancel-log-field-config">Cancelar</button>
+                    <button class="btn-primary" id="save-log-field-config">Guardar Campo</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="modal" id="channel-select-modal">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3>Seleccionar Canales</h3>
+                    <button class="modal-close">✕</button>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label for="ticket-channel">📝 Canal para Tickets</label>
+                        <select id="ticket-channel" class="form-select">
+                            <option value="">Selecciona un canal...</option>
+                        </select>
+                        <small>Canal donde se crearán los hilos de tickets</small>
+                    </div>
+                    <div class="form-group">
+                        <label for="log-channel">📋 Canal para Logs</label>
+                        <select id="log-channel" class="form-select">
+                            <option value="">Selecciona un canal...</option>
+                        </select>
+                        <small>Canal donde se registrarán las acciones de tickets</small>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn-secondary" id="cancel-channel-select">Cancelar</button>
+                    <button class="btn-primary" id="confirm-channel-select">Continuar</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="modal" id="confirm-delete-permission-modal">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3>⚠️ Confirmar Eliminación</h3>
+                    <button class="modal-close">✕</button>
+                </div>
+                <div class="modal-body">
+                    <p>¿Estás seguro de que quieres eliminar este permiso personalizado?</p>
+                    <p><strong>Esta acción no se puede deshacer.</strong></p>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn-secondary" id="cancel-delete-permission">Cancelar</button>
+                    <button class="btn-danger" id="confirm-delete-permission">Eliminar Permiso</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="modal" id="permissions-modal">
+            <div class="modal-content modal-large">
+                <div class="modal-header">
+                    <h3>🔒 Configurar Permisos</h3>
+                    <button class="modal-close">✕</button>
+                </div>
+                <div class="modal-body">
+                    <div class="permissions-tabs">
+                        <button class="tab-btn active" data-tab="manage">🔑 Gestionar Tickets</button>
+                        <button class="tab-btn" data-tab="view">👁️ Ver Tickets</button>
+                    </div>
+                    <div class="permissions-content">
+                        <div class="permission-tab active" id="manage-tab">
+                            <div class="permission-description">
+                                <strong>🔑 Gestionar Tickets:</strong> Permite el control total sobre los tickets, incluyendo ver, escribir, añadir/eliminar usuarios y archivar tickets.
+                            </div>
+                            <div class="permission-section">
+                                <h4>👥 Roles con permisos de gestión</h4>
+                                <div class="selected-items" id="manage-roles-list"></div>
+                                <button class="btn-secondary" id="add-manage-role">
+                                    <span class="btn-icon">➕</span>
+                                    Añadir Rol
+                                </button>
+                            </div>
+                            <div class="permission-section">
+                                <h4>👤 Usuarios con permisos de gestión</h4>
+                                <div class="selected-items" id="manage-users-list"></div>
+                                <div class="user-input-group">
+                                    <input type="text" id="manage-user-input" placeholder="ID del usuario" class="form-input">
+                                    <button class="btn-secondary" id="add-manage-user">
+                                        <span class="btn-icon">➕</span>
+                                        Añadir Usuario
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="permission-tab" id="view-tab">
+                            <div class="permission-description">
+                                <strong>👁️ Ver Tickets:</strong> Permite únicamente ver los tickets, sin poder escribir ni interactuar con los botones.
+                            </div>
+                            <div class="permission-section">
+                                <h4>👥 Roles con permisos de visualización</h4>
+                                <div class="selected-items" id="view-roles-list"></div>
+                                <button class="btn-secondary" id="add-view-role">
+                                    <span class="btn-icon">➕</span>
+                                    Añadir Rol
+                                </button>
+                            </div>
+                            <div class="permission-section">
+                                <h4>👤 Usuarios con permisos de visualización</h4>
+                                <div class="selected-items" id="view-users-list"></div>
+                                <div class="user-input-group">
+                                    <input type="text" id="view-user-input" placeholder="ID del usuario" class="form-input">
+                                    <button class="btn-secondary" id="add-view-user">
+                                        <span class="btn-icon">➕</span>
+                                        Añadir Usuario
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn-secondary" id="cancel-permissions">Cancelar</button>
+                    <button class="btn-primary" id="save-permissions">Guardar Permisos</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="modal" id="role-select-modal">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3>👥 Seleccionar Rol</h3>
+                    <button class="modal-close">✕</button>
+                </div>
+                <div class="modal-body">
+                    <div class="roles-list" id="roles-list">
+                        <div class="loading-state">
+                            <div class="spinner"></div>
+                            <p>Cargando roles...</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn-secondary" id="cancel-role-select">Cancelar</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="modal" id="message-config-modal">
+            <div class="modal-content modal-large">
+                <div class="modal-header">
+                    <h3 id="message-modal-title">📝 Configurar Mensaje</h3>
+                    <button class="modal-close">✕</button>
+                </div>
+                <div class="modal-body">
+                    <div class="message-config">
+                        <div class="message-type-selector">
+                            <button class="message-type-btn active" data-type="embed">📋 Embed</button>
+                            <button class="message-type-btn" data-type="text">📝 Texto</button>
+                        </div>
+                        
+                        <div class="message-content" id="embed-config">
+                            <div class="form-group">
+                                <label for="embed-title">🏷️ Título</label>
+                                <input type="text" id="embed-title" class="form-input" placeholder="Título del embed">
+                            </div>
+                            <div class="form-group">
+                                <label for="embed-description">📝 Descripción</label>
+                                <textarea id="embed-description" class="form-textarea" placeholder="Descripción del embed" rows="4"></textarea>
+                            </div>
+                            <div class="form-group">
+                                <label for="embed-footer">🔖 Footer</label>
+                                <input type="text" id="embed-footer" class="form-input" placeholder="Footer del embed">
+                            </div>
+                            <div class="form-group">
+                                <label>🎨 Color</label>
+                                <div class="color-grid" id="color-grid">
+                                    <div class="color-option" data-color="blue" style="background-color: #3498db;">Azul</div>
+                                    <div class="color-option" data-color="red" style="background-color: #ff0000;">Rojo</div>
+                                    <div class="color-option" data-color="green" style="background-color: #2ecc71;">Verde</div>
+                                    <div class="color-option" data-color="yellow" style="background-color: #f1c40f;">Amarillo</div>
+                                    <div class="color-option" data-color="orange" style="background-color: #e67e22;">Naranja</div>
+                                    <div class="color-option" data-color="purple" style="background-color: #9b59b6;">Morado</div>
+                                    <div class="color-option" data-color="pink" style="background-color: #ff6b81;">Rosa</div>
+                                    <div class="color-option" data-color="gray" style="background-color: #95a5a6;">Gris</div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label>🖼️ Imagen</label>
+                                <div class="checkbox-group">
+                                    <input type="checkbox" id="enable-image">
+                                    <label for="enable-image">Activar imagen</label>
+                                </div>
+                                <input type="url" id="image-url" class="form-input" placeholder="URL de la imagen" disabled>
+                            </div>
+                            <div class="form-group">
+                                <label>🔍 Thumbnail</label>
+                                <div class="checkbox-group">
+                                    <input type="checkbox" id="enable-thumbnail">
+                                    <label for="enable-thumbnail">Activar thumbnail</label>
+                                </div>
+                                <input type="url" id="thumbnail-url" class="form-input" placeholder="URL del thumbnail" disabled>
+                            </div>
+                        </div>
+                        
+                        <div class="message-content" id="text-config" style="display: none;">
+                            <div class="form-group">
+                                <label for="plain-message">📝 Mensaje de texto</label>
+                                <textarea id="plain-message" class="form-textarea" placeholder="Escribe tu mensaje aquí..." rows="6"></textarea>
+                            </div>
+                        </div>
+
+                        <div class="buttons-config" id="buttons-config" style="display: none;">
+                            <h4>🔘 Botones</h4>
+                            <div class="buttons-list" id="buttons-list"></div>
+                            <button class="btn-secondary" id="add-button-btn">
+                                <span class="btn-icon">➕</span>
+                                Añadir Botón
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn-secondary" id="cancel-message-config">Cancelar</button>
+                    <button class="btn-primary" id="save-message-config">Guardar Mensaje</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="modal" id="button-config-modal">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3>🔘 Configurar Botón</h3>
+                    <button class="modal-close">✕</button>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label for="button-label">🏷️ Texto del botón</label>
+                        <input type="text" id="button-label" class="form-input" placeholder="Abrir Ticket">
+                    </div>
+                    <div class="form-group">
+                        <label for="button-emoji">😀 Emoji</label>
+                        <input type="text" id="button-emoji" class="form-input" placeholder="🎫">
+                    </div>
+                    <div class="form-group">
+                        <label for="button-name-format">📝 Formato del nombre</label>
+                        <input type="text" id="button-name-format" class="form-input" placeholder="ticket-{id}" value="ticket-{id}">
+                        <small>Variables disponibles: {id}, {userid}, {usertag}</small>
+                    </div>
+                    <div class="form-group">
+                        <label for="button-description">📄 Descripción</label>
+                        <input type="text" id="button-description" class="form-input" placeholder="Descripción del ticket">
+                    </div>
+                    <div class="form-group">
+                        <label>🎨 Estilo del botón</label>
+                        <div class="button-styles">
+                            <button class="style-option button-style-1" data-style="1">Azul</button>
+                            <button class="style-option button-style-2" data-style="2">Gris</button>
+                            <button class="style-option button-style-3 selected" data-style="3">Verde</button>
+                            <button class="style-option button-style-4" data-style="4">Rojo</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn-secondary" id="cancel-button-config">Cancelar</button>
+                    <button class="btn-primary" id="save-button-config">Guardar Botón</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="toast" id="toast"></div>
+
+        <script src="{{ url_for('static', filename='scripts/server_management.js') }}"></script>
+        <script>
+            document.querySelectorAll('.mobile-dropbtn').forEach(btn => {
+                btn.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    const dropdown = this.parentElement;
+                    const isCurrentlyActive = dropdown.classList.contains('active');
+                    
+                    document.querySelectorAll('.mobile-dropdown').forEach(otherDropdown => {
+                        if (otherDropdown !== dropdown) {
+                            otherDropdown.classList.remove('active');
+                        }
+                    });
+                    
+                    dropdown.classList.toggle('active');
+                });
+            });
+
+            document.addEventListener('click', function(e) {
+                if (!e.target.closest('.mobile-dropdown') && !e.target.closest('.mobile-menu-toggle')) {
+                    document.querySelectorAll('.mobile-dropdown').forEach(dropdown => {
+                        dropdown.classList.remove('active');
+                    });
+                }
+            });
+        </script>
+    </body>
+</html>

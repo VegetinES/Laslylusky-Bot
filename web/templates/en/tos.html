@@ -1,0 +1,625 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Terms of Service - Laslylusky</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="icon" type="image/png" href="{{ url_for('static', filename='resources/laslylusky.png') }}">
+        <link rel="stylesheet" href="{{ url_for('static', filename='styles/tos.css') }}">
+    </head>
+    <body>
+        <div class="header">
+            <div class="header-content">
+                <div class="logo">
+                    <a href="/en/">Laslylusky</a>
+                </div>
+                
+                <nav class="desktop-nav">
+                    <a href="/en/">Home</a>
+                    <div class="dropdown">
+                        <a href="#" class="dropbtn">Documentation</a>
+                        <div class="dropdown-content">
+                            <a href="/en/documentation/help">Help</a>
+                            <a href="/en/documentation/configuration">Configuration</a>
+                            <a href="/en/documentation/tickets">Tickets Configuration</a>
+                        </div>
+                    </div>
+                    <a href="/en/dashboard">Dashboard</a>
+                    <a href="/en/vegetines">Creator</a>
+                    <a href="/en/privacy">Privacy</a>
+                    <a href="/en/tos" class="active">Terms of Service</a>
+                    <div class="dropdown">
+                        <a href="#" class="dropbtn">🌐 EN</a>
+                        <div class="dropdown-content">
+                            <a href="/es/tos">🇪🇸 Español</a>
+                            <a href="/en/tos">🇺🇸 English</a>
+                        </div>
+                    </div>
+                </nav>
+
+                <div class="mobile-menu-toggle">
+                    <span class="hamburger-line"></span>
+                    <span class="hamburger-line"></span>
+                    <span class="hamburger-line"></span>
+                </div>
+            </div>
+
+            <div class="mobile-nav">
+                <a href="/en/">🏠 Home</a>
+                <div class="mobile-dropdown">
+                    <a href="#" class="mobile-dropbtn">📚 Documentation</a>
+                    <div class="mobile-dropdown-content">
+                        <a href="/en/documentation/help">Help</a>
+                        <a href="/en/documentation/configuration">Configuration</a>
+                        <a href="/en/documentation/tickets">Tickets Configuration</a>
+                    </div>
+                </div>
+                <a href="/en/dashboard">📊 Dashboard</a>
+                <a href="/en/vegetines">👨‍💻 Creator</a>
+                <a href="/en/privacy">🔒 Privacy</a>
+                <a href="/en/tos" class="active">📋 Terms of Service</a>
+                <div class="mobile-dropdown">
+                    <a href="#" class="mobile-dropbtn">🌐 Language</a>
+                    <div class="mobile-dropdown-content">
+                        <a href="/es/tos">🇪🇸 Español</a>
+                        <a href="/en/tos">🇺🇸 English</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="hero">
+            <div class="hero-content">
+                <div class="logo-container">
+                    <img src="{{ url_for('static', filename='resources/laslylusky.png') }}" alt="Laslylusky Logo">
+                </div>
+                <h1>Terms of Service</h1>
+                <p class="hero-subtitle">Terms of use for Laslylusky Bot</p>
+                <div class="last-update">
+                    <p><strong>Last updated:</strong> May 26, 2025</p>
+                </div>
+            </div>
+        </div>
+        
+        <div class="container">
+            <div class="content-wrapper">
+                <div class="sidebar">
+                    <h3>Navigation</h3>
+                    <nav class="table-of-contents">
+                        <a href="#acceptance">1. Acceptance</a>
+                        <a href="#description">2. Service Description</a>
+                        <a href="#eligibility">3. Eligibility</a>
+                        <a href="#acceptable-use">4. Acceptable Use</a>
+                        <a href="#prohibited-use">5. Prohibited Use</a>
+                        <a href="#moderation">6. Moderation and Sanctions</a>
+                        <a href="#availability">7. Service Availability</a>
+                        <a href="#data">8. Data and Privacy</a>
+                        <a href="#open-source">9. Open Source</a>
+                        <a href="#liability">10. Limitation of Liability</a>
+                        <a href="#indemnification">11. Indemnification</a>
+                        <a href="#modifications">12. Modifications</a>
+                        <a href="#termination">13. Termination</a>
+                        <a href="#applicable-law">14. Applicable Law</a>
+                        <a href="#disputes">15. Dispute Resolution</a>
+                        <a href="#contact">16. Contact and Support</a>
+                    </nav>
+                </div>
+                
+                <div class="main-content">
+                    <section id="acceptance" class="section">
+                        <h2>1. Acceptance of Terms</h2>
+                        <p>By using Laslylusky ("the bot", "the service"), you accept these Terms of Service. If you do not agree, do not use the bot.</p>
+                        <div class="highlight-box">
+                            <p><strong>Important:</strong> Continued use of the bot constitutes acceptance of these terms.</p>
+                        </div>
+                    </section>
+
+                    <section id="description" class="section">
+                        <h2>2. Service Description</h2>
+                        <p>Laslylusky is a Discord bot that provides:</p>
+                        <div class="services-grid">
+                            <div class="service-item">
+                                <div class="service-icon">🤖</div>
+                                <h4>AI Assistant</h4>
+                                <p>Intelligent and natural conversations</p>
+                            </div>
+                            <div class="service-item">
+                                <div class="service-icon">🛡️</div>
+                                <h4>Moderation</h4>
+                                <p>Advanced tools for servers</p>
+                            </div>
+                            <div class="service-item">
+                                <div class="service-icon">📊</div>
+                                <h4>Leveling System</h4>
+                                <p>Experience and rewards for users</p>
+                            </div>
+                            <div class="service-item">
+                                <div class="service-icon">🎮</div>
+                                <h4>Games</h4>
+                                <p>Interactive entertainment</p>
+                            </div>
+                            <div class="service-item">
+                                <div class="service-icon">⏰</div>
+                                <h4>Reminders</h4>
+                                <p>Personalized notifications</p>
+                            </div>
+                            <div class="service-item">
+                                <div class="service-icon">🎫</div>
+                                <h4>Ticket System</h4>
+                                <p>Support and customer service</p>
+                            </div>
+                        </div>
+                    </section>
+
+                    <section id="eligibility" class="section">
+                        <h2>3. Eligibility</h2>
+                        <p>To use Laslylusky you must:</p>
+                        <div class="requirements-list">
+                            <div class="requirement-item">
+                                <div class="req-icon">✅</div>
+                                <div class="req-content">
+                                    <h4>Valid Discord Account</h4>
+                                    <p>Have an active and valid account</p>
+                                </div>
+                            </div>
+                            <div class="requirement-item">
+                                <div class="req-icon">📋</div>
+                                <div class="req-content">
+                                    <h4>Comply with Discord ToS</h4>
+                                    <p>Respect Discord's terms of service</p>
+                                </div>
+                            </div>
+                            <div class="requirement-item">
+                                <div class="req-icon">🎂</div>
+                                <div class="req-content">
+                                    <h4>Minimum Age</h4>
+                                    <p>Be at least 13 years old (or minimum age in your jurisdiction)</p>
+                                </div>
+                            </div>
+                            <div class="requirement-item">
+                                <div class="req-icon">👨‍👩‍👧‍👦</div>
+                                <div class="req-content">
+                                    <h4>Parental Authorization</h4>
+                                    <p>If you are a minor, you need parental permission</p>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+
+                    <section id="acceptable-use" class="section">
+                        <h2>4. Acceptable Use</h2>
+                        <p>By using Laslylusky, you commit to:</p>
+                        <div class="usage-grid">
+                            <div class="usage-item acceptable">
+                                <h4>✅ Legal and Ethical Use</h4>
+                                <p>Use the bot responsibly and in accordance with the law</p>
+                            </div>
+                            <div class="usage-item acceptable">
+                                <h4>✅ Community Respect</h4>
+                                <p>Do not use the bot to harass, intimidate or harm others</p>
+                            </div>
+                            <div class="usage-item acceptable">
+                                <h4>✅ Responsible Use</h4>
+                                <p>Do not intentionally overload services</p>
+                            </div>
+                            <div class="usage-item acceptable">
+                                <h4>✅ Rule Compliance</h4>
+                                <p>Respect Discord and server rules</p>
+                            </div>
+                        </div>
+                    </section>
+
+                    <section id="prohibited-use" class="section">
+                        <h2>5. Prohibited Use</h2>
+                        <p>It is expressly prohibited to:</p>
+                        <div class="usage-grid">
+                            <div class="usage-item prohibited">
+                                <h4>❌ Spam and Unwanted Content</h4>
+                                <p>Use the bot to generate spam or repetitive messages</p>
+                            </div>
+                            <div class="usage-item prohibited">
+                                <h4>❌ Hacking Attempts</h4>
+                                <p>Attempt to hack, modify or damage the bot</p>
+                            </div>
+                            <div class="usage-item prohibited">
+                                <h4>❌ Restriction Evasion</h4>
+                                <p>Create fake accounts to evade limitations</p>
+                            </div>
+                            <div class="usage-item prohibited">
+                                <h4>❌ Malicious Content</h4>
+                                <p>Distribute malware or harmful content</p>
+                            </div>
+                            <div class="usage-item prohibited">
+                                <h4>❌ Rights Violation</h4>
+                                <p>Violate copyright or intellectual property rights</p>
+                            </div>
+                            <div class="usage-item prohibited">
+                                <h4>❌ Inappropriate Content</h4>
+                                <p>Share explicit, violent or illegal content</p>
+                            </div>
+                        </div>
+                    </section>
+
+                    <section id="moderation" class="section">
+                        <h2>6. Moderation and Sanctions</h2>
+                        <p>We reserve the right to:</p>
+                        <div class="moderation-actions">
+                            <div class="mod-action">
+                                <div class="mod-icon">🚫</div>
+                                <h4>Suspend or Ban Access</h4>
+                                <p>For violations of these terms</p>
+                            </div>
+                            <div class="mod-action">
+                                <div class="mod-icon">🗑️</div>
+                                <h4>Remove Content</h4>
+                                <p>Inappropriate content or that violates standards</p>
+                            </div>
+                            <div class="mod-action">
+                                <div class="mod-icon">🚨</div>
+                                <h4>Report Activities</h4>
+                                <p>Illegal activities to competent authorities</p>
+                            </div>
+                            <div class="mod-action">
+                                <div class="mod-icon">⚖️</div>
+                                <h4>Disciplinary Measures</h4>
+                                <p>As we deem appropriate</p>
+                            </div>
+                        </div>
+                    </section>
+
+                    <section id="availability" class="section">
+                        <h2>7. Service Availability</h2>
+                        <div class="availability-info">
+                            <div class="availability-item">
+                                <h4>"As Is"</h4>
+                                <p>The bot is provided without implicit warranties</p>
+                            </div>
+                            <div class="availability-item">
+                                <h4>No 100% Uptime Guarantee</h4>
+                                <p>Interruptions may occur for maintenance</p>
+                            </div>
+                            <div class="availability-item">
+                                <h4>Right to Modifications</h4>
+                                <p>We may modify or discontinue features</p>
+                            </div>
+                        </div>
+                    </section>
+
+                    <section id="data" class="section">
+                        <h2>8. Data and Privacy</h2>
+                        <p>Data handling is governed by our <a href="/en/privacy" class="privacy-link">Privacy Policy</a>. By using the bot, you accept:</p>
+                        <div class="privacy-points">
+                            <div class="privacy-point">
+                                <div class="privacy-icon">📊</div>
+                                <p>Collection of data necessary for operation</p>
+                            </div>
+                            <div class="privacy-point">
+                                <div class="privacy-icon">🔒</div>
+                                <p>Secure storage of your information</p>
+                            </div>
+                            <div class="privacy-point">
+                                <div class="privacy-icon">📋</div>
+                                <p>Practices described in the Privacy Policy</p>
+                            </div>
+                        </div>
+                    </section>
+
+                    <section id="open-source" class="section">
+                        <h2>9. Open Source and Intellectual Property</h2>
+                        <p>Laslylusky is an open source project with the following conditions:</p>
+                        
+                        <div class="open-source-sections">
+                            <div class="os-section">
+                                <h3>9.1 Code Rights</h3>
+                                <div class="code-rights">
+                                    <div class="right-item">
+                                        <div class="right-icon">👑</div>
+                                        <p><strong>Ownership:</strong> Source code is owned by vegetines</p>
+                                    </div>
+                                    <div class="right-item">
+                                        <div class="right-icon">🌐</div>
+                                        <p><strong>Availability:</strong> Code publicly available</p>
+                                    </div>
+                                    <div class="right-item">
+                                        <div class="right-icon">🔧</div>
+                                        <p><strong>Modification:</strong> You can modify and distribute freely</p>
+                                    </div>
+                                    <div class="right-item">
+                                        <div class="right-icon">❤️</div>
+                                        <p><strong>Credits:</strong> Not necessary to give credits (but appreciated)</p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="os-section">
+                                <h3>9.2 Repository Limitations</h3>
+                                <div class="limitations">
+                                    <div class="limitation-item">
+                                        <span class="limit-icon">🚫</span>
+                                        <p>External contributions to the official repository are not accepted</p>
+                                    </div>
+                                    <div class="limitation-item">
+                                        <span class="limit-icon">👨‍💻</span>
+                                        <p>Only the creator can make changes to the main repository</p>
+                                    </div>
+                                    <div class="limitation-item">
+                                        <span class="limit-icon">🔀</span>
+                                        <p>Forks must be maintained in separate repositories</p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="os-section">
+                                <h3>9.3 Code Usage</h3>
+                                <div class="usage-permissions">
+                                    <div class="permission-item">
+                                        <span class="perm-icon">✅</span>
+                                        <p>Use for personal and commercial projects</p>
+                                    </div>
+                                    <div class="permission-item">
+                                        <span class="perm-icon">✅</span>
+                                        <p>Free modification and adaptation</p>
+                                    </div>
+                                    <div class="permission-item">
+                                        <span class="perm-icon">✅</span>
+                                        <p>Distribution without restrictions</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="os-summary">
+                            <h3>Open Source Summary</h3>
+                            <div class="summary-grid">
+                                <div class="summary-item can">
+                                    <h4>✅ You can:</h4>
+                                    <ul>
+                                        <li>Clone, download, modify</li>
+                                        <li>Create your own version</li>
+                                        <li>Use commercially</li>
+                                    </ul>
+                                </div>
+                                <div class="summary-item cannot">
+                                    <h4>❌ You cannot:</h4>
+                                    <ul>
+                                        <li>Contribute to the official repository</li>
+                                        <li>Claim original authorship</li>
+                                    </ul>
+                                </div>
+                                <div class="summary-item note">
+                                    <h4>ℹ️ Note:</h4>
+                                    <p>The code is yours once you download it, but original intellectual property remains with vegetines</p>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+
+                    <section id="liability" class="section">
+                        <h2>10. Limitation of Liability</h2>
+                        <p>To the maximum extent permitted by law:</p>
+                        <div class="liability-items">
+                            <div class="liability-item">
+                                <div class="liability-icon">⚠️</div>
+                                <p>We are not responsible for indirect or consequential damages</p>
+                            </div>
+                            <div class="liability-item">
+                                <div class="liability-icon">📝</div>
+                                <p>Our liability is limited to service usage</p>
+                            </div>
+                            <div class="liability-item">
+                                <div class="liability-icon">❓</div>
+                                <p>We do not guarantee the accuracy of provided information</p>
+                            </div>
+                            <div class="liability-item">
+                                <div class="liability-icon">👤</div>
+                                <p>The user is responsible for their own actions</p>
+                            </div>
+                        </div>
+                    </section>
+
+                    <section id="indemnification" class="section">
+                        <h2>11. Indemnification</h2>
+                        <p>You agree to indemnify and hold harmless Laslylusky and its creator for:</p>
+                        <div class="indemnification-list">
+                            <div class="indem-item">
+                                <span class="indem-icon">⚖️</span>
+                                <p>Your use of the bot and violations of these terms</p>
+                            </div>
+                            <div class="indem-item">
+                                <span class="indem-icon">🚫</span>
+                                <p>Violations of third party rights</p>
+                            </div>
+                            <div class="indem-item">
+                                <span class="indem-icon">🏛️</span>
+                                <p>Any illegal activity related to your use</p>
+                            </div>
+                            <div class="indem-item">
+                                <span class="indem-icon">💻</span>
+                                <p>Modifications or uses of the source code you make</p>
+                            </div>
+                        </div>
+                    </section>
+
+                    <section id="modifications" class="section">
+                        <h2>12. Modifications</h2>
+                        <div class="modification-info">
+                            <div class="mod-info-item">
+                                <h4>Right to Modify</h4>
+                                <p>We reserve the right to modify these terms at any time</p>
+                            </div>
+                            <div class="mod-info-item">
+                                <h4>Notification</h4>
+                                <p>Important changes will be notified through the Discord server</p>
+                            </div>
+                            <div class="mod-info-item">
+                                <h4>Acceptance</h4>
+                                <p>We may require acceptance of new terms to continue using the bot</p>
+                            </div>
+                        </div>
+                    </section>
+
+                    <section id="termination" class="section">
+                        <h2>13. Termination</h2>
+                        <p>These terms remain in effect until:</p>
+                        <div class="termination-conditions">
+                            <div class="term-condition">
+                                <div class="term-icon">🚪</div>
+                                <p>You voluntarily stop using the bot</p>
+                            </div>
+                            <div class="term-condition">
+                                <div class="term-icon">🔒</div>
+                                <p>We terminate your access for violations</p>
+                            </div>
+                            <div class="term-condition">
+                                <div class="term-icon">📴</div>
+                                <p>We discontinue the service</p>
+                            </div>
+                        </div>
+                        <div class="termination-note">
+                            <p><strong>Note:</strong> Open source code availability is not affected by termination of these terms.</p>
+                        </div>
+                    </section>
+
+                    <section id="applicable-law" class="section">
+                        <h2>14. Applicable Law</h2>
+                        <div class="law-grid">
+                            <div class="law-item">
+                                <div class="law-icon">🇪🇸</div>
+                                <h4>Spanish Laws</h4>
+                                <p>Primary jurisdiction</p>
+                            </div>
+                            <div class="law-item">
+                                <div class="law-icon">💬</div>
+                                <h4>Discord ToS</h4>
+                                <p>Discord terms of service</p>
+                            </div>
+                            <div class="law-item">
+                                <div class="law-icon">🌍</div>
+                                <h4>International Laws</h4>
+                                <p>Applicable international laws</p>
+                            </div>
+                        </div>
+                    </section>
+
+                    <section id="disputes" class="section">
+                        <h2>15. Dispute Resolution</h2>
+                        <div class="dispute-process">
+                            <div class="dispute-step">
+                                <div class="step-number">1</div>
+                                <div class="step-content">
+                                    <h4>Initial Contact</h4>
+                                    <p>Contact first through our Discord server</p>
+                                </div>
+                            </div>
+                            <div class="dispute-step">
+                                <div class="step-number">2</div>
+                                <div class="step-content">
+                                    <h4>Friendly Solution</h4>
+                                    <p>We will seek a solution that benefits both parties</p>
+                                </div>
+                            </div>
+                            <div class="dispute-step">
+                                <div class="step-number">3</div>
+                                <div class="step-content">
+                                    <h4>Mediation</h4>
+                                    <p>As a last resort, mediation or arbitration will apply</p>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+
+                    <section id="contact" class="section">
+                        <h2>16. Contact and Support</h2>
+                        <p>For support, questions or to report problems:</p>
+                        <div class="contact-info">
+                            <div class="contact-method">
+                                <div class="contact-icon">💬</div>
+                                <h4>Discord Server</h4>
+                                <a href="https://discord.gg/DN6PDKA7gf" class="contact-link">Join server</a>
+                            </div>
+                            <div class="contact-method">
+                                <div class="contact-icon">👨‍💻</div>
+                                <h4>Creator</h4>
+                                <p><strong>vegetines</strong> (ID: 702934069138161835)</p>
+                            </div>
+                            <div class="contact-method">
+                                <div class="contact-icon">🎫</div>
+                                <h4>Preferred Method</h4>
+                                <p>Create a support ticket on the server</p>
+                            </div>
+                            <div class="contact-method">
+                                <div class="contact-icon">💻</div>
+                                <h4>GitHub</h4>
+                                <a href="https://github.com/VegetinES/Laslylusky-Bot" class="contact-link">View repository</a>
+                            </div>
+                        </div>
+                        
+                        <div class="acknowledgments">
+                            <h3>18. Acknowledgments</h3>
+                            <p>Laslylusky uses the following technologies:</p>
+                            <div class="tech-grid">
+                                <div class="tech-item">
+                                    <span class="tech-name">Discord.py</span>
+                                    <span class="tech-desc">Discord interaction</span>
+                                </div>
+                                <div class="tech-item">
+                                    <span class="tech-name">Google Gemini AI</span>
+                                    <span class="tech-desc">Artificial intelligence functions</span>
+                                </div>
+                                <div class="tech-item">
+                                    <span class="tech-name">MongoDB</span>
+                                    <span class="tech-desc">Data storage</span>
+                                </div>
+                                <div class="tech-item">
+                                    <span class="tech-name">Flask</span>
+                                    <span class="tech-desc">Web server</span>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+                </div>
+            </div>
+        </div>
+
+        <script>
+            document.querySelector('.mobile-menu-toggle').addEventListener('click', function() {
+                const mobileNav = document.querySelector('.mobile-nav');
+                const isActive = mobileNav.classList.contains('active');
+                
+                if (isActive) {
+                    document.querySelectorAll('.mobile-dropdown').forEach(dropdown => {
+                        dropdown.classList.remove('active');
+                    });
+                }
+                
+                mobileNav.classList.toggle('active');
+                this.classList.toggle('active');
+            });
+
+            document.querySelectorAll('.mobile-dropbtn').forEach(btn => {
+                btn.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    const dropdown = this.parentElement;
+                    const isCurrentlyActive = dropdown.classList.contains('active');
+                    
+                    document.querySelectorAll('.mobile-dropdown').forEach(otherDropdown => {
+                        if (otherDropdown !== dropdown) {
+                            otherDropdown.classList.remove('active');
+                        }
+                    });
+                    
+                    dropdown.classList.toggle('active');
+                });
+            });
+
+            document.addEventListener('click', function(e) {
+                if (!e.target.closest('.mobile-dropdown') && !e.target.closest('.mobile-menu-toggle')) {
+                    document.querySelectorAll('.mobile-dropdown').forEach(dropdown => {
+                        dropdown.classList.remove('active');
+                    });
+                }
+            });
+        </script>
+    </body>
+</html>

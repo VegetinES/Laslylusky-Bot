@@ -14,28 +14,51 @@ body {
 
 .header {
     background-color: #1e1e1e;
-    padding: 15px 20px;
     border-bottom: 2px solid #333;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
     position: sticky;
     top: 0;
     z-index: 100;
     backdrop-filter: blur(10px);
 }
 
-.header a {
+.header-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 20px;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.logo a {
     text-decoration: none;
     color: #4da6ff;
-    margin-right: 20px;
+    font-size: 1.5rem;
+    font-weight: 700;
+    background: linear-gradient(135deg, #4da6ff, #66b3ff);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.desktop-nav {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.desktop-nav a {
+    text-decoration: none;
+    color: #4da6ff;
     padding: 8px 16px;
     border-radius: 8px;
     transition: all 0.3s ease;
     font-weight: 500;
+    white-space: nowrap;
 }
 
-.header a:hover, .header a.active {
+.desktop-nav a:hover, 
+.desktop-nav a.active {
     background-color: #4da6ff;
     color: #fff;
     transform: translateY(-2px);
@@ -88,6 +111,151 @@ body {
 .dropdown:hover .dropbtn {
     background-color: #4da6ff;
     color: #fff;
+}
+
+.mobile-menu-toggle {
+    display: none;
+    flex-direction: column;
+    cursor: pointer;
+    padding: 8px;
+    gap: 4px;
+}
+
+.hamburger-line {
+    width: 24px;
+    height: 3px;
+    background-color: #4da6ff;
+    border-radius: 2px;
+    transition: all 0.3s ease;
+}
+
+.mobile-menu-toggle.active .hamburger-line:nth-child(1) {
+    transform: rotate(45deg) translate(6px, 6px);
+}
+
+.mobile-menu-toggle.active .hamburger-line:nth-child(2) {
+    opacity: 0;
+}
+
+.mobile-menu-toggle.active .hamburger-line:nth-child(3) {
+    transform: rotate(-45deg) translate(6px, -6px);
+}
+
+.mobile-nav {
+    display: none;
+    background-color: #1e1e1e;
+    border-top: 1px solid #333;
+    padding: 0;
+    max-height: 0;
+    overflow: hidden;
+    transition: all 0.3s ease;
+    position: absolute;
+    width: 100%;
+    left: 0;
+    top: 100%;
+}
+
+.mobile-nav.active {
+    max-height: 80vh;
+    padding: 20px;
+    overflow-y: auto;
+    overflow-x: hidden;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: thin;
+    scrollbar-color: #4da6ff #2a2a2a;
+}
+
+.mobile-nav.active::-webkit-scrollbar {
+    width: 6px;
+}
+
+.mobile-nav.active::-webkit-scrollbar-track {
+    background: #2a2a2a;
+    border-radius: 3px;
+}
+
+.mobile-nav.active::-webkit-scrollbar-thumb {
+    background: #4da6ff;
+    border-radius: 3px;
+}
+
+.mobile-nav.active::-webkit-scrollbar-thumb:hover {
+    background: #66b3ff;
+}
+
+.mobile-nav a {
+    display: block;
+    color: #e0e0e0;
+    text-decoration: none;
+    padding: 12px 0;
+    border-bottom: 1px solid rgba(255,255,255,0.1);
+    transition: all 0.3s ease;
+    font-size: 1rem;
+}
+
+.mobile-nav a:last-of-type {
+    border-bottom: none;
+}
+
+.mobile-nav a:hover,
+.mobile-nav a.active {
+    color: #4da6ff;
+    padding-left: 10px;
+}
+
+.mobile-dropdown {
+    border-bottom: 1px solid rgba(255,255,255,0.1);
+}
+
+.mobile-dropdown:last-child {
+    border-bottom: none;
+}
+
+.mobile-dropbtn {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    cursor: pointer;
+    user-select: none;
+}
+
+.mobile-dropbtn::after {
+    content: '▼';
+    font-size: 0.8rem;
+    transition: transform 0.3s ease;
+    color: #4da6ff;
+}
+
+.mobile-dropdown.active .mobile-dropbtn::after {
+    transform: rotate(180deg);
+}
+
+.mobile-dropdown-content {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.3s ease;
+    padding-left: 20px;
+    background-color: rgba(0,0,0,0.2);
+}
+
+.mobile-dropdown.active .mobile-dropdown-content {
+    max-height: 300px;
+    padding-top: 5px;
+    padding-bottom: 5px;
+}
+
+.mobile-dropdown-content a {
+    font-size: 0.9rem;
+    color: #b0b0b0;
+    border-bottom: none;
+    padding: 8px 0;
+    transition: all 0.3s ease;
+}
+
+.mobile-dropdown-content a:hover {
+    color: #4da6ff;
+    padding-left: 10px;
 }
 
 .hero {
@@ -915,6 +1083,16 @@ body {
     font-size: 0.8rem;
 }
 
+code {
+    background: rgba(77,166,255,0.1);
+    color: #4da6ff;
+    padding: 3px 8px;
+    border-radius: 6px;
+    font-family: 'Courier New', monospace;
+    font-size: 0.9rem;
+    border: 1px solid rgba(77,166,255,0.3);
+}
+
 @media (max-width: 1024px) {
     .content-wrapper {
         grid-template-columns: 1fr;
@@ -940,28 +1118,21 @@ body {
 }
 
 @media (max-width: 768px) {
-    .header {
-        flex-direction: column;
-        align-items: flex-start;
-        padding: 10px 15px;
+    .desktop-nav {
+        display: none;
     }
 
-    .header a {
-        margin-bottom: 10px;
-        margin-right: 10px;
+    .mobile-menu-toggle {
+        display: flex;
     }
 
-    .dropdown-content {
-        position: static;
-        box-shadow: none;
-        min-width: auto;
+    .mobile-nav {
         display: block;
-        background: transparent;
-        border: none;
     }
 
-    .dropdown-content a {
-        padding: 8px 0;
+    .header-content {
+        padding: 12px 15px;
+        position: relative;
     }
 
     .hero {
@@ -969,7 +1140,22 @@ body {
     }
 
     .hero h1 {
-        font-size: 2.2rem;
+        font-size: 2.5rem;
+    }
+
+    .hero-subtitle {
+        font-size: 1.1rem;
+        margin-bottom: 25px;
+    }
+
+    .logo-container img {
+        width: 60px;
+        height: 60px;
+    }
+
+    .last-update {
+        padding: 12px 20px;
+        font-size: 0.9rem;
     }
 
     .container {
@@ -981,11 +1167,17 @@ body {
     }
 
     .section h2 {
-        font-size: 1.6rem;
+        font-size: 1.8rem;
+    }
+
+    .section h3 {
+        font-size: 1.2rem;
+        margin: 20px 0 12px 0;
     }
 
     .services-grid, .requirements-list, .usage-grid, .moderation-actions, .availability-info, .modification-info, .law-grid, .contact-info {
         grid-template-columns: 1fr;
+        gap: 20px;
     }
 
     .table-of-contents {
@@ -1004,5 +1196,262 @@ body {
 
     .step-number {
         margin: 0 auto;
+    }
+
+    .service-item, .requirement-item, .usage-item, .mod-action, .availability-item, .mod-info-item, .law-item, .contact-method {
+        padding: 20px 15px;
+    }
+
+    .service-icon {
+        font-size: 2rem;
+        margin-bottom: 12px;
+    }
+
+    .mod-icon {
+        font-size: 1.8rem;
+        margin-bottom: 12px;
+    }
+
+    .law-icon {
+        font-size: 1.8rem;
+        margin-bottom: 12px;
+    }
+
+    .contact-icon {
+        font-size: 1.8rem;
+        margin-bottom: 12px;
+    }
+
+    .requirement-item {
+        flex-direction: column;
+        text-align: center;
+        gap: 15px;
+    }
+
+    .req-icon {
+        width: auto;
+        font-size: 1.3rem;
+    }
+
+    .highlight-box {
+        padding: 15px;
+        margin: 15px 0;
+    }
+
+    .os-section {
+        padding: 20px 15px;
+        margin-bottom: 20px;
+    }
+
+    .code-rights {
+        grid-template-columns: 1fr;
+        gap: 15px;
+    }
+
+    .right-item, .limitation-item, .permission-item {
+        flex-direction: column;
+        text-align: center;
+        gap: 10px;
+    }
+
+    .os-summary {
+        padding: 20px 15px;
+        margin-top: 20px;
+    }
+
+    .summary-grid {
+        grid-template-columns: 1fr;
+        gap: 20px;
+    }
+
+    .summary-item {
+        padding: 15px;
+    }
+
+    .liability-items, .indemnification-list, .termination-conditions {
+        gap: 12px;
+    }
+
+    .liability-item, .indem-item, .term-condition {
+        flex-direction: column;
+        text-align: center;
+        gap: 10px;
+        padding: 12px 15px;
+    }
+
+    .privacy-points {
+        gap: 12px;
+    }
+
+    .privacy-point {
+        flex-direction: column;
+        text-align: center;
+        gap: 10px;
+        padding: 12px 15px;
+    }
+
+    .termination-note {
+        padding: 15px;
+        margin-top: 15px;
+    }
+
+    .acknowledgments {
+        padding: 20px 15px;
+        margin-top: 20px;
+    }
+
+    .tech-grid {
+        grid-template-columns: 1fr;
+        gap: 12px;
+    }
+
+    .tech-item {
+        padding: 12px;
+    }
+}
+
+@media (max-width: 480px) {
+    .hero {
+        padding: 40px 10px;
+    }
+
+    .hero h1 {
+        font-size: 2rem;
+    }
+
+    .hero-subtitle {
+        font-size: 1rem;
+    }
+
+    .logo-container img {
+        width: 50px;
+        height: 50px;
+    }
+
+    .last-update {
+        padding: 10px 15px;
+        font-size: 0.85rem;
+    }
+
+    .container {
+        padding: 15px 10px;
+    }
+
+    .section {
+        padding: 20px 15px;
+    }
+
+    .section h2 {
+        font-size: 1.5rem;
+    }
+
+    .section h3 {
+        font-size: 1.1rem;
+    }
+
+    .section p {
+        font-size: 1rem;
+    }
+
+    .service-item, .requirement-item, .usage-item, .mod-action, .availability-item, .mod-info-item, .law-item, .contact-method {
+        padding: 15px 12px;
+    }
+
+    .service-item h4, .requirement-item h4, .usage-item h4, .mod-action h4, .availability-item h4, .mod-info-item h4, .law-item h4, .contact-method h4 {
+        font-size: 1rem;
+    }
+
+    .service-icon {
+        font-size: 1.8rem;
+        margin-bottom: 10px;
+    }
+
+    .mod-icon, .law-icon, .contact-icon {
+        font-size: 1.6rem;
+        margin-bottom: 10px;
+    }
+
+    .req-icon {
+        font-size: 1.2rem;
+    }
+
+    .highlight-box {
+        padding: 12px;
+        margin: 12px 0;
+    }
+
+    .os-section {
+        padding: 15px 12px;
+        margin-bottom: 15px;
+    }
+
+    .right-item, .limitation-item, .permission-item {
+        padding: 10px 12px;
+        gap: 8px;
+    }
+
+    .os-summary {
+        padding: 15px 12px;
+        margin-top: 15px;
+    }
+
+    .summary-item {
+        padding: 12px;
+    }
+
+    .liability-item, .indem-item, .term-condition {
+        padding: 10px 12px;
+        gap: 8px;
+    }
+
+    .privacy-point {
+        padding: 10px 12px;
+        gap: 8px;
+    }
+
+    .termination-note {
+        padding: 12px;
+        margin-top: 12px;
+    }
+
+    .acknowledgments {
+        padding: 15px 12px;
+        margin-top: 15px;
+    }
+
+    .tech-item {
+        padding: 10px;
+    }
+
+    .table-of-contents a {
+        font-size: 0.85rem;
+        padding: 8px 12px;
+    }
+
+    .sidebar {
+        padding: 20px 15px;
+    }
+
+    .sidebar h3 {
+        font-size: 1.1rem;
+    }
+
+    .contact-link {
+        padding: 8px 16px;
+        font-size: 0.9rem;
+    }
+
+    .dispute-step {
+        padding: 15px 12px;
+    }
+
+    .step-number {
+        width: 35px;
+        height: 35px;
+        font-size: 0.9rem;
+    }
+
+    .step-content h4 {
+        font-size: 1rem;
     }
 }

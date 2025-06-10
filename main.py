@@ -12,6 +12,8 @@ from database.iadatabase import database
 import sys
 from database.oracle import Oracle
 import datetime
+from commands.tickets.listeners import TicketDatabaseListener
+import signal
 
 DISCORD_TOKEN = os.getenv("DISCORD_TOKEN")
 
@@ -23,6 +25,9 @@ intents.guilds = True
 intents.voice_states = True
 
 bot = commands.Bot(command_prefix='%', intents=intents)
+
+ticket_listener = None
+shutdown_event = asyncio.Event()
 
 @bot.event
 async def on_interaction(interaction):
@@ -95,11 +100,15 @@ oracle = Oracle()
 
 @bot.event
 async def on_ready():
+    global ticket_listener
+    
     await bot.change_presence(
         status=discord.Status.online,
         activity=discord.Activity(type=discord.ActivityType.listening, name="/help | %help")
     )
     print(f"Estamos dentro! {bot.user}")
+    
+    webserver.set_bot_instance(bot)
     
     await load_extensions(["commands", "logs"])
 
@@ -112,6 +121,11 @@ async def on_ready():
     print("Revisando hilos activos existentes...")
     await join_active_threads()
     print("Revisión de hilos activos completada")
+
+    print("Iniciando listener de tickets...")
+    ticket_listener = TicketDatabaseListener(bot)
+    ticket_listener.start_listening()
+    print("Listener de tickets iniciado")
 
     update_oracle_db.start()
 
@@ -176,6 +190,7 @@ async def load_extensions(directories):
 
 @bot.event
 async def on_guild_join(guild):  
+    global ticket_listener
 
     from data import get_data 
 
@@ -203,6 +218,9 @@ async def on_guild_join(guild):
     except Exception as e:
         print(f"Error al inicializar servidor en Oracle DB: {e}")
 
+    if ticket_listener:
+        ticket_listener.add_guild_listener(guild.id)
+
     print(f"Revisando hilos activos en el nuevo servidor: {guild.name}")
     try:
         for channel in guild.channels:
@@ -219,6 +237,8 @@ async def on_guild_join(guild):
         
 @bot.event
 async def on_guild_remove(guild):
+    global ticket_listener
+    
     try:
         birthday_db = BirthdayDB()
         
@@ -230,6 +250,9 @@ async def on_guild_remove(guild):
     except Exception as e:
         print(f"Error al eliminar datos de cumpleaños: {e}")
     
+    if ticket_listener:
+        ticket_listener.remove_guild_listener(guild.id)
+    
     success = delete_server_data(guild.id)
 
     if success:
@@ -237,7 +260,32 @@ async def on_guild_remove(guild):
     else:
         print(f"Error al eliminar datos del servidor: {guild.name} (ID: {guild.id})")
 
+def signal_handler(signum, frame):
+    print("\nSeñal de interrupción recibida, cerrando...")
+    shutdown_event.set()
+
+async def shutdown():
+    global ticket_listener
+    
+    print("Iniciando proceso de cierre...")
+    
+    if ticket_listener:
+        print("Deteniendo listener de tickets...")
+        ticket_listener.stop_listening()
+    
+    print("Cerrando bot de Discord...")
+    if not bot.is_closed():
+        await bot.close()
+    
+    print("Cerrando conexiones...")
+    try:
+        oracle.close()
+    except:
+        pass
+
 async def main():
+    global ticket_listener
+    
     try:
         print("Iniciando proceso principal...")
         print(f"Python version: {sys.version}")
@@ -259,28 +307,38 @@ async def main():
             oracle.close()
 
         print("Iniciando bot de Discord...")
-        try:
-            await bot.start(DISCORD_TOKEN)
-        except discord.LoginFailure as e:
-            print(f"Error de login: {e}")
-        except Exception as e:
-            print(f"Error inesperado: {type(e).__name__}: {e}")
+        
+        bot_task = asyncio.create_task(bot.start(DISCORD_TOKEN))
+        shutdown_task = asyncio.create_task(shutdown_event.wait())
+        
+        done, pending = await asyncio.wait(
+            [bot_task, shutdown_task],
+            return_when=asyncio.FIRST_COMPLETED
+        )
+        
+        for task in pending:
+            task.cancel()
+        
+        await shutdown()
+        
+    except discord.LoginFailure as e:
+        print(f"Error de login: {e}")
     except Exception as e:
-        print(f"Error en main: {type(e).__name__}: {e}")
+        print(f"Error inesperado: {type(e).__name__}: {e}")
 
 if __name__ == "__main__":
+    signal.signal(signal.SIGINT, signal_handler)
+    signal.signal(signal.SIGTERM, signal_handler)
+    
     print("Iniciando servidor web...")
     web_thread = webserver.keep_alive()
     print("Servidor web iniciado en segundo plano")
     
-    loop = asyncio.new_event_loop()
-    asyncio.set_event_loop(loop)
-    
     try:
-        loop.run_until_complete(main())
+        asyncio.run(main())
     except KeyboardInterrupt:
         print("Cerrando por interrupción del usuario...")
     except Exception as e:
         print(f"Error crítico: {type(e).__name__}: {e}")
     finally:
-        loop.close()
+        print("Proceso terminado")
