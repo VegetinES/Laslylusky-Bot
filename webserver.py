@@ -1101,6 +1101,184 @@ User-agent: TelegramBot
 Allow: /'''
     return Response(robots_txt, mimetype='text/plain')
 
+@app.errorhandler(404)
+def page_not_found(error):
+    return render_template('404.html'), 404
+
+@app.route('/support')
+def support():
+    return redirect('https://discord.gg/DN6PDKA7gf')
+
+def get_error_info(error_code):
+    error_info = {
+        400: {
+            'title': '¡Solicitud Incorrecta!',
+            'description': 'El bot no pudo entender tu solicitud. Parece que algo no está bien formateado.',
+            'what_happened': 'La solicitud que enviaste contiene datos incorrectos o malformados.',
+            'what_to_do': 'Verifica que hayas completado todos los campos correctamente e intenta de nuevo.',
+            'status_class': 'warning',
+            'status_text': 'Entrada de datos requerida'
+        },
+        401: {
+            'title': '¡Acceso No Autorizado!',
+            'description': 'El bot necesita verificar tu identidad antes de continuar.',
+            'what_happened': 'No tienes los permisos necesarios para acceder a esta página.',
+            'what_to_do': 'Inicia sesión con Discord o verifica que tengas los permisos adecuados.',
+            'status_class': 'error',
+            'status_text': 'Autenticación requerida'
+        },
+        403: {
+            'title': '¡Acceso Prohibido!',
+            'description': 'El bot ha bloqueado tu acceso a este recurso.',
+            'what_happened': 'Tu cuenta no tiene los permisos necesarios para ver esta página.',
+            'what_to_do': 'Contacta al administrador del servidor para obtener los permisos necesarios.',
+            'status_class': 'error',
+            'status_text': 'Permisos insuficientes'
+        },
+        405: {
+            'title': '¡Método No Permitido!',
+            'description': 'El bot no puede procesar tu solicitud de esa manera.',
+            'what_happened': 'El método HTTP utilizado no está permitido para este recurso.',
+            'what_to_do': 'Verifica que estés usando el método correcto o contacta al soporte técnico.',
+            'status_class': 'warning',
+            'status_text': 'Método HTTP incorrecto'
+        },
+        500: {
+            'title': '¡Error Interno del Servidor!',
+            'description': 'El bot ha encontrado un problema interno y no puede completar tu solicitud.',
+            'what_happened': 'Ocurrió un error inesperado en el servidor del bot.',
+            'what_to_do': 'Intenta recargar la página. Si el problema persiste, contacta al soporte técnico.',
+            'status_class': 'error',
+            'status_text': 'Sistema en mantenimiento'
+        },
+        502: {
+            'title': '¡Gateway Incorrecto!',
+            'description': 'El bot no puede conectarse con los servicios externos necesarios.',
+            'what_happened': 'Hay un problema de conectividad con los servicios de Discord o la base de datos.',
+            'what_to_do': 'Espera unos minutos e intenta de nuevo. El problema debería resolverse pronto.',
+            'status_class': 'warning',
+            'status_text': 'Conectividad limitada'
+        },
+        503: {
+            'title': '¡Servicio No Disponible!',
+            'description': 'El bot está temporalmente fuera de servicio por mantenimiento.',
+            'what_happened': 'El sistema está siendo actualizado o está sobrecargado.',
+            'what_to_do': 'Espera unos minutos e intenta de nuevo. El servicio se restablecerá pronto.',
+            'status_class': 'warning',
+            'status_text': 'Mantenimiento programado'
+        }
+    }
+    
+    return error_info.get(error_code, {
+        'title': '¡Error Desconocido!',
+        'description': 'El bot ha encontrado un error que no reconoce.',
+        'what_happened': f'Se produjo un error HTTP {error_code} que no está manejado específicamente.',
+        'what_to_do': 'Intenta recargar la página o contacta al soporte técnico si el problema persiste.',
+        'status_class': 'error',
+        'status_text': 'Estado desconocido'
+    })
+
+@app.errorhandler(400)
+def bad_request(error):
+    error_info = get_error_info(400)
+    return render_template('error.html', 
+                         error_code=400,
+                         error_title=error_info['title'],
+                         error_description=error_info['description'],
+                         what_happened=error_info['what_happened'],
+                         what_to_do=error_info['what_to_do'],
+                         status_class=error_info['status_class'],
+                         status_text=error_info['status_text']), 400
+
+@app.errorhandler(401)
+def unauthorized(error):
+    error_info = get_error_info(401)
+    return render_template('error.html', 
+                         error_code=401,
+                         error_title=error_info['title'],
+                         error_description=error_info['description'],
+                         what_happened=error_info['what_happened'],
+                         what_to_do=error_info['what_to_do'],
+                         status_class=error_info['status_class'],
+                         status_text=error_info['status_text']), 401
+
+@app.errorhandler(403)
+def forbidden(error):
+    error_info = get_error_info(403)
+    return render_template('error.html', 
+                         error_code=403,
+                         error_title=error_info['title'],
+                         error_description=error_info['description'],
+                         what_happened=error_info['what_happened'],
+                         what_to_do=error_info['what_to_do'],
+                         status_class=error_info['status_class'],
+                         status_text=error_info['status_text']), 403
+
+@app.errorhandler(405)
+def method_not_allowed(error):
+    error_info = get_error_info(405)
+    return render_template('error.html', 
+                         error_code=405,
+                         error_title=error_info['title'],
+                         error_description=error_info['description'],
+                         what_happened=error_info['what_happened'],
+                         what_to_do=error_info['what_to_do'],
+                         status_class=error_info['status_class'],
+                         status_text=error_info['status_text']), 405
+
+@app.errorhandler(500)
+def internal_server_error(error):
+    error_info = get_error_info(500)
+    return render_template('error.html', 
+                         error_code=500,
+                         error_title=error_info['title'],
+                         error_description=error_info['description'],
+                         what_happened=error_info['what_happened'],
+                         what_to_do=error_info['what_to_do'],
+                         status_class=error_info['status_class'],
+                         status_text=error_info['status_text']), 500
+
+@app.errorhandler(502)
+def bad_gateway(error):
+    error_info = get_error_info(502)
+    return render_template('error.html', 
+                         error_code=502,
+                         error_title=error_info['title'],
+                         error_description=error_info['description'],
+                         what_happened=error_info['what_happened'],
+                         what_to_do=error_info['what_to_do'],
+                         status_class=error_info['status_class'],
+                         status_text=error_info['status_text']), 502
+
+@app.errorhandler(503)
+def service_unavailable(error):
+    error_info = get_error_info(503)
+    return render_template('error.html', 
+                         error_code=503,
+                         error_title=error_info['title'],
+                         error_description=error_info['description'],
+                         what_happened=error_info['what_happened'],
+                         what_to_do=error_info['what_to_do'],
+                         status_class=error_info['status_class'],
+                         status_text=error_info['status_text']), 503
+
+@app.errorhandler(Exception)
+def handle_exception(error):
+    if hasattr(error, 'code'):
+        error_code = error.code
+    else:
+        error_code = 500
+    
+    error_info = get_error_info(error_code)
+    return render_template('error.html', 
+                         error_code=error_code,
+                         error_title=error_info['title'],
+                         error_description=error_info['description'],
+                         what_happened=error_info['what_happened'],
+                         what_to_do=error_info['what_to_do'],
+                         status_class=error_info['status_class'],
+                         status_text=error_info['status_text']), error_code
+
 def run():
     app.run(host='0.0.0.0', port=8080, debug=False)
 

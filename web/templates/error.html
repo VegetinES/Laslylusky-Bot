@@ -1,0 +1,436 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Error {{ error_code }} - Algo salió mal</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles/error.css') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="language-selector">
+        <button class="lang-btn active" data-lang="es">🇪🇸 ES</button>
+        <button class="lang-btn" data-lang="en">🇺🇸 EN</button>
+    </div>
+    
+    <div class="error-container">
+        <div class="error-content">
+            <div class="error-animation">
+                <div class="glitch-container">
+                    <div class="glitch-text" data-text="{{ error_code }}">{{ error_code }}</div>
+                </div>
+                
+                <div class="robot-face">
+                    <div class="robot-eyes">
+                        <div class="eye left-eye">
+                            <div class="pupil"></div>
+                        </div>
+                        <div class="eye right-eye">
+                            <div class="pupil"></div>
+                        </div>
+                    </div>
+                    <div class="robot-mouth">
+                        <div class="mouth-line"></div>
+                    </div>
+                </div>
+                
+                <div class="error-sparks">
+                    <div class="spark"></div>
+                    <div class="spark"></div>
+                    <div class="spark"></div>
+                    <div class="spark"></div>
+                    <div class="spark"></div>
+                </div>
+            </div>
+            
+            <div class="error-info">
+                <h1 data-i18n="error_title">{{ error_title }}</h1>
+                <p data-i18n="error_description">{{ error_description }}</p>
+                
+                <div class="error-details">
+                    <div class="detail-card">
+                        <div class="detail-icon">🔧</div>
+                        <div class="detail-content">
+                            <h3 data-i18n="what_happened_title">¿Qué pasó?</h3>
+                            <p data-i18n="what_happened_text">{{ what_happened }}</p>
+                        </div>
+                    </div>
+                    
+                    <div class="detail-card">
+                        <div class="detail-icon">💡</div>
+                        <div class="detail-content">
+                            <h3 data-i18n="what_to_do_title">¿Qué puedes hacer?</h3>
+                            <p data-i18n="what_to_do_text">{{ what_to_do }}</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="error-actions">
+                <a href="/" class="btn-primary">
+                    <span class="btn-icon">🏠</span>
+                    <span data-i18n="btn_home">Ir al Inicio</span>
+                </a>
+                <button class="btn-secondary" onclick="window.location.reload()">
+                    <span class="btn-icon">🔄</span>
+                    <span data-i18n="btn_retry">Intentar de Nuevo</span>
+                </button>
+                <button class="btn-secondary" onclick="window.history.back()">
+                    <span class="btn-icon">⬅️</span>
+                    <span data-i18n="btn_back">Volver Atrás</span>
+                </button>
+            </div>
+            
+            <div class="error-footer">
+                <div class="status-indicator">
+                    <div class="status-dot {{ status_class }}"></div>
+                    <span>
+                        <span data-i18n="status_text">Estado del sistema:</span>
+                        <span data-i18n="status_value">{{ status_text }}</span>
+                    </span>
+                </div>
+                <p>
+                    <span data-i18n="footer_text">Si el problema persiste,</span>
+                    <a href="/support" class="support-link" data-i18n="contact_link">contáctanos</a>
+                </p>
+            </div>
+        </div>
+        
+        <div class="circuit-board">
+            <div class="circuit-line horizontal line-1"></div>
+            <div class="circuit-line horizontal line-2"></div>
+            <div class="circuit-line vertical line-3"></div>
+            <div class="circuit-line vertical line-4"></div>
+            <div class="circuit-node node-1"></div>
+            <div class="circuit-node node-2"></div>
+            <div class="circuit-node node-3"></div>
+            <div class="circuit-node node-4"></div>
+        </div>
+        
+        <div class="matrix-rain">
+            <div class="matrix-column"></div>
+            <div class="matrix-column"></div>
+            <div class="matrix-column"></div>
+            <div class="matrix-column"></div>
+            <div class="matrix-column"></div>
+        </div>
+    </div>
+    
+    <script>
+        const errorCode = "{{ error_code }}";
+        const serverStatus = "{{ status_text }}";
+        
+        const translations = {
+            es: {
+                error_title: getErrorTitle(errorCode, 'es'),
+                error_description: getErrorDescription(errorCode, 'es'),
+                what_happened_title: "¿Qué pasó?",
+                what_happened_text: getWhatHappened(errorCode, 'es'),
+                what_to_do_title: "¿Qué puedes hacer?",
+                what_to_do_text: getWhatToDo(errorCode, 'es'),
+                btn_home: "Ir al Inicio",
+                btn_retry: "Intentar de Nuevo",
+                btn_back: "Volver Atrás",
+                status_text: "Estado del sistema:",
+                status_value: getStatusText(serverStatus, 'es'),
+                footer_text: "Si el problema persiste,",
+                contact_link: "contáctanos"
+            },
+            en: {
+                error_title: getErrorTitle(errorCode, 'en'),
+                error_description: getErrorDescription(errorCode, 'en'),
+                what_happened_title: "What happened?",
+                what_happened_text: getWhatHappened(errorCode, 'en'),
+                what_to_do_title: "What can you do?",
+                what_to_do_text: getWhatToDo(errorCode, 'en'),
+                btn_home: "Go Home",
+                btn_retry: "Try Again",
+                btn_back: "Go Back",
+                status_text: "System status:",
+                status_value: getStatusText(serverStatus, 'en'),
+                footer_text: "If the problem persists,",
+                contact_link: "contact us"
+            }
+        };
+
+        function getErrorTitle(code, lang) {
+            const titles = {
+                400: { es: "¡Solicitud Incorrecta!", en: "Bad Request!" },
+                401: { es: "¡Acceso No Autorizado!", en: "Unauthorized Access!" },
+                403: { es: "¡Acceso Prohibido!", en: "Forbidden Access!" },
+                405: { es: "¡Método No Permitido!", en: "Method Not Allowed!" },
+                500: { es: "¡Error Interno del Servidor!", en: "Internal Server Error!" },
+                502: { es: "¡Gateway Incorrecto!", en: "Bad Gateway!" },
+                503: { es: "¡Servicio No Disponible!", en: "Service Unavailable!" }
+            };
+            return titles[code]?.[lang] || (lang === 'es' ? "¡Error Desconocido!" : "Unknown Error!");
+        }
+
+        function getErrorDescription(code, lang) {
+            const descriptions = {
+                400: { 
+                    es: "El bot no pudo entender tu solicitud. Parece que algo no está bien formateado.",
+                    en: "The bot couldn't understand your request. Something seems to be incorrectly formatted."
+                },
+                401: { 
+                    es: "El bot necesita verificar tu identidad antes de continuar.",
+                    en: "The bot needs to verify your identity before continuing."
+                },
+                403: { 
+                    es: "El bot ha bloqueado tu acceso a este recurso.",
+                    en: "The bot has blocked your access to this resource."
+                },
+                405: { 
+                    es: "El bot no puede procesar tu solicitud de esa manera.",
+                    en: "The bot can't process your request that way."
+                },
+                500: { 
+                    es: "El bot ha encontrado un problema interno y no puede completar tu solicitud.",
+                    en: "The bot encountered an internal problem and can't complete your request."
+                },
+                502: { 
+                    es: "El bot no puede conectarse con los servicios externos necesarios.",
+                    en: "The bot can't connect to the necessary external services."
+                },
+                503: { 
+                    es: "El bot está temporalmente fuera de servicio por mantenimiento.",
+                    en: "The bot is temporarily out of service for maintenance."
+                }
+            };
+            return descriptions[code]?.[lang] || (lang === 'es' ? "El bot ha encontrado un error que no reconoce." : "The bot encountered an unrecognized error.");
+        }
+
+        function getWhatHappened(code, lang) {
+            const explanations = {
+                400: { 
+                    es: "La solicitud que enviaste contiene datos incorrectos o malformados.",
+                    en: "The request you sent contains incorrect or malformed data."
+                },
+                401: { 
+                    es: "No tienes los permisos necesarios para acceder a esta página.",
+                    en: "You don't have the necessary permissions to access this page."
+                },
+                403: { 
+                    es: "Tu cuenta no tiene los permisos necesarios para ver esta página.",
+                    en: "Your account doesn't have the necessary permissions to view this page."
+                },
+                405: { 
+                    es: "El método HTTP utilizado no está permitido para este recurso.",
+                    en: "The HTTP method used is not allowed for this resource."
+                },
+                500: { 
+                    es: "Ocurrió un error inesperado en el servidor del bot.",
+                    en: "An unexpected error occurred on the bot's server."
+                },
+                502: { 
+                    es: "Hay un problema de conectividad con los servicios de Discord o la base de datos.",
+                    en: "There's a connectivity issue with Discord services or the database."
+                },
+                503: { 
+                    es: "El sistema está siendo actualizado o está sobrecargado.",
+                    en: "The system is being updated or is overloaded."
+                }
+            };
+            return explanations[code]?.[lang] || (lang === 'es' ? `Se produjo un error HTTP ${code} que no está manejado específicamente.` : `An HTTP ${code} error occurred that isn't specifically handled.`);
+        }
+
+        function getWhatToDo(code, lang) {
+            const solutions = {
+                400: { 
+                    es: "Verifica que hayas completado todos los campos correctamente e intenta de nuevo.",
+                    en: "Check that you've filled out all fields correctly and try again."
+                },
+                401: { 
+                    es: "Inicia sesión con Discord o verifica que tengas los permisos adecuados.",
+                    en: "Log in with Discord or verify that you have the appropriate permissions."
+                },
+                403: { 
+                    es: "Contacta al administrador del servidor para obtener los permisos necesarios.",
+                    en: "Contact the server administrator to get the necessary permissions."
+                },
+                405: { 
+                    es: "Verifica que estés usando el método correcto o contacta al soporte técnico.",
+                    en: "Check that you're using the correct method or contact technical support."
+                },
+                500: { 
+                    es: "Intenta recargar la página. Si el problema persiste, contacta al soporte técnico.",
+                    en: "Try reloading the page. If the problem persists, contact technical support."
+                },
+                502: { 
+                    es: "Espera unos minutos e intenta de nuevo. El problema debería resolverse pronto.",
+                    en: "Wait a few minutes and try again. The problem should resolve soon."
+                },
+                503: { 
+                    es: "Espera unos minutos e intenta de nuevo. El servicio se restablecerá pronto.",
+                    en: "Wait a few minutes and try again. The service will be restored soon."
+                }
+            };
+            return solutions[code]?.[lang] || (lang === 'es' ? "Intenta recargar la página o contacta al soporte técnico si el problema persiste." : "Try reloading the page or contact technical support if the problem persists.");
+        }
+
+        function getStatusText(status, lang) {
+            const statusTexts = {
+                "Entrada de datos requerida": { es: "Entrada de datos requerida", en: "Data input required" },
+                "Autenticación requerida": { es: "Autenticación requerida", en: "Authentication required" },
+                "Permisos insuficientes": { es: "Permisos insuficientes", en: "Insufficient permissions" },
+                "Método HTTP incorrecto": { es: "Método HTTP incorrecto", en: "Incorrect HTTP method" },
+                "Sistema en mantenimiento": { es: "Sistema en mantenimiento", en: "System under maintenance" },
+                "Conectividad limitada": { es: "Conectividad limitada", en: "Limited connectivity" },
+                "Mantenimiento programado": { es: "Mantenimiento programado", en: "Scheduled maintenance" },
+                "Estado desconocido": { es: "Estado desconocido", en: "Unknown status" }
+            };
+            return statusTexts[status]?.[lang] || status;
+        }
+
+        let currentLang = 'es';
+
+        function changeLanguage(lang) {
+            currentLang = lang;
+            document.documentElement.lang = lang;
+            document.title = lang === 'es' ? `Error ${errorCode} - Algo salió mal` : `Error ${errorCode} - Something went wrong`;
+            
+            document.querySelectorAll('[data-i18n]').forEach(element => {
+                const key = element.getAttribute('data-i18n');
+                if (translations[lang][key]) {
+                    element.textContent = translations[lang][key];
+                }
+            });
+
+            document.querySelectorAll('.lang-btn').forEach(btn => {
+                btn.classList.toggle('active', btn.getAttribute('data-lang') === lang);
+            });
+
+            localStorage.setItem('preferred-language', lang);
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            const savedLang = localStorage.getItem('preferred-language') || 'es';
+            changeLanguage(savedLang);
+
+            document.querySelectorAll('.lang-btn').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    changeLanguage(this.getAttribute('data-lang'));
+                });
+            });
+        });
+        
+        function blinkRobot() {
+            const eyes = document.querySelectorAll('.eye');
+            eyes.forEach(eye => {
+                eye.style.transform = 'scaleY(0.1)';
+                setTimeout(() => {
+                    eye.style.transform = 'scaleY(1)';
+                }, 150);
+            });
+        }
+        
+        setInterval(() => {
+            if (Math.random() < 0.3) {
+                blinkRobot();
+            }
+        }, 2000);
+        
+        document.addEventListener('mousemove', (e) => {
+            const pupils = document.querySelectorAll('.pupil');
+            const robotFace = document.querySelector('.robot-face');
+            const rect = robotFace.getBoundingClientRect();
+            const centerX = rect.left + rect.width / 2;
+            const centerY = rect.top + rect.height / 2;
+            
+            const angle = Math.atan2(e.clientY - centerY, e.clientX - centerX);
+            const distance = Math.min(3, Math.sqrt((e.clientX - centerX) ** 2 + (e.clientY - centerY) ** 2) / 20);
+            
+            pupils.forEach(pupil => {
+                const x = Math.cos(angle) * distance;
+                const y = Math.sin(angle) * distance;
+                pupil.style.transform = `translate(${x}px, ${y}px)`;
+            });
+        });
+        
+        function createMatrixRain() {
+            const columns = document.querySelectorAll('.matrix-column');
+            const chars = '01アイウエオカキクケコサシスセソタチツテトナニヌネノハヒフヘホマミムメモヤユヨラリルレロワヲン';
+            
+            columns.forEach((column, index) => {
+                column.style.left = (index * 20) + '%';
+                column.style.animationDelay = (index * 0.5) + 's';
+                
+                for (let i = 0; i < 20; i++) {
+                    const char = document.createElement('div');
+                    char.className = 'matrix-char';
+                    char.textContent = chars[Math.floor(Math.random() * chars.length)];
+                    char.style.animationDelay = (i * 0.1) + 's';
+                    column.appendChild(char);
+                }
+            });
+        }
+        
+        function updateMatrixChars() {
+            const chars = '01アイウエオカキクケコサシスセソタチツテトナニヌネノハヒフヘホマミムメモヤユヨラリルレロワヲン';
+            const matrixChars = document.querySelectorAll('.matrix-char');
+            
+            matrixChars.forEach(char => {
+                if (Math.random() < 0.02) {
+                    char.textContent = chars[Math.floor(Math.random() * chars.length)];
+                }
+            });
+        }
+        
+        document.addEventListener('DOMContentLoaded', function() {
+            createMatrixRain();
+            setInterval(updateMatrixChars, 100);
+            
+            const glitchText = document.querySelector('.glitch-text');
+            const originalText = glitchText.textContent;
+            let iteration = 0;
+            
+            const glitchInterval = setInterval(() => {
+                glitchText.textContent = originalText
+                    .split('')
+                    .map((letter, index) => {
+                        if (index < iteration) {
+                            return originalText[index];
+                        }
+                        return String.fromCharCode(48 + Math.floor(Math.random() * 10));
+                    })
+                    .join('');
+                
+                if (iteration >= originalText.length) {
+                    clearInterval(glitchInterval);
+                    glitchText.textContent = originalText;
+                }
+                
+                iteration += 1 / 3;
+            }, 50);
+        });
+        
+        document.querySelector('.robot-face').addEventListener('click', function() {
+            this.style.animation = 'robotShake 0.5s ease';
+            
+            for (let i = 0; i < 10; i++) {
+                setTimeout(() => {
+                    createSpark();
+                }, i * 50);
+            }
+            
+            setTimeout(() => {
+                this.style.animation = '';
+            }, 500);
+        });
+        
+        function createSpark() {
+            const spark = document.createElement('div');
+            spark.className = 'dynamic-spark';
+            spark.style.left = '50%';
+            spark.style.top = '50%';
+            spark.style.transform = `translate(-50%, -50%) rotate(${Math.random() * 360}deg)`;
+            
+            document.querySelector('.error-animation').appendChild(spark);
+            
+            setTimeout(() => {
+                spark.remove();
+            }, 1000);
+        }
+    </script>
+</body>
+</html>

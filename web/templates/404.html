@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>404 - Página no encontrada</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles/404.css') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="language-selector">
+        <button class="lang-btn active" data-lang="es">🇪🇸 ES</button>
+        <button class="lang-btn" data-lang="en">🇺🇸 EN</button>
+    </div>
+    
+    <div class="error-container">
+        <div class="error-content">
+            <div class="error-animation">
+                <div class="error-number">
+                    <span class="four">4</span>
+                    <span class="zero">0</span>
+                    <span class="four">4</span>
+                </div>
+                <div class="floating-elements">
+                    <div class="floating-element" style="--delay: 0s;">🤖</div>
+                    <div class="floating-element" style="--delay: 1s;">⚙️</div>
+                    <div class="floating-element" style="--delay: 2s;">🔧</div>
+                    <div class="floating-element" style="--delay: 3s;">💻</div>
+                    <div class="floating-element" style="--delay: 4s;">🚀</div>
+                </div>
+            </div>
+            
+            <div class="error-text">
+                <h1 data-i18n="title">¡Oops! Página no encontrada</h1>
+                <p data-i18n="description">Parece que el bot se perdió en el ciberespacio. La página que buscas no existe o fue movida a otra dimensión.</p>
+                
+                <div class="error-suggestions">
+                    <div class="suggestion">
+                        <span class="suggestion-icon">🔍</span>
+                        <span data-i18n="suggestion1">Verifica que la URL esté correcta</span>
+                    </div>
+                    <div class="suggestion">
+                        <span class="suggestion-icon">⬅️</span>
+                        <span data-i18n="suggestion2">Usa el botón de retroceso del navegador</span>
+                    </div>
+                    <div class="suggestion">
+                        <span class="suggestion-icon">🏠</span>
+                        <span data-i18n="suggestion3">Regresa a la página principal</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="error-actions">
+                <a href="/" class="btn-primary">
+                    <span class="btn-icon">🏠</span>
+                    <span data-i18n="btn_home">Ir al Inicio</span>
+                </a>
+                <button class="btn-secondary" onclick="window.history.back()">
+                    <span class="btn-icon">⬅️</span>
+                    <span data-i18n="btn_back">Volver Atrás</span>
+                </button>
+            </div>
+            
+            <div class="error-footer">
+                <p>
+                    <span data-i18n="footer_text">¿Crees que esto es un error?</span>
+                    <a href="/support" class="support-link" data-i18n="contact_link">Contáctanos</a>
+                </p>
+            </div>
+        </div>
+        
+        <div class="background-grid"></div>
+        <div class="background-particles">
+            <div class="particle"></div>
+            <div class="particle"></div>
+            <div class="particle"></div>
+            <div class="particle"></div>
+            <div class="particle"></div>
+            <div class="particle"></div>
+            <div class="particle"></div>
+            <div class="particle"></div>
+        </div>
+    </div>
+    
+    <script>
+        const translations = {
+            es: {
+                title: "¡Oops! Página no encontrada",
+                description: "Parece que el bot se perdió en el ciberespacio. La página que buscas no existe o fue movida a otra dimensión.",
+                suggestion1: "Verifica que la URL esté correcta",
+                suggestion2: "Usa el botón de retroceso del navegador",
+                suggestion3: "Regresa a la página principal",
+                btn_home: "Ir al Inicio",
+                btn_back: "Volver Atrás",
+                footer_text: "¿Crees que esto es un error?",
+                contact_link: "Contáctanos"
+            },
+            en: {
+                title: "Oops! Page not found",
+                description: "It seems the bot got lost in cyberspace. The page you're looking for doesn't exist or was moved to another dimension.",
+                suggestion1: "Check that the URL is correct",
+                suggestion2: "Use your browser's back button",
+                suggestion3: "Return to the main page",
+                btn_home: "Go Home",
+                btn_back: "Go Back",
+                footer_text: "Think this is an error?",
+                contact_link: "Contact us"
+            }
+        };
+
+        let currentLang = 'es';
+
+        function changeLanguage(lang) {
+            currentLang = lang;
+            document.documentElement.lang = lang;
+            document.title = lang === 'es' ? '404 - Página no encontrada' : '404 - Page not found';
+            
+            document.querySelectorAll('[data-i18n]').forEach(element => {
+                const key = element.getAttribute('data-i18n');
+                if (translations[lang][key]) {
+                    element.textContent = translations[lang][key];
+                }
+            });
+
+            document.querySelectorAll('.lang-btn').forEach(btn => {
+                btn.classList.toggle('active', btn.getAttribute('data-lang') === lang);
+            });
+
+            localStorage.setItem('preferred-language', lang);
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            const savedLang = localStorage.getItem('preferred-language') || 'es';
+            changeLanguage(savedLang);
+
+            document.querySelectorAll('.lang-btn').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    changeLanguage(this.getAttribute('data-lang'));
+                });
+            });
+        });
+        
+        function createFloatingParticle() {
+            const particle = document.createElement('div');
+            particle.className = 'floating-particle';
+            particle.style.left = Math.random() * 100 + '%';
+            particle.style.animationDuration = (Math.random() * 3 + 2) + 's';
+            particle.style.opacity = Math.random() * 0.5 + 0.3;
+            
+            document.querySelector('.background-particles').appendChild(particle);
+            
+            setTimeout(() => {
+                particle.remove();
+            }, 5000);
+        }
+        
+        setInterval(createFloatingParticle, 800);
+        
+        document.addEventListener('DOMContentLoaded', function() {
+            const numbers = document.querySelectorAll('.error-number span');
+            numbers.forEach((num, index) => {
+                num.style.animationDelay = (index * 0.2) + 's';
+            });
+        });
+        
+        document.querySelector('.zero').addEventListener('click', function() {
+            this.style.transform = 'rotate(360deg) scale(1.2)';
+            this.style.transition = 'transform 0.8s ease';
+            
+            setTimeout(() => {
+                this.style.transform = 'rotate(0deg) scale(1)';
+            }, 800);
+            
+            for(let i = 0; i < 5; i++) {
+                setTimeout(() => {
+                    createEmojiExplosion();
+                }, i * 100);
+            }
+        });
+        
+        function createEmojiExplosion() {
+            const emojis = ['⭐', '✨', '💫', '🌟', '⚡'];
+            const emoji = document.createElement('div');
+            emoji.textContent = emojis[Math.floor(Math.random() * emojis.length)];
+            emoji.className = 'emoji-explosion';
+            emoji.style.left = '50%';
+            emoji.style.top = '50%';
+            emoji.style.transform = `translate(-50%, -50%) rotate(${Math.random() * 360}deg)`;
+            
+            document.querySelector('.error-animation').appendChild(emoji);
+            
+            setTimeout(() => {
+                emoji.remove();
+            }, 1000);
+        }
+    </script>
+</body>
+</html>
