@@ -189,7 +189,6 @@ function getPermissionDescription(permissionKey) {
         return descriptions[permissionKey];
     }
     
-    // Reemplazar rsplit por split de JavaScript
     const parts = permissionKey.split('-');
     const basePerm = parts.slice(0, -1).join('-');
     const type = parts[parts.length - 1];
@@ -876,8 +875,14 @@ function resetLogHistory() {
 }
 
 function checkForChanges() {
-    if (!currentTicketConfig || !originalTicketConfig) {
+    if (!currentTicketConfig) {
         hasTicketChanges = false;
+        updateSaveButton();
+        return;
+    }
+    
+    if (!originalTicketConfig) {
+        hasTicketChanges = true;
         updateSaveButton();
         return;
     }
@@ -907,12 +912,28 @@ function updateSaveButton() {
     const saveBtn = document.getElementById('save-ticket-btn');
     if (!saveBtn) return;
     
+    const cancelBtn = document.getElementById('cancel-edit-btn');
+    
     if (hasTicketChanges && currentTicketConfig) {
         saveBtn.style.display = 'block';
         saveBtn.disabled = false;
+        
+        if (!originalTicketConfig) {
+            saveBtn.innerHTML = '<span class="btn-icon">💾</span> Crear Ticket';
+        } else {
+            saveBtn.innerHTML = '<span class="btn-icon">💾</span> Guardar Cambios';
+        }
+        
+        if (cancelBtn) {
+            cancelBtn.style.display = 'block';
+        }
     } else {
         saveBtn.style.display = 'none';
         saveBtn.disabled = true;
+        
+        if (cancelBtn && !currentTicketConfig) {
+            cancelBtn.style.display = 'none';
+        }
     }
 }
 
@@ -1597,6 +1618,7 @@ async function loadTicketConfig(channelId) {
         renderTicketEditor();
         updatePreview();
         updatePreviewButton();
+        checkForChanges();
     } catch (error) {
         console.error('Error loading ticket config:', error);
         showToast('Error al cargar configuración del ticket', 'error');
@@ -1719,7 +1741,7 @@ async function loadChannelsForEdit() {
 
 function setupTicketConfigListeners() {
     document.getElementById('config-permissions-btn')?.addEventListener('click', () => {
-        openPermissionsModal();
+        loadTicketPermissions(currentEditingTicket);
     });
     
     document.getElementById('config-open-message-btn')?.addEventListener('click', () => {
@@ -1734,11 +1756,13 @@ function setupTicketConfigListeners() {
     document.getElementById('ticket-channel-edit')?.addEventListener('change', function() {
         saveSnapshot('Cambio de canal de tickets');
         currentTicketConfig.ticket_channel = parseInt(this.value);
+        checkForChanges();
     });
     
     document.getElementById('log-channel-edit')?.addEventListener('change', function() {
         saveSnapshot('Cambio de canal de logs');
         currentTicketConfig.log_channel = parseInt(this.value);
+        checkForChanges();
     });
 }
 
@@ -1860,6 +1884,7 @@ function createNewTicket() {
     
     saveSnapshot('Ticket creado');
     updatePreviewButton();
+    checkForChanges();
     openChannelSelectModal();
 }
 
@@ -1872,6 +1897,19 @@ function saveCurrentTicket() {
     if (!currentTicketConfig.permissions.manage.roles.length && !currentTicketConfig.permissions.manage.users.length) {
         showToast('Debes configurar al menos un rol o usuario con permisos de gestión', 'error');
         return;
+    }
+    
+    const openMessage = currentTicketConfig.open_message;
+    if (openMessage.embed) {
+        if (!openMessage.description || !openMessage.description.trim()) {
+            showToast('El mensaje de apertura debe tener una descripción', 'error');
+            return;
+        }
+    } else {
+        if (!openMessage.plain_message || !openMessage.plain_message.trim()) {
+            showToast('El mensaje de apertura debe tener contenido', 'error');
+            return;
+        }
     }
     
     saveTicketConfig();
@@ -2040,6 +2078,7 @@ function initializeChannelSelectModal() {
         
         closeAllModals();
         renderTicketEditor();
+        checkForChanges();
     });
     
     cancelBtn?.addEventListener('click', function() {
@@ -2755,6 +2794,7 @@ function saveMessageConfig() {
     closeAllModals();
     updatePreview();
     renderOpenedMessagesList();
+    checkForChanges();
     showToast('Mensaje configurado correctamente', 'success');
 }
 
@@ -2888,6 +2928,7 @@ function saveButtonConfig() {
     renderButtonsList();
     renderOpenedMessagesList();
     updatePreview();
+    checkForChanges();
     showToast('Botón configurado correctamente', 'success');
 }
 
@@ -2907,4 +2948,334 @@ function showToast(message, type = 'info') {
     setTimeout(() => {
         toast.classList.remove('show');
     }, 3000);
+}
+
+let currentTicketPermissions = null;
+let currentTicketChannelId = null;
+
+async function loadTicketPermissions(channelId) {
+    try {
+        currentTicketChannelId = channelId;
+        const response = await fetch(`/api/server/${window.serverId}/tickets/${channelId}/permissions`);
+        const data = await response.json();
+        
+        if (data.error) {
+            showToast(data.error, 'error');
+            return;
+        }
+        
+        currentTicketPermissions = data.permissions;
+        renderTicketPermissionsEditor();
+    } catch (error) {
+        console.error('Error loading ticket permissions:', error);
+        showToast('Error al cargar permisos del ticket', 'error');
+    }
+}
+
+function renderTicketPermissionsEditor() {
+    const editorTitle = document.getElementById('editor-title');
+    const editorContent = document.getElementById('editor-content');
+    
+    if (!currentTicketPermissions) {
+        return;
+    }
+    
+    const ticketInfo = ticketsData.find(t => t.channel_id === currentTicketChannelId);
+    editorTitle.textContent = `Permisos: ${ticketInfo ? ticketInfo.channel_name : 'Ticket'}`;
+    
+    editorContent.innerHTML = `
+        <div class="config-form">
+            <div class="config-section">
+                <h3>🔒 Permisos del Ticket</h3>
+                <p>Configura quién puede gestionar y ver este ticket.</p>
+                
+                <div class="permissions-tabs">
+                    <button class="tab-btn active" data-tab="manage">🔑 Gestionar Tickets</button>
+                    <button class="tab-btn" data-tab="view">👁️ Ver Tickets</button>
+                </div>
+                
+                <div class="permission-tab active" id="manage-permissions-tab">
+                    <div class="permission-description">
+                        <strong>🔑 Gestionar Tickets:</strong> Permite el control total sobre los tickets, incluyendo ver, escribir, añadir/eliminar usuarios y archivar tickets.
+                    </div>
+                    
+                    <div class="permission-section">
+                        <h4>👥 Roles con permisos de gestión</h4>
+                        <div class="selected-items" id="manage-roles-list"></div>
+                        <div class="add-permission-controls">
+                            <select id="manage-role-select" class="form-select">
+                                <option value="">Selecciona un rol...</option>
+                            </select>
+                            <button class="btn-secondary" id="add-manage-role-btn">
+                                <span class="btn-icon">➕</span>
+                                Añadir Rol
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <div class="permission-section">
+                        <h4>👤 Usuarios con permisos de gestión</h4>
+                        <div class="selected-items" id="manage-users-list"></div>
+                        <div class="add-permission-controls">
+                            <input type="text" id="manage-user-input" placeholder="ID del usuario" class="form-input">
+                            <button class="btn-secondary" id="add-manage-user-btn">
+                                <span class="btn-icon">➕</span>
+                                Añadir Usuario
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="permission-tab" id="view-permissions-tab">
+                    <div class="permission-description">
+                        <strong>👁️ Ver Tickets:</strong> Permite únicamente ver los tickets, sin poder escribir ni interactuar con los botones.
+                    </div>
+                    
+                    <div class="permission-section">
+                        <h4>👥 Roles con permisos de visualización</h4>
+                        <div class="selected-items" id="view-roles-list"></div>
+                        <div class="add-permission-controls">
+                            <select id="view-role-select" class="form-select">
+                                <option value="">Selecciona un rol...</option>
+                            </select>
+                            <button class="btn-secondary" id="add-view-role-btn">
+                                <span class="btn-icon">➕</span>
+                                Añadir Rol
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <div class="permission-section">
+                        <h4>👤 Usuarios con permisos de visualización</h4>
+                        <div class="selected-items" id="view-users-list"></div>
+                        <div class="add-permission-controls">
+                            <input type="text" id="view-user-input" placeholder="ID del usuario" class="form-input">
+                            <button class="btn-secondary" id="add-view-user-btn">
+                                <span class="btn-icon">➕</span>
+                                Añadir Usuario
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    `;
+    
+    setupTicketPermissionsListeners();
+    populateTicketRoleSelects();
+    renderTicketPermissionItems();
+    
+    const saveBtn = document.getElementById('save-ticket-btn');
+    const cancelBtn = document.getElementById('cancel-edit-btn');
+    
+    if (saveBtn) saveBtn.style.display = 'block';
+    if (cancelBtn) cancelBtn.style.display = 'block';
+}
+
+function setupTicketPermissionsListeners() {
+    document.querySelectorAll('.permissions-tabs .tab-btn').forEach(btn => {
+        btn.addEventListener('click', function() {
+            const tab = this.getAttribute('data-tab');
+            
+            document.querySelectorAll('.permissions-tabs .tab-btn').forEach(b => b.classList.remove('active'));
+            document.querySelectorAll('.permission-tab').forEach(t => t.classList.remove('active'));
+            
+            this.classList.add('active');
+            document.getElementById(`${tab}-permissions-tab`).classList.add('active');
+        });
+    });
+    
+    document.getElementById('add-manage-role-btn')?.addEventListener('click', () => addTicketRole('manage'));
+    document.getElementById('add-view-role-btn')?.addEventListener('click', () => addTicketRole('view'));
+    document.getElementById('add-manage-user-btn')?.addEventListener('click', () => addTicketUser('manage'));
+    document.getElementById('add-view-user-btn')?.addEventListener('click', () => addTicketUser('view'));
+}
+
+function populateTicketRoleSelects() {
+    const manageSelect = document.getElementById('manage-role-select');
+    const viewSelect = document.getElementById('view-role-select');
+    
+    if (rolesData.length === 0) {
+        loadRolesData().then(() => {
+            populateRoleOptions(manageSelect);
+            populateRoleOptions(viewSelect);
+        });
+    } else {
+        populateRoleOptions(manageSelect);
+        populateRoleOptions(viewSelect);
+    }
+}
+
+function populateRoleOptions(selectElement) {
+    if (!selectElement) return;
+    
+    selectElement.innerHTML = '<option value="">Selecciona un rol...</option>';
+    
+    rolesData.forEach(role => {
+        const option = new Option(role.name, role.id);
+        selectElement.add(option);
+    });
+}
+
+function renderTicketPermissionItems() {
+    ['manage', 'view'].forEach(permType => {
+        renderTicketRolesList(permType);
+        renderTicketUsersList(permType);
+    });
+}
+
+function renderTicketRolesList(permType) {
+    const container = document.getElementById(`${permType}-roles-list`);
+    const roles = currentTicketPermissions[permType]?.roles || [];
+    
+    container.innerHTML = roles.map(role => `
+        <div class="selected-item">
+            <div class="item-info">
+                <div class="item-color" style="background-color: ${role.color};"></div>
+                <span class="item-name">${role.name}</span>
+            </div>
+            <button class="remove-btn" onclick="removeTicketRole('${permType}', '${role.id}')">✕</button>
+        </div>
+    `).join('') || '<div class="empty-state">No hay roles configurados</div>';
+}
+
+function renderTicketUsersList(permType) {
+    const container = document.getElementById(`${permType}-users-list`);
+    const users = currentTicketPermissions[permType]?.users || [];
+    
+    container.innerHTML = users.map(user => `
+        <div class="selected-item">
+            <div class="item-info">
+                <img src="${user.avatar}" alt="Avatar" class="item-avatar">
+                <span class="item-name">${user.name}</span>
+            </div>
+            <button class="remove-btn" onclick="removeTicketUser('${permType}', '${user.id}')">✕</button>
+        </div>
+    `).join('') || '<div class="empty-state">No hay usuarios configurados</div>';
+}
+
+async function addTicketRole(permType) {
+    const selectElement = document.getElementById(`${permType}-role-select`);
+    const roleId = selectElement.value;
+    
+    if (!roleId) {
+        showToast('Selecciona un rol', 'error');
+        return;
+    }
+    
+    try {
+        const response = await fetch(`/api/server/${window.serverId}/tickets/${currentTicketChannelId}/permissions/${permType}/add`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                item_id: roleId,
+                item_type: 'roles'
+            })
+        });
+        
+        const result = await response.json();
+        
+        if (result.success) {
+            showToast('Rol añadido correctamente', 'success');
+            selectElement.value = '';
+            loadTicketPermissions(currentTicketChannelId);
+        } else {
+            showToast(result.error || 'Error al añadir rol', 'error');
+        }
+    } catch (error) {
+        console.error('Error adding role:', error);
+        showToast('Error al añadir rol', 'error');
+    }
+}
+
+async function addTicketUser(permType) {
+    const inputElement = document.getElementById(`${permType}-user-input`);
+    const userId = inputElement.value.trim();
+    
+    if (!userId || !userId.match(/^\d+$/)) {
+        showToast('Ingresa un ID de usuario válido', 'error');
+        return;
+    }
+    
+    try {
+        const response = await fetch(`/api/server/${window.serverId}/tickets/${currentTicketChannelId}/permissions/${permType}/add`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                item_id: userId,
+                item_type: 'users'
+            })
+        });
+        
+        const result = await response.json();
+        
+        if (result.success) {
+            showToast('Usuario añadido correctamente', 'success');
+            inputElement.value = '';
+            loadTicketPermissions(currentTicketChannelId);
+        } else {
+            showToast(result.error || 'Error al añadir usuario', 'error');
+        }
+    } catch (error) {
+        console.error('Error adding user:', error);
+        showToast('Error al añadir usuario', 'error');
+    }
+}
+
+async function removeTicketRole(permType, roleId) {
+    try {
+        const response = await fetch(`/api/server/${window.serverId}/tickets/${currentTicketChannelId}/permissions/${permType}/remove`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                item_id: roleId,
+                item_type: 'roles'
+            })
+        });
+        
+        const result = await response.json();
+        
+        if (result.success) {
+            showToast('Rol eliminado correctamente', 'success');
+            loadTicketPermissions(currentTicketChannelId);
+        } else {
+            showToast(result.error || 'Error al eliminar rol', 'error');
+        }
+    } catch (error) {
+        console.error('Error removing role:', error);
+        showToast('Error al eliminar rol', 'error');
+    }
+}
+
+async function removeTicketUser(permType, userId) {
+    try {
+        const response = await fetch(`/api/server/${window.serverId}/tickets/${currentTicketChannelId}/permissions/${permType}/remove`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                item_id: userId,
+                item_type: 'users'
+            })
+        });
+        
+        const result = await response.json();
+        
+        if (result.success) {
+            showToast('Usuario eliminado correctamente', 'success');
+            loadTicketPermissions(currentTicketChannelId);
+        } else {
+            showToast(result.error || 'Error al eliminar usuario', 'error');
+        }
+    } catch (error) {
+        console.error('Error removing user:', error);
+        showToast('Error al eliminar usuario', 'error');
+    }
 }

@@ -37,7 +37,8 @@ class ServerManager:
             return config
             
         except Exception as e:
-            print(f"Error obteniendo configuración del servidor: {e}")
+            import traceback
+            traceback.print_exc()
             return None
     
     def get_commands_config(self, guild_id):

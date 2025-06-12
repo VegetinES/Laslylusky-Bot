@@ -281,3 +281,160 @@ class TicketsManager:
         except Exception as e:
             print(f"Error generando preview de mensaje: {e}")
             return {'content': 'Error en preview', 'embed': None}
+    
+    def get_ticket_permissions(self, guild_id, channel_id):
+        try:
+            ticket_config = get_ticket_data(guild_id, channel_id)
+            if not ticket_config:
+                return None
+            
+            guild = self.bot.get_guild(int(guild_id))
+            if not guild:
+                return None
+            
+            permissions = ticket_config.get('permissions', {
+                'manage': {'roles': [], 'users': []},
+                'view': {'roles': [], 'users': []}
+            })
+            
+            processed_permissions = {}
+            for perm_type in ['manage', 'view']:
+                processed_permissions[perm_type] = {
+                    'roles': [],
+                    'users': []
+                }
+                
+                for role_id in permissions.get(perm_type, {}).get('roles', []):
+                    role = guild.get_role(int(role_id))
+                    if role:
+                        processed_permissions[perm_type]['roles'].append({
+                            'id': role.id,
+                            'name': role.name,
+                            'color': str(role.color) if str(role.color) != '#000000' else '#99aab5'
+                        })
+                
+                for user_id in permissions.get(perm_type, {}).get('users', []):
+                    try:
+                        member = guild.get_member(int(user_id))
+                        if member:
+                            processed_permissions[perm_type]['users'].append({
+                                'id': member.id,
+                                'name': str(member),
+                                'avatar': member.avatar.url if member.avatar else member.default_avatar.url
+                            })
+                    except:
+                        pass
+            
+            return processed_permissions
+        except Exception as e:
+            print(f"Error obteniendo permisos de ticket: {e}")
+            return None
+
+    def save_ticket_permissions(self, guild_id, channel_id, permissions_data):
+        try:
+            ticket_config = get_ticket_data(guild_id, channel_id)
+            if not ticket_config:
+                return False
+            
+            ticket_config['permissions'] = {
+                'manage': {
+                    'roles': permissions_data.get('manage', {}).get('roles', []),
+                    'users': permissions_data.get('manage', {}).get('users', [])
+                },
+                'view': {
+                    'roles': permissions_data.get('view', {}).get('roles', []),
+                    'users': permissions_data.get('view', {}).get('users', [])
+                }
+            }
+            
+            from commands.tickets.utils.database import save_ticket_config
+            import asyncio
+            
+            loop = asyncio.new_event_loop()
+            asyncio.set_event_loop(loop)
+            try:
+                success = loop.run_until_complete(save_ticket_config(guild_id, channel_id, ticket_config))
+                return success
+            finally:
+                loop.close()
+                
+        except Exception as e:
+            print(f"Error guardando permisos de ticket: {e}")
+            return False
+
+    def add_ticket_permission(self, guild_id, channel_id, perm_type, item_type, item_id):
+        try:
+            ticket_config = get_ticket_data(guild_id, channel_id)
+            if not ticket_config:
+                return False, "Ticket no encontrado"
+            
+            if 'permissions' not in ticket_config:
+                ticket_config['permissions'] = {
+                    'manage': {'roles': [], 'users': []},
+                    'view': {'roles': [], 'users': []}
+                }
+            
+            if perm_type not in ticket_config['permissions']:
+                ticket_config['permissions'][perm_type] = {'roles': [], 'users': []}
+            
+            if item_type not in ticket_config['permissions'][perm_type]:
+                ticket_config['permissions'][perm_type][item_type] = []
+            
+            item_id = int(item_id)
+            if item_id not in ticket_config['permissions'][perm_type][item_type]:
+                ticket_config['permissions'][perm_type][item_type].append(item_id)
+                
+                from commands.tickets.utils.database import save_ticket_config
+                import asyncio
+                
+                loop = asyncio.new_event_loop()
+                asyncio.set_event_loop(loop)
+                try:
+                    success = loop.run_until_complete(save_ticket_config(guild_id, channel_id, ticket_config))
+                    if success:
+                        return True, "Elemento añadido correctamente"
+                    else:
+                        return False, "Error al guardar"
+                finally:
+                    loop.close()
+            else:
+                return False, "El elemento ya existe"
+                
+        except Exception as e:
+            print(f"Error añadiendo permiso: {e}")
+            return False, "Error interno"
+
+    def remove_ticket_permission(self, guild_id, channel_id, perm_type, item_type, item_id):
+        try:
+            ticket_config = get_ticket_data(guild_id, channel_id)
+            if not ticket_config:
+                return False, "Ticket no encontrado"
+            
+            if ('permissions' not in ticket_config or 
+                perm_type not in ticket_config['permissions'] or
+                item_type not in ticket_config['permissions'][perm_type]):
+                return False, "Permiso no encontrado"
+            
+            item_id = int(item_id)
+            if item_id in ticket_config['permissions'][perm_type][item_type]:
+                ticket_config['permissions'][perm_type][item_type].remove(item_id)
+                
+                from commands.tickets.utils.database import save_ticket_config
+                import asyncio
+                
+                loop = asyncio.new_event_loop()
+                asyncio.set_event_loop(loop)
+                try:
+                    success = loop.run_until_complete(save_ticket_config(guild_id, channel_id, ticket_config))
+                    if success:
+                        return True, "Elemento eliminado correctamente"
+                    else:
+                        return False, "Error al guardar"
+                finally:
+                    loop.close()
+            else:
+                return False, "El elemento no existe"
+                
+        except Exception as e:
+            print(f"Error eliminando permiso: {e}")
+            return False, "Error interno"

@@ -1156,6 +1156,9 @@
 
         <div class="toast" id="toast"></div>
 
+        <script>
+            window.serverId = '{{ server.id }}';
+        </script>
         <script src="{{ url_for('static', filename='scripts/server_management.js') }}"></script>
         <script>
             document.querySelectorAll('.mobile-dropbtn').forEach(btn => {

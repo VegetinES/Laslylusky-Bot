@@ -334,12 +334,15 @@ def server_management_es(server_id):
         return redirect(oauth_url)
     
     if not permission_checker or not server_manager:
+        print(f"[DEBUG] permission_checker: {permission_checker is not None}, server_manager: {server_manager is not None}")
         return redirect('/es/dashboard')
     
     access_token = session['access_token']
     user_headers = {'Authorization': f'Bearer {access_token}'}
     
     try:
+        print(f"[DEBUG] Procesando servidor: {server_id}")
+        
         user_response = requests.get(f'{DISCORD_API_BASE}/users/@me', headers=user_headers)
         guilds_response = requests.get(f'{DISCORD_API_BASE}/users/@me/guilds', headers=user_headers)
         
@@ -353,7 +356,10 @@ def server_management_es(server_id):
         user_data = user_response.json()
         user_guilds = guilds_response.json()
         
+        print(f"[DEBUG] Usuario: {user_data.get('username')}, Guilds: {len(user_guilds)}")
+        
         manageable_servers = permission_checker.get_all_manageable_servers(user_guilds, user_data['id'])
+        print(f"[DEBUG] Servidores gestionables: {len(manageable_servers)}")
         
         target_server = None
         for server in manageable_servers:
@@ -361,10 +367,21 @@ def server_management_es(server_id):
                 target_server = server
                 break
         
+        print(f"[DEBUG] Servidor objetivo encontrado: {target_server is not None}")
+        if target_server:
+            print(f"[DEBUG] Bot presente: {target_server.get('bot_present', False)}")
+        
         if not target_server or not target_server.get('bot_present', False):
+            print(f"[DEBUG] Redirigiendo al dashboard - Servidor no encontrado o bot no presente")
             return redirect('/es/dashboard')
         
+        print(f"[DEBUG] Llamando a server_manager.get_server_config({server_id})")
         server_data = server_manager.get_server_config(server_id)
+        print(f"[DEBUG] server_data obtenido: {server_data is not None}")
+        
+        if not server_data:
+            print(f"[DEBUG] No se pudo obtener server_data, redirigiendo al dashboard")
+            return redirect('/es/dashboard')
         
         user_avatar = f"https://cdn.discordapp.com/avatars/{user_data['id']}/{user_data['avatar']}.png" if user_data['avatar'] else "https://cdn.discordapp.com/embed/avatars/0.png"
         
@@ -375,6 +392,7 @@ def server_management_es(server_id):
             'avatar': user_avatar
         }
         
+        print(f"[DEBUG] Renderizando template para servidor: {target_server['name']}")
         return render_template('es/server_management.html', 
                              user=user, 
                              server=target_server, 
@@ -382,7 +400,9 @@ def server_management_es(server_id):
                              lang='es')
         
     except Exception as e:
-        print(f"Error en server management: {e}")
+        print(f"[DEBUG] Error en server management: {e}")
+        import traceback
+        traceback.print_exc()
         return redirect('/es/dashboard')
 
 @app.route('/en/dashboard/<server_id>')
@@ -395,12 +415,15 @@ def server_management_en(server_id):
         return redirect(oauth_url)
     
     if not permission_checker or not server_manager:
+        print(f"[DEBUG] permission_checker: {permission_checker is not None}, server_manager: {server_manager is not None}")
         return redirect('/en/dashboard')
     
     access_token = session['access_token']
     user_headers = {'Authorization': f'Bearer {access_token}'}
     
     try:
+        print(f"[DEBUG] Procesando servidor: {server_id}")
+        
         user_response = requests.get(f'{DISCORD_API_BASE}/users/@me', headers=user_headers)
         guilds_response = requests.get(f'{DISCORD_API_BASE}/users/@me/guilds', headers=user_headers)
         
@@ -414,7 +437,10 @@ def server_management_en(server_id):
         user_data = user_response.json()
         user_guilds = guilds_response.json()
         
+        print(f"[DEBUG] Usuario: {user_data.get('username')}, Guilds: {len(user_guilds)}")
+        
         manageable_servers = permission_checker.get_all_manageable_servers(user_guilds, user_data['id'])
+        print(f"[DEBUG] Servidores gestionables: {len(manageable_servers)}")
         
         target_server = None
         for server in manageable_servers:
@@ -422,10 +448,21 @@ def server_management_en(server_id):
                 target_server = server
                 break
         
+        print(f"[DEBUG] Servidor objetivo encontrado: {target_server is not None}")
+        if target_server:
+            print(f"[DEBUG] Bot presente: {target_server.get('bot_present', False)}")
+        
         if not target_server or not target_server.get('bot_present', False):
+            print(f"[DEBUG] Redirigiendo al dashboard - Servidor no encontrado o bot no presente")
             return redirect('/en/dashboard')
         
+        print(f"[DEBUG] Llamando a server_manager.get_server_config({server_id})")
         server_data = server_manager.get_server_config(server_id)
+        print(f"[DEBUG] server_data obtenido: {server_data is not None}")
+        
+        if not server_data:
+            print(f"[DEBUG] No se pudo obtener server_data, redirigiendo al dashboard")
+            return redirect('/en/dashboard')
         
         user_avatar = f"https://cdn.discordapp.com/avatars/{user_data['id']}/{user_data['avatar']}.png" if user_data['avatar'] else "https://cdn.discordapp.com/embed/avatars/0.png"
         
@@ -436,6 +473,7 @@ def server_management_en(server_id):
             'avatar': user_avatar
         }
         
+        print(f"[DEBUG] Renderizando template para servidor: {target_server['name']}")
         return render_template('en/server_management.html', 
                              user=user, 
                              server=target_server, 
@@ -443,7 +481,9 @@ def server_management_en(server_id):
                              lang='en')
         
     except Exception as e:
-        print(f"Error en server management: {e}")
+        print(f"[DEBUG] Error en server management: {e}")
+        import traceback
+        traceback.print_exc()
         return redirect('/en/dashboard')
 
 @app.route('/api/server/<server_id>/commands', methods=['GET', 'POST'])
@@ -767,6 +807,73 @@ def logout():
 def invite():
     discord_invite_link = "https://discord.com/oauth2/authorize?client_id=784774864766500864&scope=bot&permissions=8"
     return redirect(discord_invite_link)
+
+@app.route('/api/server/<server_id>/tickets/<channel_id>/permissions', methods=['GET', 'POST'])
+def api_ticket_permissions(server_id, channel_id):
+    if 'access_token' not in session or not tickets_manager:
+        return jsonify({'error': 'No autorizado'}), 401
+    
+    if request.method == 'GET':
+        try:
+            permissions = tickets_manager.get_ticket_permissions(server_id, channel_id)
+            return jsonify({'permissions': permissions})
+        except Exception as e:
+            return jsonify({'error': str(e)}), 500
+    
+    elif request.method == 'POST':
+        try:
+            data = request.get_json()
+            success = tickets_manager.save_ticket_permissions(server_id, channel_id, data)
+            if success:
+                return jsonify({'success': True})
+            else:
+                return jsonify({'error': 'Error al guardar permisos'}), 500
+        except Exception as e:
+            return jsonify({'error': str(e)}), 500
+
+@app.route('/api/server/<server_id>/tickets/<channel_id>/permissions/<perm_type>/add', methods=['POST'])
+def api_add_ticket_permission(server_id, channel_id, perm_type):
+    if 'access_token' not in session or not tickets_manager:
+        return jsonify({'error': 'No autorizado'}), 401
+    
+    try:
+        data = request.get_json()
+        item_id = data.get('item_id')
+        item_type = data.get('item_type')
+        
+        if not item_id or not item_type or perm_type not in ['manage', 'view']:
+            return jsonify({'error': 'Datos inválidos'}), 400
+        
+        success, message = tickets_manager.add_ticket_permission(server_id, channel_id, perm_type, item_type, item_id)
+        
+        if success:
+            return jsonify({'success': True, 'message': message})
+        else:
+            return jsonify({'error': message}), 400
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
+
+@app.route('/api/server/<server_id>/tickets/<channel_id>/permissions/<perm_type>/remove', methods=['POST'])
+def api_remove_ticket_permission(server_id, channel_id, perm_type):
+    if 'access_token' not in session or not tickets_manager:
+        return jsonify({'error': 'No autorizado'}), 401
+    
+    try:
+        data = request.get_json()
+        item_id = data.get('item_id')
+        item_type = data.get('item_type')
+        
+        if not item_id or not item_type or perm_type not in ['manage', 'view']:
+            return jsonify({'error': 'Datos inválidos'}), 400
+        
+        success, message = tickets_manager.remove_ticket_permission(server_id, channel_id, perm_type, item_type, item_id)
+        
+        if success:
+            return jsonify({'success': True, 'message': message})
+        else:
+            return jsonify({'error': message}), 400
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
 
 @app.route('/sitemap.xml')
 def sitemap():
