@@ -7,7 +7,7 @@ from commands.utility.birthday.database import BirthdayDB
 import webserver
 from database.save import save_server_data
 from database.delete import delete_server_data
-from database.connection import firebase_db
+from database.connection import mongo_db
 from database.iadatabase import database
 import sys
 from database.oracle import Oracle
@@ -40,7 +40,7 @@ async def on_interaction(interaction):
 @bot.event
 async def on_message(message):
     await bot.process_commands(message)
-    
+  
     if isinstance(message.channel, discord.Thread) and not message.author.bot:
         thread = message.channel
         
@@ -122,12 +122,57 @@ async def on_ready():
     await join_active_threads()
     print("Revisión de hilos activos completada")
 
+    print("Esperando 3 segundos antes de iniciar listeners...")
+    await asyncio.sleep(3)
+
     print("Iniciando listener de tickets...")
     ticket_listener = TicketDatabaseListener(bot)
+    bot.ticket_listener = ticket_listener
     ticket_listener.start_listening()
     print("Listener de tickets iniciado")
 
+    await asyncio.sleep(2)
+    
+    print("Verificando configuraciones de tickets existentes...")
+    await verify_existing_ticket_configs()
+
     update_oracle_db.start()
+
+async def verify_existing_ticket_configs():
+    try:
+        collection = mongo_db.get_collection()
+      
+        for guild in bot.guilds:
+            try:
+                guild_data = collection.find_one({'_id': str(guild.id)})
+              
+                if guild_data and 'tickets' in guild_data:
+                    tickets_data = guild_data['tickets']
+                    print(f"Encontradas {len(tickets_data)} configuraciones de tickets en {guild.name}")
+                  
+                    for channel_id, ticket_config in tickets_data.items():
+                        if not ticket_config.get('__deleted', False):
+                            channel = guild.get_channel(int(channel_id))
+                            if channel:
+                                print(f"Procesando configuración existente para canal {channel.name} ({channel_id})")
+                              
+                                if ticket_listener:
+                                    try:
+                                        await ticket_listener._process_ticket_change(guild.id, channel_id, ticket_config)
+                                    except Exception as e:
+                                        print(f"Error procesando configuración para canal {channel_id}: {e}")
+                            else:
+                                print(f"Canal {channel_id} no encontrado en {guild.name}")
+                else:
+                    print(f"No hay configuraciones de tickets en {guild.name}")
+                  
+            except Exception as e:
+                print(f"Error verificando tickets en {guild.name}: {e}")
+              
+    except Exception as e:
+        print(f"Error en verify_existing_ticket_configs: {e}")
+        import traceback
+        traceback.print_exc()
 
 @tasks.loop(hours=24.0)
 async def update_oracle_db():
@@ -291,9 +336,9 @@ async def main():
         print(f"Python version: {sys.version}")
         print(f"Discord.py version: {discord.__version__}")
         
-        print("Conectando a Firebase...")
-        firebase_db.get_reference()
-        print("Firebase conectado")
+        print("Conectando a MongoDB...")
+        mongo_db.get_collection()
+        print("MongoDB conectado")
 
         try:
             oracle.connect()

@@ -368,11 +368,7 @@ def get_data(guild):
             }
         },
         "tickets": {},
-        "security": {
-            "channel": 0,
-            "message": "",
-            "perms": [0]
-        }
+        "language": "es"
     }
 
     return data

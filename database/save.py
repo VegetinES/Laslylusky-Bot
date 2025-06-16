@@ -1,10 +1,24 @@
-from .connection import firebase_db
+from .connection import mongo_db
+from pymongo.errors import PyMongoError
 
-def save_server_data(guild, data):
+def save_server_data(guild, data, guild_id=None):
     try:
-        ref = firebase_db.get_reference()
-        ref.child(str(guild.id)).set(data)
+        collection = mongo_db.get_collection()
+        
+        if guild_id is None:
+            guild_id = str(guild.id)
+        
+        data['_id'] = guild_id
+        
+        collection.replace_one(
+            {'_id': guild_id},
+            data,
+            upsert=True
+        )
         return True
+    except PyMongoError as e:
+        print(f"Error al guardar datos: {e}")
+        return False
     except Exception as e:
         print(f"Error al guardar datos: {e}")
         return False

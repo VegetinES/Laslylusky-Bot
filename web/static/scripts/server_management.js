@@ -12,21 +12,30 @@ function initializeTabSystem() {
     const tabContents = document.querySelectorAll('.tab-content');
 
     tabButtons.forEach(button => {
+        const newButton = button.cloneNode(true);
+        button.parentNode.replaceChild(newButton, button);
+    });
+
+    document.querySelectorAll('.tab-button').forEach(button => {
         button.addEventListener('click', () => {
             const targetTab = button.getAttribute('data-tab');
             
-            tabButtons.forEach(btn => btn.classList.remove('active'));
-            tabContents.forEach(content => content.classList.remove('active'));
+            document.querySelectorAll('.tab-button').forEach(btn => btn.classList.remove('active'));
+            document.querySelectorAll('.tab-content').forEach(content => content.classList.remove('active'));
             
             button.classList.add('active');
             document.getElementById(`${targetTab}-tab`).classList.add('active');
             
+            resetCurrentStates();
+            
             if (targetTab === 'permissions') {
-                loadPermissionsData();
+                setTimeout(() => loadPermissionsData(), 100);
             } else if (targetTab === 'tickets') {
-                loadTicketsData();
+                setTimeout(() => loadTicketsData(), 100);
             } else if (targetTab === 'logs') {
-                loadLogsData();
+                setTimeout(() => loadLogsData(), 100);
+            } else if (targetTab === 'commands') {
+                setTimeout(() => loadCommands(), 100);
             }
         });
     });
@@ -89,6 +98,7 @@ function initializeConfirmDeleteModal() {
 
 async function loadPermissionsData() {
     try {
+        resetPermissionsState();
         const response = await fetch(`/api/server/${window.serverId}/permissions`);
         const data = await response.json();
         
@@ -102,6 +112,7 @@ async function loadPermissionsData() {
     } catch (error) {
         console.error('Error loading permissions:', error);
         showToast('Error al cargar permisos', 'error');
+        resetPermissionsState();
     }
 }
 
@@ -976,6 +987,7 @@ function updateLogsPreviewButton() {
 
 async function loadCommands() {
     try {
+        resetCommandsState();
         const response = await fetch(`/api/server/${window.serverId}/commands`);
         const data = await response.json();
         
@@ -989,6 +1001,7 @@ async function loadCommands() {
     } catch (error) {
         console.error('Error loading commands:', error);
         showToast('Error al cargar comandos', 'error');
+        resetCommandsState();
     }
 }
 
@@ -1115,6 +1128,7 @@ function cancelCommandChanges() {
 
 async function loadLogsData() {
     try {
+        resetLogsState();
         const response = await fetch(`/api/server/${window.serverId}/logs`);
         const data = await response.json();
         
@@ -1128,6 +1142,7 @@ async function loadLogsData() {
     } catch (error) {
         console.error('Error loading logs:', error);
         showToast('Error al cargar logs', 'error');
+        resetLogsState();
     }
 }
 
@@ -2471,11 +2486,16 @@ function openChannelSelectModal() {
 
 async function loadChannelsData() {
     try {
+        if (channelsData.length > 0) {
+            return;
+        }
+        
         const response = await fetch(`/api/server/${window.serverId}/channels`);
         const data = await response.json();
         
         if (data.error) {
             showToast(data.error, 'error');
+            channelsData = [];
             return;
         }
         
@@ -2483,6 +2503,7 @@ async function loadChannelsData() {
     } catch (error) {
         console.error('Error loading channels:', error);
         showToast('Error al cargar canales', 'error');
+        channelsData = [];
     }
 }
 
@@ -3470,4 +3491,162 @@ function configureNewTicketPermissions() {
     
     currentTicketChannelId = 'new';
     renderTicketPermissionsEditor();
+}
+
+function resetCurrentStates() {
+    resetPermissionsState();
+    resetLogsState();
+    resetTicketsState();
+    resetCommandsState();
+    closeAllModals();
+}
+
+function resetPermissionsState() {
+    permissionsData = {};
+    currentPermissionKey = null;
+    currentPermissionDetails = null;
+    rolesData = [];
+    
+    const editorContent = document.getElementById('permissions-editor-content');
+    const editorTitle = document.getElementById('permissions-editor-title');
+    const deleteBtn = document.getElementById('delete-permission-btn');
+    
+    if (editorContent) {
+        editorContent.innerHTML = `
+            <div class="welcome-state">
+                <div class="welcome-icon">🔑</div>
+                <h3>Gestión de Permisos</h3>
+                <p>Selecciona una categoría y permiso para configurar quién puede usar las funciones específicas del bot.</p>
+                <div class="welcome-features">
+                    <div class="feature-item">
+                        <span class="feature-icon">👥</span>
+                        <span>Gestión de roles</span>
+                    </div>
+                    <div class="feature-item">
+                        <span class="feature-icon">👤</span>
+                        <span>Gestión de usuarios</span>
+                    </div>
+                    <div class="feature-item">
+                        <span class="feature-icon">🛡️</span>
+                        <span>Control granular</span>
+                    </div>
+                    <div class="feature-item">
+                        <span class="feature-icon">⚙️</span>
+                        <span>Permisos personalizados</span>
+                    </div>
+                </div>
+            </div>
+        `;
+    }
+    
+    if (editorTitle) editorTitle.textContent = 'Selecciona un permiso para configurar';
+    if (deleteBtn) deleteBtn.style.display = 'none';
+}
+
+function resetLogsState() {
+    logsData = {};
+    currentLogConfig = null;
+    originalLogConfig = null;
+    currentEditingLog = null;
+    logChangeHistory = [];
+    currentLogHistoryIndex = -1;
+    hasLogChanges = false;
+    
+    const editorContent = document.getElementById('logs-editor-content');
+    const editorTitle = document.getElementById('logs-editor-title');
+    const cancelBtn = document.getElementById('cancel-logs-edit-btn');
+    
+    if (editorContent) {
+        editorContent.innerHTML = `
+            <div class="welcome-state">
+                <div class="welcome-icon">📋</div>
+                <h3>Configuración de Logs</h3>
+                <p>Selecciona un tipo de log para configurarlo y comenzar a registrar eventos en tu servidor.</p>
+                <div class="welcome-features">
+                    <div class="feature-item">
+                        <span class="feature-icon">⚙️</span>
+                        <span>Personalización completa</span>
+                    </div>
+                    <div class="feature-item">
+                        <span class="feature-icon">📝</span>
+                        <span>Mensajes personalizados</span>
+                    </div>
+                    <div class="feature-item">
+                        <span class="feature-icon">🎨</span>
+                        <span>Embeds y colores</span>
+                    </div>
+                    <div class="feature-item">
+                        <span class="feature-icon">📊</span>
+                        <span>Campos y parámetros</span>
+                    </div>
+                </div>
+            </div>
+        `;
+    }
+    
+    if (editorTitle) editorTitle.textContent = 'Selecciona un log para configurar';
+    if (cancelBtn) cancelBtn.style.display = 'none';
+    
+    closeLogsPreview();
+    updateLogUndoButton();
+    updateLogSaveButton();
+}
+
+function resetTicketsState() {
+    ticketsData = [];
+    currentTicketConfig = null;
+    originalTicketConfig = null;
+    currentEditingTicket = null;
+    channelsData = [];
+    currentPermissionType = 'manage';
+    isEditingButton = false;
+    editingButtonIndex = -1;
+    currentMessageType = 'open_message';
+    hasTicketChanges = false;
+    changeHistory = [];
+    currentHistoryIndex = -1;
+    currentTicketPermissions = null;
+    currentTicketChannelId = null;
+    
+    const editorContent = document.getElementById('editor-content');
+    const editorTitle = document.getElementById('editor-title');
+    const cancelBtn = document.getElementById('cancel-edit-btn');
+    
+    if (editorContent) {
+        editorContent.innerHTML = `
+            <div class="welcome-state">
+                <div class="welcome-icon">🎫</div>
+                <h3>Configuración de Tickets</h3>
+                <p>Selecciona un ticket existente para editarlo o crea uno nuevo para comenzar.</p>
+                <div class="welcome-features">
+                    <div class="feature-item">
+                        <span class="feature-icon">⚙️</span>
+                        <span>Personalización completa</span>
+                    </div>
+                    <div class="feature-item">
+                        <span class="feature-icon">🔒</span>
+                        <span>Control de permisos</span>
+                    </div>
+                    <div class="feature-item">
+                        <span class="feature-icon">📝</span>
+                        <span>Mensajes personalizados</span>
+                    </div>
+                </div>
+            </div>
+        `;
+    }
+    
+    if (editorTitle) editorTitle.textContent = 'Selecciona un ticket para editar';
+    if (cancelBtn) cancelBtn.style.display = 'none';
+    
+    closePreview();
+    updateUndoButton();
+    updateSaveButton();
+    updatePreviewButton();
+}
+
+function resetCommandsState() {
+    commandsData = {};
+    commandsChanges = {};
+    updateSaveActions();
 }
