@@ -2,6 +2,7 @@ from commands.tickets.utils.database import get_tickets_data, get_ticket_data, s
 from commands.tickets.constants import DEFAULT_TICKET_CONFIG, COLORS, PERMISSIONS_DESCRIPTIONS
 from database.get import get_server_data
 import copy
+import asyncio
 
 class TicketsManager:
     def __init__(self, bot_instance):
@@ -64,14 +65,14 @@ class TicketsManager:
                         for role_id in processed_config['permissions'][perm_type].get('roles', []):
                             role = guild.get_role(int(role_id))
                             if role:
-                                roles_info.append({'id': role.id, 'name': role.name})
+                                roles_info.append({'id': str(role.id), 'name': role.name})
                         
                         users_info = []
                         for user_id in processed_config['permissions'][perm_type].get('users', []):
                             try:
                                 member = guild.get_member(int(user_id))
                                 if member:
-                                    users_info.append({'id': member.id, 'name': str(member)})
+                                    users_info.append({'id': str(member.id), 'name': str(member)})
                             except:
                                 pass
                         
@@ -128,8 +129,10 @@ class TicketsManager:
             print(f"Error obteniendo roles: {e}")
             return []
     
-    async def save_ticket_config(self, guild_id, channel_id, config):
+    def save_ticket_config(self, guild_id, channel_id, config):
         try:
+            print(f"[SAVE] Iniciando guardado de ticket para guild {guild_id}, canal {channel_id}")
+            
             if not config.get('permissions'):
                 config['permissions'] = {
                     'manage': {'roles': [], 'users': []},
@@ -177,33 +180,110 @@ class TicketsManager:
                 for button in config.get('open_message', {}).get('buttons', []):
                     config['auto_increment'][button.get('id', 'default')] = 1
             
-            result = await save_ticket_config(guild_id, channel_id, config)
+            async def async_save():
+                try:
+                    print(f"[SAVE] Llamando a save_ticket_config async")
+                    result = await save_ticket_config(guild_id, channel_id, config)
+                    print(f"[SAVE] Resultado de save_ticket_config: {result}")
+                    
+                    if result and hasattr(self.bot, 'ticket_listener') and self.bot.ticket_listener:
+                        try:
+                            print(f"[SAVE] Ejecutando database listener")
+                            await self.bot.ticket_listener.process_ticket_change(
+                                guild_id, 
+                                str(channel_id), 
+                                config
+                            )
+                            print(f"[SAVE] Database listener ejecutado correctamente para canal {channel_id}")
+                        except Exception as e:
+                            print(f"[SAVE] Error al ejecutar database listener: {e}")
+                            import traceback
+                            traceback.print_exc()
+                    
+                    return result
+                except Exception as e:
+                    print(f"[SAVE] Error en async_save: {e}")
+                    import traceback
+                    traceback.print_exc()
+                    return False
+            
+            loop = self.bot.loop if hasattr(self.bot, 'loop') and self.bot.loop else asyncio.get_event_loop()
+            
+            if loop.is_running():
+                future = asyncio.run_coroutine_threadsafe(async_save(), loop)
+                result = future.result(timeout=30)
+            else:
+                result = loop.run_until_complete(async_save())
+            
+            print(f"[SAVE] Resultado final: {result}")
             return result
+            
         except Exception as e:
-            print(f"Error guardando configuración: {e}")
+            print(f"[SAVE] Error guardando configuración: {e}")
+            import traceback
+            traceback.print_exc()
             return False
     
-    async def delete_ticket(self, guild_id, channel_id):
+    def delete_ticket(self, guild_id, channel_id):
         try:
-            guild = self.bot.get_guild(int(guild_id))
-            if guild:
-                channel = guild.get_channel(int(channel_id))
-                if channel:
-                    async for message in channel.history(limit=100):
-                        if message.author.id == self.bot.user.id and message.components:
-                            for row in message.components:
-                                for component in row.children:
-                                    if hasattr(component, 'custom_id') and component.custom_id and component.custom_id.startswith(f"ticket:open:{channel_id}"):
-                                        try:
-                                            await message.delete()
-                                            print(f"Mensaje de ticket eliminado del canal {channel_id}")
-                                        except Exception as e:
-                                            print(f"Error eliminando mensaje: {e}")
-                                        break
+            print(f"[DELETE] Iniciando eliminación de ticket para guild {guild_id}, canal {channel_id}")
             
-            return await delete_ticket_config(guild_id, channel_id)
+            async def async_delete():
+                try:
+                    guild = self.bot.get_guild(int(guild_id))
+                    if guild:
+                        channel = guild.get_channel(int(channel_id))
+                        if channel:
+                            async for message in channel.history(limit=100):
+                                if message.author.id == self.bot.user.id and message.components:
+                                    for row in message.components:
+                                        for component in row.children:
+                                            if hasattr(component, 'custom_id') and component.custom_id and component.custom_id.startswith(f"ticket:open:{channel_id}"):
+                                                try:
+                                                    await message.delete()
+                                                    print(f"[DELETE] Mensaje de ticket eliminado del canal {channel_id}")
+                                                except Exception as e:
+                                                    print(f"[DELETE] Error eliminando mensaje: {e}")
+                                                break
+                    
+                    result = await delete_ticket_config(guild_id, channel_id)
+                    print(f"[DELETE] Resultado de delete_ticket_config: {result}")
+                    
+                    if result and hasattr(self.bot, 'ticket_listener') and self.bot.ticket_listener:
+                        try:
+                            print(f"[DELETE] Ejecutando database listener para eliminación")
+                            await self.bot.ticket_listener.process_ticket_deletion(
+                                guild_id, 
+                                str(channel_id)
+                            )
+                            print(f"[DELETE] Database listener ejecutado correctamente para eliminación en canal {channel_id}")
+                        except Exception as e:
+                            print(f"[DELETE] Error al ejecutar database listener para eliminación: {e}")
+                            import traceback
+                            traceback.print_exc()
+                    
+                    return result
+                except Exception as e:
+                    print(f"[DELETE] Error en async_delete: {e}")
+                    import traceback
+                    traceback.print_exc()
+                    return False
+            
+            loop = self.bot.loop if hasattr(self.bot, 'loop') and self.bot.loop else asyncio.get_event_loop()
+            
+            if loop.is_running():
+                future = asyncio.run_coroutine_threadsafe(async_delete(), loop)
+                result = future.result(timeout=30)
+            else:
+                result = loop.run_until_complete(async_delete())
+            
+            print(f"[DELETE] Resultado final: {result}")
+            return result
+            
         except Exception as e:
-            print(f"Error eliminando ticket: {e}")
+            print(f"[DELETE] Error eliminando ticket: {e}")
+            import traceback
+            traceback.print_exc()
             return False
     
     def get_colors(self):
@@ -308,7 +388,7 @@ class TicketsManager:
                     role = guild.get_role(int(role_id))
                     if role:
                         processed_permissions[perm_type]['roles'].append({
-                            'id': role.id,
+                            'id': str(role.id),
                             'name': role.name,
                             'color': str(role.color) if str(role.color) != '#000000' else '#99aab5'
                         })
@@ -318,7 +398,7 @@ class TicketsManager:
                         member = guild.get_member(int(user_id))
                         if member:
                             processed_permissions[perm_type]['users'].append({
-                                'id': member.id,
+                                'id': str(member.id),
                                 'name': str(member),
                                 'avatar': member.avatar.url if member.avatar else member.default_avatar.url
                             })
@@ -336,19 +416,20 @@ class TicketsManager:
             if not ticket_config:
                 return False
             
-            ticket_config['permissions'] = {
-                'manage': {
-                    'roles': permissions_data.get('manage', {}).get('roles', []),
-                    'users': permissions_data.get('manage', {}).get('users', [])
-                },
-                'view': {
-                    'roles': permissions_data.get('view', {}).get('roles', []),
-                    'users': permissions_data.get('view', {}).get('users', [])
+            for perm_type in ['manage', 'view']:
+                roles = []
+                users = []
+                
+                for role_id in permissions_data.get(perm_type, {}).get('roles', []):
+                    roles.append(str(role_id))
+                
+                for user_id in permissions_data.get(perm_type, {}).get('users', []):
+                    users.append(str(user_id))
+                
+                ticket_config['permissions'][perm_type] = {
+                    'roles': roles,
+                    'users': users
                 }
-            }
-            
-            from commands.tickets.utils.database import save_ticket_config
-            import asyncio
             
             loop = asyncio.new_event_loop()
             asyncio.set_event_loop(loop)
@@ -380,12 +461,9 @@ class TicketsManager:
             if item_type not in ticket_config['permissions'][perm_type]:
                 ticket_config['permissions'][perm_type][item_type] = []
             
-            item_id = int(item_id)
-            if item_id not in ticket_config['permissions'][perm_type][item_type]:
-                ticket_config['permissions'][perm_type][item_type].append(item_id)
-                
-                from commands.tickets.utils.database import save_ticket_config
-                import asyncio
+            item_id_str = str(item_id)
+            if item_id_str not in [str(x) for x in ticket_config['permissions'][perm_type][item_type]]:
+                ticket_config['permissions'][perm_type][item_type].append(item_id_str)
                 
                 loop = asyncio.new_event_loop()
                 asyncio.set_event_loop(loop)
@@ -415,12 +493,11 @@ class TicketsManager:
                 item_type not in ticket_config['permissions'][perm_type]):
                 return False, "Permiso no encontrado"
             
-            item_id = int(item_id)
-            if item_id in ticket_config['permissions'][perm_type][item_type]:
-                ticket_config['permissions'][perm_type][item_type].remove(item_id)
-                
-                from commands.tickets.utils.database import save_ticket_config
-                import asyncio
+            item_id_str = str(item_id)
+            items_to_remove = [x for x in ticket_config['permissions'][perm_type][item_type] if str(x) == item_id_str]
+            if items_to_remove:
+                for item in items_to_remove:
+                    ticket_config['permissions'][perm_type][item_type].remove(item)
                 
                 loop = asyncio.new_event_loop()
                 asyncio.set_event_loop(loop)

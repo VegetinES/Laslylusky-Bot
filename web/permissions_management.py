@@ -62,19 +62,20 @@ class PermissionsManager:
                     if perm_value and perm_value != 0:
                         if isinstance(perm_value, list):
                             for item_id in perm_value:
+                                item_id_str = str(item_id)
                                 if perm_type == 'roles':
-                                    role = guild.get_role(int(item_id))
+                                    role = guild.get_role(int(item_id_str))
                                     if role:
                                         processed_value.append({
-                                            'id': item_id,
+                                            'id': item_id_str,
                                             'name': role.name,
                                             'color': str(role.color) if str(role.color) != '#000000' else '#99aab5'
                                         })
                                 else:
-                                    member = guild.get_member(int(item_id))
+                                    member = guild.get_member(int(item_id_str))
                                     if member:
                                         processed_value.append({
-                                            'id': item_id,
+                                            'id': item_id_str,
                                             'name': str(member),
                                             'avatar': member.avatar.url if member.avatar else member.default_avatar.url
                                         })
@@ -133,19 +134,20 @@ class PermissionsManager:
             if perm_value and perm_value != 0:
                 if isinstance(perm_value, list):
                     for item_id in perm_value:
+                        item_id_str = str(item_id)
                         if perm_type == 'roles':
-                            role = guild.get_role(int(item_id))
+                            role = guild.get_role(int(item_id_str))
                             if role:
                                 items.append({
-                                    'id': item_id,
+                                    'id': item_id_str,
                                     'name': role.name,
                                     'color': str(role.color) if str(role.color) != '#000000' else '#99aab5'
                                 })
                         else:
-                            member = guild.get_member(int(item_id))
+                            member = guild.get_member(int(item_id_str))
                             if member:
                                 items.append({
-                                    'id': item_id,
+                                    'id': item_id_str,
                                     'name': str(member),
                                     'avatar': member.avatar.url if member.avatar else member.default_avatar.url
                                 })
@@ -198,10 +200,10 @@ class PermissionsManager:
             if current_items == 0:
                 current_items = []
             
-            item_id = int(item_id)
+            item_id_str = str(item_id)
             
-            if item_id not in current_items:
-                current_items.append(item_id)
+            if item_id_str not in [str(x) for x in current_items]:
+                current_items.append(item_id_str)
                 
                 success = update_server_data(guild_id, f'perms/{permission_key}', current_items)
                 if success:
@@ -229,10 +231,12 @@ class PermissionsManager:
             if current_items == 0:
                 current_items = []
             
-            item_id = int(item_id)
+            item_id_str = str(item_id)
             
-            if item_id in current_items:
-                current_items.remove(item_id)
+            items_to_remove = [x for x in current_items if str(x) == item_id_str]
+            if items_to_remove:
+                for item in items_to_remove:
+                    current_items.remove(item)
                 
                 final_value = current_items if current_items else 0
                 success = update_server_data(guild_id, f'perms/{permission_key}', final_value)

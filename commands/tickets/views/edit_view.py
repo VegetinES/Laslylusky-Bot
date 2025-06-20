@@ -264,6 +264,17 @@ class TicketEditView(discord.ui.View):
             success = await save_ticket_config(interaction.guild.id, str(self.ticket_channel.id), self.ticket_config)
             
             if success:
+                if hasattr(self.bot, 'ticket_listener') and self.bot.ticket_listener:
+                    try:
+                        await self.bot.ticket_listener.process_ticket_change(
+                            interaction.guild.id, 
+                            str(self.ticket_channel.id), 
+                            self.ticket_config
+                        )
+                        print(f"Database listener ejecutado para guardar ticket en canal {self.ticket_channel.id}")
+                    except Exception as e:
+                        print(f"Error al ejecutar database listener: {e}")
+                
                 embed = discord.Embed(
                     title="Configuración Guardada",
                     description="<:Si:825734135116070962> La configuración de tickets para " + 
@@ -594,6 +605,16 @@ class ConfirmDeleteView(discord.ui.View):
             success = await delete_ticket_config(interaction.guild.id, channel_id_str)
             
             if success:
+                if hasattr(self.bot, 'ticket_listener') and self.bot.ticket_listener:
+                    try:
+                        await self.bot.ticket_listener.process_ticket_deletion(
+                            interaction.guild.id, 
+                            channel_id_str
+                        )
+                        print(f"Database listener ejecutado para eliminar ticket en canal {channel_id_str}")
+                    except Exception as e:
+                        print(f"Error al ejecutar database listener para eliminación: {e}")
+                
                 embed = discord.Embed(
                     title="Configuración Eliminada",
                     description=f"<:Si:825734135116070962> La configuración de ticket para {self.ticket_channel.mention} ha sido eliminada correctamente.",

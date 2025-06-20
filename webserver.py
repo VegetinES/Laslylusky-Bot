@@ -716,41 +716,40 @@ def api_server_ticket(server_id, channel_id):
     
     elif request.method == 'POST':
         try:
+            print(f"[WEBSERVER] POST recibido para tickets/{channel_id}")
             config = request.get_json()
+            print(f"[WEBSERVER] Config recibida: {config is not None}")
             
             if not config:
                 return jsonify({'error': 'Configuración inválida'}), 400
             
-            loop = asyncio.new_event_loop()
-            asyncio.set_event_loop(loop)
-            try:
-                success = loop.run_until_complete(tickets_manager.save_ticket_config(server_id, channel_id, config))
-            finally:
-                loop.close()
+            success = tickets_manager.save_ticket_config(server_id, channel_id, config)
+            print(f"[WEBSERVER] Resultado de save_ticket_config: {success}")
             
             if success:
                 return jsonify({'success': True})
             else:
                 return jsonify({'error': 'Error al guardar configuración'}), 500
         except Exception as e:
-            print(f"Error guardando ticket: {e}")
+            print(f"[WEBSERVER] Error guardando ticket: {e}")
+            import traceback
+            traceback.print_exc()
             return jsonify({'error': str(e)}), 500
     
     elif request.method == 'DELETE':
         try:
-            loop = asyncio.new_event_loop()
-            asyncio.set_event_loop(loop)
-            try:
-                success = loop.run_until_complete(tickets_manager.delete_ticket(server_id, channel_id))
-            finally:
-                loop.close()
+            print(f"[WEBSERVER] DELETE recibido para tickets/{channel_id}")
+            success = tickets_manager.delete_ticket(server_id, channel_id)
+            print(f"[WEBSERVER] Resultado de delete_ticket: {success}")
             
             if success:
                 return jsonify({'success': True})
             else:
                 return jsonify({'error': 'Error al eliminar ticket'}), 500
         except Exception as e:
-            print(f"Error eliminando ticket: {e}")
+            print(f"[WEBSERVER] Error eliminando ticket: {e}")
+            import traceback
+            traceback.print_exc()
             return jsonify({'error': str(e)}), 500
 
 @app.route('/api/server/<server_id>/channels', methods=['GET'])

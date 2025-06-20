@@ -15,7 +15,7 @@ class PermissionChecker:
             if not member:
                 return []
             
-            return [role.id for role in member.roles]
+            return [str(role.id) for role in member.roles]
         except:
             return []
     
@@ -40,12 +40,12 @@ class PermissionChecker:
             for perm in target_permissions:
                 if perm.endswith('-roles'):
                     role_list = perms.get(perm, [])
-                    if any(role_id in user_roles for role_id in role_list if role_id != 0):
+                    if any(str(role_id) in user_roles for role_id in role_list if str(role_id) != '0'):
                         return True
                 
                 elif perm.endswith('-users'):
                     user_list = perms.get(perm, [])
-                    if int(user_id) in user_list and int(user_id) != 0:
+                    if str(user_id) in [str(x) for x in user_list] and str(user_id) != '0':
                         return True
             
             return False

@@ -248,7 +248,12 @@ class LogsManager:
             if not config.get('log_channel'):
                 return False
             
-            result = update_server_data(guild_id, f"audit_logs/{log_type}", config)
+            config_copy = copy.deepcopy(config)
+            
+            if 'log_channel' in config_copy:
+                config_copy['log_channel'] = str(config_copy['log_channel'])
+            
+            result = update_server_data(guild_id, f"audit_logs/{log_type}", config_copy)
             return result
         except Exception as e:
             print(f"Error guardando configuración de log: {e}")

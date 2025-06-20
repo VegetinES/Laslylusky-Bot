@@ -376,7 +376,7 @@ function renderCurrentPermissionItems() {
                 <div class="item-name">${item.name}</div>
             </div>
             <div class="item-actions">
-                <button class="btn-danger btn-small" onclick="removePermissionItem(${item.id})">
+                <button class="btn-danger btn-small" onclick="removePermissionItem('${item.id}')">
                     <span class="btn-icon">✕</span>
                     Eliminar
                 </button>
@@ -448,7 +448,7 @@ function renderPermissionItems() {
                 <div class="item-name">${item.name}</div>
             </div>
             <div class="item-actions">
-                <button class="btn-danger btn-small" onclick="removePermissionItem(${item.id})">
+                <button class="btn-danger btn-small" onclick="removePermissionItem('${item.id}')">
                     <span class="btn-icon">✕</span>
                     Eliminar
                 </button>
@@ -1358,7 +1358,7 @@ function setupLogConfigListeners() {
     
     document.getElementById('log-channel-edit')?.addEventListener('change', function() {
         saveLogSnapshot('Cambio de canal de logs');
-        currentLogConfig.log_channel = parseInt(this.value);
+        currentLogConfig.log_channel = this.value;
         checkForLogChanges();
     });
     
@@ -1774,13 +1774,13 @@ function setupTicketConfigListeners() {
     
     document.getElementById('ticket-channel-edit')?.addEventListener('change', function() {
         saveSnapshot('Cambio de canal de tickets');
-        currentTicketConfig.ticket_channel = parseInt(this.value);
+        currentTicketConfig.ticket_channel = this.value;
         checkForChanges();
     });
     
     document.getElementById('log-channel-edit')?.addEventListener('change', function() {
         saveSnapshot('Cambio de canal de logs');
-        currentTicketConfig.log_channel = parseInt(this.value);
+        currentTicketConfig.log_channel = this.value;
         checkForChanges();
     });
 }
@@ -1915,18 +1915,21 @@ function saveCurrentTicket() {
         return;
     }
     
-    if (!currentTicketConfig.permissions.manage.roles.length && !currentTicketConfig.permissions.manage.users.length) {
+    const manageRoles = currentTicketConfig.permissions?.manage?.roles || [];
+    const manageUsers = currentTicketConfig.permissions?.manage?.users || [];
+    
+    if (manageRoles.length === 0 && manageUsers.length === 0) {
         showToast('Debes configurar al menos un rol o usuario con permisos de gestión', 'error');
         return;
     }
     
     const openMessage = currentTicketConfig.open_message;
-    if (openMessage.embed) {
+    if (openMessage && openMessage.embed) {
         if (!openMessage.description || !openMessage.description.trim()) {
             showToast('El mensaje de apertura debe tener una descripción', 'error');
             return;
         }
-    } else {
+    } else if (openMessage && !openMessage.embed) {
         if (!openMessage.plain_message || !openMessage.plain_message.trim()) {
             showToast('El mensaje de apertura debe tener contenido', 'error');
             return;
@@ -2122,8 +2125,8 @@ function initializeChannelSelectModal() {
         }
         
         saveSnapshot('Canales configurados');
-        currentTicketConfig.ticket_channel = parseInt(ticketChannel);
-        currentTicketConfig.log_channel = parseInt(logChannel);
+        currentTicketConfig.ticket_channel = ticketChannel;
+        currentTicketConfig.log_channel = logChannel;
         
         closeAllModals();
         renderTicketEditor();
@@ -2151,7 +2154,7 @@ function initializeLogChannelSelectModal() {
         }
         
         saveLogSnapshot('Canal configurado');
-        currentLogConfig.log_channel = parseInt(logChannel);
+        currentLogConfig.log_channel = logChannel;
         
         closeAllModals();
         renderLogEditor();
@@ -2604,16 +2607,16 @@ function addUser(type) {
         return;
     }
     
-    if (!currentTicketConfig.permissions[type].users.includes(parseInt(userId))) {
+    if (!currentTicketConfig.permissions[type].users.includes(userId)) {
         saveSnapshot(`Usuario añadido a permisos de ${type}`);
-        currentTicketConfig.permissions[type].users.push(parseInt(userId));
+        currentTicketConfig.permissions[type].users.push(userId);
         renderPermissionItems(type);
         input.value = '';
     }
 }
 
 function removeRole(type, roleId) {
-    const index = currentTicketConfig.permissions[type].roles.indexOf(parseInt(roleId));
+    const index = currentTicketConfig.permissions[type].roles.indexOf(roleId);
     if (index > -1) {
         saveSnapshot(`Rol eliminado de permisos de ${type}`);
         currentTicketConfig.permissions[type].roles.splice(index, 1);
@@ -2622,7 +2625,7 @@ function removeRole(type, roleId) {
 }
 
 function removeUser(type, userId) {
-    const index = currentTicketConfig.permissions[type].users.indexOf(parseInt(userId));
+    const index = currentTicketConfig.permissions[type].users.indexOf(userId);
     if (index > -1) {
         saveSnapshot(`Usuario eliminado de permisos de ${type}`);
         currentTicketConfig.permissions[type].users.splice(index, 1);
@@ -2654,9 +2657,9 @@ function openRoleSelectModal() {
 }
 
 function selectRole(roleId) {
-    if (!currentTicketConfig.permissions[currentPermissionType].roles.includes(parseInt(roleId))) {
+    if (!currentTicketConfig.permissions[currentPermissionType].roles.includes(roleId)) {
         saveSnapshot(`Rol añadido a permisos de ${currentPermissionType}`);
-        currentTicketConfig.permissions[currentPermissionType].roles.push(parseInt(roleId));
+        currentTicketConfig.permissions[currentPermissionType].roles.push(roleId);
         renderPermissionItems(currentPermissionType);
     }
     closeAllModals();
@@ -3034,15 +3037,68 @@ let currentTicketChannelId = null;
 async function loadTicketPermissions(channelId) {
     try {
         currentTicketChannelId = channelId;
-        const response = await fetch(`/api/server/${window.serverId}/tickets/${channelId}/permissions`);
-        const data = await response.json();
         
-        if (data.error) {
-            showToast(data.error, 'error');
-            return;
+        if (!currentTicketConfig.permissions) {
+            currentTicketConfig.permissions = {
+                manage: { roles: [], users: [] },
+                view: { roles: [], users: [] }
+            };
         }
         
-        currentTicketPermissions = data.permissions;
+        if (!currentTicketConfig.permissions.manage) {
+            currentTicketConfig.permissions.manage = { roles: [], users: [] };
+        }
+        if (!currentTicketConfig.permissions.view) {
+            currentTicketConfig.permissions.view = { roles: [], users: [] };
+        }
+        if (!currentTicketConfig.permissions.manage.roles) {
+            currentTicketConfig.permissions.manage.roles = [];
+        }
+        if (!currentTicketConfig.permissions.manage.users) {
+            currentTicketConfig.permissions.manage.users = [];
+        }
+        if (!currentTicketConfig.permissions.view.roles) {
+            currentTicketConfig.permissions.view.roles = [];
+        }
+        if (!currentTicketConfig.permissions.view.users) {
+            currentTicketConfig.permissions.view.users = [];
+        }
+        
+        const permissions = currentTicketConfig.permissions;
+        
+        currentTicketPermissions = {
+            manage: {
+                roles: permissions.manage.roles.map(roleId => {
+                    const role = rolesData.find(r => r.id === String(roleId));
+                    return role ? {
+                        id: roleId,
+                        name: role.name,
+                        color: role.color || '#99aab5'
+                    } : null;
+                }).filter(Boolean),
+                users: permissions.manage.users.map(userId => ({
+                    id: userId,
+                    name: `Usuario ID: ${userId}`,
+                    avatar: 'https://cdn.discordapp.com/embed/avatars/0.png'
+                }))
+            },
+            view: {
+                roles: permissions.view.roles.map(roleId => {
+                    const role = rolesData.find(r => r.id === String(roleId));
+                    return role ? {
+                        id: roleId,
+                        name: role.name,
+                        color: role.color || '#99aab5'
+                    } : null;
+                }).filter(Boolean),
+                users: permissions.view.users.map(userId => ({
+                    id: userId,
+                    name: `Usuario ID: ${userId}`,
+                    avatar: 'https://cdn.discordapp.com/embed/avatars/0.png'
+                }))
+            }
+        };
+        
         renderTicketPermissionsEditor();
     } catch (error) {
         console.error('Error loading ticket permissions:', error);
@@ -3156,12 +3212,6 @@ function renderTicketPermissionsEditor() {
     document.getElementById('back-to-ticket-config')?.addEventListener('click', () => {
         renderTicketEditor();
     });
-    
-    const saveBtn = document.getElementById('save-ticket-btn');
-    const cancelBtn = document.getElementById('cancel-edit-btn');
-    
-    if (saveBtn) saveBtn.style.display = 'block';
-    if (cancelBtn) cancelBtn.style.display = 'block';
 }
 
 function setupTicketPermissionsListeners() {
@@ -3220,20 +3270,38 @@ function renderTicketRolesList(permType) {
     const container = document.getElementById(`${permType}-roles-list`);
     const roles = currentTicketPermissions[permType]?.roles || [];
     
+    if (roles.length === 0) {
+        container.innerHTML = '<div class="empty-state">No hay roles configurados</div>';
+        return;
+    }
+    
     container.innerHTML = roles.map(role => `
         <div class="selected-item">
             <div class="item-info">
                 <div class="item-color" style="background-color: ${role.color};"></div>
                 <span class="item-name">${role.name}</span>
             </div>
-            <button class="remove-btn" onclick="removeTicketRole('${permType}', '${role.id}')">✕</button>
+            <button class="remove-btn" data-action="remove-role" data-perm-type="${permType}" data-role-id="${role.id}">✕</button>
         </div>
-    `).join('') || '<div class="empty-state">No hay roles configurados</div>';
+    `).join('');
+    
+    container.querySelectorAll('.remove-btn[data-action="remove-role"]').forEach(btn => {
+        btn.addEventListener('click', function() {
+            const permType = this.getAttribute('data-perm-type');
+            const roleId = this.getAttribute('data-role-id');
+            removeTicketRole(permType, roleId);
+        });
+    });
 }
 
 function renderTicketUsersList(permType) {
     const container = document.getElementById(`${permType}-users-list`);
     const users = currentTicketPermissions[permType]?.users || [];
+    
+    if (users.length === 0) {
+        container.innerHTML = '<div class="empty-state">No hay usuarios configurados</div>';
+        return;
+    }
     
     container.innerHTML = users.map(user => `
         <div class="selected-item">
@@ -3241,33 +3309,61 @@ function renderTicketUsersList(permType) {
                 <img src="${user.avatar}" alt="Avatar" class="item-avatar">
                 <span class="item-name">${user.name}</span>
             </div>
-            <button class="remove-btn" onclick="removeTicketUser('${permType}', '${user.id}')">✕</button>
+            <button class="remove-btn" data-action="remove-user" data-perm-type="${permType}" data-user-id="${user.id}">✕</button>
         </div>
-    `).join('') || '<div class="empty-state">No hay usuarios configurados</div>';
+    `).join('');
+    
+    container.querySelectorAll('.remove-btn[data-action="remove-user"]').forEach(btn => {
+        btn.addEventListener('click', function() {
+            const permType = this.getAttribute('data-perm-type');
+            const userId = this.getAttribute('data-user-id');
+            removeTicketUser(permType, userId);
+        });
+    });
 }
 
-async function addTicketRole(permType) {
-    const selectElement = document.getElementById(`${permType}-role-select`);
-    const roleId = selectElement.value;
-    
-    if (!roleId) {
-        showToast('Selecciona un rol', 'error');
-        return;
-    }
-    
-    if (currentTicketChannelId === 'new') {
+function addTicketRole(permType) {
+    try {
+        const selectElement = document.getElementById(`${permType}-role-select`);
+        const roleId = selectElement.value;
+        
+        if (!roleId) {
+            showToast('Selecciona un rol', 'error');
+            return;
+        }
+        
+        if (!currentTicketConfig.permissions) {
+            currentTicketConfig.permissions = {
+                manage: { roles: [], users: [] },
+                view: { roles: [], users: [] }
+            };
+        }
+        if (!currentTicketConfig.permissions[permType]) {
+            currentTicketConfig.permissions[permType] = { roles: [], users: [] };
+        }
+        if (!currentTicketConfig.permissions[permType].roles) {
+            currentTicketConfig.permissions[permType].roles = [];
+        }
+        
         const role = rolesData.find(r => r.id === roleId);
         if (!role) {
             showToast('Rol no encontrado', 'error');
             return;
         }
         
-        if (!currentTicketConfig.permissions[permType].roles.includes(parseInt(roleId))) {
+        if (!currentTicketConfig.permissions[permType].roles.includes(roleId)) {
             saveSnapshot(`Rol añadido a permisos de ${permType}`);
-            currentTicketConfig.permissions[permType].roles.push(parseInt(roleId));
+            currentTicketConfig.permissions[permType].roles.push(roleId);
+            
+            if (!currentTicketPermissions[permType]) {
+                currentTicketPermissions[permType] = { roles: [], users: [] };
+            }
+            if (!currentTicketPermissions[permType].roles) {
+                currentTicketPermissions[permType].roles = [];
+            }
             
             currentTicketPermissions[permType].roles.push({
-                id: parseInt(roleId),
+                id: roleId,
                 name: role.name,
                 color: role.color || '#99aab5'
             });
@@ -3279,52 +3375,48 @@ async function addTicketRole(permType) {
         } else {
             showToast('El rol ya existe en este permiso', 'error');
         }
-        return;
-    }
-    
-    try {
-        const response = await fetch(`/api/server/${window.serverId}/tickets/${currentTicketChannelId}/permissions/${permType}/add`, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({
-                item_id: roleId,
-                item_type: 'roles'
-            })
-        });
-        
-        const result = await response.json();
-        
-        if (result.success) {
-            showToast('Rol añadido correctamente', 'success');
-            selectElement.value = '';
-            loadTicketPermissions(currentTicketChannelId);
-        } else {
-            showToast(result.error || 'Error al añadir rol', 'error');
-        }
     } catch (error) {
         console.error('Error adding role:', error);
         showToast('Error al añadir rol', 'error');
     }
 }
 
-async function addTicketUser(permType) {
-    const inputElement = document.getElementById(`${permType}-user-input`);
-    const userId = inputElement.value.trim();
-    
-    if (!userId || !userId.match(/^\d+$/)) {
-        showToast('Ingresa un ID de usuario válido', 'error');
-        return;
-    }
-    
-    if (currentTicketChannelId === 'new') {
-        if (!currentTicketConfig.permissions[permType].users.includes(parseInt(userId))) {
+function addTicketUser(permType) {
+    try {
+        const inputElement = document.getElementById(`${permType}-user-input`);
+        const userId = inputElement.value.trim();
+        
+        if (!userId || !userId.match(/^\d+$/)) {
+            showToast('Ingresa un ID de usuario válido', 'error');
+            return;
+        }
+        
+        if (!currentTicketConfig.permissions) {
+            currentTicketConfig.permissions = {
+                manage: { roles: [], users: [] },
+                view: { roles: [], users: [] }
+            };
+        }
+        if (!currentTicketConfig.permissions[permType]) {
+            currentTicketConfig.permissions[permType] = { roles: [], users: [] };
+        }
+        if (!currentTicketConfig.permissions[permType].users) {
+            currentTicketConfig.permissions[permType].users = [];
+        }
+        
+        if (!currentTicketConfig.permissions[permType].users.includes(userId)) {
             saveSnapshot(`Usuario añadido a permisos de ${permType}`);
-            currentTicketConfig.permissions[permType].users.push(parseInt(userId));
+            currentTicketConfig.permissions[permType].users.push(userId);
+            
+            if (!currentTicketPermissions[permType]) {
+                currentTicketPermissions[permType] = { roles: [], users: [] };
+            }
+            if (!currentTicketPermissions[permType].users) {
+                currentTicketPermissions[permType].users = [];
+            }
             
             currentTicketPermissions[permType].users.push({
-                id: parseInt(userId),
+                id: userId,
                 name: `Usuario ID: ${userId}`,
                 avatar: 'https://cdn.discordapp.com/embed/avatars/0.png'
             });
@@ -3336,44 +3428,27 @@ async function addTicketUser(permType) {
         } else {
             showToast('El usuario ya existe en este permiso', 'error');
         }
-        return;
-    }
-    
-    try {
-        const response = await fetch(`/api/server/${window.serverId}/tickets/${currentTicketChannelId}/permissions/${permType}/add`, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({
-                item_id: userId,
-                item_type: 'users'
-            })
-        });
-        
-        const result = await response.json();
-        
-        if (result.success) {
-            showToast('Usuario añadido correctamente', 'success');
-            inputElement.value = '';
-            loadTicketPermissions(currentTicketChannelId);
-        } else {
-            showToast(result.error || 'Error al añadir usuario', 'error');
-        }
     } catch (error) {
         console.error('Error adding user:', error);
         showToast('Error al añadir usuario', 'error');
     }
 }
 
-async function removeTicketRole(permType, roleId) {
-    if (currentTicketChannelId === 'new') {
-        const roleIndex = currentTicketConfig.permissions[permType].roles.indexOf(parseInt(roleId));
+function removeTicketRole(permType, roleId) {
+    try {
+        console.log(`Removing role ${roleId} from ${permType} permissions`);
+        
+        if (!currentTicketConfig.permissions || !currentTicketConfig.permissions[permType]) {
+            console.error('Permissions structure not initialized');
+            return;
+        }
+        
+        const roleIndex = currentTicketConfig.permissions[permType].roles.findIndex(id => String(id) === String(roleId));
         if (roleIndex > -1) {
             saveSnapshot(`Rol eliminado de permisos de ${permType}`);
             currentTicketConfig.permissions[permType].roles.splice(roleIndex, 1);
             
-            const permRoleIndex = currentTicketPermissions[permType].roles.findIndex(r => r.id === parseInt(roleId));
+            const permRoleIndex = currentTicketPermissions[permType].roles.findIndex(r => String(r.id) === String(roleId));
             if (permRoleIndex > -1) {
                 currentTicketPermissions[permType].roles.splice(permRoleIndex, 1);
             }
@@ -3381,29 +3456,9 @@ async function removeTicketRole(permType, roleId) {
             renderTicketPermissionItems();
             checkForChanges();
             showToast('Rol eliminado correctamente', 'success');
-        }
-        return;
-    }
-    
-    try {
-        const response = await fetch(`/api/server/${window.serverId}/tickets/${currentTicketChannelId}/permissions/${permType}/remove`, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({
-                item_id: roleId,
-                item_type: 'roles'
-            })
-        });
-        
-        const result = await response.json();
-        
-        if (result.success) {
-            showToast('Rol eliminado correctamente', 'success');
-            loadTicketPermissions(currentTicketChannelId);
         } else {
-            showToast(result.error || 'Error al eliminar rol', 'error');
+            console.warn(`Role ${roleId} not found in ${permType} permissions`);
+            showToast('El rol no se encontró en los permisos', 'warning');
         }
     } catch (error) {
         console.error('Error removing role:', error);
@@ -3411,14 +3466,21 @@ async function removeTicketRole(permType, roleId) {
     }
 }
 
-async function removeTicketUser(permType, userId) {
-    if (currentTicketChannelId === 'new') {
-        const userIndex = currentTicketConfig.permissions[permType].users.indexOf(parseInt(userId));
+function removeTicketUser(permType, userId) {
+    try {
+        console.log(`Removing user ${userId} from ${permType} permissions`);
+        
+        if (!currentTicketConfig.permissions || !currentTicketConfig.permissions[permType]) {
+            console.error('Permissions structure not initialized');
+            return;
+        }
+        
+        const userIndex = currentTicketConfig.permissions[permType].users.findIndex(id => String(id) === String(userId));
         if (userIndex > -1) {
             saveSnapshot(`Usuario eliminado de permisos de ${permType}`);
             currentTicketConfig.permissions[permType].users.splice(userIndex, 1);
             
-            const permUserIndex = currentTicketPermissions[permType].users.findIndex(u => u.id === parseInt(userId));
+            const permUserIndex = currentTicketPermissions[permType].users.findIndex(u => String(u.id) === String(userId));
             if (permUserIndex > -1) {
                 currentTicketPermissions[permType].users.splice(permUserIndex, 1);
             }
@@ -3426,29 +3488,9 @@ async function removeTicketUser(permType, userId) {
             renderTicketPermissionItems();
             checkForChanges();
             showToast('Usuario eliminado correctamente', 'success');
-        }
-        return;
-    }
-    
-    try {
-        const response = await fetch(`/api/server/${window.serverId}/tickets/${currentTicketChannelId}/permissions/${permType}/remove`, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({
-                item_id: userId,
-                item_type: 'users'
-            })
-        });
-        
-        const result = await response.json();
-        
-        if (result.success) {
-            showToast('Usuario eliminado correctamente', 'success');
-            loadTicketPermissions(currentTicketChannelId);
         } else {
-            showToast(result.error || 'Error al eliminar usuario', 'error');
+            console.warn(`User ${userId} not found in ${permType} permissions`);
+            showToast('El usuario no se encontró en los permisos', 'warning');
         }
     } catch (error) {
         console.error('Error removing user:', error);
@@ -3464,6 +3506,13 @@ function configureNewTicketPermissions() {
         };
     }
     
+    if (!currentTicketConfig.permissions.manage) {
+        currentTicketConfig.permissions.manage = { roles: [], users: [] };
+    }
+    if (!currentTicketConfig.permissions.view) {
+        currentTicketConfig.permissions.view = { roles: [], users: [] };
+    }
+    
     currentTicketPermissions = {
         manage: {
             roles: currentTicketConfig.permissions.manage.roles.map(roleId => {
@@ -3474,7 +3523,11 @@ function configureNewTicketPermissions() {
                     color: role.color || '#99aab5'
                 } : null;
             }).filter(Boolean),
-            users: []
+            users: currentTicketConfig.permissions.manage.users.map(userId => ({
+                id: userId,
+                name: `Usuario ID: ${userId}`,
+                avatar: 'https://cdn.discordapp.com/embed/avatars/0.png'
+            }))
         },
         view: {
             roles: currentTicketConfig.permissions.view.roles.map(roleId => {
@@ -3485,7 +3538,11 @@ function configureNewTicketPermissions() {
                     color: role.color || '#99aab5'
                 } : null;
             }).filter(Boolean),
-            users: []
+            users: currentTicketConfig.permissions.view.users.map(userId => ({
+                id: userId,
+                name: `Usuario ID: ${userId}`,
+                avatar: 'https://cdn.discordapp.com/embed/avatars/0.png'
+            }))
         }
     };
     

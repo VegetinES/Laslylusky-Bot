@@ -122,57 +122,13 @@ async def on_ready():
     await join_active_threads()
     print("Revisión de hilos activos completada")
 
-    print("Esperando 3 segundos antes de iniciar listeners...")
-    await asyncio.sleep(3)
-
     print("Iniciando listener de tickets...")
     ticket_listener = TicketDatabaseListener(bot)
     bot.ticket_listener = ticket_listener
     ticket_listener.start_listening()
     print("Listener de tickets iniciado")
 
-    await asyncio.sleep(2)
-    
-    print("Verificando configuraciones de tickets existentes...")
-    await verify_existing_ticket_configs()
-
     update_oracle_db.start()
-
-async def verify_existing_ticket_configs():
-    try:
-        collection = mongo_db.get_collection()
-      
-        for guild in bot.guilds:
-            try:
-                guild_data = collection.find_one({'_id': str(guild.id)})
-              
-                if guild_data and 'tickets' in guild_data:
-                    tickets_data = guild_data['tickets']
-                    print(f"Encontradas {len(tickets_data)} configuraciones de tickets en {guild.name}")
-                  
-                    for channel_id, ticket_config in tickets_data.items():
-                        if not ticket_config.get('__deleted', False):
-                            channel = guild.get_channel(int(channel_id))
-                            if channel:
-                                print(f"Procesando configuración existente para canal {channel.name} ({channel_id})")
-                              
-                                if ticket_listener:
-                                    try:
-                                        await ticket_listener._process_ticket_change(guild.id, channel_id, ticket_config)
-                                    except Exception as e:
-                                        print(f"Error procesando configuración para canal {channel_id}: {e}")
-                            else:
-                                print(f"Canal {channel_id} no encontrado en {guild.name}")
-                else:
-                    print(f"No hay configuraciones de tickets en {guild.name}")
-                  
-            except Exception as e:
-                print(f"Error verificando tickets en {guild.name}: {e}")
-              
-    except Exception as e:
-        print(f"Error en verify_existing_ticket_configs: {e}")
-        import traceback
-        traceback.print_exc()
 
 @tasks.loop(hours=24.0)
 async def update_oracle_db():
@@ -387,3 +343,4 @@ if __name__ == "__main__":
         print(f"Error crítico: {type(e).__name__}: {e}")
     finally:
         print("Proceso terminado")
+    
